@@ -1,0 +1,75 @@
+{
+	"name": "STG_SISP_DIM_EDIFICI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "POBLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_POSTAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TELEFON",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "FAX",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "LLIBRE",
+				"type": "varbinary"
+			},
+			{
+				"name": "PLANOLS",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "CODI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_STG",
+			"table": "STG_SISP_DIM_EDIFICI"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,75 @@
+{
+	"name": "GEU_STG_DIM_COMISSIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_COMISSIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_COMISSIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_UORG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_COMISSIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LLOC_REUNIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PT_ASSOCIADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUMERO_INSCRIPCIO_INICIAL",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "CODI_ORGAN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CORREU_ELECTRONIC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_SMTP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONTRASENYA_SMTP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_SIGNATURA2_ACTA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_COMISSIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

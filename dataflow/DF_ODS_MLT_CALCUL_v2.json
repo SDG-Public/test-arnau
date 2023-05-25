@@ -1,0 +1,99 @@
+{
+	"name": "DF_ODS_MLT_CALCUL_v2",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MLT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOvleMLT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_MLT_v2",
+						"type": "DatasetReference"
+					},
+					"name": "ODSmltv2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterVDdata2D"
+				},
+				{
+					"name": "SelectCAMPOSrequeridos"
+				},
+				{
+					"name": "JoinVALORACIO8H1D"
+				},
+				{
+					"name": "FilterDATESvigencia"
+				},
+				{
+					"name": "DCperiode"
+				},
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "FilterMCTmin"
+				},
+				{
+					"name": "dcDIAany"
+				},
+				{
+					"name": "DCdata2D"
+				},
+				{
+					"name": "Filter8H1D"
+				},
+				{
+					"name": "COMPLIMENT"
+				},
+				{
+					"name": "FilterVDdata8H1D"
+				},
+				{
+					"name": "Select8H1D"
+				},
+				{
+					"name": "Filter2D"
+				},
+				{
+					"name": "JoinVALORACIO2D"
+				},
+				{
+					"name": "FilterDATESvigencia2D"
+				},
+				{
+					"name": "Union8H1D2D"
+				},
+				{
+					"name": "Select8H1Dcolumnas"
+				},
+				{
+					"name": "Select2Dcolumnas"
+				},
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tVALOR_MCT as double,\n\t\tVALORACIO_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tLEGISLACIO as string,\n\t\tDATA_TRUNC as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacMCT\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOvleMLT\nODSxeacMCT filter(VALORACIO_MCT == 'VD' \r\n&&\r\ntoDate(DATA) >= iif( mod( dayOfYear(toDate($P_DATA_INI,\"yyyyMMdd\")), 2) == 0, addDays(toDate($P_DATA_INI,\"yyyyMMdd\"), -1), toDate($P_DATA_INI,\"yyyyMMdd\"))\r\n&&\r\ntoDate(DATA) < iif( mod( dayOfYear(toDate($P_DATA_FI,\"yyyyMMdd\")), 2) == 0, addDays(toDate($P_DATA_FI,\"yyyyMMdd\"), 1), addDays(toDate($P_DATA_FI,\"yyyyMMdd\"), 2) )) ~> FilterVDdata2D\nDCdata2D select(mapColumn(\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO = LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tV_VLE = VALOR_MCT,\n\t\tF_VLE = VALORACIO_MCT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCAMPOSrequeridos\nSelect8H1D, Filter8H1D join(Select8H1D@ID_FOCUS == ODSdimVALORACIOvleMLT@ID_FOCUS\n\t&& Select8H1D@ID_LEGISLACIO == ODSdimVALORACIOvleMLT@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& ID_CONTAMINANT == toString(ID_ELEMENT),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JoinVALORACIO8H1D\nJoinVALORACIO8H1D filter(DATA >= DATA_INICI\r\n&&\r\nDATA < DATA_FI) ~> FilterDATESvigencia\nUnion8H1D2D derive(COUNT = 1) ~> DCperiode\nDCperiode aggregate(groupBy(ID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVLE_MLT_VAL_PERC_COMP,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN,\n\t\tVLE_MLT,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MITJANA_TIPUS),\n\tVAL_MLT = avg(toFloat(V_VLE)),\n\t\tCOUNT_MCT = count(COUNT)) ~> Aggregate1\nAggregate1 filter(COUNT_MCT >= toInteger(VLE_MLT_MCT_MLT_BASE_MLT_N_MIN)) ~> FilterMCTmin\nFilterVDdata2D derive(DIA_ANY = dayOfYear( DATA)) ~> dcDIAany\ndcDIAany derive(DATA = iif( mod(DIA_ANY , 2) == 0, \r\naddDays(toTimestamp( concat(toString(toDate(DATA),\"yyyy-MM-dd\"), \" 00:00:00\")),-1), \r\ntoTimestamp( concat(toString(toDate(DATA),\"yyyy-MM-dd\"), \" 00:00:00\"))\r\n)) ~> DCdata2D\nODSdimVALORACIOvleMLT filter((VLE_MLT_MITJANA_TIPUS_NOMBRE == 1 && VLE_MLT_MITJANA_TIPUS == 'D')\n||\n(VLE_MLT_MITJANA_TIPUS_NOMBRE == 8 && VLE_MLT_MITJANA_TIPUS == 'H')) ~> Filter8H1D\nFilterMCTmin derive(COMPLIMENT = iif(  toFloat(VLE_MLT) > VAL_MLT, 'OK', 'KO')) ~> COMPLIMENT\nODSxeacMCT filter(VALORACIO_MCT == 'VD' \r\n&&\r\ntoDate(DATA) >= toDate($P_DATA_INI, 'yyyyMMdd') \r\n&&\r\ntoDate(DATA) < toDate($P_DATA_FI, 'yyyyMMdd') + 1) ~> FilterVDdata8H1D\nFilterVDdata8H1D select(mapColumn(\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO = LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tV_VLE = VALOR_MCT,\n\t\tF_VLE = VALORACIO_MCT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select8H1D\nODSdimVALORACIOvleMLT filter(VLE_MLT_MITJANA_TIPUS_NOMBRE == 48 && VLE_MLT_MITJANA_TIPUS == 'H') ~> Filter2D\nSelectCAMPOSrequeridos, Filter2D join(SelectCAMPOSrequeridos@ID_FOCUS == ODSdimVALORACIOvleMLT@ID_FOCUS\n\t&& SelectCAMPOSrequeridos@ID_LEGISLACIO == ODSdimVALORACIOvleMLT@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& ID_CONTAMINANT == toString(ID_ELEMENT),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JoinVALORACIO2D\nJoinVALORACIO2D filter(DATA >= DATA_INICI\n&&\nDATA < DATA_FI) ~> FilterDATESvigencia2D\nSelect2Dcolumnas, Select8H1Dcolumnas union(byName: true)~> Union8H1D2D\nDerivedColumn1 select(mapColumn(\n\t\tID_FOCUS = Select8H1D@ID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO = Select8H1D@ID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tV_VLE,\n\t\tF_VLE,\n\t\tID_FOCUS = ODSdimVALORACIOvleMLT@ID_FOCUS,\n\t\tID_LEGISLACIO = ODSdimVALORACIOvleMLT@ID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tCOMPTADOR,\n\t\tDATA_INICI,\n\t\tDATA_FI,\n\t\tVLE_MLT,\n\t\tVLE_MLT_UNITATS,\n\t\tVLE_MLT_MITJANA_TIPUS,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP,\n\t\tVLE_MLT_VAL_PERC_COMP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select8H1Dcolumnas\nFilterDATESvigencia2D select(mapColumn(\n\t\tID_FOCUS = SelectCAMPOSrequeridos@ID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO = SelectCAMPOSrequeridos@ID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tV_VLE,\n\t\tF_VLE,\n\t\tID_FOCUS = ODSdimVALORACIOvleMLT@ID_FOCUS,\n\t\tID_LEGISLACIO = ODSdimVALORACIOvleMLT@ID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tCOMPTADOR,\n\t\tDATA_INICI,\n\t\tDATA_FI,\n\t\tVLE_MLT,\n\t\tVLE_MLT_UNITATS,\n\t\tVLE_MLT_MITJANA_TIPUS,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP,\n\t\tVLE_MLT_VAL_PERC_COMP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2Dcolumnas\nFilterDATESvigencia derive(DATA = iif( VLE_MLT_MITJANA_TIPUS_NOMBRE == 8 && VLE_MLT_MITJANA_TIPUS == 'H',\r\n    iif( hour(DATA) >= 0 && hour(DATA) < 8, toTimestamp( concat(toString(toDate(DATA),\"yyyy-MM-dd\"), \" 00:00:00\")),\r\n        iif( hour(DATA) >= 8 && hour(DATA) < 16, toTimestamp( concat(toString(toDate(DATA),\"yyyy-MM-dd\"), \" 08:00:00\")),\r\n            iif( hour(DATA) >= 16 && hour(DATA) < 24, toTimestamp( concat(toString(toDate(DATA),\"yyyy-MM-dd\"), \" 16:00:00\")),\r\n                toTimestamp( '9999-12-31 23:59:59', 'yyyy-MM-dd hh:mm:ss')\r\n            )\r\n        )\r\n    ),\r\n    iif(VLE_MLT_MITJANA_TIPUS_NOMBRE == 1 && VLE_MLT_MITJANA_TIPUS == 'D',\r\n        toTimestamp( concat(toString(toDate(DATA),\"yyyy-MM-dd\"), \" 00:00:00\")),\r\n        toTimestamp( '9999-12-31 23:59:59', 'yyyy-MM-dd hh:mm:ss')\r\n    )\r\n)) ~> DerivedColumn1\nCOMPLIMENT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tVLE_MLT_VAL_PERC_COMP as decimal(5,2),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT as decimal(9,2),\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVAL_MLT as double,\n\t\tCOUNT_MCT as long,\n\t\tCOMPLIMENT as string,\n\t\tDATA_TRUNC as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSmltv2"
+		}
+	}
+}

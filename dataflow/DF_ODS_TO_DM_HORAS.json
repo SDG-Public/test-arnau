@@ -1,0 +1,90 @@
+{
+	"name": "DF_ODS_TO_DM_HORAS",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES_HORES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDadesHores"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_HORA_PUNTA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactHoraPunta"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_HORA_30",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactHora30"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_HORA_50",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactHora50"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_HORA_100",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactHora100"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_HORES",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesHores"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinHoraPunta"
+				},
+				{
+					"name": "JoinHora30"
+				},
+				{
+					"name": "JoinHora50"
+				},
+				{
+					"name": "JoinHoa100"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "AddFlags"
+				},
+				{
+					"name": "AddVolumVehicle"
+				},
+				{
+					"name": "AddDescFlagGeneral"
+				},
+				{
+					"name": "ReordenaCampos"
+				},
+				{
+					"name": "AlterRow1"
+				}
+			],
+			"script": "source(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDATA as timestamp,\n\t\tVELOCITAT01 as decimal(6,0),\n\t\tVELOCITAT02 as decimal(6,0),\n\t\tVELOCITAT03 as decimal(6,0),\n\t\tVELOCITAT04 as decimal(6,0),\n\t\tVELOCITAT05 as decimal(6,0),\n\t\tVELOCITAT06 as decimal(6,0),\n\t\tVELOCITAT07 as decimal(6,0),\n\t\tVELOCITAT08 as decimal(6,0),\n\t\tVELOCITAT09 as decimal(6,0),\n\t\tVELOCITAT10 as decimal(6,0),\n\t\tLONGITUD01 as decimal(6,0),\n\t\tLONGITUD02 as decimal(6,0),\n\t\tLONGITUD03 as decimal(6,0),\n\t\tLONGITUD04 as decimal(6,0),\n\t\tERRORSLONG01 as decimal(6,0),\n\t\tERRORSLONG02 as decimal(6,0),\n\t\tERRORSLONG03 as decimal(6,0),\n\t\tERRORSLONG04 as decimal(6,0),\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tDATAREGISTRE as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactDadesHores\nsource(output(\n\t\tDATA_ANYO as integer,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_MES as integer,\n\t\tDATA_DIA as integer,\n\t\tDATA_HORA as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactHoraPunta\nsource(output(\n\t\tDATA_ANYO as integer,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_MES as integer,\n\t\tDATA_DIA as integer,\n\t\tDATA_HORA as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactHora30\nsource(output(\n\t\tDATA_ANYO as integer,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_MES as integer,\n\t\tDATA_DIA as integer,\n\t\tDATA_HORA as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactHora50\nsource(output(\n\t\tDATA_ANYO as integer,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_MES as integer,\n\t\tDATA_DIA as integer,\n\t\tDATA_HORA as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactHora100\nODSFactDadesHores, ODSFactHoraPunta join(ODSFactDadesHores@ID_ESTACIO == ODSFactHoraPunta@ID_ESTACIO\n\t&& year(DATA) == DATA_ANYO\n\t&& month(DATA) == DATA_MES\n\t&& dayOfMonth(DATA) == DATA_DIA\n\t&& hour(DATA) == DATA_HORA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinHoraPunta\nJoinHoraPunta, ODSFactHora30 join(ODSFactDadesHores@ID_ESTACIO == ODSFactHora30@ID_ESTACIO\n\t&& year(DATA) == ODSFactHora30@DATA_ANYO\n\t&& month(DATA) == ODSFactHora30@DATA_MES\n\t&& dayOfMonth(DATA) == ODSFactHora30@DATA_DIA\n\t&& hour(DATA) == ODSFactHora30@DATA_HORA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinHora30\nJoinHora30, ODSFactHora50 join(ODSFactDadesHores@ID_ESTACIO == ODSFactHora50@ID_ESTACIO\n\t&& year(DATA) == ODSFactHora50@DATA_ANYO\n\t&& month(DATA) == ODSFactHora50@DATA_MES\n\t&& dayOfMonth(DATA) == ODSFactHora50@DATA_DIA\n\t&& hour(DATA) == ODSFactHora50@DATA_HORA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinHora50\nJoinHora50, ODSFactHora100 join(ODSFactDadesHores@ID_ESTACIO == ODSFactHora100@ID_ESTACIO\n\t&& year(DATA) == ODSFactHora100@DATA_ANYO\n\t&& month(DATA) == ODSFactHora100@DATA_MES\n\t&& dayOfMonth(DATA) == ODSFactHora100@DATA_DIA\n\t&& hour(DATA) == ODSFactHora100@DATA_HORA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinHoa100\nJoinHoa100 select(mapColumn(\n\t\tID_ESTACIO = ODSFactDadesHores@ID_ESTACIO,\n\t\tID_CARRIL,\n\t\tID_SECCIO,\n\t\tDATA,\n\t\tIND_PESANTS,\n\t\tIND_IMD_DIARI,\n\t\tIND_VELOCITAT,\n\t\tVELOCITAT01,\n\t\tVELOCITAT02,\n\t\tVELOCITAT03,\n\t\tVELOCITAT04,\n\t\tVELOCITAT05,\n\t\tVELOCITAT06,\n\t\tVELOCITAT07,\n\t\tVELOCITAT08,\n\t\tVELOCITAT09,\n\t\tVELOCITAT10,\n\t\tLONGITUD01,\n\t\tLONGITUD02,\n\t\tLONGITUD03,\n\t\tLONGITUD04,\n\t\tERRORSLONG01,\n\t\tERRORSLONG02,\n\t\tERRORSLONG03,\n\t\tERRORSLONG04,\n\t\tFLAG_HORA_PUNTA = ODSFactHoraPunta@DATA_HORA,\n\t\tFLAG_HORA_30 = ODSFactHora30@DATA_HORA,\n\t\tFLAG_HORA_50 = ODSFactHora50@DATA_HORA,\n\t\tFLAG_HORA_100 = ODSFactHora100@DATA_HORA,\n\t\tDATAREGISTRE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nAddVolumVehicle derive(FLAG_HORA_PUNTA = iif(isNull(FLAG_HORA_PUNTA), 0, 1),\n\t\tFLAG_HORA_30 = iif(isNull(FLAG_HORA_30), 0, 1),\n\t\tFLAG_HORA_50 = iif(isNull(FLAG_HORA_50), 0, 1),\n\t\tFLAG_HORA_100 = iif(isNull(FLAG_HORA_100), 0, 1)) ~> AddFlags\nFiltraCampos derive(IND_VOLUM_VEHICLE = LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04,\n\t\tIND_VOLUM_VEHICLE_ERR = LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04+ERRORSLONG01+ERRORSLONG02+ERRORSLONG03+ERRORSLONG04) ~> AddVolumVehicle\nAddFlags derive(FLAG_ALGUNA_HORA_NN = iif(FLAG_HORA_30 == 1 || FLAG_HORA_50 ==1 || FLAG_HORA_100 ==1, 1, 0),\n\t\tDESC_FLAG_HORA_PUNTA = iif(FLAG_HORA_PUNTA == 1,'HORA_PUNTA',toString(null())),\n\t\tDESC_FLAGS_HORA_NN = case(FLAG_HORA_30 == 1,'HORA_30',    FLAG_HORA_50 ==1, 'HORA_50',    FLAG_HORA_100 ==1, 'HORA_100',     toString(null()))) ~> AddDescFlagGeneral\nAddDescFlagGeneral select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_CARRIL,\n\t\tID_SECCIO,\n\t\tDATA,\n\t\tIND_PESANTS,\n\t\tIND_IMD_DIARI,\n\t\tIND_VELOCITAT,\n\t\tIND_VOLUM_VEHICLE,\n\t\tIND_VOLUM_VEHICLE_ERR,\n\t\tVELOCITAT01,\n\t\tVELOCITAT02,\n\t\tVELOCITAT03,\n\t\tVELOCITAT04,\n\t\tVELOCITAT05,\n\t\tVELOCITAT06,\n\t\tVELOCITAT07,\n\t\tVELOCITAT08,\n\t\tVELOCITAT09,\n\t\tVELOCITAT10,\n\t\tLONGITUD01,\n\t\tLONGITUD02,\n\t\tLONGITUD03,\n\t\tLONGITUD04,\n\t\tERRORSLONG01,\n\t\tERRORSLONG02,\n\t\tERRORSLONG03,\n\t\tERRORSLONG04,\n\t\tFLAG_HORA_PUNTA,\n\t\tFLAG_HORA_30,\n\t\tFLAG_HORA_50,\n\t\tFLAG_HORA_100,\n\t\tFLAG_ALGUNA_HORA_NN,\n\t\tDESC_FLAG_HORA_PUNTA,\n\t\tDESC_FLAGS_HORA_NN,\n\t\tDATAREGISTRE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos\nReordenaCampos alterRow(upsertIf(true())) ~> AlterRow1\nAlterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDATA as timestamp,\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tVELOCITAT01 as decimal(6,0),\n\t\tVELOCITAT02 as decimal(6,0),\n\t\tVELOCITAT03 as decimal(6,0),\n\t\tVELOCITAT04 as decimal(6,0),\n\t\tVELOCITAT05 as decimal(6,0),\n\t\tVELOCITAT06 as decimal(6,0),\n\t\tVELOCITAT07 as decimal(6,0),\n\t\tVELOCITAT08 as decimal(6,0),\n\t\tVELOCITAT09 as decimal(6,0),\n\t\tVELOCITAT10 as decimal(6,0),\n\t\tLONGITUD01 as decimal(6,0),\n\t\tLONGITUD02 as decimal(6,0),\n\t\tLONGITUD03 as decimal(6,0),\n\t\tLONGITUD04 as decimal(6,0),\n\t\tERRORSLONG01 as decimal(6,0),\n\t\tERRORSLONG02 as decimal(6,0),\n\t\tERRORSLONG03 as decimal(6,0),\n\t\tERRORSLONG04 as decimal(6,0),\n\t\tFLAG_HORA_PUNTA as integer,\n\t\tFLAG_HORA_30 as integer,\n\t\tFLAG_HORA_50 as integer,\n\t\tFLAG_HORA_100 as integer,\n\t\tIND_VOLUM_VEHICLE as decimal(9,0),\n\t\tIND_VOLUM_VEHICLE_ERR as decimal(13,0),\n\t\tFLAG_ALGUNA_HORA_NN as integer,\n\t\tDESC_FLAG_HORA_PUNTA as string,\n\t\tDESC_FLAGS_HORA_NN as string,\n\t\tDATAREGISTRE as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ID_ESTACIO','ID_CARRIL','ID_SECCIO','DATA'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactDadesHores"
+		}
+	}
+}

@@ -1,0 +1,75 @@
+{
+	"name": "STG_INSGRI_DIM_LOTS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INICI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_SERVEI_TERRITORIAL",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_STG",
+			"table": "STG_INSGRI_DIM_LOTS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

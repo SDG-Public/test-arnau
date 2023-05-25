@@ -1,0 +1,20 @@
+{
+	"name": "MESTRES_ORA_FWK_VEGUERIA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MESTRES/TERRITORIAL/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "FWK_ADM",
+			"table": "VEGUERIA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

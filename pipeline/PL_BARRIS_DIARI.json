@@ -1,0 +1,26 @@
+{
+	"name": "PL_BARRIS_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_BARRIS_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BARRIS_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "BARRIS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,149 @@
+{
+	"name": "BARRIS_ODS_DIM_FACTURES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_CONTRACTE",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "COD_NIFEMISSOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ESFEDER",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "ID_PERFASE1",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "ID_PERFASE2",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOMCONTRACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOMEMISSOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_FACTURA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOMFASE1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOMFASE2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TITOLACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CONCEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMP_TOTAL",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMP_SUBVENC",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMP_ACTUACIO",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMP_BARRIS",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMP_FEDER",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "DATA_ANYCONV",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "DATA_FACTURA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_PAGAMENT",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_ODS",
+			"table": "ODS_BARRIS_DIM_FACTURES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

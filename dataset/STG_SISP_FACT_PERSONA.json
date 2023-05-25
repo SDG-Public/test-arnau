@@ -1,0 +1,289 @@
+{
+	"name": "STG_SISP_FACT_PERSONA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 0
+			},
+			{
+				"name": "TIPUS_IDENTIFICADOR",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "NUMERO_IDENTIFICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ALIES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_UNITAT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_ORG",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CODI_DIRECTORI_CORPORATIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PERSONAL",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "VINCULACIO",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "GRUP_CATEGORIA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COS_ESPECIALITAT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "LLOC_SINGULAR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CAP_UNITAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "SECRETARIA_UNITAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "ENTITAT_EXTERNA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITOL_FORM_ACADEMICA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RESP_PERSONA",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ALTA_PERS",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_BAIXA_PERS",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "TELEFON",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 0
+			},
+			{
+				"name": "EXT_TELEFONICA",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "MAIL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FOTOGRAFIA",
+				"type": "varbinary"
+			},
+			{
+				"name": "MOBILITAT_REDUIDA",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "EDIFICI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "PLANTA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "SECTOR",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "TAULA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "TORN",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "TIPUS_HORARI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI_HORARI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI_HORARI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "PREVENCIO",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MOTIU_BAIXA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "NIVELL",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_BAIXA_EFECT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_MODIF",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EXT_TELEFONICA_EXTERNA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TELEFON_MOBIL",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 0
+			},
+			{
+				"name": "FAX",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 0
+			},
+			{
+				"name": "INF_PERSONA_INTRANET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VISIBLE_PERSONA_INTRANET",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_STG",
+			"table": "STG_SISP_FACT_PERSONA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

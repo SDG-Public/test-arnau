@@ -1,0 +1,20 @@
+{
+	"name": "GAF_STG_FACT_DADES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "GAF_STG_FACT_DADES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

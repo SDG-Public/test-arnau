@@ -1,0 +1,80 @@
+{
+	"name": "DF_GEU_ODS_DIM_SIGNATARI",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_SIGNATARI",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimSignatari"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_SIGNATARI",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSignatari"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "FixFlags"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_REG_SIGNATARI as decimal(8,0),",
+				"          CODI_USUARI as string,",
+				"          CODI_UORG as string,",
+				"          PRINCIPAL as string,",
+				"          CODI_CARREC as decimal(3,0),",
+				"          DATA_ALTA_CARREC as timestamp,",
+				"          DATA_BAIXA_CARREC as timestamp,",
+				"          CODI_SUPL as string,",
+				"          IND_SIGNATARI as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimSignatari",
+				"STGDimSignatari select(mapColumn(",
+				"          ID_REG_SIGNATARI,",
+				"          CODI_NOMBRE = CODI_USUARI,",
+				"          CODI_UNIT_ORG = CODI_UORG,",
+				"          CODI_CARREC,",
+				"          DATA_ALTA_CARREC,",
+				"          DATA_BAIXA_CARREC,",
+				"          CODI_SUPL,",
+				"          FLAG_PRINCIPAL = PRINCIPAL,",
+				"          FLAG_SIGNATARI = IND_SIGNATARI",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraCampos",
+				"RenombraCampos derive(FLAG_PRINCIPAL = iif(FLAG_PRINCIPAL== 'S', 1, 0),",
+				"          FLAG_SIGNATARI = iif(FLAG_SIGNATARI== 'S', 1, 0)) ~> FixFlags",
+				"FixFlags sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimSignatari"
+			]
+		}
+	}
+}

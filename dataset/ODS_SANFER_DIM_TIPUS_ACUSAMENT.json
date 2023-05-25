@@ -1,0 +1,33 @@
+{
+	"name": "ODS_SANFER_DIM_TIPUS_ACUSAMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ACUSAMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CODI_TIPUS_ACUSAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPUS_ACUSAMENT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_ODS",
+			"table": "ODS_SANFER_DIM_TIPUS_ACUSAMENT"
+		}
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANFER_DM_FACT_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedient"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANFER_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactExpedient"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_EXPEDIENT as decimal(7,0),\n\t\tID_PERSONA_DENUNCIANT as string,\n\t\tID_EXPEDIENT_TST as decimal(10,0),\n\t\tID_VALOR_INSTRUCTOR as double,\n\t\tCOD_DENUNCIA as string,\n\t\tCOD_TIPEX as string,\n\t\tCOD_ESTAT as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_USUARI_DARRERA_MODIF as string,\n\t\tNUM_EXPEDIENT as string,\n\t\tIMP_SANCIO as decimal(13,2),\n\t\tIMP_SANCIO_FERMA as decimal(13,2),\n\t\tIMP_TOTAL_PAGAT as decimal(10,2),\n\t\tDESC_TEMA as string,\n\t\tDESC_LINIA as string,\n\t\tDESC_TREN as string,\n\t\tDESC_ESTACIO as string,\n\t\tDESC_TRAJECTE as string,\n\t\tDESC_INFORME_SJ as string,\n\t\tDESC_INFORME_ST as string,\n\t\tDESC_ULTIMA_QUALIFICACIO as string,\n\t\tDESC_MOTIU_ARXIU as string,\n\t\tDATA_NOTIFICACIO_AI as timestamp,\n\t\tDATA_NOTIFICACIO_RESOLUCIO as timestamp,\n\t\tDATA_DENUNCIA as timestamp,\n\t\tDATA_INFRACCIO as timestamp,\n\t\tDATA_PRESCRIPCIO as timestamp,\n\t\tDATA_ESTAT as timestamp,\n\t\tDATA_ALTA_SISTEMA as timestamp,\n\t\tDATA_DARRERA_MODIF as timestamp,\n\t\tFLAG_BAIXA as integer,\n\t\tFLAG_DEVOLUCIO_TRAMITADA as integer,\n\t\tFLAG_PAGAT_FGC as integer,\n\t\tFLAG_ALEGACIONS as integer,\n\t\tFLAG_CATALA as integer,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactExpedient\nODSFactExpedient sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactExpedient"
+		}
+	}
+}

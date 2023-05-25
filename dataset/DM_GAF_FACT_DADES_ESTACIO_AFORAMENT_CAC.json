@@ -1,0 +1,16 @@
+{
+	"name": "DM_GAF_FACT_DADES_ESTACIO_AFORAMENT_CAC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_FACT_DADES_ESTACIO_AFORAMENT_CAC"
+		}
+	}
+}

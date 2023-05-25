@@ -1,0 +1,31 @@
+{
+	"name": "DF_INSGRI_DM_FACT_INSPECCIONS",
+	"properties": {
+		"folder": {
+			"name": "INSGRI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_INSGRI_FACT_INSPECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactInspeccions"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_INSGRI_FACT_INSPECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactInspeccions"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_INSPECCIO as decimal(10,0),\n\t\tID_TIPUS_INSPECCIO as decimal(8,0),\n\t\tID_EMPRESA as decimal(10,0),\n\t\tID_ESTAT_INSPECCIO as decimal(8,0),\n\t\tID_LOT as decimal(5,0),\n\t\tID_IDENTIFICACIO_DENUNCIANT as string,\n\t\tID_ADRECA_DENUNCIANT as decimal(10,0),\n\t\tID_SERVEI_TERRITORIAL as decimal(3,0),\n\t\tCOD_TIPUS_DOC_DENUNCIANT as decimal(2,0),\n\t\tCOD_INSPECCIO as string,\n\t\tCOD_INSPECCIO_FOMENT as string,\n\t\tCOD_REQUERIMENT_FOMENT as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_LLIBRE as string,\n\t\tCOD_LLETRA as string,\n\t\tCOD_FULL_DV as string,\n\t\tCOD_USUARI_MODIFICACIO as string,\n\t\tNUM_EXP_SANCIONADOR as string,\n\t\tDESC_COMENTARIS as string,\n\t\tDESC_ANALISIS_RESULTAT as string,\n\t\tDESC_NOM_DENUNCIANT as string,\n\t\tDESC_CONGNOM1_DENUNCIANT as string,\n\t\tDESC_COGNOM2_DENUNCIANT as string,\n\t\tDESC_ADRECA_DENUNCIANT as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tDATA_DENUNCIA as timestamp,\n\t\tDATA_REGISTRE_ENTRADA as timestamp,\n\t\tFLAG_CARREGA_MASSIVA as decimal(1,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactInspeccions\nODSFactInspeccions sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactInspeccions"
+		}
+	}
+}

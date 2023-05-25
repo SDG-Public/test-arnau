@@ -1,0 +1,570 @@
+{
+	"name": "PL_XEAC_V2_DM_MCT_HIST",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set ID_MAX",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ID_MAX",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ID_MAX",
+					"value": {
+						"value": "@activity('ID_MAX').output.value[0].ID_MAX\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ID_MAX",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_1D_PBI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "DELETE_ROWS_1D_AGR_ANOMAL_T30",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "DELETE_ROWS_1D_AGR_ANOMAL_T60",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "DELETE_ROWS_1D_AGR_ANOMAL_Ttot",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "DELETE_ROWS_1D_AGR_ANOMAL_TOTAL_T30",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "DELETE_ROWS_1D_AGR_ANOMAL_TOTAL_T60",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "DELETE_ROWS_1D_AGR_ANOMAL_TOTAL_Ttot",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select convert(varchar,ID_MAX, 112) as ID_MAX\nfrom (\nSELECT MIN(ID_COMPLIMENT_MCT_1D_V2) as ID_MAX\n  FROM [DM_XEAC].[DM_XEAC_MCT]\n) a;\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "DF_DM_XEAC_MCT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_DM_XEAC_MCT_AGR_ANOM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_XEAC_MCT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"ID_MIN": "0"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_DM_XEAC_MCT_PBI",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_DM_XEAC_MCT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_XEAC_MCT_PBI",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							},
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D_PBI",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_PBI",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_DM_XEAC_MCT_AGR_ANOM",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Set ID_MAX",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_XEAC_MCT_AGR_ANOM",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							},
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D_AGR_ANOMAL_T30",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_AGR_ANOMAL_T30",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D_AGR_ANOMAL_T60",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_AGR_ANOMAL_T60",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D_AGR_ANOMAL_Ttot",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_AGR_ANOMAL_Ttot",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D_AGR_ANOMAL_TOTAL_T30",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_T30",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D_AGR_ANOMAL_TOTAL_Ttot",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_Ttot",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D_AGR_ANOMAL_TOTAL_T60",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_T60",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string"
+			},
+			"P_DATA_FI": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"ID_MAX": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

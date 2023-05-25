@@ -1,0 +1,44 @@
+{
+	"name": "SKG_XEAC_ANOMALAS_v2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/SKG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_XEAC_ANOMALAS_v2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "SKG_XEAC",
+			"table": "SKG_XEAC_ANOMALAS_v2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

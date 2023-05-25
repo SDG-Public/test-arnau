@@ -1,0 +1,94 @@
+{
+	"name": "DF_ASJ_DIM_DM_TERRITORI",
+	"properties": {
+		"description": "Este DF es de una DIM y además te crea la capa DM directamente. Es totalmente atípico que se cargue en este punto, pero requiere de la tabla FACT_EXPEDIENT para poder crearse. Además no necesita de STG y ODS porque su origen son otras DIM que ya están creadas y la EXPEDIENT ",
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimMetadata"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_OBJECTE_AGRUPAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimObjecteAgrup"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_OBJECTE_REF_TERR",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimObjecteRefTerr"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedient"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimMetadata2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_TERRITORI",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTerritori"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FixCodIne"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "ConcatINE"
+				},
+				{
+					"name": "FilterTipus96"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "CamposFinales"
+				},
+				{
+					"name": "join5"
+				}
+			],
+			"script": "source(output(\n\t\tID_METADATA as decimal(10,0),\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TRAMIT as decimal(10,0),\n\t\tID_OBJECTE_AGRUP as decimal(10,0),\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tDESC_TIPUS_METADATA as string,\n\t\tDESC_METADATA as string,\n\t\tMETADATA_LITERAL as string,\n\t\tMETADATA_DATA as timestamp,\n\t\tMETADATA_ENUMERAT as string,\n\t\tMETADATA_DECIMAL as double,\n\t\tMETADATA_NUMERIC as decimal(10,0),\n\t\tMETADATA_BOOL as decimal(1,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimMetadata\nsource(output(\n\t\tID_OBJECTE_AGRUPAT as decimal(10,0),\n\t\tID_METADATA as decimal(10,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimObjecteAgrup\nsource(output(\n\t\tID_OBJECTE_REFERENCIA as decimal(10,0),\n\t\tID_DADA as decimal(10,0),\n\t\tCODI_INE as string,\n\t\tCODI_LLOGARET as string,\n\t\tDESC_POBLACIO as string,\n\t\tDESC_PROVINCIA as string,\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimObjecteRefTerr\nsource(output(\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TIPUS_EXPEDIENT as string,\n\t\tID_TRAMIT_ACTUAL as decimal(10,0),\n\t\tID_TRAMIT_INICIAL as decimal(10,0),\n\t\tID_AMBIT as long,\n\t\tID_CLASSIFICACIO_01 as integer,\n\t\tID_CLASSIFICACIO_02 as integer,\n\t\tNUM_EXPEDIENT_INTERN as string,\n\t\tNUM_EXPEDIENT_IMPORT as string,\n\t\tNUM_INFOREG_ENTRADA as decimal(10,0),\n\t\tNUM_ULTIM_INFOLOG as decimal(10,0),\n\t\tDESC_ASSUMPTE_CURT as string,\n\t\tDESC_ASSUMPTE as string,\n\t\tDESC__RESPONSABLE as string,\n\t\tDESC_AMBIT as string,\n\t\tDES_CLASSIFICACIO_01 as string,\n\t\tDESC_CLASSIFICACIO_02 as string,\n\t\tCODI_ASSIGNAT_INICIAL as string,\n\t\tCODI_ASSIGNAT_ESPECIAL as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_TERMINI_MES_PROPER as timestamp,\n\t\tDATA_ENTRADA as timestamp,\n\t\tDATA_RESOLUCIO as timestamp,\n\t\tFLAG_TANCAT as decimal(1,0),\n\t\tFLAG_URGENT as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0),\n\t\tDATA_INSERT as timestamp,\n\t\tDATA_MODIFICACIO as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactExpedient\nsource(output(\n\t\tID_METADATA as decimal(10,0),\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TRAMIT as decimal(10,0),\n\t\tID_OBJECTE_AGRUP as decimal(10,0),\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tDESC_TIPUS_METADATA as string,\n\t\tDESC_METADATA as string,\n\t\tMETADATA_LITERAL as string,\n\t\tMETADATA_DATA as timestamp,\n\t\tMETADATA_ENUMERAT as string,\n\t\tMETADATA_DECIMAL as double,\n\t\tMETADATA_NUMERIC as decimal(10,0),\n\t\tMETADATA_BOOL as decimal(1,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimMetadata2\nFiltraCampos derive(CODI_INE = substring(CODI_INE, 1, 5),\n\t\tCODI_LLOGARET = iif(substring(CODI_INE, 1, 5) == CODI_LLOGARET, '00', CODI_LLOGARET)) ~> FixCodIne\nDMDimMetadata, ODSFactExpedient join(DMDimMetadata@ID_EXPEDIENT == ODSFactExpedient@ID_EXPEDIENT,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1, DMDimObjecteAgrup join(DMDimMetadata@ID_METADATA == DMDimObjecteAgrup@ID_METADATA,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join2\nJoin2, Select1 join(ID_OBJECTE_AGRUPAT == Select1@ID_OBJECTE_AGRUP,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join3\nJoin3, DMDimObjecteRefTerr join(Select1@ID_METADATA == ID_DADA,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join4\nFilterTipus96 select(mapColumn(\n\t\tID_EXPEDIENT = DMDimMetadata@ID_EXPEDIENT,\n\t\tCODI_INE,\n\t\tCODI_LLOGARET,\n\t\tDESC_POBLACIO,\n\t\tDESC_PROVINCIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFixCodIne derive(CODI_CONCAT_INE_LLOGARET = concat(CODI_INE, CODI_LLOGARET)) ~> ConcatINE\nJoin4 filter(DMDimMetadata@ID_TIPUS_METADATA==96) ~> FilterTipus96\nDMDimMetadata2 select(mapColumn(\n\t\tID_METADATA,\n\t\tID_EXPEDIENT,\n\t\tID_TRAMIT,\n\t\tID_OBJECTE_AGRUP,\n\t\tID_TIPUS_METADATA,\n\t\tDESC_TIPUS_METADATA,\n\t\tDESC_METADATA,\n\t\tMETADATA_LITERAL,\n\t\tMETADATA_DATA,\n\t\tMETADATA_ENUMERAT,\n\t\tMETADATA_DECIMAL,\n\t\tMETADATA_NUMERIC,\n\t\tMETADATA_BOOL,\n\t\tPOSICIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\njoin5 select(mapColumn(\n\t\tID_EXPEDIENT = ODSFactExpedient@ID_EXPEDIENT,\n\t\tCODI_INE,\n\t\tCODI_LLOGARET,\n\t\tDESC_POBLACIO,\n\t\tDESC_PROVINCIA,\n\t\tCODI_CONCAT_INE_LLOGARET\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CamposFinales\nConcatINE, ODSFactExpedient join(FiltraCampos@ID_EXPEDIENT == ODSFactExpedient@ID_EXPEDIENT,\n\tjoinType:'right',\n\tbroadcast: 'auto')~> join5\nCamposFinales sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimTerritori"
+		}
+	}
+}

@@ -1,0 +1,49 @@
+{
+	"name": "DF_GAF_MODELO_PLA_ANYAL",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "FIT_STG_GAF_AUX_MODELO_PLA_ANYAL",
+						"type": "DatasetReference"
+					},
+					"name": "STGModeloPlaAnyalExcel"
+				},
+				{
+					"dataset": {
+						"referenceName": "FIT_STG_GAF_AUX_MODELO_VOL_PER_SENTIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGModeloVolPerSentitExcel"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_MODELO_PLA_ANYAL",
+						"type": "DatasetReference"
+					},
+					"name": "STGModeloPlaAnyal"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_MODELO_VOL_PER_SENTIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGModeloVolPerSentit"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Concat"
+				}
+			],
+			"script": "source(output(\n\t\tDATA_MES as integer,\n\t\tGRUP as string,\n\t\tCONCEPTE as string,\n\t\tPOSICIO as integer,\n\t\tPOSICIO2 as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGModeloPlaAnyalExcel\nsource(output(\n\t\tDATA_MES as integer,\n\t\tGRUP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGModeloVolPerSentitExcel\nSTGModeloPlaAnyalExcel derive(COCNAT_GRUP_CONCEPTE = concat(GRUP, CONCEPTE),\n\t\tCONCAT_POSISCIO = concat(toString(POSICIO), toString(POSICIO2))) ~> Concat\nConcat sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> STGModeloPlaAnyal\nSTGModeloVolPerSentitExcel sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> STGModeloVolPerSentit"
+		}
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"name": "GEU_ORA_FACT_MUC_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_MUC",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "MUC_SIG",
+			"table": "MUC_EXPEDIENTS"
+		}
+	}
+}

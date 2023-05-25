@@ -1,0 +1,188 @@
+{
+	"name": "BARRIS_STG_DIM_FCTALL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EXP_ID",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "PJT_ID",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "CTE_ID",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "FCT_ID",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "CTE_VERSION",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CTE_NOMADJUDICATARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CTE_NUMCONTRACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CTE_CODICONTRACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CTE_IDTIPUSCONTRACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CTE_IMPORTADJINCIVA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "CTE_IMPORTADJEXCIVA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "CTE_CODICTEPRIMITIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CTE_NOMCTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CTE_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FCT_ANYFACTURA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "FCT_CONCEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FCT_DATAFACTURA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "FCT_DATAORDREPAGAMENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "FCT_DATAPAGAMENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "FCT_ELEGIBILITAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FCT_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FCT_IMPORTACTUACIONS",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "FCT_IMPORTBARRIS",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "FCT_IMPORTPAGMESURA51",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "FCT_IMPORTPAGSENSEIVA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "FCT_IMPORTTOTAL",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "FCT_NIFEMISSOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FCT_NIFPERCEPTOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FCT_NOMEMISSOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FCT_NOMPERCEPTOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FCT_NUMCONTRACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FCT_NUMFACTURA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FCT_REFCOMPTABLE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_STG",
+			"table": "STG_BARRIS_DIM_FCTALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

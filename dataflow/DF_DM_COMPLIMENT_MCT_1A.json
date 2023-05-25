@@ -1,0 +1,31 @@
+{
+	"name": "DF_DM_COMPLIMENT_MCT_1A",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/MCT_COMPLIMENT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_COMPLIMENT_MCT_1A_v3",
+						"type": "DatasetReference"
+					},
+					"name": "sourceODScomplimentMCT1Av3"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_COMPLIMENT_MCT_1A_v3",
+						"type": "DatasetReference"
+					},
+					"name": "sinkDMcomplimentMCT1Av3"
+				}
+			],
+			"transformations": [],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> sourceODScomplimentMCT1Av3\nsourceODScomplimentMCT1Av3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCodiEmis as integer,\n\t\tIDFocus as string,\n\t\tIDCodi as integer,\n\t\tIDLegis as string,\n\t\tIDSubmode as string,\n\t\tYEAR as integer,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT_VAL_PERC_COMP as decimal(5,2),\n\t\tPCT_COMPLIMENT as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> sinkDMcomplimentMCT1Av3"
+		}
+	}
+}

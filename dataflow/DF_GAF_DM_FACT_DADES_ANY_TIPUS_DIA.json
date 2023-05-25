@@ -1,0 +1,80 @@
+{
+	"name": "DF_GAF_DM_FACT_DADES_ANY_TIPUS_DIA",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_DIA_ANY",
+						"type": "DatasetReference"
+					},
+					"name": "DMDadesAnyDiaAny"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_TIPUSDIA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDadesAnyTipusDia"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraCamposDistinct"
+				},
+				{
+					"name": "TipusDia8"
+				},
+				{
+					"name": "LeftJoin1"
+				},
+				{
+					"name": "TipusDia7"
+				},
+				{
+					"name": "TipusDia6"
+				},
+				{
+					"name": "LeftJoin2"
+				},
+				{
+					"name": "CalculaFactorS"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "RenombraCampos6"
+				},
+				{
+					"name": "RenombraCampos7"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "FiltraReordenaCampos"
+				},
+				{
+					"name": "AddFactorLRoundIMD"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "FiltroAnyo"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_TIPUS_VEHICLE as integer,\n\t\tID_TIPUS_DIA as integer,\n\t\tIND_IMD_ANY_X_DIA as decimal(38,6),\n\t\tIND_VOLUM_ANY_X_DIA as decimal(38,0),\n\t\tIND_IMD_ANY_X_DIA_VEHICLE as decimal(38,6),\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE as decimal(38,0),\n\t\tDATA_ANYO as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDadesAnyDiaAny\nFiltroAnyo select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_DIA = IND_IMD_ANY_X_DIA,\n\t\tDATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCamposDistinct\nDistinct filter(ID_TIPUS_DIA==8) ~> TipusDia8\nTipusDia8, RenombraCampos6 join(ID_ESTACIO == ID_ESTACIO_6\n\t&& DATA_ANYO == DATA_ANYO_6,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> LeftJoin1\nDistinct filter(ID_TIPUS_DIA==7) ~> TipusDia7\nDistinct filter(ID_TIPUS_DIA==6) ~> TipusDia6\nFiltraCampos, RenombraCampos7 join(ID_ESTACIO == ID_ESTACIO_7\n\t&& DATA_ANYO == DATA_ANYO_7,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> LeftJoin2\nFiltraCampos2 derive(FACTOR_S = case(IND_IMD_DIA == 0, toDecimal(1), (5+(IND_IMD_DIA_6/IND_IMD_DIA)+(IND_IMD_DIA_7/IND_IMD_DIA))/7)) ~> CalculaFactorS\nLeftJoin1 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tIND_IMD_DIA,\n\t\tDATA_ANYO,\n\t\tIND_IMD_DIA_6\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nTipusDia6 select(mapColumn(\n\t\tID_ESTACIO_6 = ID_ESTACIO,\n\t\tID_TIPUS_DIA_6 = ID_TIPUS_DIA,\n\t\tIND_IMD_DIA_6 = IND_IMD_DIA,\n\t\tDATA_ANYO_6 = DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos6\nTipusDia7 select(mapColumn(\n\t\tID_ESTACIO_7 = ID_ESTACIO,\n\t\tID_TIPUS_DIA_7 = ID_TIPUS_DIA,\n\t\tIND_IMD_DIA_7 = IND_IMD_DIA,\n\t\tDATA_ANYO_7 = DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos7\nLeftJoin2 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tIND_IMD_DIA,\n\t\tDATA_ANYO,\n\t\tIND_IMD_DIA_6,\n\t\tIND_IMD_DIA_7\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nCalculaFactorS, DMDadesAnyDiaAny join(FiltraCampos2@ID_ESTACIO == DMDadesAnyDiaAny@ID_ESTACIO\n\t&& FiltraCampos2@DATA_ANYO == DMDadesAnyDiaAny@DATA_ANYO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nAddFactorLRoundIMD select(mapColumn(\n\t\tID_ESTACIO = FiltraCampos2@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_DIA = IND_IMD_ANY_X_DIA,\n\t\tIND_VOLUM_TOTAL = IND_VOLUM_ANY_X_DIA,\n\t\tIND_IMD_DIA_VEHICLE = IND_IMD_ANY_X_DIA_VEHICLE,\n\t\tIND_VOLUM_DIA = IND_IMD_ANY_X_DIA_VEHICLE,\n\t\tNUM_FACTOR_S = FACTOR_S,\n\t\tNUM_FACTOR_L = FACTOR_L,\n\t\tDATA_ANYO = FiltraCampos2@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraReordenaCampos\nJoin1 derive(FACTOR_L = 1,\n\t\tFACTOR_S = round(FACTOR_S,4),\n\t\tIND_IMD_ANY_X_DIA = round(IND_IMD_ANY_X_DIA),\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = round(IND_IMD_ANY_X_DIA_VEHICLE)) ~> AddFactorLRoundIMD\nFiltraCamposDistinct aggregate(groupBy(ID_TIPUS_DIA,\n\t\tID_ESTACIO,\n\t\tIND_IMD_DIA,\n\t\tDATA_ANYO),\n\tCount_distinct = count(ID_ESTACIO)) ~> Distinct\nDMDadesAnyDiaAny filter(DATA_ANYO >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO  < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FiltroAnyo\nFiltraReordenaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDadesAnyTipusDia"
+		}
+	}
+}

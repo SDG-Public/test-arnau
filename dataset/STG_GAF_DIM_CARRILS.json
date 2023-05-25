@@ -1,0 +1,43 @@
+{
+	"name": "STG_GAF_DIM_CARRILS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IDCARRIL",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IDSECCIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "CODICARRIL",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "STG_GAF_DIM_CARRILS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

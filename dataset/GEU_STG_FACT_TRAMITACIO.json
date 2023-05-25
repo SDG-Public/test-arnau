@@ -1,0 +1,264 @@
+{
+	"name": "GEU_STG_FACT_TRAMITACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_TRAMITACIO",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "NUMINT_TRAMIT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_TRAMIT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "NUM_ORDRE_TRA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CODI_CIRCUIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_UORG_TRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODREG_E",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANYREG_E",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "NUMREG_E",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "IMPORT_TAXA",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "NUM_LIQUIDACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INT_LIQUIDACIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IND_ANULACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_VENC_LIQ",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CODINT_SESSIO",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "NUM_DOGC",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI_TERMINI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI_TERMINI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USU_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_DOC_EXTERNA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMPORT_COBRAT",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "CODI_INGRES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TARIFA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_COBRAMENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_ALTA_RE",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "IND_PROTEGIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_VENCIMENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CODINT_TRAMITACIO_REL",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "IND_TRAMIT_REC_COPIAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_DOCUMENTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORIGEN_DOCUMENTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUB_IND_PUBLICAR_LINK",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUB_DATA_PUBLICACIO_LINK",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "PUB_USUARI_PUBLICACIO_LINK",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_CONTROL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_IND_PUBLICAR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_DATA_PUBLICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "RPUC_USUARI_PUBLICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_DOGC_CARREGAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_DOGC_TRACTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_DOCS_EE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_DOCUMENT_DOGC",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "NUM_SOLICITUD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "URL_PUB_DOGC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_LLIURAMENT_TEUA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_TAXA_SANCIO",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTAT_GIDECAT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "MOTIU_ANULACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONCEPTE_INGRES_GIDECAT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_FACT_TRAMITACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

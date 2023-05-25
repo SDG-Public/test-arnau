@@ -1,0 +1,212 @@
+{
+	"name": "PL_GAF_ESTACIO_AFOR_ODS_LLE",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_GAF_ODS_EST_AFOR_LLE_TOT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_PRE_ODS_EST_AFOR_LLE_TOT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Lleida'",
+							"P_TIPUS_XARXA": "'T'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "1"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_PRE_ODS_EST_AFOR_LLE_TOT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_PRE_ODS_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Lleida'",
+							"P_TIPUS_XARXA": "'T'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "1"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_EST_AFOR_LLE_IND",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_PRE_ODS_EST_AFOR_LLE_IND",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Lleida'",
+							"P_TIPUS_XARXA": "'I'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "0"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_PRE_ODS_EST_AFOR_LLE_IND",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_PRE_ODS_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Lleida'",
+							"P_TIPUS_XARXA": "'I'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "0"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_EST_AFOR_LLE_DIR",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_PRE_ODS_EST_AFOR_LLE_DIR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Lleida'",
+							"P_TIPUS_XARXA": "'D'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "0"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_PRE_ODS_EST_AFOR_LLE_DIR",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_PRE_ODS_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Lleida'",
+							"P_TIPUS_XARXA": "'D'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "0"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "GAF/GAF - ESTACIO AFORAMENT"
+		},
+		"annotations": []
+	}
+}

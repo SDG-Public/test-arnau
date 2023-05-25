@@ -1,0 +1,255 @@
+{
+	"name": "DF_GAF_PRE_ODS_FACT_DADES_ESTACIO_AFORAMENT",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactDadesEstacioAforament1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_CATALEG",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCataleg"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactDadesEstacioAforament"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CreaColumnas"
+				},
+				{
+					"name": "ConvierteEnNum"
+				},
+				{
+					"name": "SumaPorEsglaon"
+				},
+				{
+					"name": "Calculos"
+				},
+				{
+					"name": "Calculos2"
+				},
+				{
+					"name": "CalcLong"
+				},
+				{
+					"name": "PercentPesantTotal"
+				},
+				{
+					"name": "KMTotal"
+				},
+				{
+					"name": "IMDMitjanaNumerador"
+				},
+				{
+					"name": "DemarcacioCat"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "KmNoAforados"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "IMDMitjana"
+				},
+				{
+					"name": "join3"
+				},
+				{
+					"name": "join4"
+				},
+				{
+					"name": "NodupKMTotal"
+				},
+				{
+					"name": "AddColumns"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "FilterDemarcacio"
+				},
+				{
+					"name": "FilterTipusXarxa"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     P_DEMARCACIO as string,",
+				"     P_TIPUS_XARXA as string,",
+				"     P_FLAG_DEM_CAT as integer,",
+				"     P_FLAG_TIPUS_XARXA_TOTAL as integer",
+				"}",
+				"source(output(",
+				"          ID_ESTACIO as decimal(8,0),",
+				"          COD_ESTACIO as string,",
+				"          DATA_ANYO as integer,",
+				"          ID_TIPUS_ESTACIO as decimal(2,0),",
+				"          CODI_TIPUS_XARXA as string,",
+				"          COD_INE as string,",
+				"          DESC_DEMARCACIO as string,",
+				"          IND_IMD as double,",
+				"          IND_PESANTS as double,",
+				"          NUM_PK_INI as double,",
+				"          NUM_PK_FI as double,",
+				"          COD_ORGTRAM as string,",
+				"          COD_CARRETERA as string,",
+				"          COD_MOD_CARRETERA as decimal(15,0),",
+				"          COD_TRAM as string,",
+				"          COD_SUBTRAM as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGFactDadesEstacioAforament1",
+				"source(output(",
+				"          DATA_ANYO as string,",
+				"          DEMARCACIO as string,",
+				"          IND_VALOR_TOTAL as string,",
+				"          IND_VALOR_INDIRECTA as string,",
+				"          IND_VALOR_DIRECTA as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimCataleg",
+				"CalcLong derive(ID_ESGLAON = iif(IND_IMD<1000, 1, iif(IND_IMD<2000, 2, iif(IND_IMD <5000, 3, iif(IND_IMD<10000,4, iif(IND_IMD<15000, 5, iif(IND_IMD<20000,6,iif(IND_IMD<50000,7,iif(IND_IMD<80000,8 , iif(IND_IMD<100000, 9, 10 ))))))))),",
+				"          IMD_LONG = IND_IMD*NUM_LONG_KM,",
+				"          IMD_PESANT = IND_IMD*IND_PESANTS) ~> CreaColumnas",
+				"FilterTipusXarxa derive(IND_IMD = toInteger(IND_IMD),",
+				"          IND_PESANTS = toDouble(IND_PESANTS),",
+				"          NUM_PK_INI = toDouble(NUM_PK_INI),",
+				"          NUM_PK_FI = toDouble(NUM_PK_FI)) ~> ConvierteEnNum",
+				"CreaColumnas aggregate(groupBy(ID_ESGLAON,",
+				"          DATA_ANYO),",
+				"     SUM_LONG = sum(NUM_LONG_KM),",
+				"          SUM_IMD_LONG = sum(IMD_LONG),",
+				"          SUM_IMD_PESANT = sum(IMD_PESANT),",
+				"          SUM_IMD = sum(IND_IMD)) ~> SumaPorEsglaon",
+				"SumaPorEsglaon derive(DIVISIO = SUM_IMD_LONG/SUM_LONG,",
+				"          VALOR_RELATIU = (SUM_IMD_PESANT/SUM_IMD)*100) ~> Calculos",
+				"Calculos derive(MULTIPLICACIO = DIVISIO*SUM_LONG*365,",
+				"          CODI_TERRITORI = $P_DEMARCACIO) ~> Calculos2",
+				"ConvierteEnNum derive(NUM_LONG_KM = NUM_PK_FI-NUM_PK_INI) ~> CalcLong",
+				"Calculos2 aggregate(groupBy(DATA_ANYO),",
+				"     PercentPesantTotal = sum(SUM_IMD_PESANT)/sum(SUM_IMD)) ~> PercentPesantTotal",
+				"Calculos2 aggregate(groupBy(DATA_ANYO),",
+				"     KMTotal = sum(SUM_LONG)) ~> KMTotal",
+				"Calculos2 aggregate(groupBy(DATA_ANYO),",
+				"     IMDMitjanaNumerador = sum(SUM_IMD_LONG)) ~> IMDMitjanaNumerador",
+				"DMDimCataleg filter(DEMARCACIO == $P_DEMARCACIO) ~> DemarcacioCat",
+				"KMTotal, DemarcacioCat join(KMTotal@DATA_ANYO == toInteger(DMDimCataleg@DATA_ANYO),",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join1",
+				"join1 derive(KmNoAforados = iif($P_FLAG_TIPUS_XARXA_TOTAL == 1,toDouble(IND_VALOR_TOTAL)-KMTotal,iif($P_TIPUS_XARXA == 'I',toDouble(IND_VALOR_INDIRECTA)-KMTotal,toDouble(IND_VALOR_DIRECTA)-KMTotal))) ~> KmNoAforados",
+				"IMDMitjanaNumerador, KMTotal join(IMDMitjanaNumerador@DATA_ANYO == KMTotal@DATA_ANYO,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join2",
+				"join2 derive(IMDMitjana = (IMDMitjanaNumerador/KMTotal)*toDouble(0.25)) ~> IMDMitjana",
+				"PercentPesantTotal, IMDMitjana join(PercentPesantTotal@DATA_ANYO == IMDMitjanaNumerador@DATA_ANYO,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join3",
+				"join3, NodupKMTotal join(PercentPesantTotal@DATA_ANYO == NodupKMTotal@DATA_ANYO,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join4",
+				"KmNoAforados select(mapColumn(",
+				"          DATA_ANYO = KMTotal@DATA_ANYO,",
+				"          KMTotal,",
+				"          DATA_ANYO = DMDimCataleg@DATA_ANYO,",
+				"          DEMARCACIO,",
+				"          IND_VALOR_TOTAL,",
+				"          IND_VALOR_INDIRECTA,",
+				"          IND_VALOR_DIRECTA,",
+				"          KmNoAforados",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> NodupKMTotal",
+				"join4 derive(ID_ESTACIO = -1,",
+				"          COD_ESTACIO = '-1',",
+				"          ID_TIPUS_ESTACIO = -1,",
+				"          CODI_TIPUS_XARXA = $P_TIPUS_XARXA,",
+				"          COD_INE = '-1',",
+				"          DESC_DEMARCACIO = $P_DEMARCACIO,",
+				"          NUM_PK_INI = toDouble(0),",
+				"          COD_ORGTRAM = 'N/A',",
+				"          COD_CARRETERA = 'N/A',",
+				"          COD_MOD_CARRETERA = -1,",
+				"          COD_TRAM = 'N/A',",
+				"          COD_SUBTRAM = 'N/A') ~> AddColumns",
+				"AddColumns select(mapColumn(",
+				"          ID_ESTACIO,",
+				"          COD_ESTACIO,",
+				"          DATA_ANYO = PercentPesantTotal@DATA_ANYO,",
+				"          ID_TIPUS_ESTACIO,",
+				"          CODI_TIPUS_XARXA,",
+				"          COD_INE,",
+				"          DESC_DEMARCACIO,",
+				"          IND_IMD = IMDMitjana,",
+				"          IND_PESANTS = PercentPesantTotal,",
+				"          NUM_PK_INI,",
+				"          NUM_PK_FI = KmNoAforados,",
+				"          COD_ORGTRAM,",
+				"          COD_CARRETERA,",
+				"          COD_MOD_CARRETERA,",
+				"          COD_TRAM,",
+				"          COD_SUBTRAM",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FiltraCampos",
+				"STGFactDadesEstacioAforament1 filter(iif( $P_FLAG_DEM_CAT == 1, 1==1, DESC_DEMARCACIO == $P_DEMARCACIO)) ~> FilterDemarcacio",
+				"FilterDemarcacio filter(iif( $P_FLAG_TIPUS_XARXA_TOTAL == 1, 1==1, CODI_TIPUS_XARXA == $P_TIPUS_XARXA)) ~> FilterTipusXarxa",
+				"FiltraCampos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_ESTACIO as decimal(8,0),",
+				"          COD_ESTACIO as string,",
+				"          DATA_ANYO as integer,",
+				"          ID_TIPUS_ESTACIO as decimal(2,0),",
+				"          CODI_TIPUS_XARXA as string,",
+				"          COD_INE as string,",
+				"          DESC_DEMARCACIO as string,",
+				"          IND_IMD as double,",
+				"          IND_PESANTS as double,",
+				"          NUM_PK_INI as double,",
+				"          NUM_PK_FI as double,",
+				"          COD_ORGTRAM as string,",
+				"          COD_CARRETERA as string,",
+				"          COD_MOD_CARRETERA as decimal(15,0),",
+				"          COD_TRAM as string,",
+				"          COD_SUBTRAM as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> STGFactDadesEstacioAforament"
+			]
+		}
+	}
+}

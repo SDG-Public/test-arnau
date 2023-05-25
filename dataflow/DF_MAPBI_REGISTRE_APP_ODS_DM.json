@@ -1,0 +1,45 @@
+{
+	"name": "DF_MAPBI_REGISTRE_APP_ODS_DM",
+	"properties": {
+		"folder": {
+			"name": "MAPBI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MAPBI_ODS_REGISTRE_APP",
+						"type": "DatasetReference"
+					},
+					"name": "ODSregistreAPP"
+				},
+				{
+					"dataset": {
+						"referenceName": "MAPBI_DM_REGISTRE_APP",
+						"type": "DatasetReference"
+					},
+					"name": "DMregistreAPP"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "MAPBI_DM_REGISTRE_APP",
+						"type": "DatasetReference"
+					},
+					"name": "DMregistreAPPfinal"
+				}
+			],
+			"transformations": [
+				{
+					"name": "PasanLosQueNoExisten"
+				},
+				{
+					"name": "addFECHAS"
+				}
+			],
+			"script": "source(output(\n\t\tDATA as timestamp,\n\t\tID_USUARI as string,\n\t\tAPLICACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSregistreAPP\nsource(output(\n\t\tDATA as timestamp,\n\t\tID_USUARI as string,\n\t\tAPLICACIO as string,\n\t\tDT_INSERCIO as timestamp,\n\t\tDT_MODIFICACIO as timestamp,\n\t\tID_ESQUEMA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMregistreAPP\nODSregistreAPP, DMregistreAPP exists(ODSregistreAPP@DATA == DMregistreAPP@DATA\n\t&& ODSregistreAPP@ID_USUARI == DMregistreAPP@ID_USUARI\n\t&& ODSregistreAPP@APLICACIO == DMregistreAPP@APLICACIO,\n\tnegate:true,\n\tbroadcast: 'auto')~> PasanLosQueNoExisten\nPasanLosQueNoExisten derive(DT_INSERCIO = fromUTC(currentUTC(),'Spain/Madrid'),\n\t\tDT_MODIFICACIO = fromUTC(currentUTC(),'Spain/Madrid'),\n\t\tID_ESQUEMA = 'MAP_BI') ~> addFECHAS\naddFECHAS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tDATA as timestamp,\n\t\tID_USUARI as string,\n\t\tAPLICACIO as string,\n\t\tDT_INSERCIO as timestamp,\n\t\tDT_MODIFICACIO as timestamp,\n\t\tID_ESQUEMA as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tDATA,\n\t\tID_USUARI,\n\t\tAPLICACIO,\n\t\tDT_INSERCIO,\n\t\tDT_MODIFICACIO,\n\t\tID_ESQUEMA\n\t)) ~> DMregistreAPPfinal"
+		}
+	}
+}

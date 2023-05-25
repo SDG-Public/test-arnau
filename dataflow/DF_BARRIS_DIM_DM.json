@@ -1,0 +1,185 @@
+{
+	"name": "DF_BARRIS_DIM_DM",
+	"properties": {
+		"folder": {
+			"name": "BARRIS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_ALTRESAJUTS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimALTRESAJUTS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_DESGLOSFINANCER",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimDESGLOSFINANCER"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_DESPESES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimDESPESES"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_FCTALL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimFCTALL"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_FACTURES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimFACTURES"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimINDICADORS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_INFOPOBLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimINFOPOBLACIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_PAGAMENTSOK",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPAGAMENTSOK"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_PLANSFINANZEROS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPLANSFINANZEROS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_RESUMFACT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimRESUMFACT"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_RESUMFACT_ANYS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimRESUMFACTANYS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_SOLLICITUDS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimSOLLICITUDS"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_ALTRESAJUTS",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimALTRESAJUTS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_DESGLOSFINANCER",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimDESGLOSFINANCER"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_DESPESES",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimDESPESES"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_FCTALL",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimFCTALL"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_FACTURES",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimFACTURES"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimINDICADORS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_INFOPOBLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimINFOPOBLACIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_PAGAMENTSOK",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimPAGAMENTSOK"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_PLANSFINANZEROS",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimPLANSFINANZEROS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_RESUMFACT",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimRESUMFACT"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_RESUMFACT_ANYS",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimRESUMFACTANYS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_DM_DIM_SOLLICITUDS",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimSOLLICITUDS"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCOD_BAE as string,\n\t\tIMP_ALTRESAJUTS as decimal(19,2),\n\t\tDATA_ANYAJUTS as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimALTRESAJUTS\nsource(output(\n\t\tCOD_BAE as string,\n\t\tCOD_ACTUACIO as string,\n\t\tCOD_SEGONNIVELL as string,\n\t\tDESC_NOMACTUACIO as string,\n\t\tIMP_TOTALACTAUCIO as decimal(19,2),\n\t\tIMP_APORTACIO_GENCAT_ANY1 as double,\n\t\tIMP_APORTACIO_GENCAT_ANY2 as double,\n\t\tIMP_APORTACIO_GENCAT_ANY3 as double,\n\t\tIMP_APORTACIO_GENCAT_ANY4 as double,\n\t\tIMP_APORTACIO_GENCAT_ANY5 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY1 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY2 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY3 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY4 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY5 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY1 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY2 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY3 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY4 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY5 as double,\n\t\tDATA_CONVOCATORIA as decimal(19,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimDESGLOSFINANCER\nsource(output(\n\t\tCOD_BAE as string,\n\t\tID_PERIODE as decimal(19,0),\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_DELEGACIO as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_NOMPERIODE as string,\n\t\tDESC_DESPESA as string,\n\t\tIMP_TOTAL as decimal(19,2),\n\t\tIMP_BARRIS as decimal(19,2),\n\t\tDATA_ANYCONV as decimal(19,0),\n\t\tDATA_ANYDESPESA as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimDESPESES\nsource(output(\n\t\tCOD_BAE as string,\n\t\tID_NUMCONTRACTE as string,\n\t\tCOD_TIPUSCONTRACTE as string,\n\t\tCOD_ESTAT as string,\n\t\tDESC_NOMCTE as string,\n\t\tIMP_ADJINCIVA as decimal(19,2),\n\t\tIMP_ACTUACIONS as decimal(19,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimFCTALL\nsource(output(\n\t\tCOD_BAE as string,\n\t\tCOD_CONTRACTE as decimal(19,0),\n\t\tCOD_NIFEMISSOR as string,\n\t\tCOD_AMBIT as string,\n\t\tCOD_ACTUACIO as string,\n\t\tID_ESFEDER as decimal(1,0),\n\t\tID_PERFASE1 as decimal(19,0),\n\t\tID_PERFASE2 as decimal(19,0),\n\t\tID_ESTAT as decimal(10,0),\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_NOMCONTRACTE as string,\n\t\tDESC_NOMEMISSOR as string,\n\t\tDESC_FACTURA as string,\n\t\tDESC_NOMFASE1 as string,\n\t\tDESC_NOMFASE2 as string,\n\t\tDESC_TITOLACTUACIO as string,\n\t\tDESC_CONCEPTE as string,\n\t\tIMP_TOTAL as decimal(19,2),\n\t\tIMP_SUBVENC as decimal(19,2),\n\t\tIMP_ACTUACIO as decimal(19,2),\n\t\tIMP_BARRIS as decimal(19,2),\n\t\tIMP_FEDER as decimal(19,2),\n\t\tDATA_ANYCONV as decimal(19,0),\n\t\tDATA_FACTURA as timestamp,\n\t\tDATA_PAGAMENT as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimFACTURES\nsource(output(\n\t\tCOD_BAE as string,\n\t\tID_GRUP as decimal(19,0),\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_DELEGACIO as string,\n\t\tDESC_GRUP as string,\n\t\tDESC_INDICADOR as string,\n\t\tDESC_COMENTARI as string,\n\t\tIMP_VALBOOLEA as double,\n\t\tIMP_VALREAL as double,\n\t\tIMP_VALREFERENCIA as double,\n\t\tIMP_PUNTUACIO as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimINDICADORS\nsource(output(\n\t\tCOD_BAE as string,\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_DELEGACIO as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDATA_ANYCONV as decimal(19,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimINFOPOBLACIO\nsource(output(\n\t\tCOD_BAE as string,\n\t\tID_PERIODE as decimal(19,0),\n\t\tID_ESTAT as decimal(10,0),\n\t\tID_CRT as decimal(19,0),\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_NOMPERIODE as string,\n\t\tDESC_CONCEPTE as string,\n\t\tIMP_PAGAMENTS as decimal(19,2),\n\t\tDATA_ANYCONV as decimal(19,0),\n\t\tDATA_OPERACIO as timestamp,\n\t\tDATA_CONFIRMACIO as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimPAGAMENTSOK\nsource(output(\n\t\tCOD_BAE as string,\n\t\tCOD_AMBIT as string,\n\t\tCOD_ACTUACIO as string,\n\t\tCOD_AJUT as string,\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_TITOLACTUACIO as string,\n\t\tIMP_GENERALITAT as double,\n\t\tIMP_AJUNTAMENT as double,\n\t\tIMP_ALTRES as double,\n\t\tDATA_ANYCONV as decimal(19,0),\n\t\tDATA_ANYDADES as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimPLANSFINANZEROS\nsource(output(\n\t\tCOD_BAE as string,\n\t\tCOD_AMBIT as string,\n\t\tCOD_ACTUACIO as string,\n\t\tCOD_AJUT as string,\n\t\tDESC_TITOLACTUACIO as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tIMP_GENERALITAT as double,\n\t\tIMP_AJUNTAMENT as double,\n\t\tIMP_ALTRES as double,\n\t\tIMP_ACTUACIO as double,\n\t\tIMP_BARRIS as double,\n\t\tIMP_FEDER as double,\n\t\tIMP_AJUTSALTRES as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimRESUMFACT\nsource(output(\n\t\tCOD_BAE as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tIMP_GENERALITAT as double,\n\t\tIMP_AJUNTAMENT as double,\n\t\tIMP_ALTRES as double,\n\t\tIMP_ACTUACIO as double,\n\t\tIMP_BARRIS as double,\n\t\tIMP_FEDER as double,\n\t\tIMP_DESPBARRIS as double,\n\t\tIMP_DESPTOTAL as double,\n\t\tDATA_ANYDADES as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimRESUMFACTANYS\nsource(output(\n\t\tCOD_BAE as string,\n\t\tCOD_NIFRESP as string,\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_DELEGACIO as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_NOMRESP as string,\n\t\tDESC_COGNOMSRESP as string,\n\t\tDESC_CARRECRESP as string,\n\t\tDESC_ORGANISMERESP as string,\n\t\tDESC_CORREURESP as string,\n\t\tDESC_ADRECARESP as string,\n\t\tDESC_POBLACIORESP as string,\n\t\tDESC_BARRI as string,\n\t\tNUM_TELRESP as string,\n\t\tNUM_FAXRESP as string,\n\t\tNUM_CODIPOSTALRESP as string,\n\t\tNUM_PUNTGLOBAL as double,\n\t\tNUM_PUNTLOCAL as string,\n\t\tNUM_PUNTDEFINITIVA as double,\n\t\tNUM_HABITANTSBARRI as double,\n\t\tNUM_HABITANTSMUNICIPI as double,\n\t\tIMP_TOTALBARRIS as double,\n\t\tIMP_TOTALAJUNTAMENT as double,\n\t\tIMP_TOTALALTRES as double,\n\t\tIMP_CONSOLIDAT as double,\n\t\tDATA_ANYCONV as decimal(19,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimSOLLICITUDS\nODSdimALTRESAJUTS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimALTRESAJUTS\nODSdimDESGLOSFINANCER sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimDESGLOSFINANCER\nODSdimDESPESES sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimDESPESES\nODSdimFCTALL sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimFCTALL\nODSdimFACTURES sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimFACTURES\nODSdimINDICADORS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimINDICADORS\nODSdimINFOPOBLACIO sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimINFOPOBLACIO\nODSdimPAGAMENTSOK sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimPAGAMENTSOK\nODSdimPLANSFINANZEROS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimPLANSFINANZEROS\nODSdimRESUMFACT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tCOD_AMBIT,\n\t\tCOD_ACTUACIO,\n\t\tCOD_AJUT,\n\t\tDESC_TITOLACTUACIO,\n\t\tDESC_TITOLPROJECTE,\n\t\tIMP_GENERALITAT,\n\t\tIMP_AJUNTAMENT,\n\t\tIMP_ALTRES,\n\t\tIMP_ACTUACIO,\n\t\tIMP_BARRIS,\n\t\tIMP_FEDER,\n\t\tIMP_AJUTSALTRES\n\t)) ~> DMdimRESUMFACT\nODSdimRESUMFACTANYS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimRESUMFACTANYS\nODSdimSOLLICITUDS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimSOLLICITUDS"
+		}
+	}
+}

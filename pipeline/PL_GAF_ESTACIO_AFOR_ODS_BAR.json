@@ -1,0 +1,213 @@
+{
+	"name": "PL_GAF_ESTACIO_AFOR_ODS_BAR",
+	"properties": {
+		"description": "IMPORTANTE!! Y ojito que estoy tiene su aquel..\n\nEste Pipeline tiene dentro 6 DTF: 3 PRE_ODS y otros 3 ODS. La realidad es que los PRE_ODS apuntan a un mismo DTF (DF_GAF_PRE_ODS_FACT_DADES_ESTACIO_AFORAMENT) y a los ODS les pasa lo mismo (DF_ODS_DADES_ESTACIO_AFORAMENT). La gracia es que cada uno de los 6 DTF's tienen unos pararametros diferentes y gracias a esto te puedes ahorrar tener cientos de DTF haciendo lo mismo, pero hay que tener cuidado con cualquier cambio que se haga en los DTF parametrizaods porque afectará a todo, y digo todos, porque lo mismo le pasa a todos los pipelines alrededor de este. (CAT/BAR/LLE/TAR/GIR)\n",
+		"activities": [
+			{
+				"name": "DF_GAF_ODS_EST_AFOR_BAR_TOT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_PRE_ODS_EST_AFOR_BAR_TOT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Barcelona'",
+							"P_TIPUS_XARXA": "'T'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "1"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_PRE_ODS_EST_AFOR_BAR_TOT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_PRE_ODS_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Barcelona'",
+							"P_TIPUS_XARXA": "'T'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "1"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_EST_AFOR_BAR_IND",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_PRE_ODS_EST_AFOR_BAR_IND",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Barcelona'",
+							"P_TIPUS_XARXA": "'I'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "0"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_PRE_ODS_EST_AFOR_BAR_IND",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_PRE_ODS_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Barcelona'",
+							"P_TIPUS_XARXA": "'I'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "0"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_EST_AFOR_BAR_DIR",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_PRE_ODS_EST_AFOR_BAR_DIR",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Barcelona'",
+							"P_TIPUS_XARXA": "'D'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "0"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_PRE_ODS_EST_AFOR_BAR_DIR",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_PRE_ODS_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DEMARCACIO": "'Barcelona'",
+							"P_TIPUS_XARXA": "'D'",
+							"P_FLAG_DEM_CAT": "0",
+							"P_FLAG_TIPUS_XARXA_TOTAL": "0"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "GAF/GAF - ESTACIO AFORAMENT"
+		},
+		"annotations": []
+	}
+}

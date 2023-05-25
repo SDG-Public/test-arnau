@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANFER_DM_DIM_TIPUS_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_TIPUS_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANFER_DIM_TIPUS_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTipusPersona"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_TIPUS_PERSONA as decimal(10,0),\n\t\tDESC_TIPUS_PERSONA as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimTipusPersona\nODSDimTipusPersona sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimTipusPersona"
+		}
+	}
+}

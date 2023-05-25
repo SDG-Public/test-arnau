@@ -1,0 +1,51 @@
+{
+	"name": "ODS_SANFER_DIM_ESTAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_IDENTIFICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_VERSIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_ORDRE",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DESC_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_TRAMITACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_VIGENT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_ODS",
+			"table": "ODS_SANFER_DIM_ESTAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

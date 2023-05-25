@@ -1,0 +1,170 @@
+{
+	"name": "DM_ASJ_FACT_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_TRAMIT_ACTUAL",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_TRAMIT_INICIAL",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_AMBIT",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "ID_CLASSIFICACIO_01",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_CLASSIFICACIO_02",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NUM_EXPEDIENT_INTERN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_EXPEDIENT_IMPORT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_INFOREG_ENTRADA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "NUM_ULTIM_INFOLOG",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_ASSUMPTE_CURT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ASSUMPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_RESPONSABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DES_CLASSIFICACIO_01",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CLASSIFICACIO_02",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ASSIGNAT_INICIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ASSIGNAT_ESPECIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PK_CONCAT_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_TERMINI_MES_PROPER",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ENTRADA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_RESOLUCIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_TANCAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_URGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_BAIXA",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INSERT",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_DM",
+			"table": "DM_ASJ_FACT_EXPEDIENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

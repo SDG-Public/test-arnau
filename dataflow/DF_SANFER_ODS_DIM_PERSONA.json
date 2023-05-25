@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANFER_ODS_DIM_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANFER_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPersona"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "AddDataInsercio"
+				}
+			],
+			"script": "source(output(\n\t\tPARTY_ID as decimal(10,0),\n\t\tFIRST_NAME as string,\n\t\tMIDDLE_NAME as string,\n\t\tLAST_NAME as string,\n\t\tPERSONAL_TITLE as decimal(10,0),\n\t\tBIRTH_DATE as timestamp,\n\t\tCODI_NACIONALITAT as decimal(10,0),\n\t\tGENDER as string,\n\t\tMARITAL_STATUS_TYPE_ID as string,\n\t\tCODI_TIPUS_DOCUMENT as decimal(10,0),\n\t\tDOCUMENT as string,\n\t\tCARREC as string,\n\t\tIND_MIGRADO as decimal(1,0),\n\t\tPARTY_ID_TST as decimal(10,0),\n\t\tIND_REINCIDENT_FGC as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimPersona\nSTGDimPersona select(mapColumn(\n\t\tID_PERSONA = PARTY_ID,\n\t\tID_NACIONALITAT = CODI_NACIONALITAT,\n\t\tID_TIPUS_DOCUMENT = CODI_TIPUS_DOCUMENT,\n\t\tCOD_PERSONA_TST = PARTY_ID_TST,\n\t\tCOD_DOCUMENT = DOCUMENT,\n\t\tDESC_NOM = FIRST_NAME,\n\t\tDESC_COGNOM_1 = MIDDLE_NAME,\n\t\tDESC_COGNOM_2 = LAST_NAME,\n\t\tDESC_GENERE = GENDER,\n\t\tFLAG_MIGRAT = IND_MIGRADO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos derive(DATA_INSERCIO = currentDate()) ~> AddDataInsercio\nAddDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PERSONA as decimal(10,0),\n\t\tID_NACIONALITAT as decimal(10,0),\n\t\tID_TIPUS_DOCUMENT as decimal(10,0),\n\t\tCOD_PERSONA_TST as decimal(10,0),\n\t\tCOD_DOCUMENT as string,\n\t\tDESC_NOM as string,\n\t\tDESC_COGNOM_1 as string,\n\t\tDESC_COGNOM_2 as string,\n\t\tDESC_GENERE as string,\n\t\tFLAG_MIGRAT as decimal(1,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimPersona"
+		}
+	}
+}

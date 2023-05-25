@@ -1,0 +1,159 @@
+{
+	"name": "STG_INSGRI_FACT_INSPECCIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS_INSPECCIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_EMPRESA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTAT_INSPECCIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_LOT",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "CODI_TIPUS_DOC_DENUNCIANT",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "CODI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUMERO_EXP_SANCIONADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RES_ANA_COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CARREGA_MASSIVA",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "CODI_INSPECCIO_FOMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_REQUERIMENT_FOMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDENTIFICACIO_DENUNCIANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_DENUNCIANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM1_DENUNCIANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM2_DENUNCIANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRECA_DENUNCIANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ADRECA_DENUNCIANT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_SERVEI_TERRITORIAL",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "DATA_DENUNCIA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_REGISTRE_ENTRADA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "LLIBRE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LLETRA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FULL_DV",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_STG",
+			"table": "STG_INSGRI_FACT_INSPECCIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

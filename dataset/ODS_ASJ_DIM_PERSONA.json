@@ -1,0 +1,54 @@
+{
+	"name": "ODS_ASJ_DIM_PERSONA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_PERSONA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_COGNOM1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_COGNOM2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOM_SENCER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_TIPUS_PERSONA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_ELEGIBLE",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_ODS",
+			"table": "ODS_ASJ_DIM_PERSONA"
+		}
+	}
+}

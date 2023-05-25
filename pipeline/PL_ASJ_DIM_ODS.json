@@ -1,0 +1,304 @@
+{
+	"name": "PL_ASJ_DIM_ODS",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_ASJ_ODS_DIM_TIPUS_EXPEDIENT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_TIPUS_EXPEDIENT",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_ODS_DIM_METADATA",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_METADATA",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_ODS_DIM_TIPUS_METADATA",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_TIPUS_METADATA",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_ODS_DIM_TIPUS_TRAMIT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_TIPUS_TRAMIT",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_ODS_DIM_OBJECTE_REF_TERR",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_OBJECTE_REF_TERR",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_ODS_DIM_INFOLOG",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_INFOLOG",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_DIM_ODS_CLASSIFICACIO",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DIM_ODS_CLASSIFICACIO",
+						"type": "DataFlowReference",
+						"parameters": {
+							"IDMax": "max(ID)"
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Coarse"
+				}
+			},
+			{
+				"name": "DF_ASJ_DIM_ODS_SUB_CLASSIFICACIO",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DIM_ODS_SUB_CLASSIFICACIO",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_ODS_DIM_OBJECTE_AGRUPAT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_OBJECTE_AGRUPAT",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_ODS_DIM_OBJECTE_REF_PERSONA",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_OBJECTE_REF_PERSONA",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_ODS_DIM_ORIGEN",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_ORIGEN",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_ASJ_ODS_DIM_PERSONA",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_DIM_PERSONA",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "ASJ"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:04Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

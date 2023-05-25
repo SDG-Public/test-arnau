@@ -1,0 +1,87 @@
+{
+	"name": "COSTES_ODS_FACT_TRAMITACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "NUM_TRAMIT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "COD_REG_E",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_USUARI_DARRERA_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_RESPONSABLE",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "NUM_REG_E",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_TRAMITACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_FI_TRAMITACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_CADUCITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANYREG_E",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "DATA_RE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA_SISTEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_DARRERA_MODIF",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_ODS",
+			"table": "ODS_COSTES_FACT_TRAMITACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

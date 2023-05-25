@@ -1,0 +1,228 @@
+{
+	"name": "STG_GAF_DIM_ESTACIO_SUBTRM5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IDESTACIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IDPLA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IDORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIESTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDESTAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "IDESTACIOAFI",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IDDETECTOR",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "IDEQUIP",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "IDALIMENTACIO",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "IDCTRA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDMODCTRA",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 0
+			},
+			{
+				"name": "IDTRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDSUBTRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDTIPUSESTACIO",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "TELEFON",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 0
+			},
+			{
+				"name": "PK",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRES",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "UTMX",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "UTMY",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "PKINICIAL",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRESINICIALS",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESCRINICIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PKFINAL",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRESFINALS",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESCRFINAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INTERVALTEMPS",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "IMD",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "PESANTS",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 4
+			},
+			{
+				"name": "IFA",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 4
+			},
+			{
+				"name": "IDFACTOR",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IDPLANOL",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IDESTACIO1",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IDESTACIO2",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "VELOCITATMITJA",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 4
+			},
+			{
+				"name": "OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDPOBLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDMUNICIPI",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "STG_GAF_DIM_ESTACIO_SUBTRM5"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

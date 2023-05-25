@@ -1,0 +1,38 @@
+{
+	"name": "COSTES_STG_DIM_TIPUS_INTERESSAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_TIPUS_INT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPUS_INT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VERSION",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_TIPUS_INTERESSAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

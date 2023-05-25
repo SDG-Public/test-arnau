@@ -1,0 +1,31 @@
+{
+	"name": "DF_DM_EM",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/EM"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_EM",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacEM"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_EM",
+						"type": "DatasetReference"
+					},
+					"name": "DMxeacEM"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tDATA as date,\n\t\tSUMA_TEMPS as long,\n\t\tCOUNT_TEMPS as long,\n\t\tMITJA_TEMPS_DIARI as double,\n\t\tSUMA_CONTAMINANT as double,\n\t\tCOUNT_CONTAMINANT as long,\n\t\tMITJA_CONTAMINANT_DIARI as double,\n\t\tSUMA_CABAL as double,\n\t\tCOUNT_CABAL as long,\n\t\tMITJA_CABAL_DIARI as double,\n\t\tIND_EM_DIARI as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacEM\nODSxeacEM sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tDATA as date,\n\t\tSUMA_TEMPS as long,\n\t\tCOUNT_TEMPS as long,\n\t\tMITJA_TEMPS_DIARI as long,\n\t\tSUMA_CONTAMINANT as double,\n\t\tCOUNT_CONTAMINANT as long,\n\t\tMITJA_CONTAMINANT_DIARI as long,\n\t\tSUMA_CABAL as double,\n\t\tCOUNT_CABAL as long,\n\t\tMITJA_CABAL_DIARI as long,\n\t\tIND_EM_DIARI as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_CONTAMINANT,\n\t\tDATA,\n\t\tSUMA_TEMPS,\n\t\tCOUNT_TEMPS,\n\t\tMITJA_TEMPS_DIARI,\n\t\tSUMA_CONTAMINANT,\n\t\tCOUNT_CONTAMINANT,\n\t\tMITJA_CONTAMINANT_DIARI,\n\t\tSUMA_CABAL,\n\t\tCOUNT_CABAL,\n\t\tMITJA_CABAL_DIARI,\n\t\tIND_EM_DIARI\n\t)) ~> DMxeacEM"
+		}
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANQS_DM_FACT_CERT_DESCOBERT",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_CERTIFICAT_DESCOBERT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSCertDesco"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANQS_FACT_CERTIFICAT_DESCOBERT",
+						"type": "DatasetReference"
+					},
+					"name": "DMCertDesco"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_EXPEDIENT as string,\n\t\tDATA_TRAMITADOR as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSCertDesco\nODSCertDesco sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMCertDesco"
+		}
+	}
+}

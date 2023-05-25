@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANQS_ODS_FACT_DEVOLUCIO_TS2",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANQS_FACT_DEVOLUCIONS_TS2",
+						"type": "DatasetReference"
+					},
+					"name": "STGDevolucioTS2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_DEVOLUCIONS_TS2",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDevolucioTS2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Columns"
+				},
+				{
+					"name": "AddDemarcacio"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDevolucioTS2\nSTGDevolucioTS2 derive(ID_EXPEDIENT = substring(Prop_0, 1, 9),\n\t\tDATA_CSST = toDate(substring(Prop_0, 10, 8),'yyyyMMdd'),\n\t\tDATA_VIP = toDate(substring(Prop_0, 18, 8),'yyyyMMdd'),\n\t\tID_CODI = substring(Prop_0, 26, 4),\n\t\tIND_IMPORT_DEVOLUCIO = substring(Prop_0, 31, 9),\n\t\tDATA_SOLLICITUD = toDate(substring(Prop_0, 40, 8),'yyyyMMdd'),\n\t\tDATA_REB = toDate(substring(Prop_0, 48, 8),'yyyyMMdd'),\n\t\tDATA_RES = toDate(substring(Prop_0, 56, 8),'yyyyMMdd'),\n\t\tDATA_CER = toDate(substring(Prop_0, 64, 8),'yyyyMMdd'),\n\t\tDATA_PAG = toDate(substring(Prop_0, 72, 8),'yyyyMMdd'),\n\t\tCOD_CON = substring(Prop_0, 80, 2),\n\t\tCOD_COM = substring(Prop_0, 82, 10)) ~> Columns\nColumns derive(COD_DEMARCACIO = iif(substring(ID_EXPEDIENT, 1, 2) == 'FB' || substring(ID_EXPEDIENT, 1, 2) == 'MB' || substring(ID_EXPEDIENT, 1, 2) == '17' || substring(ID_EXPEDIENT, 1, 2) == '08' || substring(ID_EXPEDIENT, 1, 2) == '25'|| substring(ID_EXPEDIENT, 1, 2) == '43', substring(ID_EXPEDIENT, 1, 2),'-1')) ~> AddDemarcacio\nAddDemarcacio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tDATA_CSST as date,\n\t\tDATA_VIP as date,\n\t\tID_CODI as string,\n\t\tIND_IMPORT_DEVOLUCIO as string,\n\t\tDATA_SOLLICITUD as date,\n\t\tDATA_REB as date,\n\t\tDATA_RES as date,\n\t\tDATA_CER as date,\n\t\tDATA_PAG as date,\n\t\tCOD_CON as string,\n\t\tCOD_COM as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDevolucioTS2"
+		}
+	}
+}

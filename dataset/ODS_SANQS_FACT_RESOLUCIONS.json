@@ -1,0 +1,115 @@
+{
+	"name": "ODS_SANQS_FACT_RESOLUCIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_DEMARCACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TIPUS_RESOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TIPUS_RECURS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TIPUS_NOTIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_NOTIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_GRAVETAT_RESOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_PRECEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TRAMNOT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TANOT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_IMPORT_RESOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_IMPORT_RESOLUCIO_EUROS",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "NUM_ORDRE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_TIPUS_RESOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_GRAVETAT_RESOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_IMPRE_REC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_REGISTRE_SORTIDA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PRESENTACIO_RECUR",
+				"type": "date"
+			},
+			{
+				"name": "DATA_RESOLUCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PROPOSTA_RESOLUCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_RESOLUCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_ARRIBADA_NOTIFICACIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_INF_RA",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_RESOLUCIONS"
+		}
+	}
+}

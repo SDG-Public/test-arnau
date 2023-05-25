@@ -1,0 +1,72 @@
+{
+	"name": "DM_GAF_FACT_PLA_ANYAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PK_CONCAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ESTACIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_MES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GRUP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONCEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 4
+			},
+			{
+				"name": "POSICIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "POSICIO2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CONCAT_GRUP_CONCEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONCAT_POSICIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_FACT_PLA_ANYAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

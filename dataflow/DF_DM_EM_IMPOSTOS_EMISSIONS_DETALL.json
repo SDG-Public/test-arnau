@@ -1,0 +1,31 @@
+{
+	"name": "DF_DM_EM_IMPOSTOS_EMISSIONS_DETALL",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/EM"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_EM_IMP_DETALL_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSemIMPdetallv3"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_EM_IMP_DETALL_v3",
+						"type": "DatasetReference"
+					},
+					"name": "DMemIMPdetallv3"
+				}
+			],
+			"transformations": [],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSemIMPdetallv3\nODSemIMPdetallv3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMemIMPdetallv3"
+		}
+	}
+}

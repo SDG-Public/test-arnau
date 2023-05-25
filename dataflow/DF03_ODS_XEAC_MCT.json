@@ -1,0 +1,210 @@
+{
+	"name": "DF03_ODS_XEAC_MCT",
+	"properties": {
+		"description": "CONTROL VALIDES ANOMALES \nEn el punto NUMhANOMALASacumulades se suma 1 porque el primer flag de cada grupo de anomalas seguidas es 0.\n\nEn la versio 2 les anomalas s''han de agrupar per focus, legislacio i mode reportable, en la v3 es nomes per focus i legislacions.",
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "TR_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "TRxeacMCTf1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOlegislacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_SUBMODE",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOsubmode"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_TRACTAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOtractament"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "DMxeacMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimLEGISLACIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_ANOMALAS_v2",
+						"type": "DatasetReference"
+					},
+					"name": "DMxeacANOMALASv2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacMCTf"
+				}
+			],
+			"transformations": [
+				{
+					"name": "valoracioVD"
+				},
+				{
+					"name": "valoracioVA"
+				},
+				{
+					"name": "valorMESgranLLINDAR"
+				},
+				{
+					"name": "addNvaUTILITZADES"
+				},
+				{
+					"name": "updateVALORACIOmct"
+				},
+				{
+					"name": "valoracioNOVD"
+				},
+				{
+					"name": "addPD"
+				},
+				{
+					"name": "SelectVAoVD"
+				},
+				{
+					"name": "distinctFOCOdataMODEREPORTABLE"
+				},
+				{
+					"name": "valorMESpetitLLINDAR"
+				},
+				{
+					"name": "addVD"
+				},
+				{
+					"name": "SelectVD"
+				},
+				{
+					"name": "SelectNOvd"
+				},
+				{
+					"name": "IJvalLEGIS"
+				},
+				{
+					"name": "IJlegis"
+				},
+				{
+					"name": "IJvalSUBMODE"
+				},
+				{
+					"name": "IJvalTRAC"
+				},
+				{
+					"name": "FLTvalTRAC"
+				},
+				{
+					"name": "FLTvalSUBMODE"
+				},
+				{
+					"name": "FLTvalLEGIS"
+				},
+				{
+					"name": "AggregateMAXleg"
+				},
+				{
+					"name": "JoinNOvd"
+				},
+				{
+					"name": "SelectPD"
+				},
+				{
+					"name": "DerivedColumn2"
+				},
+				{
+					"name": "MAXhANOMALASsuperades"
+				},
+				{
+					"name": "MAXhANOMALASrespectades"
+				},
+				{
+					"name": "calculNOMBREhANOMALAS"
+				},
+				{
+					"name": "SelectVDva"
+				},
+				{
+					"name": "addVDva"
+				},
+				{
+					"name": "SelectVD2"
+				},
+				{
+					"name": "ANOMALASdia"
+				},
+				{
+					"name": "SUMAtotalHORAS"
+				},
+				{
+					"name": "ANOMALASdiaACUM"
+				},
+				{
+					"name": "JoinANOMALASdia"
+				},
+				{
+					"name": "FilterMCTbaseANOM"
+				},
+				{
+					"name": "DATAtrunc"
+				},
+				{
+					"name": "JoinMCTbase"
+				},
+				{
+					"name": "QuitarCamposMCT"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "AggregateULTIMAanomala"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "AnomalasHistorica"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tVALOR_MCT as double,\n\t\tVALORACIO_MCT as string,\n\t\tID_LEGISLACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> TRxeacMCTf1\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOlegislacio\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tDESCRIPCIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOsubmode\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tANOMAL_LLINDAR as decimal(9,3)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOtractament\nsource(output(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tVALOR_MCT as double,\n\t\tVALORACIO_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tLEGISLACIO as string,\n\t\tDATA_TRUNC as date,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_VALORACIO_TRACTAMENT as integer,\n\t\tID_VALORACIO_VLE_MCT as integer,\n\t\tID_COMPLIMENT_MCT_1D_V2 as integer,\n\t\tID_IND_DIA_v2 as integer,\n\t\tID_XEAC_ANOMALAS_v2 as integer,\n\t\tPK_AGR_ANOMAL_T30 as integer,\n\t\tPK_AGR_ANOMAL_T60 as integer,\n\t\tPK_AGR_ANOMAL_Ttot as integer,\n\t\tPK_AGR_ANOMAL_TOTAL_T30 as integer,\n\t\tPK_AGR_ANOMAL_TOTAL_T60 as integer,\n\t\tPK_AGR_ANOMAL_TOTAL_Ttot as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMxeacMCT\nsource(output(\n\t\tID_LEGISLACIO as string,\n\t\tDESCRIPCIO as string,\n\t\tDESCRIPCIO_ACRONIM as string,\n\t\tMCT_BASE as decimal(3,0),\n\t\tMAX_H_ANOMALES as decimal(4,0),\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tMAX_DIES_INDISPON as decimal(4,0),\n\t\tMAX_H_ANOMALES_SEGUIDES as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimLEGISLACIO\nsource(output(\n\t\tID_FOCUS as string,\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tTIPUS_MCT as string,\n\t\tDATA as timestamp,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX as double,\n\t\tANOMALAS_SEGUIDES as double,\n\t\tCOMPLIMENT as string,\n\t\tDATA_TRUNC as date,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_XEAC_ANOMALAS_v2 as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMxeacANOMALASv2\nTRxeacMCTf1 filter(VALORACIO_MCT=='VD') ~> valoracioVD\nQuitarCamposMCT filter(VALORACIO_MCT=='VA'\r\n&&\r\nyear(DATA) == year(toDate($P_DATA_INI,'yyyyMMdd'))\r\n&&\r\ntoDate(DATA) < toDate($P_DATA_INI,'yyyyMMdd')) ~> valoracioVA\nFLTvalTRAC filter(VALOR_MCT > ANOMAL_LLINDAR) ~> valorMESgranLLINDAR\nJoinANOMALASdia, AnomalasHistorica join(TRxeacMCTf1@ID_FOCUS == AnomalasHistorica@ID_FOCUS\n\t&& TRxeacMCTf1@MODE_REPORTABLE_NUM == AnomalasHistorica@MODE_REPORTABLE_NUM\n\t&& TRxeacMCTf1@ID_LEGISLACIO == LEGISLACIO\n\t&& year(TRxeacMCTf1@DATA) == YEAR_VD,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> addNvaUTILITZADES\nMAXhANOMALASrespectades derive(VALORACIO_MCT = 'VA') ~> updateVALORACIOmct\nTRxeacMCTf1 filter(VALORACIO_MCT != 'VD'\r\n||\r\nisNull(VALORACIO_MCT)) ~> valoracioNOVD\nSelectVDva, SelectPD union(byName: true)~> addPD\nupdateVALORACIOmct select(mapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS = TRxeacMCTf1@ID_FOCUS,\n\t\tDATA = TRxeacMCTf1@DATA,\n\t\tTIPUS_MCT = TRxeacMCTf1@TIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM = TRxeacMCTf1@MODE_REPORTABLE_NUM,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tID_LEGISLACIO = TRxeacMCTf1@ID_LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectVAoVD\nDerivedColumn2 aggregate(groupBy(ID_FOCUS,\n\t\tMODE_REPORTABLE_NUM,\n\t\tLEGISLACIO,\n\t\tYEAR_VD),\n\tNUM_H_ANOMALAS_HIST = sum(toInteger(TIPUS_MCT))/60) ~> distinctFOCOdataMODEREPORTABLE\nFLTvalTRAC filter(VALOR_MCT <= ANOMAL_LLINDAR) ~> valorMESpetitLLINDAR\naddPD, SelectVD union(byName: true)~> addVD\nvalorMESpetitLLINDAR select(mapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS = TRxeacMCTf1@ID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tID_LEGISLACIO = TRxeacMCTf1@ID_LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectVD\nvaloracioNOVD select(mapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tLEGISLACIO = ID_LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectNOvd\nvaloracioVD, ODSdimVALORACIOlegislacio join(TRxeacMCTf1@ID_FOCUS == ODSdimVALORACIOlegislacio@ID_FOCUS\n\t&& TRxeacMCTf1@ID_LEGISLACIO == ODSdimVALORACIOlegislacio@ID_LEGISLACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> IJvalLEGIS\nFLTvalLEGIS, ODSdimLEGISLACIO join(TRxeacMCTf1@ID_LEGISLACIO == ODSdimLEGISLACIO@ID_LEGISLACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> IJlegis\nIJlegis, ODSdimVALORACIOsubmode join(TRxeacMCTf1@ID_FOCUS == ODSdimVALORACIOsubmode@ID_FOCUS\n\t&& TRxeacMCTf1@ID_LEGISLACIO == ODSdimVALORACIOsubmode@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> IJvalSUBMODE\nFLTvalSUBMODE, ODSdimVALORACIOtractament join(TRxeacMCTf1@ID_FOCUS == ODSdimVALORACIOtractament@ID_FOCUS\n\t&& TRxeacMCTf1@ID_LEGISLACIO == ODSdimVALORACIOtractament@ID_LEGISLACIO\n\t&& ODSdimVALORACIOsubmode@ID_SUBMODE == ODSdimVALORACIOtractament@ID_SUBMODE\n\t&& ID_CONTAMINANT == toString(ID_ELEMENT),\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> IJvalTRAC\nIJvalTRAC filter(DATA >= ODSdimVALORACIOtractament@DATA_INICI\r\n&&\r\nDATA < addDays( ODSdimVALORACIOtractament@DATA_FI, 1)) ~> FLTvalTRAC\nIJvalSUBMODE filter(DATA >= ODSdimVALORACIOsubmode@DATA_INICI\r\n&&\r\nDATA < addDays( ODSdimVALORACIOsubmode@DATA_FI, 1)) ~> FLTvalSUBMODE\nIJvalLEGIS filter(DATA >= DATA_INICI\r\n&&\r\nDATA < addDays( DATA_FI, 1)) ~> FLTvalLEGIS\nSelectNOvd aggregate(groupBy(ID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tVALORACIO_MCT),\n\tLEGISLACIO_MAX = max(LEGISLACIO)) ~> AggregateMAXleg\nAggregateMAXleg, SelectNOvd join(AggregateMAXleg@ID_CONTAMINANT == SelectNOvd@ID_CONTAMINANT\n\t&& AggregateMAXleg@ID_FOCUS == SelectNOvd@ID_FOCUS\n\t&& AggregateMAXleg@DATA == SelectNOvd@DATA\n\t&& AggregateMAXleg@TIPUS_MCT == SelectNOvd@TIPUS_MCT\n\t&& LEGISLACIO_MAX == LEGISLACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinNOvd\nJoinNOvd select(mapColumn(\n\t\tID_CONTAMINANT = SelectNOvd@ID_CONTAMINANT,\n\t\tID_FOCUS = SelectNOvd@ID_FOCUS,\n\t\tDATA = SelectNOvd@DATA,\n\t\tTIPUS_MCT = SelectNOvd@TIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tID_LEGISLACIO = LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPD\nJoinMCTbase derive(YEAR_VD = year(DATA)) ~> DerivedColumn2\ncalculNOMBREhANOMALAS filter(iifNull(toFloat(NUM_H_ANOMALAS),toFloat(0)) > MAX_H_ANOMALES) ~> MAXhANOMALASsuperades\ncalculNOMBREhANOMALAS filter(iifNull(toFloat(NUM_H_ANOMALAS),toFloat(0)) <= MAX_H_ANOMALES) ~> MAXhANOMALASrespectades\naddNvaUTILITZADES derive(NUM_H_ANOMALAS = iifNull(toFloat(SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX), toFloat('0.0')) + iifNull(toFloat(NUM_H_ANOMALAS_HIST), toFloat('0.0')),\n\t\tMAX_H_ANOMALES = toFloat(MAX_H_ANOMALES),\n\t\tANOMAL_LLINDAR = toFloat(ANOMAL_LLINDAR)) ~> calculNOMBREhANOMALAS\nSelectVD2 select(mapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS = TRxeacMCTf1@ID_FOCUS,\n\t\tDATA = TRxeacMCTf1@DATA,\n\t\tTIPUS_MCT = TRxeacMCTf1@TIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM = TRxeacMCTf1@MODE_REPORTABLE_NUM,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tID_LEGISLACIO = TRxeacMCTf1@ID_LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectVDva\naddVD, SelectVAoVD union(byName: true)~> addVDva\nMAXhANOMALASsuperades derive(VALORACIO_MCT = 'VD') ~> SelectVD2\nFilterMCTbaseANOM aggregate(groupBy(TRxeacMCTf1@ID_FOCUS,\n\t\tTRxeacMCTf1@ID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tDATA),\n\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX = sum(toInteger(TIPUS_MCT)) / 60) ~> ANOMALASdia\nANOMALASdia derive(SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX = iif(SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX > 0, toFloat(TIPUS_MCT)/60, toFloat(0))) ~> SUMAtotalHORAS\nSUMAtotalHORAS window(over(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM),\n\tasc(DATA, true),\n\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX = sum(SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX)) ~> ANOMALASdiaACUM\nvalorMESgranLLINDAR, ANOMALASdiaACUM join(TRxeacMCTf1@ID_FOCUS == ANOMALASdia@ID_FOCUS\n\t&& TRxeacMCTf1@ID_LEGISLACIO == ANOMALASdia@ID_LEGISLACIO\n\t&& TRxeacMCTf1@MODE_REPORTABLE_NUM == ANOMALASdia@MODE_REPORTABLE_NUM\n\t&& TRxeacMCTf1@DATA == ANOMALASdia@DATA,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinANOMALASdia\nvalorMESgranLLINDAR filter(TIPUS_MCT == toString(MCT_BASE)) ~> FilterMCTbaseANOM\naddVDva derive(DATA_TRUNC = toDate(DATA)) ~> DATAtrunc\nvaloracioVA, ODSdimLEGISLACIO join(LEGISLACIO == ID_LEGISLACIO\n\t&& TIPUS_MCT == toString(MCT_BASE),\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinMCTbase\nDMxeacMCT select(mapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tLEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> QuitarCamposMCT\nDMxeacANOMALASv2 filter(year(DATA) == year(toDate($P_DATA_INI,'yyyyMMdd'))\n&&\ntoDate(DATA) < toDate($P_DATA_INI,'yyyyMMdd')) ~> filter1\nfilter1 aggregate(groupBy(ID_FOCUS,\n\t\tLEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT),\n\tDATA = max(DATA)) ~> AggregateULTIMAanomala\nAggregateULTIMAanomala, filter1 join(AggregateULTIMAanomala@ID_FOCUS == DMxeacANOMALASv2@ID_FOCUS\n\t&& AggregateULTIMAanomala@LEGISLACIO == DMxeacANOMALASv2@LEGISLACIO\n\t&& AggregateULTIMAanomala@MODE_REPORTABLE_NUM == DMxeacANOMALASv2@MODE_REPORTABLE_NUM\n\t&& AggregateULTIMAanomala@TIPUS_MCT == DMxeacANOMALASv2@TIPUS_MCT\n\t&& AggregateULTIMAanomala@DATA == DMxeacANOMALASv2@DATA,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> join1\njoin1 select(mapColumn(\n\t\tID_FOCUS = AggregateULTIMAanomala@ID_FOCUS,\n\t\tLEGISLACIO = AggregateULTIMAanomala@LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM = AggregateULTIMAanomala@MODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT = AggregateULTIMAanomala@TIPUS_MCT,\n\t\tDATA = AggregateULTIMAanomala@DATA,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> select1\nderivedColumn1, distinctFOCOdataMODEREPORTABLE join(select1@ID_FOCUS == distinctFOCOdataMODEREPORTABLE@ID_FOCUS\n\t&& select1@LEGISLACIO == distinctFOCOdataMODEREPORTABLE@LEGISLACIO\n\t&& select1@MODE_REPORTABLE_NUM == distinctFOCOdataMODEREPORTABLE@MODE_REPORTABLE_NUM\n\t&& DATA == YEAR_VD,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> join2\nselect1 derive(DATA = year(DATA)) ~> derivedColumn1\njoin2 select(mapColumn(\n\t\tID_FOCUS = distinctFOCOdataMODEREPORTABLE@ID_FOCUS,\n\t\tMODE_REPORTABLE_NUM = distinctFOCOdataMODEREPORTABLE@MODE_REPORTABLE_NUM,\n\t\tLEGISLACIO = distinctFOCOdataMODEREPORTABLE@LEGISLACIO,\n\t\tYEAR_VD,\n\t\tNUM_H_ANOMALAS_HIST = SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> AnomalasHistorica\nDATAtrunc sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tVALOR_MCT as double,\n\t\tVALORACIO_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tLEGISLACIO as string,\n\t\tDATA_TRUNC as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tLEGISLACIO = ID_LEGISLACIO,\n\t\tDATA_TRUNC\n\t)) ~> ODSxeacMCTf"
+		}
+	}
+}

@@ -1,0 +1,130 @@
+{
+	"name": "VALIDACION_ELXCEL_GAF",
+	"properties": {
+		"description": "BORRAME CUANDO ACABES CONMIGO",
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "XLSX_DADES_ESTACIO_AFORAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Codi gen.} as string,",
+				"          {Codi Territori} as string,",
+				"          Codi as string,",
+				"          Carretera as string,",
+				"          {Codi Decret Xarxa Com.} as string,",
+				"          Pk as string,",
+				"          {Tipus estació} as string,",
+				"          {Font Dades} as string,",
+				"          {Class. Técn.} as string,",
+				"          {Class. Func.} as string,",
+				"          {Població} as string,",
+				"          Comarca as string,",
+				"          Carrils as string,",
+				"          {Definició Tram Origen } as string,",
+				"          {Definició Tram Final} as string,",
+				"          NUM_IMD as string,",
+				"          NUM_PESANT as string,",
+				"          NUM_PK_INICI as string,",
+				"          NUM_PK_FINAL as string,",
+				"          NUM_LONG_TRAM as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(ID_ESTACIO = -1,",
+				"          DATA_ANYO = 2019,",
+				"          CODI_TIPUS_XARXA = 'T',",
+				"          COD_INE = -1,",
+				"          DESC_DEMARCACIO = 'Catalunya',",
+				"          NUM_IMD = toDouble(NUM_IMD),",
+				"          NUM_PESANT = toDouble(NUM_PESANT),",
+				"          NUM_PK_INICI = toDouble(NUM_PK_INICI),",
+				"          NUM_PK_FINAL = toDouble(NUM_PK_FINAL)) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          COD_ESTACIO = Codi,",
+				"          ID_TIPUS_ESTACIO = {Tipus estació},",
+				"          NUM_IMD,",
+				"          NUM_PESANT,",
+				"          NUM_PK_INICI,",
+				"          NUM_PK_FINAL,",
+				"          NUM_LONG_TRAM,",
+				"          ID_ESTACIO,",
+				"          DATA_ANYO,",
+				"          CODI_TIPUS_XARXA,",
+				"          COD_INE,",
+				"          DESC_DEMARCACIO",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_ESTACIO as decimal(8,0),",
+				"          COD_ESTACIO as string,",
+				"          DATA_ANYO as integer,",
+				"          ID_TIPUS_ESTACIO as decimal(2,0),",
+				"          CODI_TIPUS_XARXA as string,",
+				"          COD_INE as string,",
+				"          DESC_DEMARCACIO as string,",
+				"          IND_IMD as double,",
+				"          IND_PESANTS as double,",
+				"          NUM_PK_INI as double,",
+				"          NUM_PK_FI as double,",
+				"          COD_ORGTRAM as string,",
+				"          COD_CARRETERA as string,",
+				"          COD_MOD_CARRETERA as decimal(15,0),",
+				"          COD_TRAM as string,",
+				"          COD_SUBTRAM as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          ID_ESTACIO,",
+				"          COD_ESTACIO,",
+				"          DATA_ANYO,",
+				"          CODI_TIPUS_XARXA,",
+				"          DESC_DEMARCACIO,",
+				"          IND_IMD = NUM_IMD,",
+				"          IND_PESANTS = NUM_PESANT,",
+				"          NUM_PK_INI = NUM_PK_INICI,",
+				"          NUM_PK_FI = NUM_PK_FINAL",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

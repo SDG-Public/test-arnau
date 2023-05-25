@@ -1,0 +1,73 @@
+{
+	"name": "ODS_INSGRI_DIM_TIPUS_RESULTATS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_TIPUS_RESULTAT",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "COD_TIPUS_RESULTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPUS_RESULTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_DE_SISTEMA",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_ODS",
+			"table": "ODS_INSGRI_DIM_TIPUS_RESULTATS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

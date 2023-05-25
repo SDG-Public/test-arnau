@@ -1,0 +1,31 @@
+{
+	"name": "DF_ARB_DM_DIM_VOCAL",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_VOCAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimVocal"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ARB_DIM_VOCAL",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimVocal"
+				}
+			],
+			"transformations": [],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimVocal\nODSDimVocal sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimVocal"
+		}
+	}
+}

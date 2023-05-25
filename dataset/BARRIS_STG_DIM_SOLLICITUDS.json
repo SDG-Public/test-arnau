@@ -1,0 +1,169 @@
+{
+	"name": "BARRIS_STG_DIM_SOLLICITUDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODIMUNICIPI",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODICOMARCA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIDELEGACIO",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "DELEGACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANYCONV",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "ESTAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CODIUNIC",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NIFRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOMRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOMSRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CARRECRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORGANISMERESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CORREURESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TELRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FAXRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRECARESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "POBLACIORESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIPOSTALRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUNTLOCAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUNTGLOBAL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "PUNTDEFINITIVA",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TOTALBARRIS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TOTALAJUNTAMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TOTALALTRES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "HABITANTSBARRI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "HABITANTSMUNICIPI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMPORTCONSOLIDAT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "BARRI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_STG",
+			"table": "STG_BARRIS_DIM_SOLLICITUDS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

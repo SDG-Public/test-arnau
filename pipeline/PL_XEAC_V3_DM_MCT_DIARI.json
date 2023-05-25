@@ -1,0 +1,405 @@
+{
+	"name": "PL_XEAC_V3_DM_MCT_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "DELETE_ROWS_1D",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DF_ODS_XEAC_MCT_2_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@variables('V_DATA_FI')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@variables('V_DATA_INI')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_v3",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Set DATA_INI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_INI",
+					"value": {
+						"value": "@string(activity('DATA_INI').output.value[0].DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set DATA_FI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_FI",
+					"value": {
+						"value": "@string(activity('DATA_FI').output.value[0].DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DATA_INI",
+				"description": "La DATA_INI es 15 meses atrás de la última fecha que se haya insertado. Esto es así porque el origen puede ser modificado en todo el anterior en el que nos encontramos y además en los 3 primeros meses del año en el que estamos. De ahí que se decida tomar 15 meses hacia atrás",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select convert(varchar, (DATEADD(day,1,DATA)), 112) as DATA\nfrom (\nSELECT dateadd(month,-17,dateadd(year,-1,MAX(DATA))) as DATA\nFROM [DM_XEAC].[DM_XEAC_MCT_v3]\n) a;",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "DATA_FI",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select convert(varchar, DATEADD(day,-1,MAX(getdate())),112) as DATA;",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_IND_DIA",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "DF_ODS_XEAC_MCT_2_v3",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Set ID_MIN",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS_XEAC_MCT_2_V3",
+						"type": "DataFlowReference",
+						"parameters": {
+							"ID_MIN": {
+								"value": "'@{variables('V_ID_MIN')}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Set ID_MIN",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ID_MIN",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_ID_MIN",
+					"value": {
+						"value": "@activity('ID_MIN').output.value[0].ID_MIN\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ID_MIN",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select convert(varchar,ID_MIN, 112) as ID_MIN\nfrom (\nSELECT MIN(ID_COMPLIMENT_MCT_1D_V3) as ID_MIN\n  FROM [DM_XEAC].[DM_XEAC_MCT_v3]\n) a;\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_v3",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "DF_DM_XEAC_MCT_PBI_v3",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_1D_PBI_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_XEAC_MCT_PBI_v3",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_FI": {
+								"value": "'@{variables('V_DATA_FI')}'",
+								"type": "Expression"
+							},
+							"P_DATA_INI": {
+								"value": "'@{variables('V_DATA_INI')}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_DM_XEAC_MCT_v3",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_1D",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_XEAC_MCT_v3",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D_PBI_v3",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DF_DM_XEAC_MCT_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@variables('V_DATA_FI')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@variables('V_DATA_INI')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_PBI_v3",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"variables": {
+			"V_DATA_INI": {
+				"type": "String"
+			},
+			"V_DATA_FI": {
+				"type": "String"
+			},
+			"V_ID_MIN": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v3/MCT_COMPLIMENT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

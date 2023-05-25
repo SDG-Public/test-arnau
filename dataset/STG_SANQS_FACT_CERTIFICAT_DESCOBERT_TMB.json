@@ -1,0 +1,25 @@
+{
+	"name": "STG_SANQS_FACT_CERTIFICAT_DESCOBERT_TMB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_STG",
+			"table": "STG_SANQS_FACT_CERTIFICAT_DESCOBERT_TMB"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,31 @@
+{
+	"name": "DF_SISP_DM_DIM_TIPUS_PERSONAL",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_TIPUS_PERSONAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusPersonal"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_TIPUS_PERSONAL",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTipusPersonal"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_TIPUS_PERSONAL as decimal(4,0),\n\t\tDESC_TIPUS_PERSONAL as string,\n\t\tCODI_TIPUS_PERSONAL as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimTipusPersonal\nODSDimTipusPersonal sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_PERSONAL as decimal(4,0),\n\t\tDESC_TIPUS_PERSONAL as string,\n\t\tCODI_TIPUS_PERSONAL as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimTipusPersonal"
+		}
+	}
+}

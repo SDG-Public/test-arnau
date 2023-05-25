@@ -1,0 +1,48 @@
+{
+	"name": "DF_GEU_ODS_DIM_EXPINTERESSAT",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_EXP_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimEXPINTERESSAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPERSONA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_EXP_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimEXPINTERESSAT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JOINPERSONA"
+				},
+				{
+					"name": "NormalitzarCamps1"
+				},
+				{
+					"name": "FlagLlistat"
+				}
+			],
+			"script": "source(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tCODI_PERSONA as decimal(8,0),\n\t\tIND_PRINCIPAL as string,\n\t\tIND_LLISTAT as string,\n\t\tCODI_TIPUS_INT as string,\n\t\tNUM_ADRECA as decimal(8,0),\n\t\tFE_VIDA as string,\n\t\tESTAT_CIVIL as string,\n\t\tREGIM_ECONOMIC as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimEXPINTERESSAT\nsource(output(\n\t\tCODI_PERSONA as decimal(8,0),\n\t\tNOM as string,\n\t\tCOGNOM1 as string,\n\t\tCOGNOM2 as string,\n\t\tNOM_COMPLERT as string,\n\t\tCIF_DNI as string,\n\t\tCODI_CARREC as decimal(3,0),\n\t\tPER_CONTACTE as string,\n\t\tIND_PFISICA as string,\n\t\tIND_CATALA as string,\n\t\tCODI_USUARI as string,\n\t\tDATA_ALTA as timestamp,\n\t\tIND_SEXE as string,\n\t\tPRIV_CODI_USUARI as string,\n\t\tPRIV_CONTRASENYA as string,\n\t\tIND_ENS_LOCAL as string,\n\t\tCODI_TIPUS_ENS as decimal(2,0),\n\t\tIND_TE_PER as string,\n\t\tCODI_ENS as string,\n\t\tCODI_ROL_CTU as decimal(2,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPERSONA\nSTGdimEXPINTERESSAT, STGdimPERSONA join(STGdimEXPINTERESSAT@CODI_PERSONA == STGdimPERSONA@CODI_PERSONA,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JOINPERSONA\nJOINPERSONA select(mapColumn(\n\t\tCOD_EXPEDIENT = CODINT_EXP,\n\t\tDESC_NOM_EXP_INTERESSAT = NOM,\n\t\tFLAG_LLISTAT = IND_LLISTAT,\n\t\tFLAG_PRINCIPAL = IND_PRINCIPAL\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps1\nNormalitzarCamps1 derive(FLAG_LLISTAT = iif(FLAG_LLISTAT =='S', 1, 0),\n\t\tFLAG_PRINCIPAL = iif(FLAG_PRINCIPAL=='S', 1, 0)) ~> FlagLlistat\nFlagLlistat sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tDESC_NOM_EXP_INTERESSAT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSdimEXPINTERESSAT"
+		}
+	}
+}

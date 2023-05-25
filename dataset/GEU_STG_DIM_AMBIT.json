@@ -1,0 +1,41 @@
+{
+	"name": "GEU_STG_DIM_AMBIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_JERARQUIC_CLASSIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MEMBRET_TARJA_CORREUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VEGUERIA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_AMBIT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,83 @@
+{
+	"name": "DF_ODS_EM_IMPOSTOS_EMISSIONS",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/EM"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "STGxeacMCT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_EM_IMP_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSemIMPv3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SELECTcolumnesIMP"
+				},
+				{
+					"name": "filterRS"
+				},
+				{
+					"name": "aggEManualRS"
+				},
+				{
+					"name": "aggMCTdades"
+				},
+				{
+					"name": "dcYEAR"
+				},
+				{
+					"name": "filterRV"
+				},
+				{
+					"name": "aggEManualRV"
+				},
+				{
+					"name": "dcEManual"
+				},
+				{
+					"name": "ijMCTrvRS"
+				},
+				{
+					"name": "dcEM"
+				},
+				{
+					"name": "FilterANY"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "QuitaCampos"
+				},
+				{
+					"name": "EliminaDuplicatsII"
+				},
+				{
+					"name": "EliminaDuplicatsI"
+				},
+				{
+					"name": "JoinRS"
+				},
+				{
+					"name": "UnirPKs"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tCODI_EMIS as string,\n\t\tID_FOCUS as string,\n\t\tMARCA_TEMPS_TZ as timestamp,\n\t\tMARCA_TEMPS_UTC as timestamp,\n\t\tMARCA_TEMPS_LOCAL as timestamp,\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tID_ELEMENT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tV_VLE as float,\n\t\tF_VLE as string,\n\t\tV_IMP as float,\n\t\tF_IMP as string,\n\t\tV_INV as float,\n\t\tF_INV as string,\n\t\tV_PRT as float,\n\t\tF_PRT as string,\n\t\tV_GEH as float,\n\t\tF_GEH as string,\n\t\tZONA_HORARIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGxeacMCT\nFilterANY select(mapColumn(\n\t\tCodiEmis = CODI_EMIS,\n\t\tIDFocus = ID_FOCUS,\n\t\tMarcaTemps = MARCA_TEMPS_UTC,\n\t\tNumMinuts = MINUTOS_MCT,\n\t\tIDParametre = ID_ELEMENT,\n\t\tIDLegis = ID_LEGISLACIO,\n\t\tIDSubmode = ID_SUBMODE,\n\t\tV_IMP,\n\t\tF_IMP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SELECTcolumnesIMP\ndcYEAR filter(F_IMP == 'RS') ~> filterRS\nfilterRS aggregate(groupBy(CodiEmis,\n\t\tIDFocus,\n\t\tYEAR,\n\t\tIDParametre),\n\tEM_ANUAL_RS = sum(toLong(V_IMP))) ~> aggEManualRS\ndcYEAR aggregate(groupBy(CodiEmis,\n\t\tIDFocus,\n\t\tYEAR,\n\t\tIDParametre),\n\tMCT_DADES_RV = sum(iif(F_IMP == 'RV',1,0)),\n\t\tMCT_DADES_RS = sum(iif(F_IMP == 'RS',1,0)),\n\t\tMCT_DADES_RN = sum(iif(F_IMP == 'RN',1,0))) ~> aggMCTdades\nSELECTcolumnesIMP derive(YEAR = year(MarcaTemps)) ~> dcYEAR\ndcYEAR filter(F_IMP == 'RV') ~> filterRV\nfilterRV aggregate(groupBy(CodiEmis,\n\t\tIDFocus,\n\t\tYEAR,\n\t\tIDParametre),\n\tEM_ANUAL_RV = sum(toLong(V_IMP))) ~> aggEManualRV\nJoinRS derive(EM_ANUAL = iifNull(EM_ANUAL_RV, 0) + iifNull(EM_ANUAL_RS, 0)) ~> dcEManual\nDerivedColumn1, EliminaDuplicatsII join(aggMCTdades@CodiEmis == UnirPKs@CodiEmis\n\t&& aggMCTdades@YEAR == UnirPKs@YEAR\n\t&& aggMCTdades@IDFocus == UnirPKs@IDFocus\n\t&& aggMCTdades@IDParametre == UnirPKs@IDParametre,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> ijMCTrvRS\nijMCTrvRS derive(EM = MCT_DADES * EM_ANUAL * power(10,-9)) ~> dcEM\nSTGxeacMCT filter(year(MARCA_TEMPS_UTC) >= year(toDate($P_DATA_INI,'yyyyMMdd'))\r\n&&\r\nyear(MARCA_TEMPS_UTC) < year(toDate($P_DATA_FI,'yyyyMMdd')) + 1) ~> FilterANY\naggMCTdades derive(MCT_DADES = ( MCT_DADES_RV + MCT_DADES_RS +MCT_DADES_RN ) /  iif( iifNull(MCT_DADES_RV + MCT_DADES_RS, toLong(1)) == toLong(0), toLong(1), MCT_DADES_RV + MCT_DADES_RS)) ~> DerivedColumn1\ndcEM select(mapColumn(\n\t\tCodiEmis = aggMCTdades@CodiEmis,\n\t\tIDFocus = aggMCTdades@IDFocus,\n\t\tYEAR = aggMCTdades@YEAR,\n\t\tIDParametre = aggMCTdades@IDParametre,\n\t\tMCT_DADES_RV,\n\t\tMCT_DADES_RS,\n\t\tMCT_DADES_RN,\n\t\tMCT_DADES,\n\t\tEM_ANUAL_RV,\n\t\tEM_ANUAL_RS,\n\t\tEM_ANUAL,\n\t\tEM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> QuitaCampos\nEliminaDuplicatsI filter(not(isNull(EM_ANUAL))) ~> EliminaDuplicatsII\nUnirPKs filter(EM_ANUAL!=0) ~> EliminaDuplicatsI\naggEManualRV, aggEManualRS join(aggEManualRV@CodiEmis == aggEManualRS@CodiEmis\n\t&& aggEManualRV@IDFocus == aggEManualRS@IDFocus\n\t&& aggEManualRV@YEAR == aggEManualRS@YEAR\n\t&& aggEManualRV@IDParametre == aggEManualRS@IDParametre,\n\tjoinType:'outer',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinRS\ndcEManual derive(CodiEmis = iifNull(aggEManualRV@CodiEmis, aggEManualRS@CodiEmis),\n\t\tIDFocus = iifNull(aggEManualRV@IDFocus, aggEManualRS@IDFocus),\n\t\tYEAR = iifNull(aggEManualRV@YEAR, aggEManualRS@YEAR),\n\t\tIDParametre = iifNull(aggEManualRV@IDParametre, aggEManualRS@IDParametre)) ~> UnirPKs\nQuitaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSemIMPv3"
+		}
+	}
+}

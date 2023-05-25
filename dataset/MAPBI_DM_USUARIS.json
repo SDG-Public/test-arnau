@@ -1,0 +1,53 @@
+{
+	"name": "MAPBI_DM_USUARIS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MAPBI/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_USUARI",
+				"type": "varchar"
+			},
+			{
+				"name": "NOM",
+				"type": "varchar"
+			},
+			{
+				"name": "COGNOM1",
+				"type": "varchar"
+			},
+			{
+				"name": "COGNOM2",
+				"type": "varchar"
+			},
+			{
+				"name": "DT_INSERCIO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DT_MODIFICACIO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ID_ESQUEMA",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "MAPBIDM",
+			"table": "DM_USUARIS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

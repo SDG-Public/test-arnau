@@ -1,0 +1,35 @@
+{
+	"name": "DF_GAF_ODS_TIPUS_ESTACIO",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "FIT_STG_GAF_DIM_TIPUS_ESTACIO",
+						"type": "DatasetReference"
+					},
+					"name": "STGTipusEstacio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_TIPUS_ESTACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSTipusEstacio"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Rename"
+				}
+			],
+			"script": "source(output(\n\t\tID as integer,\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGTipusEstacio\nSTGTipusEstacio select(mapColumn(\n\t\tID_TIPUS_ESTACIO = ID,\n\t\tDESC_TIPUS_ESTACIO = DESCRIPCIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Rename\nRename sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_ESTACIO as integer,\n\t\tDESC_TIPUS_ESTACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSTipusEstacio"
+		}
+	}
+}

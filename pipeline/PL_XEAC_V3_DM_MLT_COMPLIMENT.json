@@ -1,0 +1,329 @@
+{
+	"name": "PL_XEAC_V3_DM_MLT_COMPLIMENT",
+	"properties": {
+		"activities": [
+			{
+				"name": "DELETE_ROWS_8H",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_WITH_FILTER]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vFilterColumnName1": {
+							"value": "VLE_MLT_MITJANA_TIPUS_NOMBRE",
+							"type": "String"
+						},
+						"vFilterColumnName2": {
+							"value": "VLE_MLT_MITJANA_TIPUS",
+							"type": "String"
+						},
+						"vFilterColumnValue1": {
+							"value": "8",
+							"type": "String"
+						},
+						"vFilterColumnValue2": {
+							"value": "H",
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_MLT_COMPLIMENT_v3",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_8H",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_WITH_FILTER]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vFilterColumnName1": {
+							"value": "VLE_MLT_MITJANA_TIPUS_NOMBRE",
+							"type": "String"
+						},
+						"vFilterColumnName2": {
+							"value": "VLE_MLT_MITJANA_TIPUS",
+							"type": "String"
+						},
+						"vFilterColumnValue1": {
+							"value": "1",
+							"type": "String"
+						},
+						"vFilterColumnValue2": {
+							"value": "D",
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_MLT_COMPLIMENT_v3",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_2D",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_1D",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_WITH_FILTER]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vFilterColumnName1": {
+							"value": "VLE_MLT_MITJANA_TIPUS_NOMBRE",
+							"type": "String"
+						},
+						"vFilterColumnName2": {
+							"value": "VLE_MLT_MITJANA_TIPUS",
+							"type": "String"
+						},
+						"vFilterColumnValue1": {
+							"value": "48",
+							"type": "String"
+						},
+						"vFilterColumnValue2": {
+							"value": "H",
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_MLT_COMPLIMENT_v3",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1M",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_2D",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_WITH_FILTER]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vFilterColumnName1": {
+							"value": "VLE_MLT_MITJANA_TIPUS_NOMBRE",
+							"type": "String"
+						},
+						"vFilterColumnName2": {
+							"value": "VLE_MLT_MITJANA_TIPUS",
+							"type": "String"
+						},
+						"vFilterColumnValue1": {
+							"value": "1",
+							"type": "String"
+						},
+						"vFilterColumnValue2": {
+							"value": "M",
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_MLT_COMPLIMENT_v3",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_DM_MLT_COMPLIMENT_v3",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_1M",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_MLT_COMPLIMENT_v3",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string"
+			},
+			"P_DATA_FI": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v3/MLT-MLT_COMPLIMENT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

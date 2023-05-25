@@ -1,0 +1,58 @@
+{
+	"name": "ODS_SANFER_DIM_TRAMIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_TRAMIT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS_TRAMIT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COD_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_SUBTRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_VERSIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DESC_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_ENTRADA_SORTIDA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_VIGENT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_ODS",
+			"table": "ODS_SANFER_DIM_TRAMIT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,96 @@
+{
+	"name": "PL_XEAC_V2_V3_CARREGA_HIST",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_XEAC_PARAMETRES",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_PARAMETRES",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_IT18V2_CARREGA_HIST",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_PARAMETRES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_IT18V2_CARREGA_HIST",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_INI": {
+							"value": "@pipeline().parameters.P_DATA_INI",
+							"type": "Expression"
+						},
+						"P_DATA_FI": {
+							"value": "@pipeline().parameters.P_DATA_FI",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_XEAC_IT18V3_CARREGA_HIST",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_PARAMETRES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_IT18V3_CARREGA_HIST",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_INI": {
+							"value": "@pipeline().parameters.P_DATA_INI",
+							"type": "Expression"
+						},
+						"P_DATA_FI": {
+							"value": "@pipeline().parameters.P_DATA_FI",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string",
+				"defaultValue": "20210530"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20210530"
+			}
+		},
+		"folder": {
+			"name": "XEAC_COMUN"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

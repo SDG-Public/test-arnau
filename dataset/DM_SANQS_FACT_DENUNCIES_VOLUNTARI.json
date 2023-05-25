@@ -1,0 +1,37 @@
+{
+	"name": "DM_SANQS_FACT_DENUNCIES_VOLUNTARI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_DENUNCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_DEMARCACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_DENUNCIA",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_DM",
+			"table": "DM_SANQS_FACT_DENUNCIES_VOLUNTARI"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

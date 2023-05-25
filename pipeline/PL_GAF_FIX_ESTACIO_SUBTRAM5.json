@@ -1,0 +1,37 @@
+{
+	"name": "PL_GAF_FIX_ESTACIO_SUBTRAM5",
+	"properties": {
+		"description": "Los IND PESANTS, IFA, IMD y VELOC_MITJA originales de la ESTACIOSUBTRAM5 no son correcto. Aquí los corregimos por los que hemos calculado en este capa. \n\nUPDATE: Originalmente este proceso se hacia después de la PLA_ANYAL porque de ahí sacas el arreglo. Pero el departamento ha dicho que si vuene un valore nulo se debe tomar el valor que tuviera ese IND en el año anterior. Así que no hace falta hacer esta corrección. ",
+		"activities": [
+			{
+				"name": "DF_GAF_DM_FIX_ESTACIO_SUBTRAM5",
+				"description": "Los IND PESANTS, IFA, IMD y VELOC_MITJA originales de la ESTACIOSUBTRAM5 no son correcto. Aquí los corregimos por los que hemos calculado en este capa. ",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_DM_FIX_ESTACIO_SUBTRAM5",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "GAF/OLD"
+		},
+		"annotations": []
+	}
+}

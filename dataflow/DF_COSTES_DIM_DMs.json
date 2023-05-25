@@ -1,0 +1,115 @@
+{
+	"name": "DF_COSTES_DIM_DMs",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimESTAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimINTERESSAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_PARTY_PERS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPARTYPERS"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_PERS_SERVEI",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPERSSERVEI"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_PLATGES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPLATGES"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_TIPUS_EXP",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimTIPUSEXP"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimTRAMIT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_DM_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimESTAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_DM_DIM_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimINTERESSAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_DM_DIM_PARTY_PERS",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimPARTYPERS"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_DM_DIM_PERS_SERVEI",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimPERSSERVEI"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_DM_DIM_PLATGES",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimPLATGES"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_DM_DIM_TIPUS_EXP",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimTIPUSEXP"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_DM_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimTRAMIT"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCOD_ESTAT as string,\n\t\tID_TRAMITACIO as string,\n\t\tID_VIGENT as string,\n\t\tDESC_ESTAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimESTAT\nsource(output(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tID_PARTY as decimal(10,0),\n\t\tID_POSTAL_ADDRESS as decimal(10,0),\n\t\tID_PRINCIPAL as string,\n\t\tDESC_USUARI_BAIXA as string,\n\t\tDESC_TIPUS_INTERESSAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimINTERESSAT\nsource(output(\n\t\tID_PARTY as decimal(10,0),\n\t\tDESC_FIRST_NAME as string,\n\t\tDESC_MIDDLE_NAME as string,\n\t\tDESC_LAST_NAME as string,\n\t\tDESC_GROUP_NAME as string,\n\t\tDESC_RAO_SOCIAL as string,\n\t\tDESC_PARTY_TYPE as string,\n\t\tDESC_ESTAT as string,\n\t\tNUM_DOCUMENT as string,\n\t\tNUM_CIF as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimPARTYPERS\nsource(output(\n\t\tID_TECNIC as decimal(4,0),\n\t\tID_VIGENT as string,\n\t\tDESC_NOM as string,\n\t\tDESC_COGNOM1 as string,\n\t\tDESC_COGNOM2 as string,\n\t\tDESC_CARREC as string,\n\t\tDESC_NOM_FITXER_SIGNATURA as string,\n\t\tDESC_TIPUS_PERS_SERVEI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimPERSSERVEI\nsource(output(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tDESC_NOM_PLATJA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimPLATGES\nsource(output(\n\t\tCOD_TIPEX as string,\n\t\tCOD_TIPUS_EXP as string,\n\t\tID_VIGENT as string,\n\t\tDESC_TIPEX as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimTIPUSEXP\nsource(output(\n\t\tNUM_TRAMIT as decimal(7,0),\n\t\tCOD_TRAMIT as string,\n\t\tCOD_SUBTRAMIT as string,\n\t\tDESC_TRAMIT as string,\n\t\tDESC_TIPUS_TRAMIT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimTRAMIT\nODSdimESTAT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_ESTAT,\n\t\tID_TRAMITACIO,\n\t\tID_VIGENT,\n\t\tDESC_ESTAT\n\t)) ~> DMdimESTAT\nODSdimINTERESSAT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_EXPEDIENT,\n\t\tID_PARTY,\n\t\tID_POSTAL_ADDRESS,\n\t\tID_PRINCIPAL,\n\t\tDESC_USUARI_BAIXA,\n\t\tDESC_TIPUS_INTERESSAT\n\t)) ~> DMdimINTERESSAT\nODSdimPARTYPERS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_PARTY,\n\t\tDESC_FIRST_NAME,\n\t\tDESC_MIDDLE_NAME,\n\t\tDESC_LAST_NAME,\n\t\tDESC_GROUP_NAME,\n\t\tDESC_RAO_SOCIAL,\n\t\tDESC_PARTY_TYPE,\n\t\tDESC_ESTAT,\n\t\tNUM_DOCUMENT,\n\t\tNUM_CIF\n\t)) ~> DMdimPARTYPERS\nODSdimPERSSERVEI sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_TECNIC,\n\t\tID_VIGENT,\n\t\tDESC_NOM,\n\t\tDESC_COGNOM1,\n\t\tDESC_COGNOM2,\n\t\tDESC_CARREC,\n\t\tDESC_NOM_FITXER_SIGNATURA,\n\t\tDESC_TIPUS_PERS_SERVEI\n\t)) ~> DMdimPERSSERVEI\nODSdimPLATGES sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_EXPEDIENT,\n\t\tDESC_NOM_PLATJA\n\t)) ~> DMdimPLATGES\nODSdimTIPUSEXP sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_TIPEX,\n\t\tCOD_TIPUS_EXP,\n\t\tID_VIGENT,\n\t\tDESC_TIPEX\n\t)) ~> DMdimTIPUSEXP\nODSdimTRAMIT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tNUM_TRAMIT,\n\t\tCOD_TRAMIT,\n\t\tCOD_SUBTRAMIT,\n\t\tDESC_TRAMIT,\n\t\tDESC_TIPUS_TRAMIT\n\t)) ~> DMdimTRAMIT"
+		}
+	}
+}

@@ -1,0 +1,75 @@
+{
+	"name": "DM_SISP_DIM_EDIFICI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EDIFICI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COD_EDIFICI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_LLIBRE",
+				"type": "varbinary"
+			},
+			{
+				"name": "NUM_CODI_POSTAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_TELEFON",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "NUM_FAX",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "DESC_EDIFICI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_POBLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_PLANOLS",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_DM",
+			"table": "DM_SISP_DIM_EDIFICI"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

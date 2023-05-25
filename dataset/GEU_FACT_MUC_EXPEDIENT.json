@@ -1,0 +1,83 @@
+{
+	"name": "GEU_FACT_MUC_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ESTAT_EXPEDIENT_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_LLIURAMENT_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AMBITO_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANY",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "NUMERO",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "DEMARCACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUMERO_RECURS",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_CARREGA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "NUM_LLIURAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EN_REFOS",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_FACT_MUC_EXPEDIENT"
+		}
+	}
+}

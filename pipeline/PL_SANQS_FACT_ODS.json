@@ -1,0 +1,46 @@
+{
+	"name": "PL_SANQS_FACT_ODS",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_SANQS_FACT_ODS_SEM_2",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_SANQS_FACT_ODS_SEM_1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANQS_FACT_ODS_SEM_2",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_SANQS_FACT_ODS_SEM_1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANQS_FACT_ODS_SEM_1",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "SAN QS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

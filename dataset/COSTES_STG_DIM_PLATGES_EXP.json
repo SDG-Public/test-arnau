@@ -1,0 +1,33 @@
+{
+	"name": "COSTES_STG_DIM_PLATGES_EXP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "CODI_PLATJA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_PLATGES_EXP"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,29 @@
+{
+	"name": "GEU_ODS_DIM_MUC_ESTATS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_MUCESTATS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MUCESTATS",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_ODS",
+			"table": "ODS_GEU_DIM_MUC_ESTATS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

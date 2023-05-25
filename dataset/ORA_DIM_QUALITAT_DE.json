@@ -1,0 +1,19 @@
+{
+	"name": "ORA_DIM_QUALITAT_DE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/ORA"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ARBB_ADM",
+			"table": "ARB_QUALITATDE"
+		}
+	}
+}

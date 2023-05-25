@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANFER_DM_DIM_NACIONALITAT",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_NACIONALITAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimNacionalitat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANFER_DIM_NACIONALITAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimNacionalitat"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_NACIONALITAT as decimal(10,0),\n\t\tID_ESTAT as string,\n\t\tDESC_NACIONALITAT as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimNacionalitat\nODSDimNacionalitat sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimNacionalitat"
+		}
+	}
+}

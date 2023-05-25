@@ -1,0 +1,33 @@
+{
+	"name": "ODS_GAF_DIM_ORGANISME",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_ORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_RESUM_ORG",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_ODS",
+			"table": "ODS_GAF_DIM_ORGANISME"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,49 @@
+{
+	"name": "GEU_STG_DIM_TIPUS_RELACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_TIPREL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPREL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PROTEGIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPREL_INVERSA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_REL_SUBORDINACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_IND_PUBLICAR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_IND_RECURS",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_TIPUS_RELACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

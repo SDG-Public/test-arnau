@@ -1,0 +1,47 @@
+{
+	"name": "DF_SISP_ODS_DIM_PLANTA",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_PLANTA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimPlanta"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_PLANTA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPlanta"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "addNoInformat"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "toUnion"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tDESCRIPCIO as string,\n\t\tID_EDIFICI as decimal(4,0),\n\t\tTELEFON_SUBALTERN as decimal(9,0),\n\t\tEXTENSIO as decimal(5,0),\n\t\tVIGENT as decimal(1,0),\n\t\tCODI as string,\n\t\tORDENACIO as decimal(4,0),\n\t\tEXTENSIO_EXTERNA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimPlanta\nSTGDimPlanta select(mapColumn(\n\t\tID_PLANTA = ID,\n\t\tID_EDIFICI,\n\t\tCOD_PLANTA = CODI,\n\t\tNUM_ORDENACIO = ORDENACIO,\n\t\tNUM_EXTENSIO = EXTENSIO,\n\t\tNUM_EXTENSIO_EXTERNA = EXTENSIO_EXTERNA,\n\t\tNUM_TELEFON_SUBALTERN = TELEFON_SUBALTERN,\n\t\tDESC_PLANTA = DESCRIPCIO,\n\t\tFLAG_VIGENT = VIGENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(ID_PLANTA = -1,\n\t\tID_EDIFICI = -1,\n\t\tCOD_PLANTA = '-1',\n\t\tNUM_ORDENACIO = -1,\n\t\tNUM_EXTENSIO = -1,\n\t\tNUM_EXTENSIO_EXTERNA = '-1',\n\t\tNUM_TELEFON_SUBALTERN = -1,\n\t\tDESC_PLANTA = 'No Informat',\n\t\tFLAG_VIGENT = 0) ~> addNoInformat\naddNoInformat aggregate(groupBy(ID_PLANTA,\n\t\tID_EDIFICI,\n\t\tCOD_PLANTA,\n\t\tNUM_ORDENACIO,\n\t\tNUM_EXTENSIO,\n\t\tNUM_EXTENSIO_EXTERNA,\n\t\tNUM_TELEFON_SUBALTERN,\n\t\tDESC_PLANTA,\n\t\tFLAG_VIGENT),\n\tcont = count(ID_PLANTA)) ~> Distinct\nDistinct select(mapColumn(\n\t\tID_PLANTA,\n\t\tID_EDIFICI,\n\t\tCOD_PLANTA,\n\t\tNUM_ORDENACIO,\n\t\tNUM_EXTENSIO,\n\t\tNUM_EXTENSIO_EXTERNA,\n\t\tNUM_TELEFON_SUBALTERN,\n\t\tDESC_PLANTA,\n\t\tFLAG_VIGENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> toUnion\nRenombrarCampos, toUnion union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PLANTA as decimal(4,0),\n\t\tID_EDIFICI as decimal(4,0),\n\t\tCOD_PLANTA as string,\n\t\tNUM_ORDENACIO as decimal(4,0),\n\t\tNUM_EXTENSIO as decimal(5,0),\n\t\tNUM_EXTENSIO_EXTERNA as string,\n\t\tNUM_TELEFON_SUBALTERN as decimal(9,0),\n\t\tDESC_PLANTA as string,\n\t\tFLAG_VIGENT as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimPlanta"
+		}
+	}
+}

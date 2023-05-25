@@ -1,0 +1,33 @@
+{
+	"name": "STG_ARB_DIM_TIPUS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ARB_TAU_CODI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_TAU_ELE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_TAU_DAD",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_STG",
+			"table": "STG_ARB_DIM_TIPUS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

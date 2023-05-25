@@ -1,0 +1,59 @@
+{
+	"name": "DF_ARB_ODS_DIM_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimPersonaBCN"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_PERSONA_TGN",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimPersonaTGN"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_PERSONA_LLEIDA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimPersonaLLEIDA"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_PERSONA_GIR",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimPersonaGIR"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPersona"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "UnirTotesDemarcacions"
+				}
+			],
+			"script": "source(output(\n\t\tARB_PER_CODI as string,\n\t\tARB_PER_DNI as string,\n\t\tARB_PER_COGN as string,\n\t\tARB_PER_NOM as string,\n\t\tARB_PER_NOM2 as string,\n\t\tARB_PER_CONTACTE as string,\n\t\tARB_PER_ALTRES as string,\n\t\tARB_PER_NPAD as decimal(3,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimPersonaBCN\nsource(output(\n\t\tARB_PER_CODI as string,\n\t\tARB_PER_DNI as string,\n\t\tARB_PER_COGN as string,\n\t\tARB_PER_NOM as string,\n\t\tARB_PER_NOM2 as string,\n\t\tARB_PER_CONTACTE as string,\n\t\tARB_PER_ALTRES as string,\n\t\tARB_PER_NPAD as decimal(3,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimPersonaTGN\nsource(output(\n\t\tARB_PER_CODI as string,\n\t\tARB_PER_DNI as string,\n\t\tARB_PER_COGN as string,\n\t\tARB_PER_NOM as string,\n\t\tARB_PER_NOM2 as string,\n\t\tARB_PER_CONTACTE as string,\n\t\tARB_PER_ALTRES as string,\n\t\tARB_PER_NPAD as decimal(3,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimPersonaLLEIDA\nsource(output(\n\t\tARB_PER_CODI as string,\n\t\tARB_PER_DNI as string,\n\t\tARB_PER_COGN as string,\n\t\tARB_PER_NOM as string,\n\t\tARB_PER_NOM2 as string,\n\t\tARB_PER_CONTACTE as string,\n\t\tARB_PER_ALTRES as string,\n\t\tARB_PER_NPAD as decimal(3,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimPersonaGIR\nUnirTotesDemarcacions select(mapColumn(\n\t\tID_PERSONA = ARB_PER_CODI,\n\t\tCOD_DNI_PERSONA = ARB_PER_DNI,\n\t\tDESC_COGNOM_PERSONA = ARB_PER_COGN,\n\t\tDESC_NOM_PERSONA = ARB_PER_NOM,\n\t\tDESC_NOM_PERSONA_CONTACTE = ARB_PER_CONTACTE,\n\t\tDESC_ALTRES = ARB_PER_ALTRES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nSTGDimPersonaBCN, STGDimPersonaTGN, STGDimPersonaLLEIDA, STGDimPersonaGIR union(byName: true)~> UnirTotesDemarcacions\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PERSONA as string,\n\t\tCOD_DNI_PERSONA as string,\n\t\tDESC_COGNOM_PERSONA as string,\n\t\tDESC_NOM_PERSONA as string,\n\t\tDESC_NOM_PERSONA_CONTACTE as string,\n\t\tDESC_ALTRES as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimPersona"
+		}
+	}
+}

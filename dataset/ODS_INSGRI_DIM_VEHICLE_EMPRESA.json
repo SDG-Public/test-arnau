@@ -1,0 +1,59 @@
+{
+	"name": "ODS_INSGRI_DIM_VEHICLE_EMPRESA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_VEHICLE_EMPRESA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "COD_VEHICLE_EMPRESA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_VEHICLE_EMPRESA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DESC_USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_ODS",
+			"table": "ODS_INSGRI_DIM_VEHICLE_EMPRESA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

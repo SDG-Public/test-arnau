@@ -1,0 +1,24 @@
+{
+	"name": "PL_TDSAN_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_TDSAN_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TDSAN_FACT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "SANFER/TDSAN"
+		},
+		"annotations": []
+	}
+}

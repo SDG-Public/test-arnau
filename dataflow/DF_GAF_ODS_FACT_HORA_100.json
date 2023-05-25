@@ -1,0 +1,44 @@
+{
+	"name": "DF_GAF_ODS_FACT_HORA_100",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_VOLUM_ORDENAT_ANYO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactVolumAnyo"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_HORA_100",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactHora100"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AGGMinSEQ"
+				},
+				{
+					"name": "SumaSEQMas99"
+				},
+				{
+					"name": "AutoJoin"
+				},
+				{
+					"name": "FiltraCampo"
+				}
+			],
+			"script": "source(output(\n\t\tID_SEQ as long,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tIND_VOLUM_TOTAL as decimal(19,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tDATA_DIA as integer,\n\t\tDATA_HORA as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactVolumAnyo\nODSFactVolumAnyo aggregate(groupBy(DATA_ANYO,\n\t\tID_ESTACIO),\n\tID_SEQ = min(ID_SEQ)) ~> AGGMinSEQ\nAGGMinSEQ derive(ID_SEQ = ID_SEQ+99) ~> SumaSEQMas99\nSumaSEQMas99, ODSFactVolumAnyo join(AGGMinSEQ@DATA_ANYO == ODSFactVolumAnyo@DATA_ANYO\n\t&& AGGMinSEQ@ID_ESTACIO == ODSFactVolumAnyo@ID_ESTACIO\n\t&& SumaSEQMas99@ID_SEQ == ODSFactVolumAnyo@ID_SEQ,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> AutoJoin\nAutoJoin select(mapColumn(\n\t\tDATA_ANYO = AGGMinSEQ@DATA_ANYO,\n\t\tID_ESTACIO = AGGMinSEQ@ID_ESTACIO,\n\t\tDATA_MES,\n\t\tDATA_DIA,\n\t\tDATA_HORA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampo\nFiltraCampo sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tDATA_ANYO as integer,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_MES as integer,\n\t\tDATA_DIA as integer,\n\t\tDATA_HORA as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactHora100"
+		}
+	}
+}

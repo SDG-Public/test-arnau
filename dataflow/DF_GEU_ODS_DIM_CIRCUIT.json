@@ -1,0 +1,109 @@
+{
+	"name": "DF_GEU_ODS_DIM_CIRCUIT",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_CIRCUIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimCircuit"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_CIRCUIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimCircuit"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "FixFlag"
+				},
+				{
+					"name": "MinCodiCircuit"
+				},
+				{
+					"name": "AddRegistroNoInformat"
+				},
+				{
+					"name": "union1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CODI_CIRCUIT as string,",
+				"          DESC_CIRCUIT as string,",
+				"          IND_PROTEGIT as string,",
+				"          TERMINI as decimal(3,0),",
+				"          TERMINI_MESOS_DIES as string,",
+				"          DESC_TERMINI as string,",
+				"          TIPUS_SILENCI as string,",
+				"          IND_VIGENT as string,",
+				"          IND_PDT_CU as string,",
+				"          IND_PDT_CUC as string,",
+				"          IND_COBERTURA_PAUM as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimCircuit",
+				"STGDimCircuit select(mapColumn(",
+				"          CODI_CIRCUIT,",
+				"          DESC_CIRCUIT,",
+				"          NUM_TERMINI = TERMINI,",
+				"          CODI_TIPUS_TERMINI_MESOS_DIES = TERMINI_MESOS_DIES,",
+				"          CODI_TIPUS_TIPUS_SILENCI = TIPUS_SILENCI,",
+				"          DESC_TERMINI,",
+				"          FLAG_PROTEGIT = IND_PROTEGIT,",
+				"          FLAG_VIGENT = IND_VIGENT,",
+				"          FLAG_PDT_CU = IND_PDT_CU,",
+				"          FLAG_PDT_CUC = IND_PDT_CUC,",
+				"          FLAG_COBERTURA_PAUM = IND_COBERTURA_PAUM",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraCampos",
+				"RenombraCampos derive(FLAG_PROTEGIT = iif(FLAG_PROTEGIT== 'N',0,iif(FLAG_PROTEGIT== 'S',1,-1)),",
+				"          FLAG_VIGENT = iif(FLAG_VIGENT == 'N',0,iif(FLAG_VIGENT == 'S',1,-1)),",
+				"          FLAG_PDT_CU = iif(FLAG_PDT_CU== 'N',0,iif(FLAG_PDT_CU== 'S',1,-1)),",
+				"          FLAG_PDT_CUC = iif(FLAG_PDT_CUC== 'N',0,iif(FLAG_PDT_CUC== 'S',1,-1)),",
+				"          FLAG_COBERTURA_PAUM = iif(FLAG_COBERTURA_PAUM== 'N',0,iif(FLAG_COBERTURA_PAUM== 'S',1,-1))) ~> FixFlag",
+				"STGDimCircuit aggregate(CODI_CIRCUIT = min(CODI_CIRCUIT)) ~> MinCodiCircuit",
+				"MinCodiCircuit derive(CODI_CIRCUIT = toString(-1),",
+				"          DESC_CIRCUIT = 'No Informat',",
+				"          NUM_TERMINI = toDecimal(-1),",
+				"          CODI_TIPUS_TERMINI_MESOS_DIES = toString(-1),",
+				"          CODI_TIPUS_TIPUS_SILENCI = toString(-1),",
+				"          DESC_TERMINI = 'No Informat',",
+				"          FLAG_PROTEGIT = -1,",
+				"          FLAG_VIGENT = -1,",
+				"          FLAG_PDT_CU = -1,",
+				"          FLAG_PDT_CUC = -1,",
+				"          FLAG_COBERTURA_PAUM = -1) ~> AddRegistroNoInformat",
+				"FixFlag, AddRegistroNoInformat union(byName: true)~> union1",
+				"union1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimCircuit"
+			]
+		}
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"name": "DF_ARB_DM_DIM_MOTIU_LAUDE",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_MOTIU_LAUDE",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimMotiuLaude"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ARB_DIM_MOTIU_LAUDE",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimMotiuLaude"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_MOTIU_LAUDE as string,\n\t\tDESC_MOTIU_LAUDE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimMotiuLaude\nODSDimMotiuLaude sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimMotiuLaude"
+		}
+	}
+}

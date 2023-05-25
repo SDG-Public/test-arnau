@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANQS_DM_FACT_DENUN_VOL",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_DENUNCIES_VOLUNTARI",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDenunciesVolun"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANQS_FACT_DENUNCIES_VOLUNTARI",
+						"type": "DatasetReference"
+					},
+					"name": "DMDenunciesVolun"
+				}
+			],
+			"transformations": [],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDenunciesVolun\nODSDenunciesVolun sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_EXPEDIENT as string,\n\t\tID_DENUNCIA as string,\n\t\tCOD_DEMARCACIO as string,\n\t\tDATA_DENUNCIA as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDenunciesVolun"
+		}
+	}
+}

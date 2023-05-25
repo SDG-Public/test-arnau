@@ -1,0 +1,593 @@
+{
+	"name": "DF_ASJ_ODS_SENTENCIES",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_METADA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimMetadata"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_OBJECTE_AGRUPAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimObjecteAgrupat"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_OBJECTE_REF_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimObjecteRefPersona"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimPersona"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactExpedient"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_SENTENCIES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSentencies"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FitltroTipoMetadata111"
+				},
+				{
+					"name": "FitltroTipoMetadata110"
+				},
+				{
+					"name": "FitltroTipoMetadata109"
+				},
+				{
+					"name": "FitltroTipoMetadata108"
+				},
+				{
+					"name": "FitltroTipoMetadata107"
+				},
+				{
+					"name": "FitltroTipoMetadata106"
+				},
+				{
+					"name": "QuitarCampos106"
+				},
+				{
+					"name": "QuitarCampos107"
+				},
+				{
+					"name": "QuitarCampos108"
+				},
+				{
+					"name": "QuitarCampos109"
+				},
+				{
+					"name": "QuitarCampos110"
+				},
+				{
+					"name": "QuitarCampos111"
+				},
+				{
+					"name": "JoinAgrupat"
+				},
+				{
+					"name": "JoinRefPers"
+				},
+				{
+					"name": "JoinPersona"
+				},
+				{
+					"name": "JoinAgrupat106"
+				},
+				{
+					"name": "JoinAgrupat107"
+				},
+				{
+					"name": "JoinAgrupat108"
+				},
+				{
+					"name": "JoinAgrupat109"
+				},
+				{
+					"name": "JoinAgrupat110"
+				},
+				{
+					"name": "QuitarCamposJoin106"
+				},
+				{
+					"name": "QuitarCamposJoin107"
+				},
+				{
+					"name": "QuitarCamposJoin108"
+				},
+				{
+					"name": "QuitarCamposJoin109"
+				},
+				{
+					"name": "QuitarCamposJoin110"
+				},
+				{
+					"name": "JoinIDExpedient107"
+				},
+				{
+					"name": "JoinIDExpedient108"
+				},
+				{
+					"name": "JoinIDExpedient109"
+				},
+				{
+					"name": "JoinIDExpedient110"
+				},
+				{
+					"name": "QuitarCamposPreJoin"
+				},
+				{
+					"name": "FitltroTipoMetadata104"
+				},
+				{
+					"name": "FitltroTipoMetadata100"
+				},
+				{
+					"name": "FitltroTipoMetadata112"
+				},
+				{
+					"name": "FitltroTipoMetadata113"
+				},
+				{
+					"name": "FitltroTipoMetadata114"
+				},
+				{
+					"name": "QuitarCamposFactExpedient"
+				},
+				{
+					"name": "JoinFactExpedient"
+				},
+				{
+					"name": "QuitarCampos100"
+				},
+				{
+					"name": "QuitarCampos104"
+				},
+				{
+					"name": "QuitarCampos112"
+				},
+				{
+					"name": "QuitarCampos113"
+				},
+				{
+					"name": "QuitarCampos114"
+				},
+				{
+					"name": "JoinIDExpedient100"
+				},
+				{
+					"name": "JoinIDExpedient104"
+				},
+				{
+					"name": "JoinIDExpedient112"
+				},
+				{
+					"name": "JoinIDExpedient113"
+				},
+				{
+					"name": "JoinIDExpedient114"
+				},
+				{
+					"name": "QuitarCamposFinal"
+				},
+				{
+					"name": "FitltroTipoMetadata102"
+				},
+				{
+					"name": "QuitarCampos102"
+				},
+				{
+					"name": "JoinAgrupat102"
+				},
+				{
+					"name": "QuitarCamposJoin102"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_METADATA as decimal(10,0),",
+				"          ID_EXPEDIENT as decimal(10,0),",
+				"          ID_TRAMIT as decimal(10,0),",
+				"          ID_OBJECTE_AGRUP as decimal(10,0),",
+				"          ID_TIPUS_METADATA as decimal(10,0),",
+				"          DESC_TIPUS_METADATA as string,",
+				"          DESC_METADATA as string,",
+				"          METADATA_LITERAL as string,",
+				"          METADATA_DATA as timestamp,",
+				"          METADATA_ENUMERAT as string,",
+				"          METADATA_DECIMAL as double,",
+				"          METADATA_NUMERIC as decimal(10,0),",
+				"          METADATA_BOOL as decimal(1,0),",
+				"          POSICIO as decimal(10,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimMetadata",
+				"source(output(",
+				"          ID_OBJECTE_AGRUPAT as decimal(10,0),",
+				"          ID_METADATA as decimal(10,0),",
+				"          POSICIO as decimal(10,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimObjecteAgrupat",
+				"source(output(",
+				"          ID_OBJECTE_REFERENCIA as decimal(10,0),",
+				"          ID_IDENTIFICADOR_EXTERN as decimal(10,0),",
+				"          ID_DADA as decimal(10,0),",
+				"          FLAG_POSICIO as decimal(10,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimObjecteRefPersona",
+				"source(output(",
+				"          ID_PERSONA as decimal(10,0),",
+				"          DESC_NOM as string,",
+				"          DESC_COGNOM1 as string,",
+				"          DESC_COGNOM2 as string,",
+				"          DESC_NOM_SENCER as string,",
+				"          ID_TIPUS_PERSONA as decimal(10,0),",
+				"          FLAG_ELEGIBLE as decimal(1,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimPersona",
+				"source(output(",
+				"          ID_EXPEDIENT as decimal(10,0),",
+				"          ID_TIPUS_EXPEDIENT as string,",
+				"          ID_TRAMIT_ACTUAL as decimal(10,0),",
+				"          ID_TRAMIT_INICIAL as decimal(10,0),",
+				"          ID_AMBIT as long,",
+				"          ID_CLASSIFICACIO_01 as integer,",
+				"          ID_CLASSIFICACIO_02 as integer,",
+				"          NUM_EXPEDIENT_INTERN as string,",
+				"          NUM_EXPEDIENT_IMPORT as string,",
+				"          NUM_INFOREG_ENTRADA as decimal(10,0),",
+				"          NUM_ULTIM_INFOLOG as decimal(10,0),",
+				"          DESC_ASSUMPTE_CURT as string,",
+				"          DESC_ASSUMPTE as string,",
+				"          DESC_RESPONSABLE as string,",
+				"          DESC_AMBIT as string,",
+				"          DES_CLASSIFICACIO_01 as string,",
+				"          DESC_CLASSIFICACIO_02 as string,",
+				"          CODI_ASSIGNAT_INICIAL as string,",
+				"          CODI_ASSIGNAT_ESPECIAL as string,",
+				"          CODI_INE as string,",
+				"          CODI_LLOGARET as string,",
+				"          PK_CONCAT_INE as string,",
+				"          DATA_ALTA as timestamp,",
+				"          DATA_TERMINI_MES_PROPER as timestamp,",
+				"          DATA_ENTRADA as timestamp,",
+				"          DATA_RESOLUCIO as timestamp,",
+				"          FLAG_TANCAT as decimal(1,0),",
+				"          FLAG_URGENT as decimal(1,0),",
+				"          FLAG_BAIXA as decimal(1,0),",
+				"          DATA_INSERT as timestamp,",
+				"          DATA_MODIFICACIO as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMFactExpedient",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 111) ~> FitltroTipoMetadata111",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 110) ~> FitltroTipoMetadata110",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 109) ~> FitltroTipoMetadata109",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 108) ~> FitltroTipoMetadata108",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 107) ~> FitltroTipoMetadata107",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 106) ~> FitltroTipoMetadata106",
+				"FitltroTipoMetadata106 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          ID_OBJECTE_AGRUP,",
+				"          SENTENCIA_106 = METADATA_LITERAL",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos106",
+				"FitltroTipoMetadata107 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          ID_OBJECTE_AGRUP,",
+				"          METADATA_DATA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos107",
+				"FitltroTipoMetadata108 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          ID_OBJECTE_AGRUP,",
+				"          TIPUS_SENTENCIA = METADATA_ENUMERAT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos108",
+				"FitltroTipoMetadata109 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          ID_OBJECTE_AGRUP,",
+				"          ID_METADATA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos109",
+				"FitltroTipoMetadata110 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          ID_OBJECTE_AGRUP,",
+				"          RESUM_SENTENCIA = DESC_METADATA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos110",
+				"FitltroTipoMetadata111 select(mapColumn(",
+				"          ID_METADATA,",
+				"          ID_EXPEDIENT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos111",
+				"QuitarCampos111, DMDimObjecteAgrupat join(QuitarCampos111@ID_METADATA == DMDimObjecteAgrupat@ID_METADATA,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinAgrupat",
+				"QuitarCampos109, DMDimObjecteRefPersona join(ID_METADATA == ID_DADA,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinRefPers",
+				"JoinRefPers, DMDimPersona join(ID_IDENTIFICADOR_EXTERN == ID_PERSONA,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinPersona",
+				"QuitarCampos106, JoinAgrupat join(ID_OBJECTE_AGRUP == ID_OBJECTE_AGRUPAT,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinAgrupat106",
+				"QuitarCampos107, JoinAgrupat join(ID_OBJECTE_AGRUP == ID_OBJECTE_AGRUPAT,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinAgrupat107",
+				"QuitarCampos108, JoinAgrupat join(ID_OBJECTE_AGRUP == ID_OBJECTE_AGRUPAT,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinAgrupat108",
+				"JoinPersona, JoinAgrupat join(ID_OBJECTE_AGRUP == ID_OBJECTE_AGRUPAT,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinAgrupat109",
+				"QuitarCampos110, JoinAgrupat join(ID_OBJECTE_AGRUP == ID_OBJECTE_AGRUPAT,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinAgrupat110",
+				"JoinAgrupat106 select(mapColumn(",
+				"          SENTENCIA_106,",
+				"          ID_EXPEDIENT_111 = QuitarCampos111@ID_EXPEDIENT,",
+				"          ID_OBJECTE_AGRUPAT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCamposJoin106",
+				"JoinAgrupat107 select(mapColumn(",
+				"          ID_OBJECTE_AGRUP,",
+				"          METADATA_DATA_107 = METADATA_DATA,",
+				"          ID_EXPEDIENT = QuitarCampos111@ID_EXPEDIENT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCamposJoin107",
+				"JoinAgrupat108 select(mapColumn(",
+				"          ID_OBJECTE_AGRUP,",
+				"          TIPUS_SENTENCIA_108 = TIPUS_SENTENCIA,",
+				"          ID_EXPEDIENT = QuitarCampos111@ID_EXPEDIENT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCamposJoin108",
+				"JoinAgrupat109 select(mapColumn(",
+				"          ID_OBJECTE_AGRUP,",
+				"          DESC_NOM_109 = DESC_NOM,",
+				"          ID_EXPEDIENT = QuitarCampos111@ID_EXPEDIENT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCamposJoin109",
+				"JoinAgrupat110 select(mapColumn(",
+				"          ID_OBJECTE_AGRUP,",
+				"          RESUM_SENTENCIA_110 = RESUM_SENTENCIA,",
+				"          ID_EXPEDIENT = QuitarCampos111@ID_EXPEDIENT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCamposJoin110",
+				"QuitarCamposJoin106, QuitarCamposJoin107 join(ID_EXPEDIENT_111 == ID_EXPEDIENT",
+				"     && ID_OBJECTE_AGRUPAT == ID_OBJECTE_AGRUP,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinIDExpedient107",
+				"JoinIDExpedient107, QuitarCamposJoin108 join(ID_EXPEDIENT_111 == QuitarCamposJoin108@ID_EXPEDIENT",
+				"     && QuitarCamposJoin107@ID_OBJECTE_AGRUP == QuitarCamposJoin108@ID_OBJECTE_AGRUP,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinIDExpedient108",
+				"JoinIDExpedient108, QuitarCamposJoin109 join(ID_EXPEDIENT_111 == QuitarCamposJoin109@ID_EXPEDIENT",
+				"     && ID_OBJECTE_AGRUPAT == QuitarCamposJoin109@ID_OBJECTE_AGRUP,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinIDExpedient109",
+				"JoinIDExpedient109, QuitarCamposJoin110 join(ID_EXPEDIENT_111 == QuitarCamposJoin110@ID_EXPEDIENT",
+				"     && ID_OBJECTE_AGRUPAT == QuitarCamposJoin110@ID_OBJECTE_AGRUP,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinIDExpedient110",
+				"JoinIDExpedient110 select(mapColumn(",
+				"          SENTENCIA_106,",
+				"          ID_EXPEDIENT_111,",
+				"          METADATA_DATA_107,",
+				"          TIPUS_SENTENCIA_108,",
+				"          DESC_NOM_109,",
+				"          RESUM_SENTENCIA_110",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCamposPreJoin",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 104) ~> FitltroTipoMetadata104",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 100) ~> FitltroTipoMetadata100",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 112) ~> FitltroTipoMetadata112",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 113) ~> FitltroTipoMetadata113",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 114) ~> FitltroTipoMetadata114",
+				"DMFactExpedient select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          NUM_EXPEDIENT_INTERN",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCamposFactExpedient",
+				"QuitarCamposPreJoin, QuitarCamposFactExpedient join(ID_EXPEDIENT_111 == ID_EXPEDIENT,",
+				"     joinType:'right',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinFactExpedient",
+				"FitltroTipoMetadata100 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          ANY_100 = METADATA_NUMERIC",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos100",
+				"FitltroTipoMetadata104 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          METADATA_104 = METADATA_ENUMERAT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos104",
+				"FitltroTipoMetadata112 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          METADATA_LITERAL_112 = METADATA_LITERAL",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos112",
+				"FitltroTipoMetadata113 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          METADATA_ENUMERAT_113 = METADATA_ENUMERAT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos113",
+				"FitltroTipoMetadata114 select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          METADATA_DATA_114 = METADATA_DATA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos114",
+				"JoinFactExpedient, QuitarCampos100 join(QuitarCamposFactExpedient@ID_EXPEDIENT == QuitarCampos100@ID_EXPEDIENT,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinIDExpedient100",
+				"JoinIDExpedient100, QuitarCampos104 join(QuitarCamposFactExpedient@ID_EXPEDIENT == QuitarCampos104@ID_EXPEDIENT,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinIDExpedient104",
+				"JoinIDExpedient104, QuitarCampos112 join(QuitarCamposFactExpedient@ID_EXPEDIENT == QuitarCampos112@ID_EXPEDIENT,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinIDExpedient112",
+				"JoinIDExpedient112, QuitarCampos113 join(QuitarCamposFactExpedient@ID_EXPEDIENT == QuitarCampos113@ID_EXPEDIENT,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinIDExpedient113",
+				"JoinIDExpedient113, QuitarCampos114 join(QuitarCamposFactExpedient@ID_EXPEDIENT == QuitarCampos114@ID_EXPEDIENT,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinIDExpedient114",
+				"JoinIDExpedient114 select(mapColumn(",
+				"          ID_EXPEDIENT = QuitarCamposFactExpedient@ID_EXPEDIENT,",
+				"          NUM_EXPEDIENT_INTERN,",
+				"          CODI_SENTENCIA = SENTENCIA_106,",
+				"          CODI_RECURS_SENTENCIA = METADATA_LITERAL_112,",
+				"          DESC_TIPUS_SENTENCIA = TIPUS_SENTENCIA_108,",
+				"          DESC_TRIBUNAL = DESC_NOM_109,",
+				"          DESC_RESUM_SENTENCIA = RESUM_SENTENCIA_110,",
+				"          DATA_ANY_GC = ANY_100,",
+				"          DATA_SENTENCIA = METADATA_DATA_107,",
+				"          DESC_TIPUS_CONTENCIOS = METADATA_104,",
+				"          DESC_TIPUS_RECURS_SENTENCIA = METADATA_ENUMERAT_113,",
+				"          DATA_FERMESA = METADATA_DATA_114",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCamposFinal",
+				"DMDimMetadata filter(ID_TIPUS_METADATA == 102) ~> FitltroTipoMetadata102",
+				"FitltroTipoMetadata102 select(mapColumn(",
+				"          ID_EXPEDIENT_102 = ID_EXPEDIENT,",
+				"          ID_OBJECTE_AGRUP",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCampos102",
+				"QuitarCampos102, JoinAgrupat join(ID_OBJECTE_AGRUP == ID_OBJECTE_AGRUPAT,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinAgrupat102",
+				"JoinAgrupat102 select(mapColumn(",
+				"          ID_METADATA_AGRUP_102 = DMDimObjecteAgrupat@ID_METADATA,",
+				"          ID_OBJECTE_AGRUP",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarCamposJoin102",
+				"QuitarCamposFinal sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_EXPEDIENT as decimal(10,0),",
+				"          NUM_EXPEDIENT_INTERN as string,",
+				"          CODI_SENTENCIA as string,",
+				"          CODI_RECURS_SENTENCIA as string,",
+				"          DESC_TIPUS_SENTENCIA as string,",
+				"          DESC_TRIBUNAL as string,",
+				"          DESC_RESUM_SENTENCIA as string,",
+				"          DATA_ANY_GC as decimal(10,0),",
+				"          DATA_SENTENCIA as timestamp,",
+				"          DESC_TIPUS_CONTENCIOS as string,",
+				"          DESC_TIPUS_RECURS_SENTENCIA as string,",
+				"          DATA_FERMESA as timestamp,",
+				"          DATA_ANY_RCA as decimal(10,0)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimSentencies"
+			]
+		}
+	}
+}

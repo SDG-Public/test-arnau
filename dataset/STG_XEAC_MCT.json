@@ -1,0 +1,113 @@
+{
+	"name": "STG_XEAC_MCT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v3/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_EMIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MARCA_TEMPS_TZ",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "MARCA_TEMPS_UTC",
+				"type": "datetime2",
+				"scale": 6
+			},
+			{
+				"name": "MARCA_TEMPS_LOCAL",
+				"type": "datetime2",
+				"scale": 6
+			},
+			{
+				"name": "MINUTOS_MCT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "ID_ELEMENT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_SUBMODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_VLE",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "F_VLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_IMP",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "F_IMP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_INV",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "F_INV",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_PRT",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "F_PRT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_GEH",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "F_GEH",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ZONA_HORARIA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "STG_XEAC",
+			"table": "STG_XEAC_MCT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

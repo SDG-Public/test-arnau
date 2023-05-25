@@ -1,0 +1,31 @@
+{
+	"name": "DF_SISP_DM_DIM_SECTOR",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_SECTOR",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSector"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_SECTOR",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSector"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_SECTOR as decimal(4,0),\n\t\tID_PLANTA as decimal(4,0),\n\t\tCOD_SECTOR as string,\n\t\tDESC_SECTOR as string,\n\t\tFLAG_VIGENT as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimSector\nODSDimSector sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_SECTOR as decimal(4,0),\n\t\tID_PLANTA as decimal(4,0),\n\t\tCOD_SECTOR as string,\n\t\tDESC_SECTOR as string,\n\t\tFLAG_VIGENT as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimSector"
+		}
+	}
+}

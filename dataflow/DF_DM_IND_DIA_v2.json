@@ -1,0 +1,78 @@
+{
+	"name": "DF_DM_IND_DIA_v2",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/INDISPONIBLES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_IND_DIA_v2",
+						"type": "DatasetReference"
+					},
+					"name": "ODSindDIAv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimFOCUS"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALORACIOlegislacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_IND_DIA_v2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGindDIAv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_IND_HORA_v2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGindHORAv2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_IND_DIA_v2",
+						"type": "DatasetReference"
+					},
+					"name": "DMindDIAv2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SKGfocus"
+				},
+				{
+					"name": "SKGvaloracioLEGISLACIO"
+				},
+				{
+					"name": "DUMMY"
+				},
+				{
+					"name": "JoinSKG"
+				},
+				{
+					"name": "SKGindHORA"
+				},
+				{
+					"name": "DISTINCT"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as string,\n\t\tDIA as date,\n\t\tNUMERO_CASOS as long,\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tCOMPLIMENT as string,\n\t\tTIPUS_MCT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSindDIAv2\nsource(output(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimFOCUS\nsource(output(\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOlegislacio\nsource(output(\n\t\tID_IND_DIA_v2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as string,\n\t\tDIA as date,\n\t\tTIPUS_MCT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGindDIAv2\nsource(output(\n\t\tID_IND_HORA_v2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as string,\n\t\tDATE as date,\n\t\tTIPUS_MCT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGindHORAv2\nJoinSKG, SKGdimFOCUS join(DISTINCT@ID_FOCUS == SKGdimFOCUS@ID_FOCUS,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> SKGfocus\nSKGfocus, SKGdimVALORACIOlegislacio join(DISTINCT@ID_FOCUS == SKGdimVALORACIOlegislacio@ID_FOCUS\n\t&& DISTINCT@ID_LEGISLACIO == SKGdimVALORACIOlegislacio@ID_LEGISLACIO,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> SKGvaloracioLEGISLACIO\nSKGindHORA derive(ID_DIM_FOCUS = iifNull(ID_DIM_FOCUS,0),\n\t\tID_VALORACIO_LEGISLACIO = iifNull(ID_VALORACIO_LEGISLACIO,0)) ~> DUMMY\nDISTINCT, SKGindDIAv2 join(DISTINCT@ID_FOCUS == SKGindDIAv2@ID_FOCUS\n\t&& DISTINCT@ID_LEGISLACIO == SKGindDIAv2@ID_LEGISLACIO\n\t&& DISTINCT@ID_ELEMENT == SKGindDIAv2@ID_ELEMENT\n\t&& DISTINCT@DIA == SKGindDIAv2@DIA\n\t&& DISTINCT@TIPUS_MCT == SKGindDIAv2@TIPUS_MCT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinSKG\nSKGvaloracioLEGISLACIO, SKGindHORAv2 join(DISTINCT@ID_FOCUS == SKGindHORAv2@ID_FOCUS\n\t&& DISTINCT@ID_LEGISLACIO == SKGindHORAv2@ID_LEGISLACIO\n\t&& DISTINCT@ID_ELEMENT == SKGindHORAv2@ID_ELEMENT\n\t&& DISTINCT@DIA == DATE\n\t&& DISTINCT@TIPUS_MCT == SKGindHORAv2@TIPUS_MCT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> SKGindHORA\nODSindDIAv2 aggregate(groupBy(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tDIA,\n\t\tNUMERO_CASOS,\n\t\tIND_N_MCT_DIA_IND,\n\t\tCOMPLIMENT,\n\t\tTIPUS_MCT),\n\tcont = count(ID_FOCUS)) ~> DISTINCT\nDUMMY sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as string,\n\t\tDIA as date,\n\t\tNUMERO_CASOS as long,\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tCOMPLIMENT as string,\n\t\tTIPUS_MCT as string,\n\t\tID_IND_DIA_v2 as integer,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_IND_HORA_v2 as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS = DISTINCT@ID_FOCUS,\n\t\tID_LEGISLACIO = DISTINCT@ID_LEGISLACIO,\n\t\tID_ELEMENT = DISTINCT@ID_ELEMENT,\n\t\tDIA = DISTINCT@DIA,\n\t\tNUMERO_CASOS,\n\t\tIND_N_MCT_DIA_IND,\n\t\tCOMPLIMENT,\n\t\tTIPUS_MCT = DISTINCT@TIPUS_MCT,\n\t\tID_IND_DIA_v2,\n\t\tID_DIM_FOCUS,\n\t\tID_VALORACIO_LEGISLACIO,\n\t\tID_IND_HORA_v2\n\t)) ~> DMindDIAv2"
+		}
+	}
+}

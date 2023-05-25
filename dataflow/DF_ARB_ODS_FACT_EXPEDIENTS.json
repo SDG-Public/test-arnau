@@ -1,0 +1,74 @@
+{
+	"name": "DF_ARB_ODS_FACT_EXPEDIENTS",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_FACT_EXPEDIENTS_GIRONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactExpedientsGirona"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_FACT_EXPEDIENTS_TARRAGONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactExpedientsTarragona"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_FACT_EXPEDIENTS_LLEIDA",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactExpedientsLleida"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_FACT_EXPEDIENTS_BARCELONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactExpedientsBarcelona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_FACT_EXPEDIENTS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedients"
+				}
+			],
+			"transformations": [
+				{
+					"name": "UnionProvincias"
+				},
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "DataInsercio"
+				},
+				{
+					"name": "AfegirCodiDemarcacioGIR"
+				},
+				{
+					"name": "AfegirCodiDemarcacioTGN"
+				},
+				{
+					"name": "AfegirCodiDemarcacioLleida"
+				},
+				{
+					"name": "AfegirCodiDemarcacioBCN"
+				}
+			],
+			"script": "source(output(\n\t\tARB_EXP_REF as string,\n\t\tARB_EXP_ESTAT as string,\n\t\tARB_EXP_DENT as timestamp,\n\t\tARB_EXP_DREG as timestamp,\n\t\tARB_EXP_NREG as decimal(8,0),\n\t\tARB_EXP_TEXP as string,\n\t\tARB_EXP_QRECM as string,\n\t\tARB_EXP_QRECP as decimal(9,0),\n\t\tARB_EXP_QRECE as decimal(9,2),\n\t\tARB_EXP_DVISTA as timestamp,\n\t\tARB_EXP_HVISTA as string,\n\t\tARB_EXP_HIVISTA as string,\n\t\tARB_EXP_DDECISIO as timestamp,\n\t\tARB_EXP_DLAUDE as timestamp,\n\t\tARB_EXP_TSEN as string,\n\t\tARB_EXP_CONCIL as string,\n\t\tARB_EXP_QLAUM as string,\n\t\tARB_EXP_QLAUP as decimal(9,0),\n\t\tARB_EXP_QLAUE as decimal(9,2),\n\t\tARB_EXP_TLAUDE as string,\n\t\tARB_EXP_DREC as timestamp,\n\t\tARB_EXP_DEXEC as timestamp,\n\t\tARB_EXP_DARXIU as timestamp,\n\t\tARB_EXP_DVISTAA as timestamp,\n\t\tARB_EXP_HVISTAA as string,\n\t\tARB_EXP_DEMA as string,\n\t\tARB_EXP_DEM as string,\n\t\tARB_EXP_MOTIU as string,\n\t\tARB_EXP_MOTIU_LAUD as string,\n\t\tARB_EXP_IND_ILAUD as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactExpedientsGirona\nsource(output(\n\t\tARB_EXP_REF as string,\n\t\tARB_EXP_ESTAT as string,\n\t\tARB_EXP_DENT as timestamp,\n\t\tARB_EXP_DREG as timestamp,\n\t\tARB_EXP_NREG as decimal(8,0),\n\t\tARB_EXP_TEXP as string,\n\t\tARB_EXP_QRECM as string,\n\t\tARB_EXP_QRECP as decimal(9,0),\n\t\tARB_EXP_QRECE as decimal(9,2),\n\t\tARB_EXP_DVISTA as timestamp,\n\t\tARB_EXP_HVISTA as string,\n\t\tARB_EXP_HIVISTA as string,\n\t\tARB_EXP_DDECISIO as timestamp,\n\t\tARB_EXP_DLAUDE as timestamp,\n\t\tARB_EXP_TSEN as string,\n\t\tARB_EXP_CONCIL as string,\n\t\tARB_EXP_QLAUM as string,\n\t\tARB_EXP_QLAUP as decimal(9,0),\n\t\tARB_EXP_QLAUE as decimal(9,2),\n\t\tARB_EXP_TLAUDE as string,\n\t\tARB_EXP_DREC as timestamp,\n\t\tARB_EXP_DEXEC as timestamp,\n\t\tARB_EXP_DARXIU as timestamp,\n\t\tARB_EXP_DVISTAA as timestamp,\n\t\tARB_EXP_HVISTAA as string,\n\t\tARB_EXP_DEMA as string,\n\t\tARB_EXP_DEM as string,\n\t\tARB_EXP_MOTIU as string,\n\t\tARB_EXP_MOTIU_LAUD as string,\n\t\tARB_EXP_IND_ILAUD as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactExpedientsTarragona\nsource(output(\n\t\tARB_EXP_REF as string,\n\t\tARB_EXP_ESTAT as string,\n\t\tARB_EXP_DENT as timestamp,\n\t\tARB_EXP_DREG as timestamp,\n\t\tARB_EXP_NREG as decimal(8,0),\n\t\tARB_EXP_TEXP as string,\n\t\tARB_EXP_QRECM as string,\n\t\tARB_EXP_QRECP as decimal(9,0),\n\t\tARB_EXP_QRECE as decimal(9,2),\n\t\tARB_EXP_DVISTA as timestamp,\n\t\tARB_EXP_HVISTA as string,\n\t\tARB_EXP_HIVISTA as string,\n\t\tARB_EXP_DDECISIO as timestamp,\n\t\tARB_EXP_DLAUDE as timestamp,\n\t\tARB_EXP_TSEN as string,\n\t\tARB_EXP_CONCIL as string,\n\t\tARB_EXP_QLAUM as string,\n\t\tARB_EXP_QLAUP as decimal(9,0),\n\t\tARB_EXP_QLAUE as decimal(9,2),\n\t\tARB_EXP_TLAUDE as string,\n\t\tARB_EXP_DREC as timestamp,\n\t\tARB_EXP_DEXEC as timestamp,\n\t\tARB_EXP_DARXIU as timestamp,\n\t\tARB_EXP_DVISTAA as timestamp,\n\t\tARB_EXP_HVISTAA as string,\n\t\tARB_EXP_DEMA as string,\n\t\tARB_EXP_DEM as string,\n\t\tARB_EXP_MOTIU as string,\n\t\tARB_EXP_MOTIU_LAUD as string,\n\t\tARB_EXP_IND_ILAUD as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactExpedientsLleida\nsource(output(\n\t\tARB_EXP_REF as string,\n\t\tARB_EXP_ESTAT as string,\n\t\tARB_EXP_DENT as timestamp,\n\t\tARB_EXP_DREG as timestamp,\n\t\tARB_EXP_NREG as decimal(8,0),\n\t\tARB_EXP_TEXP as string,\n\t\tARB_EXP_QRECM as string,\n\t\tARB_EXP_QRECP as decimal(9,0),\n\t\tARB_EXP_QRECE as decimal(9,2),\n\t\tARB_EXP_DVISTA as timestamp,\n\t\tARB_EXP_HVISTA as string,\n\t\tARB_EXP_HIVISTA as string,\n\t\tARB_EXP_DDECISIO as timestamp,\n\t\tARB_EXP_DLAUDE as timestamp,\n\t\tARB_EXP_TSEN as string,\n\t\tARB_EXP_CONCIL as string,\n\t\tARB_EXP_QLAUM as string,\n\t\tARB_EXP_QLAUP as decimal(9,0),\n\t\tARB_EXP_QLAUE as decimal(9,2),\n\t\tARB_EXP_TLAUDE as string,\n\t\tARB_EXP_DREC as timestamp,\n\t\tARB_EXP_DEXEC as timestamp,\n\t\tARB_EXP_DARXIU as timestamp,\n\t\tARB_EXP_DVISTAA as timestamp,\n\t\tARB_EXP_HVISTAA as string,\n\t\tARB_EXP_DEMA as string,\n\t\tARB_EXP_DEM as string,\n\t\tARB_EXP_MOTIU as string,\n\t\tARB_EXP_MOTIU_LAUD as string,\n\t\tARB_EXP_IND_ILAUD as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactExpedientsBarcelona\nAfegirCodiDemarcacioGIR, AfegirCodiDemarcacioTGN, AfegirCodiDemarcacioLleida, AfegirCodiDemarcacioBCN union(byName: true)~> UnionProvincias\nUnionProvincias select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tNUM_EXPEDIENT = ARB_EXP_REF,\n\t\tID_ESTAT = ARB_EXP_ESTAT,\n\t\tCODI_TIPUS_TRANSPORT = ARB_EXP_TEXP,\n\t\tCODI_DEMARCACIO = ARB_EXP_DEM,\n\t\tIMP_EXPEDIENT_IMPORT = ARB_EXP_QRECE,\n\t\tDATA_REGISTRO = ARB_EXP_DREG,\n\t\tDATA_ENTRADA = ARB_EXP_DENT,\n\t\tDATA_VISTA = ARB_EXP_DVISTA,\n\t\tDATA_LAUDE = ARB_EXP_DLAUDE,\n\t\tDATA_DECISIO = ARB_EXP_DDECISIO,\n\t\tID_MOTIU_EXPEDIENT = ARB_EXP_MOTIU,\n\t\tID_MOTIU_LAUDE = ARB_EXP_MOTIU_LAUD,\n\t\tID_TIPUS_LAUDE = ARB_EXP_TLAUDE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(DATA_INSERCIO = currentDate()) ~> DataInsercio\nSTGFactExpedientsGirona derive(ID_EXPEDIENT = concat('17',ARB_EXP_REF)) ~> AfegirCodiDemarcacioGIR\nSTGFactExpedientsTarragona derive(ID_EXPEDIENT = concat('43',ARB_EXP_REF)) ~> AfegirCodiDemarcacioTGN\nSTGFactExpedientsLleida derive(ID_EXPEDIENT = concat('25',ARB_EXP_REF)) ~> AfegirCodiDemarcacioLleida\nSTGFactExpedientsBarcelona derive(ID_EXPEDIENT = concat('08',ARB_EXP_REF)) ~> AfegirCodiDemarcacioBCN\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_EXPEDIENT as string,\n\t\tID_ESTAT as string,\n\t\tCODI_TIPUS_TRANSPORT as string,\n\t\tCODI_DEMARCACIO as string,\n\t\tIMP_EXPEDIENT_IMPORT as decimal(9,2),\n\t\tDATA_REGISTRO as timestamp,\n\t\tDATA_ENTRADA as timestamp,\n\t\tDATA_VISTA as timestamp,\n\t\tDATA_LAUDE as timestamp,\n\t\tDATA_DECISIO as timestamp,\n\t\tID_MOTIU_EXPEDIENT as string,\n\t\tID_MOTIU_LAUDE as string,\n\t\tID_TIPUS_LAUDE as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactExpedients"
+		}
+	}
+}

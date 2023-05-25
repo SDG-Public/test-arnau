@@ -1,0 +1,60 @@
+{
+	"name": "DF_ODS_IND_HORA_v2",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/INDISPONIBLES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOtractament"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_IND_HORA_v2",
+						"type": "DatasetReference"
+					},
+					"name": "ODSindHORAv2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterRNdia"
+				},
+				{
+					"name": "SelectCOLUMNS"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "WindowCOUNTacumulado"
+				},
+				{
+					"name": "JoinVALORACIO"
+				},
+				{
+					"name": "DerivedColumnCOMPLIMENT"
+				},
+				{
+					"name": "COLOR"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tVALOR_MCT as double,\n\t\tVALORACIO_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tLEGISLACIO as string,\n\t\tDATA_TRUNC as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacMCT\nsource(output(\n\t\tID_LEGISLACIO as string,\n\t\tDESCRIPCIO as string,\n\t\tDESCRIPCIO_ACRONIM as string,\n\t\tMCT_BASE as decimal(3,0),\n\t\tMAX_H_ANOMALES as decimal(4,0),\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tMAX_DIES_INDISPON as decimal(4,0),\n\t\tMAX_H_ANOMALES_SEGUIDES as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOtractament\nODSxeacMCT filter(VALORACIO_MCT == \"NI\"\n&&\ntoDate(DATA) >= toDate($P_DATA_INI,\"yyyyMMdd\")\n&& \ntoDate(DATA) < addDays(toDate($P_DATA_FI,\"yyyyMMdd\"),1)) ~> FilterRNdia\nFilterRNdia select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO = LEGISLACIO,\n\t\tID_ELEMENT = ID_CONTAMINANT,\n\t\tMARCA_TEMPS_UTC = DATA,\n\t\tID_SUBMODE = MODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLUMNS\nSelectCOLUMNS derive(COMPTADOR = 1,\n\t\tDIA = toDate(MARCA_TEMPS_UTC)) ~> DerivedColumn1\nDerivedColumn1 window(over(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tTIPUS_MCT,\n\t\tDIA),\n\tasc(MARCA_TEMPS_UTC, true),\n\tNUMERO_CASOS = count(1)) ~> WindowCOUNTacumulado\nWindowCOUNTacumulado, ODSdimVALORACIOtractament join(SelectCOLUMNS@ID_LEGISLACIO == ODSdimVALORACIOtractament@ID_LEGISLACIO\n\t&& TIPUS_MCT == toString(MCT_BASE),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JoinVALORACIO\nJoinVALORACIO derive(COMPLIMENT = iif(NUMERO_CASOS <= toLong(IND_N_MCT_DIA_IND), \"OK\", \"KO\")) ~> DerivedColumnCOMPLIMENT\nDerivedColumnCOMPLIMENT derive(COLOR = iif(COMPLIMENT == 'OK', \"#67A030\", \"#D02A2A\")) ~> COLOR\nCOLOR sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as string,\n\t\tMARCA_TEMPS_UTC as timestamp,\n\t\tNUMERO_CASOS as long,\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tCOMPLIMENT as string,\n\t\tTIPUS_MCT as string,\n\t\tCOLOR as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO = SelectCOLUMNS@ID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tMARCA_TEMPS_UTC,\n\t\tNUMERO_CASOS,\n\t\tIND_N_MCT_DIA_IND,\n\t\tCOMPLIMENT,\n\t\tTIPUS_MCT,\n\t\tCOLOR\n\t)) ~> ODSindHORAv2"
+		}
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"name": "ODS_SANFER_DIM_NACIONALITAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_NACIONALITAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NACIONALITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_ODS",
+			"table": "ODS_SANFER_DIM_NACIONALITAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

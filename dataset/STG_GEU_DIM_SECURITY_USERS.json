@@ -1,0 +1,87 @@
+{
+	"name": "STG_GEU_DIM_SECURITY_USERS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESCRIPTION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRIORITY",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "USER_TYPE",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "PASSWD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_USU",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "NIVELL_ACCES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PASSWD",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "IND_ACCES_PORTAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CIF_DNI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ROL_CTU",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "NOMBRE_INTENTS_FALLITS",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "IND_BLOQUEJAT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_SECURITY_USERS"
+		}
+	}
+}

@@ -1,0 +1,80 @@
+{
+	"name": "BARRIS_ODS_DIM_RESUMFACT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_AJUT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TITOLACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMP_GENERALITAT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_AJUNTAMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_ALTRES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_ACTUACIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_BARRIS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_FEDER",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_AJUTSALTRES",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_ODS",
+			"table": "ODS_BARRIS_DIM_RESUMFACT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

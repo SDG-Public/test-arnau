@@ -1,0 +1,20 @@
+{
+	"name": "ORA_STG_MCT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_XEAC",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v3/ORIGEN"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "XEAC_ADMIN",
+			"table": "XEAC_MCT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

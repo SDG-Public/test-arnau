@@ -1,0 +1,101 @@
+{
+	"name": "DF_GAF_DIM_ODS_DM",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSeccions"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEstacioSubtrm5"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_PLA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPla"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_ORGANISME",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimOrganisme"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_SUBTRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSubtrams"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSeccions"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtrm5"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_PLA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimPla"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ORGANISME",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimOrganisme"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SUBTRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSubtrams"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimSeccions\nsource(output(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCODI_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimCarrils\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimEstacioSubtrm5\nsource(output(\n\t\tID_PLA as decimal(8,0),\n\t\tID_ORGANISME as string,\n\t\tID_PLA_GENERAL as decimal(8,0),\n\t\tID_ESTAT_PLA as decimal(1,0),\n\t\tDESC_PLA as string,\n\t\tFLAG_PENDENT as decimal(1,0),\n\t\tFLAG_FINALITZAT as decimal(1,0),\n\t\tDATA_INI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_INI_PROCES as timestamp,\n\t\tDATA_FI_PROCES as timestamp,\n\t\tDATA_GENERAT as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimPla\nsource(output(\n\t\tCOD_ORGANISME as string,\n\t\tDESC_ORGANISME as string,\n\t\tDESC_RESUM_ORG as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimOrganisme\nsource(output(\n\t\tID_COMARCA as decimal(2,0),\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_MODIFICACIO as decimal(15,0),\n\t\tDESC_SUBTRAM as string,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_LONGITUD_REAL as decimal(9,3),\n\t\tDATA_MODIFICACIO as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimSubtrams\nODSDimSeccions sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimSeccions\nODSDimCarrils sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCOD_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimCarrils\nODSDimEstacioSubtrm5 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimEstacioSubtrm5\nODSDimPla sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PLA as decimal(8,0),\n\t\tID_ORGANISME as string,\n\t\tID_PLA_GENERAL as decimal(8,0),\n\t\tID_ESTAT_PLA as decimal(1,0),\n\t\tDESC_PLA as string,\n\t\tFLAG_PENDENT as decimal(1,0),\n\t\tFLAG_FINALITZAT as decimal(1,0),\n\t\tDATA_INI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_INI_PROCES as timestamp,\n\t\tDATA_FI_PROCES as timestamp,\n\t\tDATA_GENERAT as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimPla\nODSDimOrganisme sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimOrganisme\nODSDimSubtrams sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_COMARCA as decimal(2,0),\n\t\tCOD_CARRETERA as string,\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tCOD_MODIFICACIO as decimal(15,0),\n\t\tCOD_ORGANISME as string,\n\t\tCOD_ORGTRAM as string,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(2,0),\n\t\tNUM_LONG_REAL as decimal(9,3),\n\t\tNUM_LONG_APARENT as decimal(9,3),\n\t\tDESC_NOM_CARRILS as string,\n\t\tDATA_CALCUL_IMD as string,\n\t\tDATA_ALTA as string,\n\t\tDATA_BAIXA as string,\n\t\tDATA_VALIDACIO as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimSubtrams"
+		}
+	}
+}

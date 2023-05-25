@@ -1,0 +1,35 @@
+{
+	"name": "DF_ASJ_ODS_DIM_TIPUS_METADATA",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_DIM_TIPUS_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTipusMetadata"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_TIPUS_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusMetadata"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalizaCampos"
+				}
+			],
+			"script": "source(output(\n\t\tTIPUSDADAID as decimal(10,0),\n\t\tNOM as string,\n\t\tTIPUSCAMP as decimal(10,0),\n\t\tOBLIGATORIA as decimal(1,0),\n\t\tDONATDEBAIXA as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTipusMetadata\nSTGDimTipusMetadata select(mapColumn(\n\t\tID_TIPUS_METADATA = TIPUSDADAID,\n\t\tNUM_TIPUS_CAMP = TIPUSCAMP,\n\t\tDESC_NOM = NOM,\n\t\tFLAG_OBLIGATORIA = OBLIGATORIA,\n\t\tFLAG_BAIXA = DONATDEBAIXA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizaCampos\nNormalizaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tNUM_TIPUS_CAMP as decimal(10,0),\n\t\tDESC_NOM as string,\n\t\tFLAG_OBLIGATORIA as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTipusMetadata"
+		}
+	}
+}

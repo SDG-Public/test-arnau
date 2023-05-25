@@ -1,0 +1,110 @@
+{
+	"name": "STG_ASJ_TEST_7",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "TIPUS_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VALOR_MCT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VALORACIO_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_TRUNC",
+				"type": "date"
+			},
+			{
+				"name": "ID_DIM_FOCUS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_VALORACIO_LEGISLACIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_VALORACIO_TRACTAMENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_SUBMODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ELEMENT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INICI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ID_VALORACIO_VLE_MCT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_COMPLIMENT_MCT_1D_V2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VLE_MCT_TIPUS_MCT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_STG",
+			"table": "STG_ASJ_TEST_7"
+		}
+	}
+}

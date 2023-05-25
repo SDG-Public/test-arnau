@@ -1,0 +1,37 @@
+{
+	"name": "GAF_STG_DIM_SECCIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IDSECCIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IDESTACIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "GAF_STG_DIM_SECCIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

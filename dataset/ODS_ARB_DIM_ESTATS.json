@@ -1,0 +1,29 @@
+{
+	"name": "ODS_ARB_DIM_ESTATS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ESTAT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_ODS",
+			"table": "ODS_ARB_DIM_ESTATS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

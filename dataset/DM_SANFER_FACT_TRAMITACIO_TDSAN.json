@@ -1,0 +1,19 @@
+{
+	"name": "DM_SANFER_FACT_TRAMITACIO_TDSAN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SANFER.DM",
+			"table": "DM_SANFER_FACT_TRAMITACIO_TDSAN"
+		}
+	}
+}

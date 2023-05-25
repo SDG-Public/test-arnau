@@ -1,0 +1,105 @@
+{
+	"name": "XLSX_DADES_ESTACIO_AFORAMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Dades Estació Aforament.xlsx",
+				"container": "contenedortesgaf"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Codi gen.",
+				"type": "String"
+			},
+			{
+				"name": "Codi Territori",
+				"type": "String"
+			},
+			{
+				"name": "Codi",
+				"type": "String"
+			},
+			{
+				"name": "Carretera",
+				"type": "String"
+			},
+			{
+				"name": "Codi Decret Xarxa Com.",
+				"type": "String"
+			},
+			{
+				"name": "Pk",
+				"type": "String"
+			},
+			{
+				"name": "Tipus estació",
+				"type": "String"
+			},
+			{
+				"name": "Font Dades",
+				"type": "String"
+			},
+			{
+				"name": "Class. Técn.",
+				"type": "String"
+			},
+			{
+				"name": "Class. Func.",
+				"type": "String"
+			},
+			{
+				"name": "Població",
+				"type": "String"
+			},
+			{
+				"name": "Comarca",
+				"type": "String"
+			},
+			{
+				"name": "Carrils",
+				"type": "String"
+			},
+			{
+				"name": "Definició Tram Origen ",
+				"type": "String"
+			},
+			{
+				"name": "Definició Tram Final",
+				"type": "String"
+			},
+			{
+				"name": "NUM_IMD",
+				"type": "String"
+			},
+			{
+				"name": "NUM_PESANT",
+				"type": "String"
+			},
+			{
+				"name": "NUM_PK_INICI",
+				"type": "String"
+			},
+			{
+				"name": "NUM_PK_FINAL",
+				"type": "String"
+			},
+			{
+				"name": "NUM_LONG_TRAM",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -1,0 +1,84 @@
+{
+	"name": "STG_INSGRI_FACT_FITXERS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 11,
+				"scale": 0
+			},
+			{
+				"name": "ID_REQUERIMENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MIDA",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "NUMERO_TRANSACCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ENVIAMENT_WEB",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "TEMPORAL_WEB",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_STG",
+			"table": "STG_INSGRI_FACT_FITXERS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

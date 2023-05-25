@@ -1,0 +1,45 @@
+{
+	"name": "DF_ODS_SKG_DIM_ESTABLIMENT",
+	"properties": {
+		"folder": {
+			"name": "XEAC_COMUN/SKG"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_ESTABLIMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimESTABLIMENT"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_ESTABLIMENT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimESTABLIMENT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_ESTABLIMENT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimESTABLIMENTfinal"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectPK"
+				},
+				{
+					"name": "NotExists"
+				}
+			],
+			"script": "source(output(\n\t\tCODI_EMIS as string,\n\t\tCIF_EMPRESA as string,\n\t\tNOM_ESTABLIMENT as string,\n\t\tADRECA as string,\n\t\tPERSONA_CONTACTE as string,\n\t\tTELEFON_CONTACTE as string,\n\t\tEMAIL_CONTACTE as string,\n\t\tSFTP_IP as string,\n\t\tSFTP_USUARI as string,\n\t\tSFTP_PASS as string,\n\t\tSFTP_PATH as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimESTABLIMENT\nsource(output(\n\t\tID_ESTABLIMENT as integer,\n\t\tCODI_EMIS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimESTABLIMENT\nODSdimESTABLIMENT select(mapColumn(\n\t\tCODI_EMIS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nSelectPK, SKGdimESTABLIMENT exists(SelectPK@CODI_EMIS == SKGdimESTABLIMENT@CODI_EMIS,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTABLIMENT as integer,\n\t\tCODI_EMIS as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCODI_EMIS\n\t)) ~> SKGdimESTABLIMENTfinal"
+		}
+	}
+}

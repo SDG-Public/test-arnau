@@ -1,0 +1,120 @@
+{
+	"name": "STG_SISP_DIM_UNITAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_UNITAT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_ORG",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_PARE",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "EDIFICI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "TIPUS",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "PLEGAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_MODIF",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "AREA_FUNCIONAL",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "ID_PARE_FUNCIONAL",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "FUNCIONS",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_STG",
+			"table": "STG_SISP_DIM_UNITAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,77 @@
+{
+	"name": "PL_GAF_DIM",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_GAF_STG_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GAF_DIM_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_GAF_ODS_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_GAF_STG_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GAF_DIM_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_FI": {
+							"value": "@pipeline().parameters.P_DATA_FI",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_GAF_DIM_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_GAF_ODS_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GAF_DIM_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_FI": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "GAF"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

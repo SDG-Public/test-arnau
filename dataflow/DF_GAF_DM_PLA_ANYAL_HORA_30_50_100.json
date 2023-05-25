@@ -1,0 +1,65 @@
+{
+	"name": "DF_GAF_DM_PLA_ANYAL_HORA_30_50_100",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_HORES",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesHores"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_PLA_ANYAL_HORA_30_50_100",
+						"type": "DatasetReference"
+					},
+					"name": "DMPlaAnyalHora3050100"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Hora3050100"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "CalculaVolum"
+				},
+				{
+					"name": "CalculaVolum2"
+				},
+				{
+					"name": "CalculaVolum3"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "AddAnyo"
+				},
+				{
+					"name": "PKConcat"
+				},
+				{
+					"name": "ReordenaCampos"
+				},
+				{
+					"name": "FiltroAnyo2"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDATA as timestamp,\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tVELOCITAT01 as decimal(6,0),\n\t\tVELOCITAT02 as decimal(6,0),\n\t\tVELOCITAT03 as decimal(6,0),\n\t\tVELOCITAT04 as decimal(6,0),\n\t\tVELOCITAT05 as decimal(6,0),\n\t\tVELOCITAT06 as decimal(6,0),\n\t\tVELOCITAT07 as decimal(6,0),\n\t\tVELOCITAT08 as decimal(6,0),\n\t\tVELOCITAT09 as decimal(6,0),\n\t\tVELOCITAT10 as decimal(6,0),\n\t\tLONGITUD01 as decimal(6,0),\n\t\tLONGITUD02 as decimal(6,0),\n\t\tLONGITUD03 as decimal(6,0),\n\t\tLONGITUD04 as decimal(6,0),\n\t\tERRORSLONG01 as decimal(6,0),\n\t\tERRORSLONG02 as decimal(6,0),\n\t\tERRORSLONG03 as decimal(6,0),\n\t\tERRORSLONG04 as decimal(6,0),\n\t\tFLAG_HORA_PUNTA as integer,\n\t\tFLAG_HORA_30 as integer,\n\t\tFLAG_HORA_50 as integer,\n\t\tFLAG_HORA_100 as integer,\n\t\tIND_VOLUM_VEHICLE as decimal(9,0),\n\t\tIND_VOLUM_VEHICLE_ERR as decimal(13,0),\n\t\tFLAG_ALGUNA_HORA_NN as integer,\n\t\tDESC_FLAG_HORA_PUNTA as string,\n\t\tDESC_FLAGS_HORA_NN as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactDadesHores\nFiltroAnyo2 filter(FLAG_ALGUNA_HORA_NN == 1) ~> Hora3050100\nHora3050100 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA,\n\t\tFLAG_HORA_30,\n\t\tFLAG_HORA_50,\n\t\tFLAG_HORA_100,\n\t\tIND_VOLUM_VEHICLE_ERR,\n\t\tDESC_FLAG_HORA_PUNTA = DESC_FLAGS_HORA_NN\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos split(FLAG_HORA_30==1,\n\tFLAG_HORA_50==1,\n\tFLAG_HORA_100==1,\n\tdisjoint: false) ~> ConditionalSplit1@(Hora30, Hora50, Hora100, Default)\nConditionalSplit1@Hora30 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA,\n\t\tDESC_FLAG_HORA_PUNTA),\n\tIND_VOLUM = sum(IND_VOLUM_VEHICLE_ERR)) ~> CalculaVolum\nConditionalSplit1@Hora100 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA,\n\t\tDESC_FLAG_HORA_PUNTA),\n\tIND_VOLUM = sum(IND_VOLUM_VEHICLE_ERR)) ~> CalculaVolum2\nConditionalSplit1@Hora50 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA,\n\t\tDESC_FLAG_HORA_PUNTA),\n\tIND_VOLUM = sum(IND_VOLUM_VEHICLE_ERR)) ~> CalculaVolum3\nCalculaVolum, CalculaVolum2, CalculaVolum3 union(byName: true)~> Union1\nUnion1 derive(DATA_ANYO = year(DATA)) ~> AddAnyo\nAddAnyo derive(PK_CONCAT = concat(toString(ID_ESTACIO),toString(DATA_ANYO))) ~> PKConcat\nPKConcat select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA,\n\t\tDATA_ANYO,\n\t\tDESC_FLAG_HORA_PUNTA,\n\t\tIND_VOLUM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos\nDMFactDadesHores filter(year(DATA) >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nyear(DATA) < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FiltroAnyo2\nReordenaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMPlaAnyalHora3050100"
+		}
+	}
+}

@@ -1,0 +1,46 @@
+{
+	"name": "PL_INSGRI_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_INSGRI_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_INSGRI_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_INSGRI_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_INSGRI_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_INSGRI_FACT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "INSGRI"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

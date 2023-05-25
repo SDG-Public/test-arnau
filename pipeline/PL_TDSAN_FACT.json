@@ -1,0 +1,81 @@
+{
+	"name": "PL_TDSAN_FACT",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_TDSAN_FACT_STG",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TDSAN_FACT_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_TDSAN_FACT_ODS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_TDSAN_FACT_STG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TDSAN_FACT_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_TDSAN_FACT_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_TDSAN_FACT_ODS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TDSAN_FACT_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_TDSAN_SFTP",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_TDSAN_FACT_DM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TDSAN_SFTP",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"annotations": []
+	}
+}

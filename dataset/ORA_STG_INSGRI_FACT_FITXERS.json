@@ -1,0 +1,20 @@
+{
+	"name": "ORA_STG_INSGRI_FACT_FITXERS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GRI_ADM",
+			"table": "GRITB_FITXERS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

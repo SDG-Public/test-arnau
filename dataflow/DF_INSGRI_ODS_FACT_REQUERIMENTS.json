@@ -1,0 +1,38 @@
+{
+	"name": "DF_INSGRI_ODS_FACT_REQUERIMENTS",
+	"properties": {
+		"folder": {
+			"name": "INSGRI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_INSGRI_FACT_REQUERIMENTS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactRequeriments"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_INSGRI_FACT_REQUERIMENTS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactRequeriments"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(10,0),\n\t\tID_INSPECCIO as decimal(10,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_ENVIAMENT as timestamp,\n\t\tDATA_SEGON_ENVIAMENT as timestamp,\n\t\tDATA_JUSTIFICANT_RECEPCIO as timestamp,\n\t\tDATA_RECEPCIO_INFO as timestamp,\n\t\tCONTRASENYA as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tUSUARI_ALTA as string,\n\t\tUSUARI_MODIFICACIO as string,\n\t\tTE_FITXERS_NOUS as decimal(1,0),\n\t\tDATA_DEVOLUCIO as timestamp,\n\t\tID_MOTIU_DEVOLUCIO as decimal(8,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactRequeriments\nSTGFactRequeriments select(mapColumn(\n\t\tID_REQUERIMENT = ID,\n\t\tID_INSPECCIO,\n\t\tID_MOTIU_DEVOLUCIO,\n\t\tCOD_CONTRASENYA = CONTRASENYA,\n\t\tDESC_USUARI_ALTA = USUARI_ALTA,\n\t\tDESC_USUARI_MODIFICACIO = USUARI_MODIFICACIO,\n\t\tDATA_INICI,\n\t\tDATA_FI,\n\t\tDATA_ENVIAMENT,\n\t\tDATA_SEGON_ENVIAMENT,\n\t\tDATA_JUSTIFICANT_RECEPCIO,\n\t\tDATA_RECEPCIO_INFO,\n\t\tDATA_ALTA,\n\t\tDATA_MODIFICACIO,\n\t\tDATA_DEVOLUCIO,\n\t\tFLAG_TE_FITXERS_NOUS = TE_FITXERS_NOUS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(DATA_INSERCIO = currentDate()) ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_REQUERIMENT as decimal(10,0),\n\t\tID_INSPECCIO as decimal(10,0),\n\t\tID_MOTIU_DEVOLUCIO as decimal(8,2),\n\t\tCOD_CONTRASENYA as string,\n\t\tDESC_USUARI_ALTA as string,\n\t\tDESC_USUARI_MODIFICACIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_ENVIAMENT as timestamp,\n\t\tDATA_SEGON_ENVIAMENT as timestamp,\n\t\tDATA_JUSTIFICANT_RECEPCIO as timestamp,\n\t\tDATA_RECEPCIO_INFO as timestamp,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tDATA_DEVOLUCIO as timestamp,\n\t\tFLAG_TE_FITXERS_NOUS as decimal(1,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactRequeriments"
+		}
+	}
+}

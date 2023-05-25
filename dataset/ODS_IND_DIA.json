@@ -1,0 +1,58 @@
+{
+	"name": "ODS_IND_DIA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v3/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ELEMENT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "DIA",
+				"type": "date"
+			},
+			{
+				"name": "MINUTOS_MCT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "NUMERO_CASOS",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "IND_N_MCT_DIA_IND",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COMPLIMENT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_IND_DIA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

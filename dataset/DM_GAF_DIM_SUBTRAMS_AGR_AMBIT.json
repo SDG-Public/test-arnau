@@ -1,0 +1,31 @@
+{
+	"name": "DM_GAF_DIM_SUBTRAMS_AGR_AMBIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Ambit",
+				"type": "varchar"
+			},
+			{
+				"name": "qmPublicats",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_DIM_SUBTRAMS_AGR_AMBIT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,98 @@
+{
+	"name": "DF_DM_RESUM_VEHICLES_RANKS",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtrm5"
+				},
+				{
+					"dataset": {
+						"referenceName": "MESTRES_DM_TERRITORIAL",
+						"type": "DatasetReference"
+					},
+					"name": "MestresDMTerritorial"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_PLA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimPla"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SUBTRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSubtrams"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_RESUM_VEHICLE_RANK",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactResumVehicleRank"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "CalculaIND"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "FiltraCampos3"
+				},
+				{
+					"name": "RenombraOrdena"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "AmbitNull"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "Default"
+				},
+				{
+					"name": "AmbitTerritorialIMD"
+				},
+				{
+					"name": "IMDLongIMDPesants"
+				},
+				{
+					"name": "AddRank"
+				}
+			],
+			"script": "source(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimEstacioSubtrm5\nsource(output(\n\t\tCODI_INE as string,\n\t\tCOD_MUNICIPI as string,\n\t\tDESC_MUNICIPI as string,\n\t\tCODI_LLOGARET as string,\n\t\tDESC_POBLACIO as string,\n\t\tCODI_COMARCA as string,\n\t\tDESC_COMARCA as string,\n\t\tCODI_PROVINCIA as string,\n\t\tDESC_PROVINCIA as string,\n\t\tCODI_AMBIT as string,\n\t\tDESC_AMBIT as string,\n\t\tCODI_VEGUERIA as string,\n\t\tDESC_VEGUERIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> MestresDMTerritorial\nsource(output(\n\t\tID_PLA as decimal(8,0),\n\t\tID_ORGANISME as string,\n\t\tID_PLA_GENERAL as decimal(8,0),\n\t\tID_ESTAT_PLA as decimal(1,0),\n\t\tDESC_PLA as string,\n\t\tFLAG_PENDENT as decimal(1,0),\n\t\tFLAG_FINALITZAT as decimal(1,0),\n\t\tDATA_INI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_INI_PROCES as timestamp,\n\t\tDATA_FI_PROCES as timestamp,\n\t\tDATA_GENERAT as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimPla\nsource(output(\n\t\tID_COMARCA as decimal(2,0),\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_MODIFICACIO as decimal(15,0),\n\t\tDESC_SUBTRAM as string,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_LONGITUD_REAL as decimal(9,3),\n\t\tDATA_MODIFICACIO as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSubtrams\nDMDimEstacioSubtrm5, DMDimPla join(DMDimEstacioSubtrm5@ID_PLA == DMDimPla@ID_PLA,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 select(mapColumn(\n\t\tID_TIPUS_ESTACIO,\n\t\tID_LLOGARET,\n\t\tCOD_INE,\n\t\tCOD_MOD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM,\n\t\tPK_INI,\n\t\tMETRES_PK_INI,\n\t\tPK_FI,\n\t\tMETRES_PK_FI,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tDATA_INI,\n\t\tCOD_CARRETERA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos, MestresDMTerritorial join(ID_LLOGARET == CODI_LLOGARET\n\t&& COD_INE == CODI_INE,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join2\nJoin2 select(mapColumn(\n\t\tID_TIPUS_ESTACIO,\n\t\tCOD_MOD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM,\n\t\tCOD_CARRETERA,\n\t\tPK_INI,\n\t\tMETRES_PK_INI,\n\t\tPK_FI,\n\t\tMETRES_PK_FI,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tDESC_PROVINCIA,\n\t\tDATA_ANY_PLA = DATA_INI\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nFiltraCampos3 derive(DATA_ANY_PLA = year(DATA_ANY_PLA),\n\t\tIND_LONGITUD = toDecimal((toDecimal(PK_FI)+(toDecimal(METRES_PK_FI)/1000))-(toDecimal(PK_INI)+(toDecimal(METRES_PK_INI)/1000))),\n\t\tIND_PESANTS = toDecimal(IND_PESANTS)) ~> CalculaIND\nFiltraCampos2, DMDimSubtrams join(FiltraCampos2@COD_CARRETERA == DMDimSubtrams@COD_CARRETERA\n\t&& FiltraCampos2@COD_TRAM == DMDimSubtrams@COD_TRAM\n\t&& FiltraCampos2@COD_SUBTRAM == DMDimSubtrams@COD_SUBTRAM\n\t&& COD_MOD_CARRETERA == NUM_MODIFICACIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join3\nJoin3 select(mapColumn(\n\t\tID_TIPUS_ESTACIO,\n\t\tCOD_MOD_CARRETERA,\n\t\tCOD_TRAM = FiltraCampos2@COD_TRAM,\n\t\tCOD_SUBTRAM = FiltraCampos2@COD_SUBTRAM,\n\t\tCOD_CARRETERA = FiltraCampos2@COD_CARRETERA,\n\t\tPK_INI = FiltraCampos2@PK_INI,\n\t\tMETRES_PK_INI = FiltraCampos2@METRES_PK_INI,\n\t\tPK_FI = FiltraCampos2@PK_FI,\n\t\tMETRES_PK_FI = FiltraCampos2@METRES_PK_FI,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tDESC_PROVINCIA,\n\t\tDATA_ANY_PLA,\n\t\tCOD_ORG_TRAM = COD_ORGTRAM,\n\t\tCOD_ORGANISME\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos3\nCalculaIND select(mapColumn(\n\t\tID_TIPUS_ESTACIO,\n\t\tDESC_AMBIT_TERRITORIAL = COD_ORGANISME,\n\t\tDESC_PROVINCIA,\n\t\tIND_LONGITUD,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tDATA_ANY_PLA,\n\t\tCOD_ORG_TRAM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraOrdena\nRenombraOrdena split(COD_ORG_TRAM == 'DIR',\n\tCOD_ORG_TRAM != 'DES' && COD_ORG_TRAM !='DIR',\n\tdisjoint: false) ~> ConditionalSplit1@(IDOrgTramDIR, IDOrgTramNoDIR, Default)\nConditionalSplit1@IDOrgTramNoDIR derive(DESC_AMBIT_TERRITORIAL = '') ~> AmbitNull\nConditionalSplit1@IDOrgTramDIR, AmbitNull, Default union(byName: true)~> Union1\nConditionalSplit1@Default select(mapColumn(\n\t\tID_TIPUS_ESTACIO,\n\t\tDESC_AMBIT_TERRITORIAL,\n\t\tDESC_PROVINCIA,\n\t\tIND_LONGITUD,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tDATA_ANY_PLA,\n\t\tCOD_ORG_TRAM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Default\nUnion1 derive(DESC_AMBIT_TERRITORIAL = case(DESC_AMBIT_TERRITORIAL == 'STCB' || DESC_AMBIT_TERRITORIAL == 'DIB', 'Barcelona', \r\n    DESC_AMBIT_TERRITORIAL == 'STCG' || DESC_AMBIT_TERRITORIAL == 'DIG','Girona',\r\n    DESC_AMBIT_TERRITORIAL == 'STCL' || DESC_AMBIT_TERRITORIAL == 'DIL','Lleida',  \r\n    DESC_AMBIT_TERRITORIAL == 'STCT' || DESC_AMBIT_TERRITORIAL == 'DIT','Tarragona',  \r\n    DESC_AMBIT_TERRITORIAL == 'STCE' || DESC_AMBIT_TERRITORIAL == 'STME','Terres de lEbre',  \r\n    DESC_AMBIT_TERRITORIAL == 'STCG' || DESC_AMBIT_TERRITORIAL == 'DIG','Girona',    \r\n    'Carreteres en concessió')) ~> AmbitTerritorialIMD\nAmbitTerritorialIMD derive(IND_IMD_LONGITUD = iif( isNull(IND_IMD),toDecimal(0),IND_IMD*IND_LONGITUD),\n\t\tIND_IMD_PESANTS = iif( isNull(IND_IMD),toDecimal(0),IND_LONGITUD*IND_PESANTS)) ~> IMDLongIMDPesants\nIMDLongIMDPesants derive(NUM_RANK = case(IND_IMD<=1000, 0,\r\n    1001<=IND_IMD && IND_IMD<=2000, 1,\r\n    2001<=IND_IMD && IND_IMD<=5000, 2,\r\n    5001<=IND_IMD && IND_IMD<=10000, 3,\r\n    10001<=IND_IMD && IND_IMD<=15000, 4,\r\n    15001<=IND_IMD && IND_IMD<=20000, 5,\r\n    20001<=IND_IMD && IND_IMD<=50000, 6,\r\n    50001<=IND_IMD && IND_IMD<=80000, 7,\r\n    80001<=IND_IMD && IND_IMD<=100000, 8,\r\n     9)) ~> AddRank\nAddRank sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tDESC_AMBIT_TERRITORIAL as string,\n\t\tDESC_PROVINCIA as string,\n\t\tIND_LONGITUD as decimal(10,2),\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(10,2),\n\t\tDATA_ANY_PLA as integer,\n\t\tCOD_ORG_TRAM as string,\n\t\tIND_IMD_LONGITUD as decimal(19,2),\n\t\tIND_IMD_PESANTS as decimal(21,4),\n\t\tNUM_RANK as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactResumVehicleRank"
+		}
+	}
+}

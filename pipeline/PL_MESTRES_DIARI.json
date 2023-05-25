@@ -1,0 +1,66 @@
+{
+	"name": "PL_MESTRES_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_MESTRES_STG",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_MESTRES_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_MESTRES_ODS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MESTRES_STG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_MESTRES_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_MESTRES_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MESTRES_ODS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_MESTRES_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "MESTRES"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

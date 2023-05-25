@@ -1,0 +1,65 @@
+{
+	"name": "ODS_XEAC_CABAL_NORM_TEMP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "VALOR",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COD_VALIDACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VALOR_PARAMETRE_PRES",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "VALOR_CABAL_NORM_PRES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VALOR_PARAMETRE_TEMP",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "VALOR_CABAL_NORM_TEMP",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_XEAC_CABAL_NORM_TEMP"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,42 @@
+{
+	"name": "COSTES_STG_DIM_ESTAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_TRAMITACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VERSION",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_ESTAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

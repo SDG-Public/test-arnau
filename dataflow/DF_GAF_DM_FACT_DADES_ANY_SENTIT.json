@@ -1,0 +1,77 @@
+{
+	"name": "DF_GAF_DM_FACT_DADES_ANY_SENTIT",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_DIA",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesDia"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_SENTIT",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesAnyLong"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AGGSumLong"
+				},
+				{
+					"name": "DataToAnyo"
+				},
+				{
+					"name": "AddVolumTotal"
+				},
+				{
+					"name": "FiltraColumn1"
+				},
+				{
+					"name": "AddTipusVehicle1"
+				},
+				{
+					"name": "FiltraColumn2"
+				},
+				{
+					"name": "AddTipusVehicle2"
+				},
+				{
+					"name": "FiltraColumn3"
+				},
+				{
+					"name": "AddTipusVehicle3"
+				},
+				{
+					"name": "FiltraColumn4"
+				},
+				{
+					"name": "AddTipusVehicle4"
+				},
+				{
+					"name": "UnionTipusVehicle"
+				},
+				{
+					"name": "NormalizaFiltraCampos"
+				},
+				{
+					"name": "Round"
+				},
+				{
+					"name": "FiltroAnyo"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDATA as date,\n\t\tIND_PESANTS as decimal(17,4),\n\t\tIND_IMD_DIARI as decimal(18,0),\n\t\tIND_VELOCITAT_MITJA as decimal(11,8),\n\t\tVELOCITAT01 as decimal(16,0),\n\t\tVELOCITAT02 as decimal(16,0),\n\t\tVELOCITAT03 as decimal(16,0),\n\t\tVELOCITAT04 as decimal(16,0),\n\t\tVELOCITAT05 as decimal(16,0),\n\t\tVELOCITAT06 as decimal(16,0),\n\t\tVELOCITAT07 as decimal(16,0),\n\t\tVELOCITAT08 as decimal(16,0),\n\t\tVELOCITAT09 as decimal(16,0),\n\t\tVELOCITAT10 as decimal(16,0),\n\t\tLONGITUD01 as decimal(16,0),\n\t\tLONGITUD02 as decimal(16,0),\n\t\tLONGITUD03 as decimal(16,0),\n\t\tLONGITUD04 as decimal(16,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactDadesDia\nDataToAnyo aggregate(groupBy(DATA,\n\t\tID_ESTACIO,\n\t\tID_SECCIO),\n\tLONGITUD01 = sum(LONGITUD01),\n\t\tLONGITUD02 = sum(LONGITUD02),\n\t\tLONGITUD03 = sum(LONGITUD03),\n\t\tLONGITUD04 = sum(LONGITUD04),\n\t\tIND_VELOCITAT_MITJA = avg(IND_VELOCITAT_MITJA)) ~> AGGSumLong\nFiltroAnyo derive(DATA = year(DATA)) ~> DataToAnyo\nAGGSumLong derive(VOLUM_TOTAL = LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04) ~> AddVolumTotal\nAddVolumTotal select(mapColumn(\n\t\tDATA_ANYO = DATA,\n\t\tID_ESTACIO,\n\t\tID_SECCIO,\n\t\tVOLUM_LONGITUD = LONGITUD01,\n\t\tVOLUM_TOTAL,\n\t\tIND_VELOCITAT_MITJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraColumn1\nFiltraColumn1 derive(TIPUS_VEHICLE = 1) ~> AddTipusVehicle1\nAddVolumTotal select(mapColumn(\n\t\tDATA_ANYO = DATA,\n\t\tID_ESTACIO,\n\t\tID_SECCIO,\n\t\tVOLUM_LONGITUD = LONGITUD02,\n\t\tVOLUM_TOTAL,\n\t\tIND_VELOCITAT_MITJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraColumn2\nFiltraColumn2 derive(TIPUS_VEHICLE = 2) ~> AddTipusVehicle2\nAddVolumTotal select(mapColumn(\n\t\tDATA_ANYO = DATA,\n\t\tID_ESTACIO,\n\t\tID_SECCIO,\n\t\tVOLUM_LONGITUD = LONGITUD03,\n\t\tVOLUM_TOTAL,\n\t\tIND_VELOCITAT_MITJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraColumn3\nFiltraColumn3 derive(TIPUS_VEHICLE = 3) ~> AddTipusVehicle3\nAddVolumTotal select(mapColumn(\n\t\tDATA_ANYO = DATA,\n\t\tID_ESTACIO,\n\t\tID_SECCIO,\n\t\tVOLUM_LONGITUD = LONGITUD04,\n\t\tVOLUM_TOTAL,\n\t\tIND_VELOCITAT_MITJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraColumn4\nFiltraColumn4 derive(TIPUS_VEHICLE = 4) ~> AddTipusVehicle4\nAddTipusVehicle1, AddTipusVehicle2, AddTipusVehicle3, AddTipusVehicle4 union(byName: true)~> UnionTipusVehicle\nUnionTipusVehicle select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = TIPUS_VEHICLE,\n\t\tID_SECCIO,\n\t\tIND_VOLUM_SENTIT = VOLUM_LONGITUD,\n\t\tIND_VOLUM_TOTAL = VOLUM_TOTAL,\n\t\tIND_VELOCITAT_MITJA,\n\t\tDATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizaFiltraCampos\nNormalizaFiltraCampos derive(IND_VELOCITAT_MITJA = round(IND_VELOCITAT_MITJA,4)) ~> Round\nDMFactDadesDia filter(year(DATA) >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nyear(DATA) < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FiltroAnyo\nRound sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_TIPUS_VEHICLE as integer,\n\t\tID_SECCIO as decimal(8,0),\n\t\tIND_VOLUM_SENTIT as decimal(26,0),\n\t\tIND_VOLUM_TOTAL as decimal(29,0),\n\t\tIND_VELOCITAT_MITJA as decimal(15,12),\n\t\tDATA_ANYO as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactDadesAnyLong"
+		}
+	}
+}

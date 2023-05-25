@@ -1,0 +1,119 @@
+{
+	"name": "PL_GAF_DIM_ODS",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_GAF_ODS_DIMs",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_DIMs",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_AUX_ESTACIO_TRANSF_UTM",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_ODS_DIMs",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_AUX_ESTACIO_TRANSF_UTM",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS2_DIM_ESTACIO_SUBTRAM5",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_AUX_ESTACIO_TRANSF_UTM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS2_DIM_ESTACIO_SUBTRAM5",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			}
+		},
+		"variables": {
+			"V_Until": {
+				"type": "Boolean",
+				"defaultValue": false
+			},
+			"V_DATA_FI": {
+				"type": "String",
+				"defaultValue": "20051231"
+			},
+			"V_DATA_FI_2": {
+				"type": "String",
+				"defaultValue": "20051231"
+			}
+		},
+		"folder": {
+			"name": "GAF"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

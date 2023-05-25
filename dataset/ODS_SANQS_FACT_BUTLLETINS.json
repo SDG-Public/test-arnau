@@ -1,0 +1,45 @@
+{
+	"name": "ODS_SANQS_FACT_BUTLLETINS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_DENUNCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_DENUNCIA",
+				"type": "date"
+			},
+			{
+				"name": "NUM_H_BUTLLETI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_PK_BUTLLETI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_AD_BUTLLETI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_BUTLLETINS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

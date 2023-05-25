@@ -1,0 +1,65 @@
+{
+	"name": "STG_GAF_DIM_TRAMS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CARRETERA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODIFICACIO",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 0
+			},
+			{
+				"name": "REGIMDEGESTIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FUNCIONAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FUNCIONALESTABLERTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TECNIC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TECNICESTABLERTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUSMODIF",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "STG_GAF_DIM_TRAMS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

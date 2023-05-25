@@ -1,0 +1,67 @@
+{
+	"name": "DF_GAF_PLA_ANYAL_AUX_ESTACIO_HUERFANA",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_INT_MIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalIntMitTOTAL"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_INT_MIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalIntMitMESES"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMEstacioSubtram5"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_AUX_ESTAC_HUERF",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalEstHuerf"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FIltraCampos1"
+				},
+				{
+					"name": "Join6"
+				},
+				{
+					"name": "FilterEstacionSinPadres"
+				},
+				{
+					"name": "Join7"
+				},
+				{
+					"name": "Filter2"
+				},
+				{
+					"name": "FiltraCampos4"
+				},
+				{
+					"name": "Distinct4"
+				}
+			],
+			"script": "source(output(\n\t\tDATA_MES as integer,\n\t\tDATA_ANYO as integer,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tIND_INTENSITATS_MITJANES as decimal(38,0),\n\t\tCONCEPTE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalIntMitTOTAL\nsource(output(\n\t\tDATA_MES as integer,\n\t\tDATA_ANYO as integer,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tIND_INTENSITATS_MITJANES as decimal(38,0),\n\t\tCONCEPTE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalIntMitMESES\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMEstacioSubtram5\nDMEstacioSubtram5 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_ESTACIO_AFIN,\n\t\tID_TIPUS_ESTACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FIltraCampos1\nODSPlaAnyalIntMitMESES, FIltraCampos1 join(ODSPlaAnyalIntMitMESES@ID_ESTACIO == FIltraCampos1@ID_ESTACIO,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join6\nJoin6 filter(!isNull(ID_ESTACIO_AFIN) && !(ID_TIPUS_ESTACIO == 1 || ID_TIPUS_ESTACIO == 2)) ~> FilterEstacionSinPadres\nFilterEstacionSinPadres, ODSPlaAnyalIntMitTOTAL join(ID_ESTACIO_AFIN == ODSPlaAnyalIntMitTOTAL@ID_ESTACIO,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join7\nJoin7 filter(isNull(ODSPlaAnyalIntMitTOTAL@ID_ESTACIO)) ~> Filter2\nFilter2 select(mapColumn(\n\t\tID_ESTACIO = ODSPlaAnyalIntMitMESES@ID_ESTACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos4\nFiltraCampos4 aggregate(groupBy(ID_ESTACIO),\n\tcount = count(ID_ESTACIO)) ~> Distinct4\nDistinct4 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tcount as long\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSPlaAnyalEstHuerf"
+		}
+	}
+}

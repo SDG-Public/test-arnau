@@ -1,0 +1,392 @@
+{
+	"name": "DF_DM_XEAC_MCT_AGR_ANOM",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSXEACMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_VALORACIO_TRACTAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "DImValtract"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_T30",
+						"type": "DatasetReference"
+					},
+					"name": "DMXeacAGRanomalT30"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_T30",
+						"type": "DatasetReference"
+					},
+					"name": "DMXeacAGRanomalTotal30"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_T60",
+						"type": "DatasetReference"
+					},
+					"name": "DMXeacAGRanomalT60"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_Ttot",
+						"type": "DatasetReference"
+					},
+					"name": "DMXeacAGRanomalTtot"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_T60",
+						"type": "DatasetReference"
+					},
+					"name": "DMXeacAGRanomalTotal60"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_Ttot",
+						"type": "DatasetReference"
+					},
+					"name": "DMXeacAGRanomalTotalTtot"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "superaLlindarAnomal"
+				},
+				{
+					"name": "MayorCero"
+				},
+				{
+					"name": "maxllindar"
+				},
+				{
+					"name": "addContaminant"
+				},
+				{
+					"name": "selectcamps"
+				},
+				{
+					"name": "soloVA"
+				},
+				{
+					"name": "FilterDATA"
+				},
+				{
+					"name": "T30"
+				},
+				{
+					"name": "T60"
+				},
+				{
+					"name": "QuitamosLasHorasDelData"
+				},
+				{
+					"name": "funciondelaberno"
+				},
+				{
+					"name": "T30ContaminantTotal"
+				},
+				{
+					"name": "T60ContaminantTotal"
+				},
+				{
+					"name": "QuitamosLasHorasDelData2"
+				},
+				{
+					"name": "funciondelaberno2"
+				},
+				{
+					"name": "DistinctT30"
+				},
+				{
+					"name": "DistinctT60"
+				},
+				{
+					"name": "Distincttot"
+				},
+				{
+					"name": "DistinctTotaltot"
+				},
+				{
+					"name": "DistinctTotalT60"
+				},
+				{
+					"name": "DistinctTotalT30"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     P_DATA_FI as string,",
+				"     P_DATA_INI as string",
+				"}",
+				"source(output(",
+				"          ID_CONTAMINANT as string,",
+				"          ID_FOCUS as string,",
+				"          DATA as timestamp,",
+				"          TIPUS_MCT as string,",
+				"          VALOR_MCT as double,",
+				"          VALORACIO_MCT as string,",
+				"          MODE_REPORTABLE_NUM as string,",
+				"          LEGISLACIO as string,",
+				"          DATA_TRUNC as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSXEACMCT",
+				"source(output(",
+				"          ID_FOCUS as string,",
+				"          ID_LEGISLACIO as string,",
+				"          ID_SUBMODE as string,",
+				"          ID_ELEMENT as decimal(6,0),",
+				"          DATA_INICI as timestamp,",
+				"          DATA_FI as timestamp,",
+				"          ANOMAL_LLINDAR as decimal(9,3),",
+				"          ID_VALORACIO_TRACTAMENT as integer,",
+				"          ID_DIM_VALORACIO_SUBMODE as integer,",
+				"          ID_DIM_FOCUS as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DImValtract",
+				"soloVA, DImValtract join(ODSXEACMCT@ID_FOCUS == DImValtract@ID_FOCUS",
+				"     && LEGISLACIO == ID_LEGISLACIO",
+				"     && MODE_REPORTABLE_NUM == ID_SUBMODE",
+				"     && ID_CONTAMINANT == toString(ID_ELEMENT),",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 derive(supera_llindar_anomal = iif(VALOR_MCT > ANOMAL_LLINDAR && TIPUS_MCT == '60', toDecimal(1), iif(VALOR_MCT > ANOMAL_LLINDAR && TIPUS_MCT == '30', toDecimal(0.5), toDecimal(0)))) ~> superaLlindarAnomal",
+				"superaLlindarAnomal filter(supera_llindar_anomal > toDecimal(0)) ~> MayorCero",
+				"MayorCero aggregate(groupBy(ODSXEACMCT@ID_FOCUS,",
+				"          DATA,",
+				"          LEGISLACIO,",
+				"          MODE_REPORTABLE_NUM,",
+				"          TIPUS_MCT),",
+				"     supera_llindar_anomal = max(supera_llindar_anomal)) ~> maxllindar",
+				"maxllindar derive(ID_CONTAMINANT = 'Total') ~> addContaminant",
+				"MayorCero select(mapColumn(",
+				"          ID_FOCUS = ODSXEACMCT@ID_FOCUS,",
+				"          ID_CONTAMINANT,",
+				"          DATA,",
+				"          TIPUS_MCT,",
+				"          supera_llindar_anomal,",
+				"          LEGISLACIO,",
+				"          MODE_REPORTABLE_NUM",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectcamps",
+				"FilterDATA filter(VALORACIO_MCT == 'VA') ~> soloVA",
+				"ODSXEACMCT filter(toDate(DATA) >= toDate($P_DATA_INI,'yyyyMMdd')",
+				"&&",
+				"toDate(DATA) < addDays(toDate($P_DATA_FI,'yyyyMMdd'),1)) ~> FilterDATA",
+				"selectcamps filter(TIPUS_MCT == '30') ~> T30",
+				"selectcamps filter(TIPUS_MCT == '60') ~> T60",
+				"selectcamps derive(DATA = toTimestamp(toString(toDate(DATA)) + ' ' + lpad(toString(hour(DATA)),2,'0') + ':00:00.000'),",
+				"          TIPUS_MCT = 'Tanto 60 como 30') ~> QuitamosLasHorasDelData",
+				"QuitamosLasHorasDelData aggregate(groupBy(ID_FOCUS,",
+				"          ID_CONTAMINANT,",
+				"          DATA,",
+				"          TIPUS_MCT,",
+				"          LEGISLACIO,",
+				"          MODE_REPORTABLE_NUM),",
+				"     supera_llindar_anomal = max(supera_llindar_anomal)) ~> funciondelaberno",
+				"addContaminant filter(TIPUS_MCT == '30') ~> T30ContaminantTotal",
+				"addContaminant filter(TIPUS_MCT == '60') ~> T60ContaminantTotal",
+				"addContaminant derive(DATA = toTimestamp(toString(toDate(DATA)) + ' ' + lpad(toString(hour(DATA)),2,'0') + ':00:00.000'),",
+				"          TIPUS_MCT = 'Tanto 60 como 30') ~> QuitamosLasHorasDelData2",
+				"QuitamosLasHorasDelData2 aggregate(groupBy(ID_FOCUS,",
+				"          DATA,",
+				"          LEGISLACIO,",
+				"          MODE_REPORTABLE_NUM,",
+				"          TIPUS_MCT),",
+				"     supera_llindar_anomal = max(supera_llindar_anomal)) ~> funciondelaberno2",
+				"T30 aggregate(groupBy(ID_FOCUS,",
+				"          MODE_REPORTABLE_NUM,",
+				"          LEGISLACIO,",
+				"          supera_llindar_anomal,",
+				"          TIPUS_MCT,",
+				"          DATA,",
+				"          ID_CONTAMINANT),",
+				"     cont = count(1)) ~> DistinctT30",
+				"T60 aggregate(groupBy(ID_FOCUS,",
+				"          MODE_REPORTABLE_NUM,",
+				"          LEGISLACIO,",
+				"          supera_llindar_anomal,",
+				"          TIPUS_MCT,",
+				"          DATA,",
+				"          ID_CONTAMINANT),",
+				"     cont = count(1)) ~> DistinctT60",
+				"funciondelaberno aggregate(groupBy(ID_FOCUS,",
+				"          supera_llindar_anomal,",
+				"          MODE_REPORTABLE_NUM,",
+				"          LEGISLACIO,",
+				"          TIPUS_MCT,",
+				"          DATA,",
+				"          ID_CONTAMINANT),",
+				"     cont = count(1)) ~> Distincttot",
+				"funciondelaberno2 aggregate(groupBy(ID_FOCUS,",
+				"          supera_llindar_anomal,",
+				"          TIPUS_MCT,",
+				"          MODE_REPORTABLE_NUM,",
+				"          LEGISLACIO,",
+				"          DATA),",
+				"     cont = count(1)) ~> DistinctTotaltot",
+				"T60ContaminantTotal aggregate(groupBy(ID_FOCUS,",
+				"          ID_CONTAMINANT,",
+				"          supera_llindar_anomal,",
+				"          TIPUS_MCT,",
+				"          MODE_REPORTABLE_NUM,",
+				"          LEGISLACIO,",
+				"          DATA),",
+				"     cont = count(1)) ~> DistinctTotalT60",
+				"T30ContaminantTotal aggregate(groupBy(ID_FOCUS,",
+				"          ID_CONTAMINANT,",
+				"          supera_llindar_anomal,",
+				"          TIPUS_MCT,",
+				"          MODE_REPORTABLE_NUM,",
+				"          LEGISLACIO,",
+				"          DATA),",
+				"     cont = count(1)) ~> DistinctTotalT30",
+				"DistinctT30 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          PK_AGR_ANOMAL as integer,",
+				"          ID_FOCUS as string,",
+				"          ID_CONTAMINANT as string,",
+				"          DATA as timestamp,",
+				"          TIPUS_MCT as string,",
+				"          supera_llindar_anomal as decimal(10,2),",
+				"          LEGISLACIO as string,",
+				"          MODE_REPORTABLE_NUM as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMXeacAGRanomalT30",
+				"DistinctTotalT30 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          PK_AGR_ANOMAL_TOTAL as integer,",
+				"          ID_FOCUS as string,",
+				"          DATA as timestamp,",
+				"          LEGISLACIO as string,",
+				"          MODE_REPORTABLE_NUM as string,",
+				"          TIPUS_MCT as string,",
+				"          supera_llindar_anomal as decimal(10,2),",
+				"          ID_CONTAMINANT as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMXeacAGRanomalTotal30",
+				"DistinctT60 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          PK_AGR_ANOMAL as integer,",
+				"          ID_FOCUS as string,",
+				"          ID_CONTAMINANT as string,",
+				"          DATA as timestamp,",
+				"          TIPUS_MCT as string,",
+				"          supera_llindar_anomal as decimal(10,2),",
+				"          LEGISLACIO as string,",
+				"          MODE_REPORTABLE_NUM as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMXeacAGRanomalT60",
+				"Distincttot sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          PK_AGR_ANOMAL_Ttot as integer,",
+				"          ID_FOCUS as string,",
+				"          ID_CONTAMINANT as string,",
+				"          DATA as timestamp,",
+				"          TIPUS_MCT as string,",
+				"          LEGISLACIO as string,",
+				"          MODE_REPORTABLE_NUM as string,",
+				"          supera_llindar_anomal as decimal(10,2)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMXeacAGRanomalTtot",
+				"DistinctTotalT60 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          PK_AGR_ANOMAL_TOTAL as integer,",
+				"          ID_FOCUS as string,",
+				"          DATA as timestamp,",
+				"          LEGISLACIO as string,",
+				"          MODE_REPORTABLE_NUM as string,",
+				"          TIPUS_MCT as string,",
+				"          supera_llindar_anomal as decimal(10,2),",
+				"          ID_CONTAMINANT as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMXeacAGRanomalTotal60",
+				"DistinctTotaltot sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          PK_AGR_ANOMAL_TOTAL_Ttot as integer,",
+				"          ID_FOCUS as string,",
+				"          DATA as timestamp,",
+				"          LEGISLACIO as string,",
+				"          MODE_REPORTABLE_NUM as string,",
+				"          TIPUS_MCT as string,",
+				"          supera_llindar_anomal as decimal(10,2)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMXeacAGRanomalTotalTtot"
+			]
+		}
+	}
+}

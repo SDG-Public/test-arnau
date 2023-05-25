@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANQS_ODS_FACT_PAGAMENT",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_PAGAMENT_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPagamentTSA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_PAGAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPagament"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelecCampos"
+				},
+				{
+					"name": "Distinct"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tDATA_COM as date,\n\t\tDATA_PAGAMENT as date,\n\t\tIND_IMPORT_PAGAMENT as string,\n\t\tCOD_TIPUS_PAGAMENT as string,\n\t\tIND_IMPOST_DIPOSIT as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPagamentTSA\nDistinct select(mapColumn(\n\t\tCODI_EXPEDIENT = ID_EXPEDIENT,\n\t\tCODI_TIPUS_PAGAMENT = COD_TIPUS_PAGAMENT,\n\t\tIND_IMPORT_PAGAMENT,\n\t\tIND_IMPOST_DIPOSIT,\n\t\tDATA_PAGAMENT,\n\t\tDATA_COM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelecCampos\nODSPagamentTSA aggregate(groupBy(ID_EXPEDIENT,\n\t\tDATA_COM,\n\t\tDATA_PAGAMENT,\n\t\tIND_IMPORT_PAGAMENT,\n\t\tCOD_TIPUS_PAGAMENT,\n\t\tIND_IMPOST_DIPOSIT),\n\tdistinct = max(1)) ~> Distinct\nSelecCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_EXPEDIENT as string,\n\t\tCODI_TIPUS_PAGAMENT as string,\n\t\tDATA_PAGAMENT as date,\n\t\tIND_IMPORT_PAGAMENT as string,\n\t\tIND_IMPOST_DIPOSIT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSPagament"
+		}
+	}
+}

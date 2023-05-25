@@ -1,0 +1,225 @@
+{
+	"name": "DF_DM_XEAC_MCT_OLD",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "SKGfocus"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALlegislacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_TRACTAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALtractament"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_VLE_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALvleMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_COMPLIMENT_MCT_1D_V2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGcomplimentMCT1Dv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_IND_DIA_v2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGindDIAv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_XEAC_ANOMALAS_v2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGxeacANOMALASv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_T30",
+						"type": "DatasetReference"
+					},
+					"name": "AGRanomalT30"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_T60",
+						"type": "DatasetReference"
+					},
+					"name": "AGRanomalT60"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_T30",
+						"type": "DatasetReference"
+					},
+					"name": "AGRanomalTOTALT30"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_T60",
+						"type": "DatasetReference"
+					},
+					"name": "AGRanomalTOTALT60"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_Ttot",
+						"type": "DatasetReference"
+					},
+					"name": "AGRanomalTOTALTtot"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_AGR_ANOMAL_Ttot",
+						"type": "DatasetReference"
+					},
+					"name": "AGRanomaltot"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "DMxeacMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ASJ_TEST_02",
+						"type": "DatasetReference"
+					},
+					"name": "TESTANTES"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_TEST_1",
+						"type": "DatasetReference"
+					},
+					"name": "TESTDESPUES"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_TEST_3",
+						"type": "DatasetReference"
+					},
+					"name": "TEST"
+				}
+			],
+			"transformations": [
+				{
+					"name": "jSKGfocus"
+				},
+				{
+					"name": "SKGvaloLEGISALCIO"
+				},
+				{
+					"name": "SKGvaloTRACTAMENT"
+				},
+				{
+					"name": "SKGvaloVLEmct"
+				},
+				{
+					"name": "SKGcompliment"
+				},
+				{
+					"name": "SKGindDIA"
+				},
+				{
+					"name": "SKGanomalas"
+				},
+				{
+					"name": "DUMMY"
+				},
+				{
+					"name": "FilterDATA"
+				},
+				{
+					"name": "AddKey1M"
+				},
+				{
+					"name": "AddIdCompliMCT1DV2"
+				},
+				{
+					"name": "ComplimentNull"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "ComplimentNOTNull"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Distinct2"
+				},
+				{
+					"name": "joinAnomalT30"
+				},
+				{
+					"name": "joinAnomalT60"
+				},
+				{
+					"name": "joinAnomaltot"
+				},
+				{
+					"name": "joinAnomalTOTALT30"
+				},
+				{
+					"name": "joinAnomalTOTALT60"
+				},
+				{
+					"name": "joinAnomalTOTALtot"
+				},
+				{
+					"name": "FTvigenciaVALORACIOtractament"
+				},
+				{
+					"name": "Upsert"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string,\n\tID_MAX as string\n}\nsource(output(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tVALOR_MCT as double,\n\t\tVALORACIO_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tLEGISLACIO as string,\n\t\tDATA_TRUNC as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacMCT\nsource(output(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGfocus\nsource(output(\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALlegislacio\nsource(output(\n\t\tID_VALORACIO_TRACTAMENT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALtractament\nsource(output(\n\t\tID_VALORACIO_VLE_MCT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALvleMCT\nsource(output(\n\t\tID_COMPLIMENT_MCT_1D_V2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGcomplimentMCT1Dv2\nsource(output(\n\t\tID_IND_DIA_v2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as string,\n\t\tDIA as date,\n\t\tTIPUS_MCT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGindDIAv2\nsource(output(\n\t\tID_XEAC_ANOMALAS_v2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGxeacANOMALASv2\nsource(output(\n\t\tPK_AGR_ANOMAL as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tsupera_llindar_anomal as decimal(10,2),\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> AGRanomalT30\nsource(output(\n\t\tPK_AGR_ANOMAL as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tsupera_llindar_anomal as decimal(10,2),\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> AGRanomalT60\nsource(output(\n\t\tPK_AGR_ANOMAL_TOTAL as integer,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tTIPUS_MCT as string,\n\t\tsupera_llindar_anomal as decimal(10,2),\n\t\tID_CONTAMINANT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> AGRanomalTOTALT30\nsource(output(\n\t\tPK_AGR_ANOMAL_TOTAL as integer,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tTIPUS_MCT as string,\n\t\tsupera_llindar_anomal as decimal(10,2),\n\t\tID_CONTAMINANT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> AGRanomalTOTALT60\nsource(output(\n\t\tPK_AGR_ANOMAL_TOTAL_Ttot as integer,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tTIPUS_MCT as string,\n\t\tsupera_llindar_anomal as decimal(10,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> AGRanomalTOTALTtot\nsource(output(\n\t\tPK_AGR_ANOMAL_Ttot as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tsupera_llindar_anomal as decimal(10,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> AGRanomaltot\nFilterDATA, SKGfocus join(ODSxeacMCT@ID_FOCUS == SKGfocus@ID_FOCUS,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> jSKGfocus\njSKGfocus, SKGdimVALlegislacio join(ODSxeacMCT@ID_FOCUS == SKGdimVALlegislacio@ID_FOCUS\n\t&& LEGISLACIO == ID_LEGISLACIO,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGvaloLEGISALCIO\nSKGvaloLEGISALCIO, SKGdimVALtractament join(ODSxeacMCT@ID_FOCUS == SKGdimVALtractament@ID_FOCUS\n\t&& LEGISLACIO == SKGdimVALtractament@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& ID_CONTAMINANT == toString(ID_ELEMENT),\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGvaloTRACTAMENT\nFTvigenciaVALORACIOtractament, SKGdimVALvleMCT join(ODSxeacMCT@ID_FOCUS == SKGdimVALvleMCT@ID_FOCUS\n\t&& LEGISLACIO == SKGdimVALvleMCT@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == SKGdimVALvleMCT@ID_SUBMODE\n\t&& ID_CONTAMINANT == toString(SKGdimVALvleMCT@ID_ELEMENT),\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGvaloVLEmct\nSKGvaloVLEmct, SKGcomplimentMCT1Dv2 join(ODSxeacMCT@ID_FOCUS == SKGcomplimentMCT1Dv2@ID_FOCUS\n\t&& ODSxeacMCT@ID_CONTAMINANT == SKGcomplimentMCT1Dv2@ID_CONTAMINANT\n\t&& LEGISLACIO == SKGcomplimentMCT1Dv2@ID_LEGISLACIO\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == SKGcomplimentMCT1Dv2@MODE_REPORTABLE_NUM\n\t&& toDate(ODSxeacMCT@DATA) == toDate(SKGcomplimentMCT1Dv2@DATA)\n\t&& TIPUS_MCT == toString(VLE_MCT_TIPUS_MCT),\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGcompliment\nSKGcompliment, SKGindDIAv2 join(ODSxeacMCT@ID_FOCUS == SKGindDIAv2@ID_FOCUS\n\t&& LEGISLACIO == SKGindDIAv2@ID_LEGISLACIO\n\t&& ODSxeacMCT@ID_CONTAMINANT == SKGindDIAv2@ID_ELEMENT\n\t&& toDate(ODSxeacMCT@DATA) == DIA\n\t&& ODSxeacMCT@TIPUS_MCT == SKGindDIAv2@TIPUS_MCT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGindDIA\nSKGindDIA, SKGxeacANOMALASv2 join(ODSxeacMCT@ID_FOCUS == SKGxeacANOMALASv2@ID_FOCUS\n\t&& LEGISLACIO == SKGxeacANOMALASv2@ID_LEGISLACIO\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == SKGxeacANOMALASv2@MODE_REPORTABLE_NUM\n\t&& ODSxeacMCT@DATA == SKGxeacANOMALASv2@DATA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGanomalas\njoinAnomalTOTALtot derive(ID_DIM_FOCUS = iifNull(ID_DIM_FOCUS,0),\n\t\tID_VALORACIO_LEGISLACIO = iifNull(ID_VALORACIO_LEGISLACIO,0),\n\t\tID_VALORACIO_TRACTAMENT = iifNull(ID_VALORACIO_TRACTAMENT,0),\n\t\tID_VALORACIO_VLE_MCT = iifNull(ID_VALORACIO_VLE_MCT,0),\n\t\tPK_AGR_ANOMAL_T30 = iifNull(AGRanomalT30@PK_AGR_ANOMAL,0),\n\t\tPK_AGR_ANOMAL_T60 = iifNull(AGRanomalT60@PK_AGR_ANOMAL,0),\n\t\tPK_AGR_ANOMAL_Ttot = iifNull(PK_AGR_ANOMAL_Ttot,0),\n\t\tPK_AGR_ANOMAL_TOTAL_T30 = iifNull(AGRanomalTOTALT30@PK_AGR_ANOMAL_TOTAL,0),\n\t\tPK_AGR_ANOMAL_TOTAL_T60 = iifNull(AGRanomalTOTALT60@PK_AGR_ANOMAL_TOTAL,0),\n\t\tPK_AGR_ANOMAL_TOTAL_Ttot = iifNull(PK_AGR_ANOMAL_TOTAL_Ttot,0)) ~> DUMMY\nODSxeacMCT filter(ID_FOCUS == 'CA'\n&&\nTIPUS_MCT == '30'\n&&\nID_CONTAMINANT == '112') ~> FilterDATA\nDistinct keyGenerate(output(key as long),\n\tstartAt: 1L,\n\tstepValue: 1L) ~> AddKey1M\nAddKey1M derive(ID_COMPLIMENT_MCT_1D_V2 = -1*toInteger(key) + toInteger($ID_MAX)) ~> AddIdCompliMCT1DV2\nFiltraCampos filter(isNull(ID_COMPLIMENT_MCT_1D_V2)) ~> ComplimentNull\nDUMMY select(mapColumn(\n\t\tID_CONTAMINANT = ODSxeacMCT@ID_CONTAMINANT,\n\t\tID_FOCUS = ODSxeacMCT@ID_FOCUS,\n\t\tDATA = ODSxeacMCT@DATA,\n\t\tTIPUS_MCT = ODSxeacMCT@TIPUS_MCT,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tMODE_REPORTABLE_NUM = ODSxeacMCT@MODE_REPORTABLE_NUM,\n\t\tLEGISLACIO = ODSxeacMCT@LEGISLACIO,\n\t\tDATA_TRUNC,\n\t\tID_DIM_FOCUS,\n\t\tID_VALORACIO_LEGISLACIO,\n\t\tID_VALORACIO_TRACTAMENT,\n\t\tID_VALORACIO_VLE_MCT,\n\t\tID_COMPLIMENT_MCT_1D_V2,\n\t\tID_IND_DIA_v2,\n\t\tID_XEAC_ANOMALAS_v2,\n\t\tPK_AGR_ANOMAL_T30,\n\t\tPK_AGR_ANOMAL_T60,\n\t\tPK_AGR_ANOMAL_Ttot,\n\t\tPK_AGR_ANOMAL_TOTAL_T30,\n\t\tPK_AGR_ANOMAL_TOTAL_T60,\n\t\tPK_AGR_ANOMAL_TOTAL_Ttot\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos filter(!isNull(ID_COMPLIMENT_MCT_1D_V2)) ~> ComplimentNOTNull\nFiltraCampos2, ComplimentNOTNull union(byName: true)~> Union1\nDistinct2 select(mapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tLEGISLACIO,\n\t\tDATA_TRUNC,\n\t\tID_DIM_FOCUS,\n\t\tID_VALORACIO_LEGISLACIO,\n\t\tID_VALORACIO_TRACTAMENT,\n\t\tID_VALORACIO_VLE_MCT,\n\t\tID_COMPLIMENT_MCT_1D_V2,\n\t\tID_IND_DIA_v2,\n\t\tID_XEAC_ANOMALAS_v2,\n\t\tPK_AGR_ANOMAL_T30,\n\t\tPK_AGR_ANOMAL_T60,\n\t\tPK_AGR_ANOMAL_Ttot,\n\t\tPK_AGR_ANOMAL_TOTAL_T30,\n\t\tPK_AGR_ANOMAL_TOTAL_T60,\n\t\tPK_AGR_ANOMAL_TOTAL_Ttot\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nComplimentNull aggregate(groupBy(ID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tLEGISLACIO,\n\t\tID_DIM_FOCUS,\n\t\tID_VALORACIO_LEGISLACIO,\n\t\tID_VALORACIO_TRACTAMENT,\n\t\tID_VALORACIO_VLE_MCT,\n\t\tPK_AGR_ANOMAL_T30,\n\t\tPK_AGR_ANOMAL_T60,\n\t\tPK_AGR_ANOMAL_Ttot,\n\t\tPK_AGR_ANOMAL_TOTAL_T30,\n\t\tPK_AGR_ANOMAL_TOTAL_T60,\n\t\tPK_AGR_ANOMAL_TOTAL_Ttot),\n\tcont = count(ID_CONTAMINANT)) ~> Distinct\nComplimentNull, AddIdCompliMCT1DV2 join(FiltraCampos@ID_CONTAMINANT == Distinct@ID_CONTAMINANT\n\t&& FiltraCampos@ID_FOCUS == Distinct@ID_FOCUS\n\t&& FiltraCampos@TIPUS_MCT == Distinct@TIPUS_MCT\n\t&& FiltraCampos@MODE_REPORTABLE_NUM == Distinct@MODE_REPORTABLE_NUM\n\t&& FiltraCampos@LEGISLACIO == Distinct@LEGISLACIO\n\t&& FiltraCampos@ID_DIM_FOCUS == Distinct@ID_DIM_FOCUS\n\t&& FiltraCampos@ID_VALORACIO_LEGISLACIO == Distinct@ID_VALORACIO_LEGISLACIO\n\t&& FiltraCampos@ID_VALORACIO_TRACTAMENT == Distinct@ID_VALORACIO_TRACTAMENT\n\t&& FiltraCampos@ID_VALORACIO_VLE_MCT == Distinct@ID_VALORACIO_VLE_MCT,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join2\nJoin2 aggregate(groupBy(FiltraCampos@ID_CONTAMINANT,\n\t\tFiltraCampos@ID_FOCUS,\n\t\tDATA,\n\t\tFiltraCampos@TIPUS_MCT,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tFiltraCampos@MODE_REPORTABLE_NUM,\n\t\tFiltraCampos@LEGISLACIO,\n\t\tDATA_TRUNC,\n\t\tFiltraCampos@ID_DIM_FOCUS,\n\t\tFiltraCampos@ID_VALORACIO_LEGISLACIO,\n\t\tFiltraCampos@ID_VALORACIO_TRACTAMENT,\n\t\tFiltraCampos@ID_VALORACIO_VLE_MCT,\n\t\tAddIdCompliMCT1DV2@ID_COMPLIMENT_MCT_1D_V2,\n\t\tID_IND_DIA_v2,\n\t\tID_XEAC_ANOMALAS_v2,\n\t\tFiltraCampos@PK_AGR_ANOMAL_T30,\n\t\tFiltraCampos@PK_AGR_ANOMAL_T60,\n\t\tFiltraCampos@PK_AGR_ANOMAL_Ttot,\n\t\tFiltraCampos@PK_AGR_ANOMAL_TOTAL_T30,\n\t\tFiltraCampos@PK_AGR_ANOMAL_TOTAL_T60,\n\t\tFiltraCampos@PK_AGR_ANOMAL_TOTAL_Ttot),\n\tcont = count(FiltraCampos@ID_CONTAMINANT)) ~> Distinct2\nSKGanomalas, AGRanomalT30 join(ODSxeacMCT@ID_FOCUS == AGRanomalT30@ID_FOCUS\n\t&& ODSxeacMCT@ID_CONTAMINANT == AGRanomalT30@ID_CONTAMINANT\n\t&& ODSxeacMCT@DATA == AGRanomalT30@DATA\n\t&& ODSxeacMCT@TIPUS_MCT == AGRanomalT30@TIPUS_MCT\n\t&& ODSxeacMCT@LEGISLACIO == AGRanomalT30@LEGISLACIO\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == AGRanomalT30@MODE_REPORTABLE_NUM,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> joinAnomalT30\njoinAnomalT30, AGRanomalT60 join(ODSxeacMCT@ID_FOCUS == AGRanomalT60@ID_FOCUS\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == AGRanomalT60@MODE_REPORTABLE_NUM\n\t&& ODSxeacMCT@LEGISLACIO == AGRanomalT60@LEGISLACIO\n\t&& ODSxeacMCT@TIPUS_MCT == AGRanomalT60@TIPUS_MCT\n\t&& ODSxeacMCT@DATA == AGRanomalT60@DATA\n\t&& ODSxeacMCT@ID_CONTAMINANT == AGRanomalT60@ID_CONTAMINANT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> joinAnomalT60\njoinAnomalT60, AGRanomaltot join(ODSxeacMCT@ID_FOCUS == AGRanomaltot@ID_FOCUS\n\t&& ODSxeacMCT@LEGISLACIO == AGRanomaltot@LEGISLACIO\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == AGRanomaltot@MODE_REPORTABLE_NUM\n\t&& ODSxeacMCT@ID_CONTAMINANT == AGRanomaltot@ID_CONTAMINANT\n\t&& ODSxeacMCT@DATA == AGRanomaltot@DATA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> joinAnomaltot\njoinAnomaltot, AGRanomalTOTALT30 join(ODSxeacMCT@ID_FOCUS == AGRanomalTOTALT30@ID_FOCUS\n\t&& ODSxeacMCT@TIPUS_MCT == AGRanomalTOTALT30@TIPUS_MCT\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == AGRanomalTOTALT30@MODE_REPORTABLE_NUM\n\t&& ODSxeacMCT@DATA == AGRanomalTOTALT30@DATA\n\t&& ODSxeacMCT@LEGISLACIO == AGRanomalTOTALT30@LEGISLACIO,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> joinAnomalTOTALT30\njoinAnomalTOTALT30, AGRanomalTOTALT60 join(ODSxeacMCT@ID_FOCUS == AGRanomalTOTALT60@ID_FOCUS\n\t&& ODSxeacMCT@TIPUS_MCT == AGRanomalTOTALT60@TIPUS_MCT\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == AGRanomalTOTALT60@MODE_REPORTABLE_NUM\n\t&& ODSxeacMCT@LEGISLACIO == AGRanomalTOTALT60@LEGISLACIO\n\t&& ODSxeacMCT@DATA == AGRanomalTOTALT60@DATA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> joinAnomalTOTALT60\njoinAnomalTOTALT60, AGRanomalTOTALTtot join(ODSxeacMCT@ID_FOCUS == AGRanomalTOTALTtot@ID_FOCUS\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == AGRanomalTOTALTtot@MODE_REPORTABLE_NUM\n\t&& ODSxeacMCT@LEGISLACIO == AGRanomalTOTALTtot@LEGISLACIO\n\t&& ODSxeacMCT@DATA == AGRanomalTOTALTtot@DATA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> joinAnomalTOTALtot\nSKGvaloTRACTAMENT filter(!isNull(DATA_FI)\n&&\nDATA >= DATA_INICI\n&&\nDATA <= DATA_FI) ~> FTvigenciaVALORACIOtractament\nUnion1 alterRow(upsertIf(true())) ~> Upsert\nUpsert sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tVALOR_MCT as double,\n\t\tVALORACIO_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tLEGISLACIO as string,\n\t\tDATA_TRUNC as date,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_VALORACIO_TRACTAMENT as integer,\n\t\tID_VALORACIO_VLE_MCT as integer,\n\t\tID_COMPLIMENT_MCT_1D_V2 as integer,\n\t\tID_IND_DIA_v2 as integer,\n\t\tID_XEAC_ANOMALAS_v2 as integer,\n\t\tPK_AGR_ANOMAL_T30 as integer,\n\t\tPK_AGR_ANOMAL_T60 as integer,\n\t\tPK_AGR_ANOMAL_Ttot as integer,\n\t\tPK_AGR_ANOMAL_TOTAL_T30 as integer,\n\t\tPK_AGR_ANOMAL_TOTAL_T60 as integer,\n\t\tPK_AGR_ANOMAL_TOTAL_Ttot as integer\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ID_CONTAMINANT','ID_FOCUS','DATA','TIPUS_MCT'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMxeacMCT\nComplimentNull sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tDATA_ANY_RCA as decimal(10,0),\n\t\tID_OBJECTE_AGRUPAT as decimal(10,0),\n\t\tID_METADATA as decimal(10,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> TESTANTES\nAddIdCompliMCT1DV2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> TESTDESPUES\nFiltraCampos2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> TEST"
+		}
+	}
+}

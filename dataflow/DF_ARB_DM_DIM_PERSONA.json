@@ -1,0 +1,31 @@
+{
+	"name": "DF_ARB_DM_DIM_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ARB_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimPersona"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_PERSONA as string,\n\t\tCOD_DNI_PERSONA as string,\n\t\tDESC_COGNOM_PERSONA as string,\n\t\tDESC_NOM_PERSONA as string,\n\t\tDESC_NOM_PERSONA_CONTACTE as string,\n\t\tDESC_ALTRES as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimPersona\nODSDimPersona sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimPersona"
+		}
+	}
+}

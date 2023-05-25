@@ -1,0 +1,35 @@
+{
+	"name": "DF_ASJ_ODS_DIM_TIPUS_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_DIM_TIPUS_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTipusExpedient"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_TIPUS_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusExpedient"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalizaCampos"
+				}
+			],
+			"script": "source(output(\n\t\tTIPUSEXPEDIENT_ID as decimal(10,0),\n\t\tNOM as string,\n\t\tDESCRIPCIO as string,\n\t\tIDTRAMITINICIAL as decimal(10,0),\n\t\tDONATDEBAIXA as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTipusExpedient\nSTGDimTipusExpedient select(mapColumn(\n\t\tID_TIPUS_EXPEDIENT = TIPUSEXPEDIENT_ID,\n\t\tID_TRAMIT_INICIAL = IDTRAMITINICIAL,\n\t\tDESC_NOM = NOM,\n\t\tDESC_TIPUS_EXPEDIENT = DESCRIPCIO,\n\t\tFLAG_BAIXA = DONATDEBAIXA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizaCampos\nNormalizaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_EXPEDIENT as decimal(10,0),\n\t\tID_TRAMIT_INICIAL as decimal(10,0),\n\t\tDESC_NOM as string,\n\t\tDESC_TIPUS_EXPEDIENT as string,\n\t\tFLAG_BAIXA as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTipusExpedient"
+		}
+	}
+}

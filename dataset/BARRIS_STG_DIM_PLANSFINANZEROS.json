@@ -1,0 +1,117 @@
+{
+	"name": "BARRIS_STG_DIM_PLANSFINANZEROS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODIMUNICIPI",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODICOMARCA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIDELEGACIO",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "DELEGACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANYCONV",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ESTAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CODIAMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITOLACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ESFEDER",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "ANYDADES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "GENERALITAT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AJUNTAMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ALTRES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AJUT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORGAN",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_STG",
+			"table": "STG_BARRIS_DIM_PLANSFINANZEROS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,26 @@
+{
+	"name": "FIT_STG_SANQS_FACT_QUALIF_TSA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SFTP_TES_PRO_TSA",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/FITXERS"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "SftpLocation",
+				"fileName": "TSA_QUALI.TXT",
+				"folderPath": "/DATA"
+			},
+			"columnDelimiter": "\u0001",
+			"encodingName": "ISO-8859-1",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

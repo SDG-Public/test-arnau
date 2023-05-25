@@ -1,0 +1,38 @@
+{
+	"name": "DF_ARB_ODS_DIM_DEMARCACIO",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_TIPUS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimDemarcacio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_DEMARCACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimDemarcacio"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltroDemarcacio"
+				},
+				{
+					"name": "RenombraCampos"
+				}
+			],
+			"script": "source(output(\n\t\tARB_TAU_CODI as string,\n\t\tARB_TAU_ELE as string,\n\t\tARB_TAU_DAD as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimDemarcacio\nSTGDimDemarcacio filter(ARB_TAU_CODI == '009') ~> FiltroDemarcacio\nFiltroDemarcacio select(mapColumn(\n\t\tID_DEMARCACIO = ARB_TAU_ELE,\n\t\tDESC_DEMARCACIO = ARB_TAU_DAD\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_DEMARCACIO as string,\n\t\tDESC_DEMARCACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimDemarcacio"
+		}
+	}
+}

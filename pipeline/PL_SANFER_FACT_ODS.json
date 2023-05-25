@@ -1,0 +1,245 @@
+{
+	"name": "PL_SANFER_FACT_ODS",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_SANFER_ODS_FACT_EXPEDIENT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_SANFER_FACT_EXPEDIENT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_SANFER_ODS_FACT_EXPEDIENT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							},
+							"P_DATA_MODIF": {
+								"value": "'@{pipeline().parameters.P_DATA_MODIF}'",
+								"type": "Expression"
+							},
+							"P_DATA_ALTA": {
+								"value": "'@{pipeline().parameters.P_DATA_ALTA}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_SANFER_ODS_FACT_PAGAMENT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_SANFER_ODS_FACT_PAGAMENT",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_SANFER_ODS_FACT_TRAMITACIO",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_SANFER_FACT_TRAMITACIO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_SANFER_ODS_FACT_TRAMITACIO",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_MODIF_TRAMIT": {
+								"value": "'@{pipeline().parameters.P_DATA_MODIF_TRAMIT}'",
+								"type": "Expression"
+							},
+							"P_DATA_ALTA_TRAMIT": {
+								"value": "'@{pipeline().parameters.P_DATA_ALTA_TRAMIT}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DELETE_ODS_SANFER_FACT_EXPEDIENT",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_TIMESTAMP]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ALTA_SISTEMA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_ALTA",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "SANFER_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_SANFER_FACT_EXPEDIENT",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_SANFER_FACT_TRAMITACIO",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_TIMESTAMP]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ALTA_SISTEMA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_ALTA_TRAMIT",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "SANFER_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_SANFER_FACT_TRAMITACIO",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_ALTA": {
+				"type": "string",
+				"defaultValue": "2022-03-01 00:00:00"
+			},
+			"P_DATA_MODIF": {
+				"type": "string",
+				"defaultValue": "2022-07-18  17:00:00"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "2022-07-18  17:00:00"
+			},
+			"P_DATA_ALTA_TRAMIT": {
+				"type": "string",
+				"defaultValue": "2022-03-01 00:00:00"
+			},
+			"P_DATA_MODIF_TRAMIT": {
+				"type": "string",
+				"defaultValue": "2022-07-18  17:00:00"
+			}
+		},
+		"folder": {
+			"name": "SANFER"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

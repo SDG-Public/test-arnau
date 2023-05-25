@@ -1,0 +1,80 @@
+{
+	"name": "ODS_ASJ_DIM_SENTENCIES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "NUM_EXPEDIENT_INTERN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SENTENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_RECURS_SENTENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPUS_SENTENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TRIBUNAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_RESUM_SENTENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANY_GC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DATA_SENTENCIA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DESC_TIPUS_CONTENCIOS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPUS_RECURS_SENTENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_FERMESA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ANY_RCA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_ODS",
+			"table": "ODS_ASJ_DIM_SENTENCIES"
+		}
+	}
+}

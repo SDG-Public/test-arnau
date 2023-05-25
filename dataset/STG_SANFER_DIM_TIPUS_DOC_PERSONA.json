@@ -1,0 +1,35 @@
+{
+	"name": "STG_SANFER_DIM_TIPUS_DOC_PERSONA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_TIPUS_DOCUMENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ESTAT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_STG",
+			"table": "STG_SANFER_DIM_TIPUS_DOC_PERSONA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

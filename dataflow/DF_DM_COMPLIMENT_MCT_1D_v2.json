@@ -1,0 +1,55 @@
+{
+	"name": "DF_DM_COMPLIMENT_MCT_1D_v2",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_COMPLIMENT_MCT_1D_v2",
+						"type": "DatasetReference"
+					},
+					"name": "ODScomplimentMCT1Dv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimFOCUS"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_COMPLIMENT_MCT_1D_V2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGcomplimentMCT1Dv2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_COMPLIMENT_MCT_1D_v2",
+						"type": "DatasetReference"
+					},
+					"name": "DMcomplimentMCT1Dv2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SKGfocus"
+				},
+				{
+					"name": "DUMMY"
+				},
+				{
+					"name": "JoinSKG"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT_VAL_PERC_COMP as decimal(5,2),\n\t\tMCT_VAL_PERIODE as string,\n\t\tMCTS_VALIDA as long,\n\t\tMCTS_TOTAL as long,\n\t\tPCT_COMPLIMENT as double,\n\t\tMCT_VAL_PERIODE_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODScomplimentMCT1Dv2\nsource(output(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimFOCUS\nsource(output(\n\t\tID_COMPLIMENT_MCT_1D_V2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGcomplimentMCT1Dv2\nJoinSKG, SKGdimFOCUS join(ODScomplimentMCT1Dv2@ID_FOCUS == SKGdimFOCUS@ID_FOCUS,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGfocus\nSKGfocus derive(ID_DIM_FOCUS = iifNull(ID_DIM_FOCUS,0)) ~> DUMMY\nODScomplimentMCT1Dv2, SKGcomplimentMCT1Dv2 join(ODScomplimentMCT1Dv2@ID_FOCUS == SKGcomplimentMCT1Dv2@ID_FOCUS\n\t&& ODScomplimentMCT1Dv2@ID_CONTAMINANT == SKGcomplimentMCT1Dv2@ID_CONTAMINANT\n\t&& ODScomplimentMCT1Dv2@ID_LEGISLACIO == SKGcomplimentMCT1Dv2@ID_LEGISLACIO\n\t&& ODScomplimentMCT1Dv2@MODE_REPORTABLE_NUM == SKGcomplimentMCT1Dv2@MODE_REPORTABLE_NUM\n\t&& ODScomplimentMCT1Dv2@DATA == SKGcomplimentMCT1Dv2@DATA\n\t&& ODScomplimentMCT1Dv2@VLE_MCT_TIPUS_MCT == SKGcomplimentMCT1Dv2@VLE_MCT_TIPUS_MCT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinSKG\nDUMMY sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT_VAL_PERC_COMP as decimal(5,2),\n\t\tMCT_VAL_PERIODE as string,\n\t\tPCT_COMPLIMENT as double,\n\t\tMCTS_VALIDA as long,\n\t\tMCTS_TOTAL as long,\n\t\tMCT_VAL_PERIODE_COMP as string,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_COMPLIMENT_MCT_1D_V2 as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS = ODScomplimentMCT1Dv2@ID_FOCUS,\n\t\tID_CONTAMINANT = ODScomplimentMCT1Dv2@ID_CONTAMINANT,\n\t\tID_LEGISLACIO = ODScomplimentMCT1Dv2@ID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM = ODScomplimentMCT1Dv2@MODE_REPORTABLE_NUM,\n\t\tDATA = ODScomplimentMCT1Dv2@DATA,\n\t\tVLE_MCT_TIPUS_MCT,\n\t\tVLE_MCT_VAL_PERC_COMP,\n\t\tMCT_VAL_PERIODE,\n\t\tPCT_COMPLIMENT,\n\t\tMCTS_VALIDA,\n\t\tMCTS_TOTAL,\n\t\tMCT_VAL_PERIODE_COMP,\n\t\tID_DIM_FOCUS,\n\t\tID_COMPLIMENT_MCT_1D_V2\n\t)) ~> DMcomplimentMCT1Dv2"
+		}
+	}
+}

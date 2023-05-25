@@ -1,0 +1,55 @@
+{
+	"name": "TR_CONTAMINANT_MINU",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_VALIDACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VALOR",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "TR_CONTAMINANT_MINU"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

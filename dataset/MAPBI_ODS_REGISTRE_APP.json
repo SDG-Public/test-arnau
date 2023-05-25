@@ -1,0 +1,34 @@
+{
+	"name": "MAPBI_ODS_REGISTRE_APP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MAPBI/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ID_USUARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "APLICACIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "MAPBIODS",
+			"table": "ODS_ACCESS_APLICACIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

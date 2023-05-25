@@ -1,0 +1,73 @@
+{
+	"name": "MESTRES_DM_TERRITORIAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MESTRES/TERRITORIAL/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_POBLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_VEGUERIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_VEGUERIA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "MESTRES_DM",
+			"table": "DM_DIM_TERRITORIAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

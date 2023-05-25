@@ -1,0 +1,50 @@
+{
+	"name": "STG_GEU_DIM_CARREC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_CARREC",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "DESC_CARREC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TRACTAMENT",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "CODI_TRACTAMENT_DONA",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "DESC_CARREC_DONA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_CARREC_COMISSIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_CARREC"
+		}
+	}
+}

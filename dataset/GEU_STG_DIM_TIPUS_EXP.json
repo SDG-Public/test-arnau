@@ -1,0 +1,153 @@
+{
+	"name": "GEU_STG_DIM_TIPUS_EXP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_LLARGA_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_RECURS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_RECURS_CONT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_RELACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SIGEDA_CLASSIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SIGEDA_SUBDIV_ESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SIGEDA_SUBDIV_UNIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_ORDRE",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_BLOC_OD",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "IND_PLANEJAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PLA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_SUP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_SUP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENCIA_PLANEJAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PAUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_INCLOU_PAUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PLANEJAMENT_DERIVAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_JERARQUIC_CLASSIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_RANG_TIPUS_EXP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_ACUMULA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_REQ_PROJ_URBANITZACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_FITXA_COMPETENCIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUB_IND_PUBLICABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_POUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_INCLOU_SECTORS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_IND_PUBLICABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPEX_RPUC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPEX_RPUC_CASTELLA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PRIOR_COMISSIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_TIPUS_EXP"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

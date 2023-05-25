@@ -1,0 +1,42 @@
+{
+	"name": "STG_GEU_DIM_CIRCUIT_TR_PLANTILLA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_CIRCUIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUMINT_TRAMIT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "NUM_ORDRE_TRA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CODI_PLANTILLA",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_CIRCUIT_TR_PLANTILLA"
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"name": "DM_DIM_VALORACIO_VLE_MLT_SK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_DIM_VALORACIO_VLE_MLT_SK"
+		}
+	}
+}

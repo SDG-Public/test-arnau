@@ -1,0 +1,45 @@
+{
+	"name": "DF_COSTES_ODS_DIM_TRAMIT",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTRAMIT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_TIPUS_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTIPUSTRAMIT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimTRAMIT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "NormalitzarCamps1"
+				}
+			],
+			"script": "source(output(\n\t\tNUMINT_TRAMIT as decimal(7,0),\n\t\tCODI_TRAMIT as string,\n\t\tCODI_SUBTRAMIT as string,\n\t\tDESC_TRAMIT as string,\n\t\tIND_VIGENT as string,\n\t\tVERSION as double,\n\t\tTIPUS_TRAMIT as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTRAMIT\nsource(output(\n\t\tID as decimal(4,0),\n\t\tDESC_TIPUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTIPUSTRAMIT\nSTGdimTRAMIT, STGdimTIPUSTRAMIT join(TIPUS_TRAMIT == ID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 select(mapColumn(\n\t\tNUM_TRAMIT = NUMINT_TRAMIT,\n\t\tCOD_TRAMIT = CODI_TRAMIT,\n\t\tCOD_SUBTRAMIT = CODI_SUBTRAMIT,\n\t\tDESC_TRAMIT,\n\t\tDESC_TIPUS_TRAMIT = DESC_TIPUS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps1\nNormalitzarCamps1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tNUM_TRAMIT as decimal(7,0),\n\t\tCOD_TRAMIT as string,\n\t\tCOD_SUBTRAMIT as string,\n\t\tDESC_TRAMIT as string,\n\t\tDESC_TIPUS_TRAMIT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tNUM_TRAMIT,\n\t\tCOD_TRAMIT,\n\t\tCOD_SUBTRAMIT,\n\t\tDESC_TRAMIT,\n\t\tDESC_TIPUS_TRAMIT\n\t)) ~> ODSdimTRAMIT"
+		}
+	}
+}

@@ -1,0 +1,64 @@
+{
+	"name": "COSTES_STG_DIM_EXP_MUNICIPI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "CODI_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_VEGUERIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PRINCIPAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VERSION",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_EXP_MUNICIPI"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

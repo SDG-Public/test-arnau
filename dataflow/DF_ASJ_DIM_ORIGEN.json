@@ -1,0 +1,31 @@
+{
+	"name": "DF_ASJ_DIM_ORIGEN",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_ORIGEN",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimOrigen"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_ORIGEN",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimOrigen"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tNUM_EXPEDIENT_ORIGEN as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimOrigen\nODSDimOrigen sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimOrigen"
+		}
+	}
+}

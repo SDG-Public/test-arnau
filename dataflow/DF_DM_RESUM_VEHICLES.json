@@ -1,0 +1,162 @@
+{
+	"name": "DF_DM_RESUM_VEHICLES",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_RESUM_VEHICLE_RANK",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactResumVehRank"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SUBTRAMS_AGR_AMBIT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSubtramsAgrAmbit"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_RESUM_VEHICLE",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactResumVehicle"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "AddSUM1000"
+				},
+				{
+					"name": "AddSUM100001"
+				},
+				{
+					"name": "AddSUM80001"
+				},
+				{
+					"name": "AddSUM50001"
+				},
+				{
+					"name": "AddSUM20001"
+				},
+				{
+					"name": "AddSUM15001"
+				},
+				{
+					"name": "AddSUM10001"
+				},
+				{
+					"name": "AddSUM5001"
+				},
+				{
+					"name": "AddSUM2001"
+				},
+				{
+					"name": "AddSUM1001"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "AmbitCatalunya"
+				},
+				{
+					"name": "LongTotalPrevia1"
+				},
+				{
+					"name": "LongTotalPrevia2"
+				},
+				{
+					"name": "LongTotalPrevia3"
+				},
+				{
+					"name": "LongTotalPrevia4"
+				},
+				{
+					"name": "LongTotalPrevia5"
+				},
+				{
+					"name": "LongTotalPrevia6"
+				},
+				{
+					"name": "LongTotalPrevia7"
+				},
+				{
+					"name": "LongTotalPrevia8"
+				},
+				{
+					"name": "LongTotalPrevia9"
+				},
+				{
+					"name": "LongTotalPrevia0"
+				},
+				{
+					"name": "Union2"
+				},
+				{
+					"name": "SUMLongTotalPrevia"
+				},
+				{
+					"name": "AddAmbit"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "AddQmVirtual"
+				},
+				{
+					"name": "INDLONGITUD"
+				},
+				{
+					"name": "AddAmbit1"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "LongVirtual"
+				},
+				{
+					"name": "ImdLongVirtual"
+				},
+				{
+					"name": "INDIMD"
+				},
+				{
+					"name": "INDVehqmPercentage"
+				},
+				{
+					"name": "AddCamposFijos"
+				},
+				{
+					"name": "ReordenaFiltraCampos"
+				},
+				{
+					"name": "INTERVALO"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "Select3"
+				}
+			],
+			"script": "source(output(\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tDESC_AMBIT_TERRITORIAL as string,\n\t\tDESC_PROVINCIA as string,\n\t\tIND_LONGITUD as decimal(10,2),\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(10,2),\n\t\tDATA_ANY_PLA as integer,\n\t\tCOD_ORG_TRAM as string,\n\t\tIND_IMD_LONGITUD as decimal(19,2),\n\t\tIND_IMD_PESANTS as decimal(21,4),\n\t\tNUM_RANK as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactResumVehRank\nsource(output(\n\t\tAmbit as string,\n\t\tqmPublicats as decimal(38,3)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSubtramsAgrAmbit\nDMFactResumVehRank split(NUM_RANK ==0,\n\tNUM_RANK ==1,\n\tNUM_RANK ==2,\n\tNUM_RANK ==3,\n\tNUM_RANK ==4,\n\tNUM_RANK ==5,\n\tNUM_RANK ==6,\n\tNUM_RANK ==7,\n\tNUM_RANK ==8,\n\tNUM_RANK ==9,\n\tdisjoint: false) ~> ConditionalSplit1@(Rank0, Rank1, Rank2, Rank3, Rank4, Rank5, Rank6, Rank7, Rank8, Rank9, Default)\nConditionalSplit1@Rank0 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM1000\nConditionalSplit1@Rank9 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM100001\nConditionalSplit1@Rank8 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM80001\nConditionalSplit1@Rank7 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM50001\nConditionalSplit1@Rank6 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM20001\nConditionalSplit1@Rank5 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM15001\nConditionalSplit1@Rank4 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM10001\nConditionalSplit1@Rank3 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM5001\nConditionalSplit1@Rank2 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM2001\nConditionalSplit1@Rank1 aggregate(groupBy(NUM_RANK,\n\t\tDATA_ANY_PLA),\n\tSUMLong = sum(IND_LONGITUD),\n\t\tSUMImdLong = sum(IND_IMD_LONGITUD),\n\t\tSUMPesantsLong = sum(IND_IMD_PESANTS)) ~> AddSUM1001\nAddSUM1000, AddSUM100001, AddSUM1001, AddSUM5001, AddSUM15001, AddSUM20001, AddSUM50001, AddSUM80001, AddSUM10001, AddSUM2001 union(byName: true)~> Union1\nDMDimSubtramsAgrAmbit filter(Ambit == 'Catalunya') ~> AmbitCatalunya\nAddSUM1001 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia1\nAddSUM2001 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia2\nAddSUM5001 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia3\nAddSUM10001 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia4\nAddSUM15001 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia5\nAddSUM20001 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia6\nAddSUM50001 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia7\nAddSUM80001 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia8\nAddSUM100001 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia9\nAddSUM1000 select(mapColumn(\n\t\tLongTotalPrevia = SUMLong\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> LongTotalPrevia0\nLongTotalPrevia0, LongTotalPrevia7, LongTotalPrevia8, LongTotalPrevia3, LongTotalPrevia4, LongTotalPrevia2, LongTotalPrevia5, LongTotalPrevia6, LongTotalPrevia1, LongTotalPrevia9 union(byName: true)~> Union2\nUnion2 aggregate(LongTotalPrevia = sum(LongTotalPrevia)) ~> SUMLongTotalPrevia\nSUMLongTotalPrevia derive(AMBIT = 'Catalunya') ~> AddAmbit\nAddAmbit, AmbitCatalunya join(AddAmbit@AMBIT == DMDimSubtramsAgrAmbit@Ambit,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 derive(qmVirtual = iif(LongTotalPrevia != qmPublicats,qmPublicats-LongTotalPrevia,toDecimal(1))) ~> AddQmVirtual\nImdLongVirtual derive(IND_LONGITUD = toDecimal(SUMLong + LongVirtual,10,3)) ~> INDLONGITUD\nUnion1 derive(AMBIT = 'Catalunya') ~> AddAmbit1\nAddAmbit1, AddQmVirtual join(AddAmbit1@AMBIT == AddAmbit@AMBIT,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join2\nJoin2 derive(LongVirtual = ((SUMLong/LongTotalPrevia)*qmVirtual)) ~> LongVirtual\nLongVirtual derive(ImdLongVirtual = (SUMImdLong/SUMLong) * LongVirtual) ~> ImdLongVirtual\nINDLONGITUD derive(IND_IMD = toInteger((SUMImdLong + ImdLongVirtual) / IND_LONGITUD)) ~> INDIMD\nINDIMD derive(IND_VEHICLES_QM = toInteger(IND_LONGITUD * IND_IMD * 365),\n\t\tIND_PERCENTATGE = round((SUMPesantsLong + ((SUMPesantsLong/SUMLong) * LongVirtual)) / IND_LONGITUD,2,4)) ~> INDVehqmPercentage\nINTERVALO derive(DESC_OBSERVACIONS = \"Observacions: s'hi inclouen els trams de carretera en règim de concessió\",\n\t\tNUM_POSICIO = 1) ~> AddCamposFijos\nAddCamposFijos select(mapColumn(\n\t\tNUM_POSICIO,\n\t\tAMBIT = AddAmbit1@AMBIT,\n\t\tDATA_ANY_PLA,\n\t\tIND_LONGITUD,\n\t\tNUM_RANK,\n\t\tDESC_INTERVALO,\n\t\tIND_IMD,\n\t\tIND_VEHICLES_QM,\n\t\tIND_PERCENTATGE,\n\t\tDESC_OBSERVACIONS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaFiltraCampos\nINDVehqmPercentage derive(DESC_INTERVALO = case(NUM_RANK == 0, '< 1.000 veh./dia',\r\n     NUM_RANK == 1, '1.001 - 2.000 veh./dia',\r\n     NUM_RANK == 2, '2.001 - 5.000 veh./dia',\r\n     NUM_RANK == 3, '5.001 - 10.000 veh./dia',\r\n     NUM_RANK == 4, '10.001 - 15.000 veh./dia',\r\n     NUM_RANK == 5, '15.001 - 20.000 veh./dia',\r\n     NUM_RANK == 6, '20.001 - 50.000 veh./dia',\r\n     NUM_RANK == 7, '50.001 - 80.000 veh./dia',\r\n     NUM_RANK == 8, '80.001 - 100.000 veh./dia',\r\n     NUM_RANK == 9, '> 100.000 veh./dia',\r\n 'ERROR')) ~> INTERVALO\nINDIMD select(mapColumn(\n\t\tNUM_RANK,\n\t\tDATA_ANY_PLA,\n\t\tSUMLong,\n\t\tSUMImdLong,\n\t\tSUMPesantsLong,\n\t\tAMBIT = AddAmbit1@AMBIT,\n\t\tLongTotalPrevia,\n\t\tqmPublicats,\n\t\tqmVirtual,\n\t\tLongVirtual,\n\t\tImdLongVirtual,\n\t\tIND_LONGITUD,\n\t\tIND_IMD\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nImdLongVirtual select(mapColumn(\n\t\tNUM_RANK,\n\t\tDATA_ANY_PLA,\n\t\tSUMLong,\n\t\tSUMImdLong,\n\t\tSUMPesantsLong,\n\t\tLongTotalPrevia,\n\t\tAmbit = DMDimSubtramsAgrAmbit@Ambit,\n\t\tqmPublicats,\n\t\tqmVirtual,\n\t\tLongVirtual,\n\t\tImdLongVirtual\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nJoin2 select(mapColumn(\n\t\tNUM_RANK,\n\t\tDATA_ANY_PLA,\n\t\tSUMLong,\n\t\tSUMImdLong,\n\t\tSUMPesantsLong,\n\t\tLongTotalPrevia,\n\t\tAmbit = DMDimSubtramsAgrAmbit@Ambit,\n\t\tqmPublicats,\n\t\tqmVirtual\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select3\nReordenaFiltraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactResumVehicle"
+		}
+	}
+}

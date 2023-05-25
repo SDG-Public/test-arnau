@@ -1,0 +1,60 @@
+{
+	"name": "DF_ODS_IND_HORA",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/INDISPONIBLES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "STGxeacMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimVALORACIOtractament"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_IND_HORA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSindHORA"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterRNdia"
+				},
+				{
+					"name": "SelectCOLUMNS"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "WindowCOUNTacumulado"
+				},
+				{
+					"name": "JoinVALORACIO"
+				},
+				{
+					"name": "DerivedColumnCOMPLIMENT"
+				},
+				{
+					"name": "COLOR"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tCODI_EMIS as string,\n\t\tID_FOCUS as string,\n\t\tMARCA_TEMPS_TZ as timestamp,\n\t\tMARCA_TEMPS_UTC as timestamp,\n\t\tMARCA_TEMPS_LOCAL as timestamp,\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tID_ELEMENT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tV_VLE as float,\n\t\tF_VLE as string,\n\t\tV_IMP as float,\n\t\tF_IMP as string,\n\t\tV_INV as float,\n\t\tF_INV as string,\n\t\tV_PRT as float,\n\t\tF_PRT as string,\n\t\tV_GEH as float,\n\t\tF_GEH as string,\n\t\tZONA_HORARIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGxeacMCT\nsource(output(\n\t\tID_LEGISLACIO as string,\n\t\tDESCRIPCIO as string,\n\t\tDESCRIPCIO_ACRONIM as string,\n\t\tMCT_BASE as decimal(3,0),\n\t\tMAX_H_ANOMALES as decimal(4,0),\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tMAX_DIES_INDISPON as decimal(4,0),\n\t\tMAX_H_ANOMALES_SEGUIDES as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimVALORACIOtractament\nSTGxeacMCT filter(F_VLE == \"RN\"\n&&\ntoDate(MARCA_TEMPS_UTC) >= toDate($P_DATA_INI,\"yyyyMMdd\")\n&& \ntoDate(MARCA_TEMPS_UTC) < addDays(toDate($P_DATA_FI,\"yyyyMMdd\"),1)) ~> FilterRNdia\nFilterRNdia select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tMARCA_TEMPS_UTC,\n\t\tID_SUBMODE,\n\t\tMINUTOS_MCT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLUMNS\nSelectCOLUMNS derive(COMPTADOR = 1,\n\t\tDIA = toDate(MARCA_TEMPS_UTC)) ~> DerivedColumn1\nDerivedColumn1 window(over(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tDIA),\n\tasc(MARCA_TEMPS_UTC, true),\n\tNUMERO_CASOS = count(1)) ~> WindowCOUNTacumulado\nWindowCOUNTacumulado, STGdimVALORACIOtractament join(SelectCOLUMNS@ID_LEGISLACIO == STGdimVALORACIOtractament@ID_LEGISLACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinVALORACIO\nJoinVALORACIO derive(COMPLIMENT = iif(NUMERO_CASOS <= toLong(IND_N_MCT_DIA_IND), \"OK\", \"KO\"),\n\t\tTIPUS_MCT = toString(MINUTOS_MCT)) ~> DerivedColumnCOMPLIMENT\nDerivedColumnCOMPLIMENT derive(COLOR = iif(COMPLIMENT == 'OK', \"#67A030\", \"#D02A2A\")) ~> COLOR\nCOLOR sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tMARCA_TEMPS_UTC as timestamp,\n\t\tNUMERO_CASOS as long,\n\t\tIND_N_MCT_DIA_IND as string,\n\t\tCOMPLIMENT as string,\n\t\tTIPUS_MCT as string,\n\t\tCOLOR as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO = SelectCOLUMNS@ID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tMARCA_TEMPS_UTC,\n\t\tNUMERO_CASOS,\n\t\tIND_N_MCT_DIA_IND,\n\t\tCOMPLIMENT,\n\t\tTIPUS_MCT,\n\t\tCOLOR\n\t)) ~> ODSindHORA"
+		}
+	}
+}

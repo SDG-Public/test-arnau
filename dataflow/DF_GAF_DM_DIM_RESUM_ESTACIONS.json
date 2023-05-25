@@ -1,0 +1,122 @@
+{
+	"name": "DF_GAF_DM_DIM_RESUM_ESTACIONS",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubTr5"
+				},
+				{
+					"dataset": {
+						"referenceName": "MESTRES_DM_TERRITORIAL",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTerritorial"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_TIPUS_ESTACIO",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTipusEstacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSeccions"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_PLA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimPla"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SUBTRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSUBTRAM5"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_RESUM_ESTACIO",
+						"type": "DatasetReference"
+					},
+					"name": "DMDIMResumEstacio"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "FiltraCampos3"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "FiltraCampos4"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "FiltraReordenaCampos6"
+				},
+				{
+					"name": "Concat"
+				},
+				{
+					"name": "Distinct2"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "FiltraCampos5"
+				},
+				{
+					"name": "Join6"
+				},
+				{
+					"name": "ReordenaCampos"
+				},
+				{
+					"name": "NotNull"
+				}
+			],
+			"script": "source(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimEstacioSubTr5\nsource(output(\n\t\tCODI_INE as string,\n\t\tCOD_MUNICIPI as string,\n\t\tDESC_MUNICIPI as string,\n\t\tCODI_LLOGARET as string,\n\t\tDESC_POBLACIO as string,\n\t\tCODI_COMARCA as string,\n\t\tDESC_COMARCA as string,\n\t\tCODI_PROVINCIA as string,\n\t\tDESC_PROVINCIA as string,\n\t\tCODI_AMBIT as string,\n\t\tDESC_AMBIT as string,\n\t\tCODI_VEGUERIA as string,\n\t\tDESC_VEGUERIA as string,\n\t\tPK_CONCAT_INE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimTerritorial\nsource(output(\n\t\tID_TIPUS_ESTACIO as integer,\n\t\tDESC_TIPUS_ESTACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimTipusEstacio\nsource(output(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSeccions\nsource(output(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCOD_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimCarrils\nsource(output(\n\t\tID_PLA as decimal(8,0),\n\t\tID_ORGANISME as string,\n\t\tID_PLA_GENERAL as decimal(8,0),\n\t\tID_ESTAT_PLA as decimal(1,0),\n\t\tDESC_PLA as string,\n\t\tFLAG_PENDENT as decimal(1,0),\n\t\tFLAG_FINALITZAT as decimal(1,0),\n\t\tDATA_INI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_INI_PROCES as timestamp,\n\t\tDATA_FI_PROCES as timestamp,\n\t\tDATA_GENERAT as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimPla\nsource(output(\n\t\tID_COMARCA as decimal(2,0),\n\t\tCOD_CARRETERA as string,\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tCOD_MODIFICACIO as decimal(15,0),\n\t\tCOD_ORGANISME as string,\n\t\tCOD_ORGTRAM as string,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(2,0),\n\t\tNUM_LONG_REAL as decimal(9,3),\n\t\tNUM_LONG_APARENT as decimal(9,3),\n\t\tDESC_NOM_CARRILS as string,\n\t\tDATA_CALCUL_IMD as string,\n\t\tDATA_ALTA as string,\n\t\tDATA_BAIXA as string,\n\t\tDATA_VALIDACIO as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSUBTRAM5\nFiltraCampos, DMDimTerritorial join(COD_INE == CODI_INE\n\t&& ID_LLOGARET == CODI_LLOGARET,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin6 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tCOD_ESTACIO,\n\t\tID_PLA,\n\t\tID_TIPUS_ESTACIO,\n\t\tID_LLOGARET,\n\t\tCOD_INE,\n\t\tCOD_CARRETERA = DMDimEstacioSubTr5@COD_CARRETERA,\n\t\tMETRES_PK,\n\t\tPK,\n\t\tCOD_ORGANISME,\n\t\tDESC_PK_INI = DMDimEstacioSubTr5@DESC_PK_INI,\n\t\tDESC_PK_FI = DMDimEstacioSubTr5@DESC_PK_FI,\n\t\tIND_IFA,\n\t\tIND_IMD = DMDimEstacioSubTr5@IND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_VELOC_MITJA,\n\t\tDESC_CARRILS,\n\t\tCOD_ORGTRAM = DMDimEstacioSubTr5@COD_ORGTRAM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos2, DMDimTipusEstacio join(FiltraCampos2@ID_TIPUS_ESTACIO == DMDimTipusEstacio@ID_TIPUS_ESTACIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join2\nJoin1 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tUTMX,\n\t\tNUM_LONGITUD,\n\t\tUTMY,\n\t\tNUM_LATITUD,\n\t\tCOD_ORGTRAM,\n\t\tCOD_ESTACIO,\n\t\tID_PLA,\n\t\tID_TIPUS_ESTACIO,\n\t\tCOD_CARRETERA,\n\t\tMETRES_PK,\n\t\tPK,\n\t\tCOD_ORGANISME,\n\t\tDESC_PK_INI,\n\t\tDESC_PK_FI,\n\t\tIND_IFA,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_VELOC_MITJA,\n\t\tDESC_COMARCA,\n\t\tCOD_INE,\n\t\tDESC_CARRILS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nJoin2 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tCOD_ORGTRAM,\n\t\tCOD_ESTACIO,\n\t\tID_PLA,\n\t\tCOD_CARRETERA,\n\t\tMETRES_PK,\n\t\tPK,\n\t\tCOD_ORGANISME,\n\t\tDESC_PK_INI,\n\t\tDESC_PK_FI,\n\t\tIND_IFA,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_VELOC_MITJA,\n\t\tDESC_COMARCA,\n\t\tDESC_TIPUS_ESTACIO,\n\t\tCOD_INE,\n\t\tDESC_CARRILS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos3\nFiltraCampos3, DMDimSeccions join(FiltraCampos3@ID_ESTACIO == DMDimSeccions@ID_ESTACIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join3\nJoin3 select(mapColumn(\n\t\tID_PLA,\n\t\tDATA_ANYO,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tCOD_ORGTRAM,\n\t\tID_ESTACIO = FiltraCampos3@ID_ESTACIO,\n\t\tCOD_ESTACIO,\n\t\tCOD_CARRETERA,\n\t\tMETRES_PK,\n\t\tPK,\n\t\tCOD_ORGANISME,\n\t\tDESC_PK_INI,\n\t\tDESC_PK_FI,\n\t\tIND_IFA,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_VELOC_MITJA,\n\t\tDESC_COMARCA,\n\t\tDESC_TIPUS_ESTACIO,\n\t\tID_SECCIO,\n\t\tCOD_INE,\n\t\tDESC_CARRILS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos4\nDistinct, DMDimCarrils join(Distinct@ID_SECCIO == DMDimCarrils@ID_SECCIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join4\nConcat select(mapColumn(\n\t\tID_ESTACIO,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tCOD_ORGTRAM,\n\t\tCOD_ESTACIO,\n\t\tCOD_INE,\n\t\tCOD_CARRETERA,\n\t\tPK_ESTACIO = PK_estacio,\n\t\t{POBLACIO(COMARCA)} = DESC_COMARCA,\n\t\tCATEGORIA = DESC_TIPUS_ESTACIO,\n\t\tCARRILS = COD_CARRIL,\n\t\tFONT_DADES = COD_ORGANISME,\n\t\tDESC_TRAM,\n\t\tIND_IFA,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_VELOC_MITJA,\n\t\tDATA_ANYO,\n\t\tDESC_CARRILS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraReordenaCampos6\nFiltraCampos5 derive(PK_estacio = concat(concat(toString(PK),','),toString(METRES_PK)),\n\t\tDESC_TRAM = concat(concat(toString(DESC_PK_INI),','),toString(DESC_PK_FI))) ~> Concat\nNotNull aggregate(groupBy(DATA_ANYO,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tCOD_ORGTRAM,\n\t\tCOD_ESTACIO,\n\t\tIND_VELOC_MITJA,\n\t\tIND_PESANTS,\n\t\tIND_IMD,\n\t\tIND_IFA,\n\t\tDESC_TRAM,\n\t\tFONT_DADES,\n\t\tCATEGORIA,\n\t\t{POBLACIO(COMARCA)},\n\t\tID_ESTACIO,\n\t\tCOD_CARRETERA,\n\t\tPK_ESTACIO,\n\t\tCOD_INE,\n\t\tDESC_CARRILS),\n\tCARRILS = max(CARRILS)) ~> Distinct2\nFiltraCampos4 aggregate(groupBy(ID_PLA,\n\t\tDATA_ANYO,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tCOD_ORGTRAM,\n\t\tCOD_ESTACIO,\n\t\tID_ESTACIO,\n\t\tCOD_CARRETERA,\n\t\tMETRES_PK,\n\t\tPK,\n\t\tCOD_ORGANISME,\n\t\tDESC_PK_INI,\n\t\tDESC_PK_FI,\n\t\tIND_IFA,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_VELOC_MITJA,\n\t\tDESC_COMARCA,\n\t\tDESC_TIPUS_ESTACIO,\n\t\tID_SECCIO,\n\t\tCOD_INE,\n\t\tDESC_CARRILS),\n\tcount = count(ID_PLA)) ~> Distinct\nJoin4 select(mapColumn(\n\t\tID_PLA,\n\t\tDATA_ANYO,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tCOD_ORGTRAM,\n\t\tCOD_ESTACIO,\n\t\tID_ESTACIO,\n\t\tCOD_CARRETERA,\n\t\tMETRES_PK,\n\t\tPK,\n\t\tCOD_ORGANISME,\n\t\tDESC_PK_INI,\n\t\tDESC_PK_FI,\n\t\tIND_IFA,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_VELOC_MITJA,\n\t\tDESC_COMARCA,\n\t\tDESC_TIPUS_ESTACIO,\n\t\tCOD_CARRIL,\n\t\tCOD_INE,\n\t\tDESC_CARRILS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos5\nDMDimEstacioSubTr5, DMDimSUBTRAM5 join(DMDimEstacioSubTr5@COD_CARRETERA == DMDimSUBTRAM5@COD_CARRETERA\n\t&& DMDimEstacioSubTr5@COD_TRAM == DMDimSUBTRAM5@COD_TRAM\n\t&& DMDimEstacioSubTr5@COD_SUBTRAM == DMDimSUBTRAM5@COD_SUBTRAM\n\t&& COD_MOD_CARRETERA == COD_MODIFICACIO,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join6\nDistinct2 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tCOD_ESTACIO,\n\t\tCOD_INE,\n\t\tCOD_ORGTRAM,\n\t\tCOD_CARRETERA,\n\t\tIND_VELOC_MITJA,\n\t\tIND_PESANTS,\n\t\tIND_IMD,\n\t\tIND_IFA,\n\t\tDESC_TRAM,\n\t\tDESC_CARRILS,\n\t\tFONT_DADES,\n\t\tCATEGORIA,\n\t\t{POBLACIO(COMARCA)},\n\t\tCARRILS,\n\t\tNUM_PK_ESTACIO = PK_ESTACIO,\n\t\tUTMY,\n\t\tUTMX,\n\t\tNUM_LATITUD,\n\t\tNUM_LONGITUD\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos\nFiltraReordenaCampos6 filter(!isNull(IND_IFA) && !isNull(IND_IMD) && !isNull(IND_VELOC_MITJA)) ~> NotNull\nReordenaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDIMResumEstacio"
+		}
+	}
+}

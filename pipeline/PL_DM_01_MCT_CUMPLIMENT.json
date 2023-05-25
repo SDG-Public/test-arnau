@@ -1,0 +1,181 @@
+{
+	"name": "PL_DM_01_MCT_CUMPLIMENT",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_DDS_CUMPLIMENT_MCT_1A",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_1A",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_COMPLIMENT_MCT_1A",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1A",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "YEAR",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_COMPLIMENT_MCT_1A_v3",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATE",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_COMPLIMENT_MCT_1D_v3",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_DDS_CUMPLIMENT_MCT_1D",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_1D",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_COMPLIMENT_MCT_1D",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v3/MCT_COMPLIMENT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:03Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

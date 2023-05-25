@@ -1,0 +1,100 @@
+{
+	"name": "PL_XEAC_V2_DM_MCT_COMPLIEMNT",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_DM_CUMPLIMENT_MCT_1D_v2",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_1D",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_COMPLIMENT_MCT_1D_v2",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DELETE_ROWS_1D",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.p_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_COMPLIMENT_MCT_1D_v2",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string"
+			},
+			"P_DATA_FI": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

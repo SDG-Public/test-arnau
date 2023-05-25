@@ -1,0 +1,83 @@
+{
+	"name": "GEU_STG_DIM_SESSIO_COMISSIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_SESSIO",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "ID_COMISSIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_SESSIO",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "DATA_SESSIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "HORA_PRIM_CONV",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "HORA_SEG_CONV",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CARACTER_SESSIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SESSIO_PT_ASSOC",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "IND_BLOQUEIG_ACTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRIV_PUBLICAR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRIV_DATA_PUBLICACIO_ACTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ENVIAT_EE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_SESSIO_COMISSIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,33 @@
+{
+	"name": "Fit_STG_AUX_ABREVIATURES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/STG"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Hoja1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Abreviatures.xlsx",
+				"container": "contenedorsisp"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "DESC_ENTITAT_EXTERNA",
+				"type": "String"
+			},
+			{
+				"name": "DESC_ENTITAT_EXTERNA_ABREVIAT",
+				"type": "String"
+			}
+		]
+	}
+}

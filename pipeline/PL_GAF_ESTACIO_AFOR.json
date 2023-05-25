@@ -1,0 +1,64 @@
+{
+	"name": "PL_GAF_ESTACIO_AFOR",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_GAF_ESTACIO_AFOR_STG",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GAF_ESTACIO_AFOR_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_GAF_ESTACIO_AFOR_ODS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_GAF_ESTACIO_AFOR_STG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GAF_ESTACIO_AFOR_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_GAF_ESTACIO_AFOR_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_GAF_ESTACIO_AFOR_ODS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GAF_ESTACIO_AFOR_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "GAF/GAF - ESTACIO AFORAMENT"
+		},
+		"annotations": []
+	}
+}

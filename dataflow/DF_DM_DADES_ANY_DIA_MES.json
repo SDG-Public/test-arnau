@@ -1,0 +1,116 @@
+{
+	"name": "DF_DM_DADES_ANY_DIA_MES",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_DIA",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesDia"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_DIA_MES",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesAnyMesAny"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AGGSumCount"
+				},
+				{
+					"name": "AddAnyoMesDiaTipusDia"
+				},
+				{
+					"name": "CalculaTipusDia8"
+				},
+				{
+					"name": "Union"
+				},
+				{
+					"name": "TipusDia12345"
+				},
+				{
+					"name": "AGGSumCount2"
+				},
+				{
+					"name": "CalculoINDTipusVeh1"
+				},
+				{
+					"name": "FiltraCampos1"
+				},
+				{
+					"name": "CalculoINDTipusVeh2"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "Union2"
+				},
+				{
+					"name": "CalculoINDTipusVeh3"
+				},
+				{
+					"name": "FiltraCampos3"
+				},
+				{
+					"name": "CalculoINDTipusVeh4"
+				},
+				{
+					"name": "FiltraCampos4"
+				},
+				{
+					"name": "FiltraTipusDia8"
+				},
+				{
+					"name": "FiltraTipusDia6"
+				},
+				{
+					"name": "FiltraTipusDia7"
+				},
+				{
+					"name": "RenameCampo6"
+				},
+				{
+					"name": "RenameCampo7"
+				},
+				{
+					"name": "JoinTipusDia6"
+				},
+				{
+					"name": "JoinTipusdia7"
+				},
+				{
+					"name": "TratarNulos"
+				},
+				{
+					"name": "CalculoIND"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "TipusDia"
+				},
+				{
+					"name": "Union3"
+				},
+				{
+					"name": "Round"
+				}
+			],
+			"script": "source(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDATA as date,\n\t\tIND_PESANTS as decimal(17,4),\n\t\tIND_IMD_DIARI as decimal(18,0),\n\t\tIND_VELOCITAT_MITJA as decimal(11,8),\n\t\tVELOCITAT01 as decimal(16,0),\n\t\tVELOCITAT02 as decimal(16,0),\n\t\tVELOCITAT03 as decimal(16,0),\n\t\tVELOCITAT04 as decimal(16,0),\n\t\tVELOCITAT05 as decimal(16,0),\n\t\tVELOCITAT06 as decimal(16,0),\n\t\tVELOCITAT07 as decimal(16,0),\n\t\tVELOCITAT08 as decimal(16,0),\n\t\tVELOCITAT09 as decimal(16,0),\n\t\tVELOCITAT10 as decimal(16,0),\n\t\tLONGITUD01 as decimal(16,0),\n\t\tLONGITUD02 as decimal(16,0),\n\t\tLONGITUD03 as decimal(16,0),\n\t\tLONGITUD04 as decimal(16,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactDadesDia\nCalculaTipusDia8 aggregate(groupBy(ID_TIPUS_DIA,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tID_ESTACIO),\n\tLONGITUD01 = sum(LONGITUD01),\n\t\tLONGITUD02 = sum(LONGITUD02),\n\t\tLONGITUD03 = sum(LONGITUD03),\n\t\tLONGITUD04 = sum(LONGITUD04),\n\t\tNUM_DIA = countDistinct(DATA_DIA)) ~> AGGSumCount\nDMFactDadesDia derive(ID_TIPUS_DIA = dayOfWeek(DATA),\n\t\tDATA_ANYO = year(DATA),\n\t\tDATA_MES = month(DATA),\n\t\tDATA_DIA = dayOfMonth(DATA)) ~> AddAnyoMesDiaTipusDia\nAddAnyoMesDiaTipusDia derive(ID_TIPUS_DIA = case(ID_TIPUS_DIA == 1, 8, case(ID_TIPUS_DIA == 2, 8, case(ID_TIPUS_DIA == 3, 8, case(ID_TIPUS_DIA == 4, 8, case(ID_TIPUS_DIA == 5, 8, ID_TIPUS_DIA)))))) ~> CalculaTipusDia8\nAGGSumCount, AGGSumCount2 union(byName: true)~> Union\nAddAnyoMesDiaTipusDia filter(ID_TIPUS_DIA ==1 || ID_TIPUS_DIA ==2 || ID_TIPUS_DIA ==3 || ID_TIPUS_DIA ==4 || ID_TIPUS_DIA ==5) ~> TipusDia12345\nTipusDia12345 aggregate(groupBy(DATA_ANYO,\n\t\tDATA_MES,\n\t\tID_ESTACIO,\n\t\tID_TIPUS_DIA),\n\tLONGITUD01 = sum(LONGITUD01),\n\t\tLONGITUD02 = sum(LONGITUD02),\n\t\tLONGITUD03 = sum(LONGITUD03),\n\t\tLONGITUD04 = sum(LONGITUD04),\n\t\tNUM_DIA = countDistinct(DATA_DIA)) ~> AGGSumCount2\nUnion derive(ID_TIPUS_VEHICLE = 1,\n\t\tIMD_MES_X_DIA = (LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04)/NUM_DIA,\n\t\tVOLUM_MES_X_DIA = LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04,\n\t\tIMD_MES_X_DIA_VEHICLE = LONGITUD01/NUM_DIA,\n\t\tVOLUM_MES_X_DIA_VEHICLE = LONGITUD01) ~> CalculoINDTipusVeh1\nCalculoINDTipusVeh1 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_MES_X_DIA = IMD_MES_X_DIA,\n\t\tIND_VOLUM_MES_X_DIA = VOLUM_MES_X_DIA,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE = VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO,\n\t\tDATA_MES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos1\nUnion derive(ID_TIPUS_VEHICLE = 2,\n\t\tIMD_MES_X_DIA = (LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04)/NUM_DIA,\n\t\tVOLUM_MES_X_DIA = LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04,\n\t\tIMD_MES_X_DIA_VEHICLE = LONGITUD02/NUM_DIA,\n\t\tVOLUM_MES_X_DIA_VEHICLE = LONGITUD02) ~> CalculoINDTipusVeh2\nCalculoINDTipusVeh2 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_MES_X_DIA = IMD_MES_X_DIA,\n\t\tIND_VOLUM_MES_X_DIA = VOLUM_MES_X_DIA,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE = VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO,\n\t\tDATA_MES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nFiltraCampos1, FiltraCampos2, FiltraCampos3, FiltraCampos4 union(byName: true)~> Union2\nUnion derive(ID_TIPUS_VEHICLE = 3,\n\t\tIMD_MES_X_DIA = (LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04)/NUM_DIA,\n\t\tVOLUM_MES_X_DIA = LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04,\n\t\tIMD_MES_X_DIA_VEHICLE = LONGITUD03/NUM_DIA,\n\t\tVOLUM_MES_X_DIA_VEHICLE = LONGITUD03) ~> CalculoINDTipusVeh3\nCalculoINDTipusVeh3 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_MES_X_DIA = IMD_MES_X_DIA,\n\t\tIND_VOLUM_MES_X_DIA = VOLUM_MES_X_DIA,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE = VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_MES,\n\t\tDATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos3\nUnion derive(ID_TIPUS_VEHICLE = 4,\n\t\tIMD_MES_X_DIA = (LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04)/NUM_DIA,\n\t\tVOLUM_MES_X_DIA = LONGITUD01+LONGITUD02+LONGITUD03+LONGITUD04,\n\t\tIMD_MES_X_DIA_VEHICLE = LONGITUD04/NUM_DIA,\n\t\tVOLUM_MES_X_DIA_VEHICLE = LONGITUD04) ~> CalculoINDTipusVeh4\nCalculoINDTipusVeh4 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_MES_X_DIA = IMD_MES_X_DIA,\n\t\tIND_VOLUM_MES_X_DIA = VOLUM_MES_X_DIA,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE = VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO,\n\t\tDATA_MES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos4\nUnion2 filter(ID_TIPUS_DIA ==8) ~> FiltraTipusDia8\nUnion2 filter(ID_TIPUS_DIA ==6) ~> FiltraTipusDia6\nUnion2 filter(ID_TIPUS_DIA ==7) ~> FiltraTipusDia7\nFiltraTipusDia6 select(mapColumn(\n\t\tID_ESTACIO_Left_6 = ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE_Left_6 = ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA_Left_6 = ID_TIPUS_DIA,\n\t\tIND_IMD_MES_X_DIA_Left_6 = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_MES_X_DIA_Left_6 = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_MES_X_DIA_VEHICLE_Left_6 = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE_Left_6 = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO_Left_6 = DATA_ANYO,\n\t\tDATA_MES_Left_6 = DATA_MES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameCampo6\nFiltraTipusDia7 select(mapColumn(\n\t\tID_ESTACIO_Left_7 = ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE_Left_7 = ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA_Left_7 = ID_TIPUS_DIA,\n\t\tIND_IMD_MES_X_DIA_Left_7 = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_MES_X_DIA_Left_7 = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_MES_X_DIA_VEHICLE_Left_7 = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE_Left_7 = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO_Left_7 = DATA_ANYO,\n\t\tDATA_MES_Left_7 = DATA_MES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameCampo7\nFiltraTipusDia8, RenameCampo6 join(DATA_ANYO == DATA_ANYO_Left_6\n\t&& ID_ESTACIO == ID_ESTACIO_Left_6\n\t&& ID_TIPUS_VEHICLE == ID_TIPUS_VEHICLE_Left_6\n\t&& DATA_MES == DATA_MES_Left_6,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinTipusDia6\nJoinTipusDia6, RenameCampo7 join(ID_ESTACIO == ID_ESTACIO_Left_7\n\t&& DATA_ANYO == DATA_ANYO_Left_7\n\t&& DATA_MES == DATA_MES_Left_7\n\t&& ID_TIPUS_VEHICLE == ID_TIPUS_VEHICLE_Left_7,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinTipusdia7\nJoinTipusdia7 derive(IND_IMD_MES_X_DIA_Left_6 = iif(isNull(IND_IMD_MES_X_DIA_Left_6), toDecimal(0), IND_IMD_MES_X_DIA_Left_6),\n\t\tIND_IMD_MES_X_DIA_Left_7 = iif(isNull(IND_IMD_MES_X_DIA_Left_7), toDecimal(0), IND_IMD_MES_X_DIA_Left_7),\n\t\tIND_IMD_MES_X_DIA_VEHICLE_Left_6 = iif(isNull(IND_IMD_MES_X_DIA_VEHICLE_Left_6), toDecimal(0), IND_IMD_MES_X_DIA_VEHICLE_Left_6),\n\t\tIND_IMD_MES_X_DIA_VEHICLE_Left_7 = iif(isNull(IND_IMD_MES_X_DIA_VEHICLE_Left_7), toDecimal(0), IND_IMD_MES_X_DIA_VEHICLE_Left_7)) ~> TratarNulos\nTratarNulos derive(IND_IMD_MES_X_DIA = iif(IND_IMD_MES_X_DIA_Left_6==0 && IND_IMD_MES_X_DIA_Left_7==0,IND_IMD_MES_X_DIA,(IND_IMD_MES_X_DIA*5+IND_IMD_MES_X_DIA_Left_6+IND_IMD_MES_X_DIA_Left_7)/7),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = iif(IND_IMD_MES_X_DIA_VEHICLE_Left_6==0 && IND_IMD_MES_X_DIA_VEHICLE_Left_7==0,IND_IMD_MES_X_DIA_VEHICLE,(IND_IMD_MES_X_DIA_VEHICLE*5+IND_IMD_MES_X_DIA_VEHICLE_Left_6+IND_IMD_MES_X_DIA_VEHICLE_Left_7)/7),\n\t\tIND_VOLUM_MES_X_DIA = IND_VOLUM_MES_X_DIA+IND_VOLUM_MES_X_DIA_Left_6+IND_VOLUM_MES_X_DIA_Left_7,\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE+IND_VOLUM_MES_X_DIA_VEHICLE_Left_6+IND_VOLUM_MES_X_DIA_VEHICLE_Left_7) ~> CalculoIND\nTipusDia select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO,\n\t\tDATA_MES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nCalculoIND derive(ID_TIPUS_DIA = 99) ~> TipusDia\nUnion2, FiltraCampos union(byName: true)~> Union3\nUnion3 derive(IND_IMD_MES_X_DIA = round(IND_IMD_MES_X_DIA),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = round(IND_IMD_MES_X_DIA_VEHICLE)) ~> Round\nRound sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_TIPUS_VEHICLE as integer,\n\t\tID_TIPUS_DIA as integer,\n\t\tIND_IMD_MES_X_DIA as decimal(15,4),\n\t\tIND_VOLUM_MES_X_DIA as decimal(31,0),\n\t\tIND_IMD_MES_X_DIA_VEHICLE as decimal(15,4),\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE as decimal(28,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactDadesAnyMesAny"
+		}
+	}
+}

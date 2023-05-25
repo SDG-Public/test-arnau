@@ -1,0 +1,45 @@
+{
+	"name": "ODS_GAF_PLA_ANYAL_VOL_PER_SENTIT_PES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTACIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_MES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CONCEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VOLUM_PER_SENTIT_PESANTS",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_ODS",
+			"table": "ODS_GAF_PLA_ANYAL_VOL_PER_SENTIT_PES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

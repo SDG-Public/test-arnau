@@ -1,0 +1,109 @@
+{
+	"name": "STG_INSGRI_DIM_SERVEIS_TERRITORIAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "CODI",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_POSTAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LOCALITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TELEFON",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FAX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "WEB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SERVEIS_CENTRALS",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "NOM_RESPONSABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CARREC_RESPONSABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BUSTIA_RECEPCIO_FITXERS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CARREC_SEGON_RESPONSABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_SEGON_RESPONSABLE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_STG",
+			"table": "STG_INSGRI_DIM_SERVEIS_TERRITORIAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

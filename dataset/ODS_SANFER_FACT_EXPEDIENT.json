@@ -1,0 +1,189 @@
+{
+	"name": "ODS_SANFER_FACT_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "ID_PERSONA_DENUNCIANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_EXPEDIENT_TST",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_VALOR_INSTRUCTOR",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COD_DENUNCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_USUARI_DARRERA_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMP_SANCIO",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 2
+			},
+			{
+				"name": "IMP_SANCIO_FERMA",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 2
+			},
+			{
+				"name": "IMP_TOTAL_PAGAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "DESC_TEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_LINIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TREN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ESTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TRAJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_INFORME_SJ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_INFORME_ST",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ULTIMA_QUALIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MOTIU_ARXIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_AI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_NOTIFICACIO_RESOLUCIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_DENUNCIA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_INFRACCIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_PRESCRIPCIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ESTAT",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ALTA_SISTEMA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_DARRERA_MODIF",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_BAIXA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_DEVOLUCIO_TRAMITADA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_PAGAT_FGC",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_ALEGACIONS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_CATALA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_ODS",
+			"table": "ODS_SANFER_FACT_EXPEDIENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

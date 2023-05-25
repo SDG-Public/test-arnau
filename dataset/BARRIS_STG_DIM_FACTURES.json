@@ -1,0 +1,191 @@
+{
+	"name": "BARRIS_STG_DIM_FACTURES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODIMUNICIPI",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODICOMARCA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIDELEGACIO",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "DELEGACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANYCONV",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODICONTRACTE",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "NOMCONTRACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NIFEMISSOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOMEMISSOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATAFACTURA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "NUMFACTURA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMPORTTOTAL",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMPORTSUBVENC",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "DATAPAGAMENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ESFEDER",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "PERFASE1",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "NOMFASE1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PERFASE2",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "NOMFASE2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIAMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITOLACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMPORTACTUACIO",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMPORTBARRIS",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMPORTFEDER",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "ESTAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CONCEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REFER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CRT_ID_F1",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "CRT_ID_F2",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_STG",
+			"table": "STG_BARRIS_DIM_FACTURES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

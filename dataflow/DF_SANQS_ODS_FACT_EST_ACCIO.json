@@ -1,0 +1,49 @@
+{
+	"name": "DF_SANQS_ODS_FACT_EST_ACCIO",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EST_ACCIO_TMB",
+						"type": "DatasetReference"
+					},
+					"name": "ODSEstAccioTMB"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EST_ACCIO_TS2",
+						"type": "DatasetReference"
+					},
+					"name": "ODSEstAccioTS2"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EST_ACCIO_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSEstAccioTSA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EST_ACCIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSEstAccio"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tDATA_DENUNCIA as date,\n\t\tDATA_QUA as date,\n\t\tDATA_PLEC as date,\n\t\tDATA_INI_FAUDIE as date,\n\t\tDATA_RES as date,\n\t\tID_GRA_RES as string,\n\t\tIND_IMPORT_RES as string,\n\t\tDATA_PRES_REC as date,\n\t\tDATA_I_REC as date,\n\t\tDATA_RES2 as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSEstAccioTMB\nsource(output(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tDATA_DENUNCIA as date,\n\t\tDATA_QUA as date,\n\t\tDATA_PLEC as date,\n\t\tDATA_INI_FAUDIE as date,\n\t\tDATA_RES as date,\n\t\tID_GRA_RES as string,\n\t\tIND_IMPORT_RES as string,\n\t\tDATA_PRES_REC as date,\n\t\tDATA_I_REC as date,\n\t\tDATA_RES2 as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSEstAccioTS2\nsource(output(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tDATA_DENUNCIA as date,\n\t\tDATA_QUA as date,\n\t\tDATA_PLEC as date,\n\t\tDATA_INI_FAUDIE as date,\n\t\tDATA_RES as date,\n\t\tID_GRA_RES as string,\n\t\tIND_IMPORT_RES as string,\n\t\tDATA_PRES_REC as date,\n\t\tDATA_I_REC as date,\n\t\tDATA_RES2 as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSEstAccioTSA\nODSEstAccioTMB, ODSEstAccioTS2, ODSEstAccioTSA union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSEstAccio"
+		}
+	}
+}

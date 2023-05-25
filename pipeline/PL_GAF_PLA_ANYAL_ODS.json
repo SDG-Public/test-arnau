@@ -1,0 +1,1345 @@
+{
+	"name": "PL_GAF_PLA_ANYAL_ODS",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_PRIM",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_INT_MIT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_PRIM",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_VOLUM_PER_SENTIT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_VOL_PER_SENTIT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_VOLUM_PER_SENTIT",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_VOLUM_PER_SENTIT_PES",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_VOL_PER_SENTIT_PES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_VOLUM_PER_SENTIT_PES",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_VOLUM_PER_LONG",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_VOL_PER_LONG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_VOLUM_PER_LONG",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_FACTORS_PRIM",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_FACTORS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_FACTORS_PRIM",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_DIES_AFORATS",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_DIES_AFORAT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_DIES_AFORATS",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_VOL_PER_DIA",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_VOL_PER_DIA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_VOL_PER_DIA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_VOL_PER_DIA_PES",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_VOL_PER_DIA_PES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_VOL_PER_DIA_PES",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_FACTORS_SEC",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_SEC",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_FACTORS_SEC",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_SEC",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_ODS_PLA_ANYAL_FACTORS_PRIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_SEC",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_PES_PRIM",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_INT_MIT_PES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_PES_PRIM",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_FACTORS_PES_PRIM",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_FACTORS_PES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_FACTORS_PES_PRIM",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_FACTORS_PES_SEC",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_PES_SEC",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_FACTORS_PES_SEC",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_PES_SEC",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_ODS_PLA_ANYAL_FACTORS_PES_PRIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_PES_SEC",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_GAF_ODS_PLA_ANYAL_HORA_PUNTA",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ODS_PLA_ANYAL_HORA_PUNTA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_ODS_PLA_ANYAL_HORA_PUNTA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "P_GAF_GET_IFA",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "Set V_DATA_INI_2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@variables('V_Until')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Check Fin Bucle",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set DATA_FI_2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_Until",
+								"value": {
+									"value": "@bool(less(pipeline().parameters.P_DATA_FI,variables('V_DATA_INI')))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "SP_GAF_GET_IFA",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[P_GAF_GET_IFA]",
+								"storedProcedureParameters": {
+									"vDataFi": {
+										"value": {
+											"value": "@variables('V_DATA_INI')",
+											"type": "Expression"
+										},
+										"type": "String"
+									},
+									"vDataIni": {
+										"value": {
+											"value": "@variables('V_DATA_INI')",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "das_vm_test_pre_01",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Concat Var",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "SP_GAF_GET_IFA",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_DATA_INI",
+								"value": {
+									"value": "@concat(string(add(int(substring(variables('V_DATA_INI_2'),0,4)),1)),substring(variables('V_DATA_INI_2'),4,4))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set DATA_FI_2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Concat Var",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_DATA_INI_2",
+								"value": {
+									"value": "@variables('V_DATA_INI')",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"timeout": "7.00:00:00"
+				}
+			},
+			{
+				"name": "Set V_DATA_INI",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_INI",
+					"value": {
+						"value": "@pipeline().parameters.P_DATA_INI",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set V_DATA_INI_2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set V_DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_INI_2",
+					"value": {
+						"value": "@pipeline().parameters.P_DATA_INI",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_INT_MIT",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_INT_MIT",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_FACTORS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_PRIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_FACTORS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_INT_MIT_PES",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_INT_MIT_PES",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_FACTORS_PES",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_PES_PRIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_FACTORS_PESANTS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_VOL_PER_LONG",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_VOL_PER_LONG",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_VOL_PER_SENTIT",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_VOL_PER_SENTIT",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_VOL_PER_SENTIT_PES",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_VOL_PER_SENTIT_PES",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_DIES_AFORAT",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_DIES_AFORATS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_VOL_PER_DIA",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_VOL_PER_DIA",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_VOL_PER_DIA_PES",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_VOL_PER_DIA_PES",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DELETE_ODS_PLA_ANYAL_HORA_PUNTA",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_ODS",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "ODS_GAF_PLA_ANYAL_HORA_PUNTA",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string",
+				"defaultValue": "20080101"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20211231"
+			}
+		},
+		"variables": {
+			"V_Until": {
+				"type": "Boolean",
+				"defaultValue": false
+			},
+			"V_DATA_INI": {
+				"type": "String",
+				"defaultValue": "20080101"
+			},
+			"V_DATA_INI_2": {
+				"type": "String",
+				"defaultValue": "20080101"
+			}
+		},
+		"folder": {
+			"name": "GAF/GAF - PLA ANYAL"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

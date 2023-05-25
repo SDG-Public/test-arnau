@@ -1,0 +1,20 @@
+{
+	"name": "MESTRES_ORA_GEU_COMARQUES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MESTRES/TERRITORIAL/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GEU_ADM",
+			"table": "GEU_COMARQUES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

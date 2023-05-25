@@ -1,0 +1,89 @@
+{
+	"name": "ODS_SANQS_FACT_QUALIF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_BAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PRE_BAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_NOTIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PERCEPTE_SANCIONADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_QUALIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_TIPUS_NOTIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_IMPORT_QUA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_BAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_GRAVETAT_BAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TANOT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_QUALIFICACIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_NOTIFICACIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PLEC_DESCARREC",
+				"type": "date"
+			},
+			{
+				"name": "DATA_REGISTRE_SORTIDA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_CADUCITAT",
+				"type": "date"
+			},
+			{
+				"name": "NUM_IMPORT_EUROS",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_QUALIF"
+		}
+	}
+}

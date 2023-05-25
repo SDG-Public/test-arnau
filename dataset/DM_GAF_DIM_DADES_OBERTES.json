@@ -1,0 +1,125 @@
+{
+	"name": "DM_GAF_DIM_DADES_OBERTES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Codi Estació",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Codi Carretera",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PK",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "Tipus Estació",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Font Dades",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Població",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Comarca",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Definició Tram Origen",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Definició Tram Final",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PK Inici",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "PK Final",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "Longitud Tram",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 3
+			},
+			{
+				"name": "Class. Técn.",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Class. Func.",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Carrils",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "IFA",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 4
+			},
+			{
+				"name": "IMD",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "% Pesants",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 4
+			},
+			{
+				"name": "Velocitat Mitjana",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 4
+			},
+			{
+				"name": "Any",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Latitud",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Longitud",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_DIM_DADES_OBERTES"
+		}
+	}
+}

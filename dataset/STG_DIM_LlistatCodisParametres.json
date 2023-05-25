@@ -1,0 +1,38 @@
+{
+	"name": "STG_DIM_LlistatCodisParametres",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IDCONTAMINANT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NOMCONTAMINANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UNITATS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "STG_XEAC",
+			"table": "STG_DIM_LlistatCodisParametres"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

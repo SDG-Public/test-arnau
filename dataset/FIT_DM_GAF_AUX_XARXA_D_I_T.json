@@ -1,0 +1,41 @@
+{
+	"name": "FIT_DM_GAF_AUX_XARXA_D_I_T",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "DM_GAF_AUX_XARXA_D_I_T",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DM_GAF_AUX_XARXA_D_I_T.xlsx",
+				"container": "contenedortesgaf"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "ID_ESGLAON",
+				"type": "String"
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "String"
+			},
+			{
+				"name": "CODI_TERRITORI",
+				"type": "String"
+			},
+			{
+				"name": "CODI_TIPUS_XARXA",
+				"type": "String"
+			}
+		]
+	}
+}

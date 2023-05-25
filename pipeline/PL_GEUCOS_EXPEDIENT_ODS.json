@@ -1,0 +1,37 @@
+{
+	"name": "PL_GEUCOS_EXPEDIENT_ODS",
+	"properties": {
+		"activities": [
+			{
+				"name": "GEUCOS_ODS_FACT_EXPEDIENT",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "GEUCOS_ODS_FACT_EXPEDIENT",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "GEUCOS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

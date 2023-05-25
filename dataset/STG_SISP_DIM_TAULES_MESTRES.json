@@ -1,0 +1,47 @@
+{
+	"name": "STG_SISP_DIM_TAULES_MESTRES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ENTITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PLEGAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "TORN",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_STG",
+			"table": "STG_SISP_DIM_TAULES_MESTRES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

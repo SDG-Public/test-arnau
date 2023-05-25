@@ -1,0 +1,174 @@
+{
+	"name": "DF_ASJ_FACT_ODS_NO PAGAT",
+	"properties": {
+		"description": "Este proceso vuelca en una tabla aquellos expedientes que no hayan sido pagados en cualquier año anterior al actual y además cualquiera que haya sido pagado en el año actual. Esto se hace así porque las usuarias necesitan un listado de los expedientes que no han sido pagados a 31/12/2021, estando ella en 2022. Cuando estén en 2023 ya no les interesa la foto de antes, tendrán que mover la condición al nuevo año, de ahí que se parametrice. Por último, tomamos los pagados en 2022 porque en 31/12/2021 no estaban pagados, de ahí que les haga faltas. ",
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_FACT_OBLIGACIO_ECON",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactObligEcon"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedient"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_FACT_OBLIGACIO_ECON_NO_PAGAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactObligEconNoPagat"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NoPagat"
+				},
+				{
+					"name": "AddAnyExpedient"
+				},
+				{
+					"name": "FiltraCamposExpedient"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "QuitarColumDup"
+				},
+				{
+					"name": "PagatEsteAny"
+				},
+				{
+					"name": "union1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_TRAMIT as decimal(10,0),",
+				"          ID_TIPUS_TRAMIT as integer,",
+				"          ID_EXPEDIENT as decimal(10,0),",
+				"          COD_NUMERO_EXPEDIENT as string,",
+				"          NUM_IMPORT_ESTIMAT as double,",
+				"          NUM_IMPORT_PENDENT as double,",
+				"          NUM_IMPORT_RECLAMAT as double,",
+				"          NUM_PAGAMENT_PARCIAL as double,",
+				"          DESC_NOM_SENCER as string,",
+				"          DESC_TIPUS_PERSONA_INTERESADA as string,",
+				"          DESC_UNITAT as string,",
+				"          DESC_TIPOLOGIA as string,",
+				"          DESC_CLASSIFICACIO_TIPOLOGIA as string,",
+				"          DATA_PAGAMENT_PARCIAL as date,",
+				"          DATA_PAGAMENT_IMPORT_ESTIMAT as date,",
+				"          DATA_ENTRADA as timestamp,",
+				"          DATA_TANCAMENT as date,",
+				"          DATA_SOLICITUD as date,",
+				"          DATA_INSERT as timestamp,",
+				"          DATA_MODIFICACIO as timestamp,",
+				"          FLAG_ESTAT as decimal(10,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSFactObligEcon",
+				"source(output(",
+				"          ID_EXPEDIENT as decimal(10,0),",
+				"          ID_TIPUS_EXPEDIENT as string,",
+				"          ID_TRAMIT_ACTUAL as decimal(10,0),",
+				"          ID_TRAMIT_INICIAL as decimal(10,0),",
+				"          ID_AMBIT as long,",
+				"          ID_CLASSIFICACIO_01 as integer,",
+				"          ID_CLASSIFICACIO_02 as integer,",
+				"          NUM_EXPEDIENT_INTERN as string,",
+				"          NUM_EXPEDIENT_IMPORT as string,",
+				"          NUM_INFOREG_ENTRADA as decimal(10,0),",
+				"          NUM_ULTIM_INFOLOG as decimal(10,0),",
+				"          DESC_ASSUMPTE_CURT as string,",
+				"          DESC_ASSUMPTE as string,",
+				"          DESC__RESPONSABLE as string,",
+				"          DESC_AMBIT as string,",
+				"          DES_CLASSIFICACIO_01 as string,",
+				"          DESC_CLASSIFICACIO_02 as string,",
+				"          CODI_ASSIGNAT_INICIAL as string,",
+				"          CODI_ASSIGNAT_ESPECIAL as string,",
+				"          DATA_ALTA as timestamp,",
+				"          DATA_TERMINI_MES_PROPER as timestamp,",
+				"          DATA_ENTRADA as timestamp,",
+				"          DATA_RESOLUCIO as timestamp,",
+				"          FLAG_TANCAT as decimal(1,0),",
+				"          FLAG_URGENT as decimal(1,0),",
+				"          FLAG_BAIXA as decimal(1,0),",
+				"          DATA_INSERT as timestamp,",
+				"          DATA_MODIFICACIO as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSFactExpedient",
+				"AddAnyExpedient filter(isNull(DATA_PAGAMENT_IMPORT_ESTIMAT) && NUM_ANY_EXPEDIENT < year(currentDate())) ~> NoPagat",
+				"QuitarColumDup derive(NUM_ANY_EXPEDIENT = toInteger('20'+substring(NUM_EXPEDIENT_INTERN, 12, 2))) ~> AddAnyExpedient",
+				"ODSFactExpedient select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          NUM_EXPEDIENT_INTERN",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FiltraCamposExpedient",
+				"ODSFactObligEcon, FiltraCamposExpedient join(ODSFactObligEcon@ID_EXPEDIENT == FiltraCamposExpedient@ID_EXPEDIENT,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          ID_TRAMIT,",
+				"          ID_TIPUS_TRAMIT,",
+				"          ID_EXPEDIENT = ODSFactObligEcon@ID_EXPEDIENT,",
+				"          COD_NUMERO_EXPEDIENT,",
+				"          NUM_IMPORT_ESTIMAT,",
+				"          NUM_IMPORT_PENDENT,",
+				"          NUM_IMPORT_RECLAMAT,",
+				"          NUM_PAGAMENT_PARCIAL,",
+				"          DESC_NOM_SENCER,",
+				"          DESC_TIPUS_PERSONA_INTERESADA,",
+				"          DESC_UNITAT,",
+				"          DESC_TIPOLOGIA,",
+				"          DESC_CLASSIFICACIO_TIPOLOGIA,",
+				"          DATA_PAGAMENT_PARCIAL,",
+				"          DATA_PAGAMENT_IMPORT_ESTIMAT,",
+				"          DATA_ENTRADA,",
+				"          DATA_TANCAMENT,",
+				"          DATA_SOLICITUD,",
+				"          DATA_INSERT,",
+				"          DATA_MODIFICACIO,",
+				"          FLAG_ESTAT,",
+				"          ID_EXPEDIENT = FiltraCamposExpedient@ID_EXPEDIENT,",
+				"          NUM_EXPEDIENT_INTERN",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitarColumDup",
+				"AddAnyExpedient filter(year(DATA_PAGAMENT_IMPORT_ESTIMAT) == year(currentTimestamp())) ~> PagatEsteAny",
+				"PagatEsteAny, NoPagat union(byName: true)~> union1",
+				"union1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSFactObligEconNoPagat"
+			]
+		}
+	}
+}

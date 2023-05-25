@@ -1,0 +1,61 @@
+{
+	"name": "MESTRES_STG_POBLACIONS_BDT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MESTRES/TERRITORIAL/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_VEGUERIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_X_CENTRE",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "UTM_Y_CENTRE",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "MESTRES_STG",
+			"table": "STG_FWK_POBLACIONS_BDT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

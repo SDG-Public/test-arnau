@@ -1,0 +1,65 @@
+{
+	"name": "DF_GAF_ODS_DADES_HORES",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDades"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES_DEPURADES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDadesDepurades"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSeccions"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES_HORES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDadesHores"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinDadesDadesDepurades"
+				},
+				{
+					"name": "JoinAnteriorCarrils"
+				},
+				{
+					"name": "JoinAnteriorSeccions"
+				},
+				{
+					"name": "FiltraCampos"
+				}
+			],
+			"script": "source(output(\n\t\tID_DADES as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_ESTAT_DADES as decimal(1,0),\n\t\tID_TASCA as decimal(8,0),\n\t\tCOD_USUARI as string,\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tDATA as timestamp,\n\t\tDATAREGISTRE as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactDades\nsource(output(\n\t\tID_DADES_DEPURADES as decimal(8,0),\n\t\tID_ESTACIO as string,\n\t\tID_DADES as decimal(8,0),\n\t\tCOD_CARRIL as string,\n\t\tDATA as timestamp,\n\t\tVELOCITAT01 as decimal(6,0),\n\t\tVELOCITAT02 as decimal(6,0),\n\t\tVELOCITAT03 as decimal(6,0),\n\t\tVELOCITAT04 as decimal(6,0),\n\t\tVELOCITAT05 as decimal(6,0),\n\t\tVELOCITAT06 as decimal(6,0),\n\t\tVELOCITAT07 as decimal(6,0),\n\t\tVELOCITAT08 as decimal(6,0),\n\t\tVELOCITAT09 as decimal(6,0),\n\t\tVELOCITAT10 as decimal(6,0),\n\t\tLONGITUD01 as decimal(6,0),\n\t\tLONGITUD02 as decimal(6,0),\n\t\tLONGITUD03 as decimal(6,0),\n\t\tLONGITUD04 as decimal(6,0),\n\t\tERRORSLONG01 as decimal(6,0),\n\t\tERRORSLONG02 as decimal(6,0),\n\t\tERRORSLONG03 as decimal(6,0),\n\t\tERRORSLONG04 as decimal(6,0),\n\t\tDATAREGISTRE as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactDadesDepurades\nsource(output(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCODI_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimCarrils\nsource(output(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSeccions\nODSFactDadesDepurades, ODSFactDades join(ODSFactDadesDepurades@ID_DADES == ODSFactDades@ID_DADES,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDadesDadesDepurades\nJoinDadesDadesDepurades, DMDimCarrils join(ODSFactDades@ID_CARRIL == DMDimCarrils@ID_CARRIL,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinAnteriorCarrils\nJoinAnteriorCarrils, DMDimSeccions join(DMDimCarrils@ID_SECCIO == DMDimSeccions@ID_SECCIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinAnteriorSeccions\nJoinAnteriorSeccions select(mapColumn(\n\t\tID_ESTACIO = DMDimSeccions@ID_ESTACIO,\n\t\tID_CARRIL = ODSFactDades@ID_CARRIL,\n\t\tID_SECCIO = DMDimCarrils@ID_SECCIO,\n\t\tDATA = ODSFactDadesDepurades@DATA,\n\t\tVELOCITAT01,\n\t\tVELOCITAT02,\n\t\tVELOCITAT03,\n\t\tVELOCITAT04,\n\t\tVELOCITAT05,\n\t\tVELOCITAT06,\n\t\tVELOCITAT07,\n\t\tVELOCITAT08,\n\t\tVELOCITAT09,\n\t\tVELOCITAT10,\n\t\tLONGITUD01,\n\t\tLONGITUD02,\n\t\tLONGITUD03,\n\t\tLONGITUD04,\n\t\tERRORSLONG01,\n\t\tERRORSLONG02,\n\t\tERRORSLONG03,\n\t\tERRORSLONG04,\n\t\tIND_IMD_DIARI,\n\t\tIND_PESANTS,\n\t\tIND_VELOCITAT,\n\t\tDATAREGISTRE = ODSFactDades@DATAREGISTRE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDATA as timestamp,\n\t\tVELOCITAT01 as decimal(6,0),\n\t\tVELOCITAT02 as decimal(6,0),\n\t\tVELOCITAT03 as decimal(6,0),\n\t\tVELOCITAT04 as decimal(6,0),\n\t\tVELOCITAT05 as decimal(6,0),\n\t\tVELOCITAT06 as decimal(6,0),\n\t\tVELOCITAT07 as decimal(6,0),\n\t\tVELOCITAT08 as decimal(6,0),\n\t\tVELOCITAT09 as decimal(6,0),\n\t\tVELOCITAT10 as decimal(6,0),\n\t\tLONGITUD01 as decimal(6,0),\n\t\tLONGITUD02 as decimal(6,0),\n\t\tLONGITUD03 as decimal(6,0),\n\t\tLONGITUD04 as decimal(6,0),\n\t\tERRORSLONG01 as decimal(6,0),\n\t\tERRORSLONG02 as decimal(6,0),\n\t\tERRORSLONG03 as decimal(6,0),\n\t\tERRORSLONG04 as decimal(6,0),\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tDATAREGISTRE as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactDadesHores"
+		}
+	}
+}

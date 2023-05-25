@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANQS_ODS_FACT_CERTIFICAT_DESCOBERT_TS2",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANQS_FACT_CERTIFICAT_DESCOBERT_TS2",
+						"type": "DatasetReference"
+					},
+					"name": "STGCertificatDescobertTS2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_CERTIFICAT_DESCOBERT_TS2",
+						"type": "DatasetReference"
+					},
+					"name": "ODSCertificatDescobertTS2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Columnas"
+				},
+				{
+					"name": "AddDemarcacio"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGCertificatDescobertTS2\nSTGCertificatDescobertTS2 derive(ID_EXPEDIENT = substring(Prop_0,1,9),\n\t\tDATA_TRAMITADOR = toDate(substring(Prop_0,10,8),'yyyyMMdd'),\n\t\tDATA_RGA = toDate(substring(Prop_0,18,8),'yyyyMMdd'),\n\t\tIND_IMPORT_DESCOBERT = substring(Prop_0,27,9),\n\t\tDATA_PAGAMENT = toDate(substring(Prop_0,36,8),'yyyyMMdd'),\n\t\tDATA_RETENCIO = toDate(substring(Prop_0,44,8),'yyyyMMdd'),\n\t\tDATA_SOLLICITUD_ANULACIO = toDate(substring(Prop_0,52,8),'yyyyMMdd'),\n\t\tDATA_ANULACIO = toDate(substring(Prop_0,60,8),'yyyyMMdd'),\n\t\tCOD_ANULACIO = substring(Prop_0,68,2),\n\t\tDATA_SOLLICITUD_DOC_JURIDIC = toDate(substring(Prop_0,70,8),'yyyyMMdd')) ~> Columnas\nColumnas derive(COD_DEMARCACIO = iif(substring(ID_EXPEDIENT, 1, 2) == 'FB' || substring(ID_EXPEDIENT, 1, 2) == 'MB' || substring(ID_EXPEDIENT, 1, 2) == '17' || substring(ID_EXPEDIENT, 1, 2) == '08' || substring(ID_EXPEDIENT, 1, 2) == '25'|| substring(ID_EXPEDIENT, 1, 2) == '43', substring(ID_EXPEDIENT, 1, 2),'-1')) ~> AddDemarcacio\nAddDemarcacio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tDATA_TRAMITADOR as string,\n\t\tDATA_RGA as string,\n\t\tIND_IMPORT_DESCOBERT as string,\n\t\tDATA_PAGAMENT as string,\n\t\tDATA_RETENCIO as string,\n\t\tDATA_SOLLICITUD_ANULACIO as string,\n\t\tDATA_ANULACIO as string,\n\t\tCOD_ANULACIO as string,\n\t\tDATA_SOLLICITUD_DOC_JURIDIC as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSCertificatDescobertTS2"
+		}
+	}
+}

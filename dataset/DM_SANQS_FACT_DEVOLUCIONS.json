@@ -1,0 +1,25 @@
+{
+	"name": "DM_SANQS_FACT_DEVOLUCIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_EXPEDIENT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_DM",
+			"table": "DM_SANQS_FACT_DEVOLUCIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

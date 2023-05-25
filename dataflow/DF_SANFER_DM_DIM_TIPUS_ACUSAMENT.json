@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANFER_DM_DIM_TIPUS_ACUSAMENT",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_TIPUS_ACUSAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSTipusAcusament"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANFER_DIM_TIPUS_ACUSAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "DMTipusAcusament"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_ACUSAMENT as double,\n\t\tCODI_TIPUS_ACUSAMENT as string,\n\t\tDESC_TIPUS_ACUSAMENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSTipusAcusament\nODSTipusAcusament sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMTipusAcusament"
+		}
+	}
+}

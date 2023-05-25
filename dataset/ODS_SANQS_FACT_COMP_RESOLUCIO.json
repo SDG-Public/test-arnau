@@ -1,0 +1,54 @@
+{
+	"name": "ODS_SANQS_FACT_COMP_RESOLUCIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_DEMARCACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_GRAVETAT_RESOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_MES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IND_RECURS_ENTRATS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IND_INFORMES_RECURS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IND_RECURSOS_RESOLT",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_COMP_RESOLUCIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

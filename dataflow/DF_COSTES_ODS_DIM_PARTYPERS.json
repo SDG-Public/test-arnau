@@ -1,0 +1,65 @@
+{
+	"name": "DF_COSTES_ODS_DIM_PARTYPERS",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PARTY_PERS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPARTYPERS"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PARTY_TYPE",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPARTYTYPE"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PERSON",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPERSON"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PARTY_GROUP_PERS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimGROUP"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_PARTY_PERS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPARTYPERS"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JOINTYPE"
+				},
+				{
+					"name": "JOINPERSON"
+				},
+				{
+					"name": "JOINGROUP"
+				},
+				{
+					"name": "FiltrarCamps11"
+				}
+			],
+			"script": "source(output(\n\t\tPARTY_ID as decimal(10,0),\n\t\tCREATED_DATE as timestamp,\n\t\tPARTY_TYPE_ID as decimal(10,0),\n\t\tPARLA_CATALA as string,\n\t\tCODI_MOTIU_BAIXA as decimal(10,0),\n\t\tESTAT as string,\n\t\tID_CENTRE_SARCAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPARTYPERS\nsource(output(\n\t\tPARTY_TYPE_ID as decimal(10,0),\n\t\tPARENT_TYPE_ID as string,\n\t\tDESCRIPTION as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPARTYTYPE\nsource(output(\n\t\tPARTY_ID as decimal(10,0),\n\t\tFIRST_NAME as string,\n\t\tMIDDLE_NAME as string,\n\t\tLAST_NAME as string,\n\t\tPERSONAL_TITLE as decimal(10,0),\n\t\tBIRTH_DATE as timestamp,\n\t\tCODI_NACIONALITAT as decimal(10,0),\n\t\tGENDER as string,\n\t\tMARITAL_STATUS_TYPE_ID as string,\n\t\tCODI_TIPUS_DOCUMENT as decimal(10,0),\n\t\tDOCUMENT as string,\n\t\tCARREC as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPERSON\nsource(output(\n\t\tPARTY_ID as decimal(10,0),\n\t\tGROUP_NAME as string,\n\t\tCOMMENTS as string,\n\t\tCIF as string,\n\t\tRAO_SOCIAL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimGROUP\nSTGdimPARTYPERS, STGdimPARTYTYPE join(STGdimPARTYPERS@PARTY_TYPE_ID == STGdimPARTYTYPE@PARTY_TYPE_ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JOINTYPE\nJOINTYPE, STGdimPERSON join(STGdimPARTYPERS@PARTY_ID == STGdimPERSON@PARTY_ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JOINPERSON\nJOINPERSON, STGdimGROUP join(STGdimPARTYPERS@PARTY_ID == STGdimGROUP@PARTY_ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JOINGROUP\nJOINGROUP select(mapColumn(\n\t\tID_PARTY = STGdimPARTYPERS@PARTY_ID,\n\t\tDESC_FIRST_NAME = FIRST_NAME,\n\t\tDESC_MIDDLE_NAME = MIDDLE_NAME,\n\t\tDESC_LAST_NAME = LAST_NAME,\n\t\tDESC_GROUP_NAME = GROUP_NAME,\n\t\tDESC_RAO_SOCIAL = RAO_SOCIAL,\n\t\tDESC_PARTY_TYPE = DESCRIPTION,\n\t\tDESC_ESTAT = ESTAT,\n\t\tNUM_DOCUMENT = DOCUMENT,\n\t\tNUM_CIF = CIF\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltrarCamps11\nFiltrarCamps11 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PARTY as decimal(10,0),\n\t\tDESC_FIRST_NAME as string,\n\t\tDESC_MIDDLE_NAME as string,\n\t\tDESC_LAST_NAME as string,\n\t\tDESC_GROUP_NAME as string,\n\t\tDESC_RAO_SOCIAL as string,\n\t\tDESC_PARTY_TYPE as string,\n\t\tDESC_ESTAT as string,\n\t\tNUM_DOCUMENT as string,\n\t\tNUM_CIF as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_PARTY,\n\t\tDESC_FIRST_NAME,\n\t\tDESC_MIDDLE_NAME,\n\t\tDESC_LAST_NAME,\n\t\tDESC_GROUP_NAME,\n\t\tDESC_RAO_SOCIAL,\n\t\tDESC_PARTY_TYPE,\n\t\tDESC_ESTAT,\n\t\tNUM_DOCUMENT,\n\t\tNUM_CIF\n\t)) ~> ODSdimPARTYPERS"
+		}
+	}
+}

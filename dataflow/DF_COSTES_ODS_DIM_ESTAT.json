@@ -1,0 +1,35 @@
+{
+	"name": "DF_COSTES_ODS_DIM_ESTAT",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimESTAT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimESTAT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalitzarCamps3"
+				}
+			],
+			"script": "source(output(\n\t\tCODI_ESTAT as string,\n\t\tDESC_ESTAT as string,\n\t\tIND_TRAMITACIO as string,\n\t\tIND_VIGENT as string,\n\t\tVERSION as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimESTAT\nSTGdimESTAT select(mapColumn(\n\t\tCOD_ESTAT = CODI_ESTAT,\n\t\tID_TRAMITACIO = IND_TRAMITACIO,\n\t\tID_VIGENT = IND_VIGENT,\n\t\tDESC_ESTAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps3\nNormalitzarCamps3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_ESTAT as string,\n\t\tID_TRAMITACIO as string,\n\t\tID_VIGENT as string,\n\t\tDESC_ESTAT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_ESTAT,\n\t\tID_TRAMITACIO,\n\t\tID_VIGENT,\n\t\tDESC_ESTAT\n\t)) ~> ODSdimESTAT"
+		}
+	}
+}

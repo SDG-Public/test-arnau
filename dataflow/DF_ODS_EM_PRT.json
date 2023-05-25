@@ -1,0 +1,65 @@
+{
+	"name": "DF_ODS_EM_PRT",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/EM"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_novaIT20_2_v3",
+						"type": "DatasetReference"
+					},
+					"name": "STGnovaIT20"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_EM_PRT_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSem"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SELECTcolumnesIMP"
+				},
+				{
+					"name": "filterRS"
+				},
+				{
+					"name": "aggEManualRS"
+				},
+				{
+					"name": "aggMCTdades"
+				},
+				{
+					"name": "dcYEAR"
+				},
+				{
+					"name": "filterRV"
+				},
+				{
+					"name": "aggEManualRV"
+				},
+				{
+					"name": "ijRVrs"
+				},
+				{
+					"name": "dcEManual"
+				},
+				{
+					"name": "ijMCTrvRS"
+				},
+				{
+					"name": "dcEM"
+				}
+			],
+			"script": "source(output(\n\t\tCodiEmis as integer,\n\t\tIDFocus as string,\n\t\tMarcaTemps as timestamp,\n\t\tNumMinuts as integer,\n\t\tIDParametre as integer,\n\t\tIDLegis as string,\n\t\tIDSubmode as string,\n\t\tV_VLE as string,\n\t\tF_VLE as string,\n\t\tV_IMP as string,\n\t\tF_IMP as string,\n\t\tV_INV as string,\n\t\tF_INV as string,\n\t\tV_PRT as string,\n\t\tF_PRT as string,\n\t\tV_GEH as string,\n\t\tF_GEH as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGnovaIT20\nSTGnovaIT20 select(mapColumn(\n\t\tCodiEmis,\n\t\tIDFocus,\n\t\tMarcaTemps,\n\t\tNumMinuts,\n\t\tIDParametre,\n\t\tIDLegis,\n\t\tIDSubmode,\n\t\tV_PRT,\n\t\tF_PRT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SELECTcolumnesIMP\ndcYEAR filter(F_PRT == 'RS') ~> filterRS\nfilterRS aggregate(groupBy(IDFocus,\n\t\tYEAR),\n\tEM_ANUAL_RS = sum(toLong(V_PRT))) ~> aggEManualRS\ndcYEAR aggregate(groupBy(IDFocus,\n\t\tYEAR),\n\tMCT_DADES = ( sum(iif(F_PRT == 'RV',1,0)) + sum(iif(F_PRT == 'RS',1,0)) ) / iif( sum(iif(F_PRT == 'RN',1,0)) == 0, toLong(1), sum(iif(F_PRT == 'RN',1,0)) )) ~> aggMCTdades\nSELECTcolumnesIMP derive(YEAR = year(MarcaTemps)) ~> dcYEAR\ndcYEAR filter(F_PRT == 'RV') ~> filterRV\nfilterRV aggregate(groupBy(IDFocus,\n\t\tYEAR),\n\tEM_ANUAL_RV = sum(toLong(V_PRT))) ~> aggEManualRV\naggEManualRV, aggEManualRS join(aggEManualRV@IDFocus == aggEManualRS@IDFocus\n\t&& aggEManualRV@YEAR == aggEManualRS@YEAR,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> ijRVrs\nijRVrs derive(EM_ANUAL = EM_ANUAL_RV + EM_ANUAL_RS) ~> dcEManual\naggMCTdades, dcEManual join(aggMCTdades@IDFocus == aggEManualRV@IDFocus\n\t&& aggMCTdades@YEAR == aggEManualRV@YEAR,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> ijMCTrvRS\nijMCTrvRS derive(EM = MCT_DADES * EM_ANUAL * power(10,-9)) ~> dcEM\ndcEM sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSem"
+		}
+	}
+}

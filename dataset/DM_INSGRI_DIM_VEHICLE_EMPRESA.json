@@ -1,0 +1,20 @@
+{
+	"name": "DM_INSGRI_DIM_VEHICLE_EMPRESA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "INSGRI_DM",
+			"table": "DM_INSGRI_DIM_VEHICLE_EMPRESA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

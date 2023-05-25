@@ -1,0 +1,110 @@
+{
+	"name": "GEU_STG_DIM_PERSONA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_PERSONA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_COMPLERT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CIF_DNI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_CARREC",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "PER_CONTACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PFISICA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_CATALA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_USUARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "IND_SEXE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRIV_CODI_USUARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRIV_CONTRASENYA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_ENS_LOCAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_ENS",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "IND_TE_PER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ENS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ROL_CTU",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_PERSONA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,48 @@
+{
+	"name": "DF_COSTES_ODS_FACT_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGfactEXPEDIENT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_EXP_MUNICIPI",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimEXPMUN"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSfactEXPEDIENT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalitzarCamps"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "JoinEXPMUN"
+				}
+			],
+			"script": "source(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tNUM_EXPEDIENT as string,\n\t\tCODI_TIPEX as string,\n\t\tCODI_ESTAT as string,\n\t\tTEMA as string,\n\t\tADRECA as string,\n\t\tOBSERVACIONS as string,\n\t\tREFEXT as string,\n\t\tREFINT as string,\n\t\tDATA_INI_TERMINI as string,\n\t\tDATA_FI_TERMINI as string,\n\t\tUSUARI_ALTA as string,\n\t\tDATA_ALTA_SISTEMA as string,\n\t\tUSUARI_DARRERA_MODIF as string,\n\t\tDATA_DARRERA_MODIF as string,\n\t\tIND_BAIXA as string,\n\t\tMOTIU_BAIXA as string,\n\t\tDATA_BAIXA as string,\n\t\tVERSION as double,\n\t\tCODI_FRANJA as decimal(4,0),\n\t\tCAPSA_ARXIVAT as string,\n\t\tUTM_X as string,\n\t\tUTM_Y as string,\n\t\tID_EXP_REL as decimal(7,0),\n\t\tCONTADOR as decimal(8,0),\n\t\tDEMARCACIO as decimal(4,0),\n\t\tID_TECNIC as decimal(4,0),\n\t\tDATA_INI_AUTORITZACIO as string,\n\t\tDATA_FI_AUTORITZACIO as string,\n\t\tNUM_ARXIVADOR_INI as string,\n\t\tNUM_ARXIVADOR_FI as string,\n\t\tPRORROGABLE as decimal(1,0),\n\t\tFORMAT as string,\n\t\tSUPERFICIE_OCUPADA as decimal(10,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGfactEXPEDIENT\nsource(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tCODI_MUNICIPI as string,\n\t\tCODI_LLOGARET as string,\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_PROVINCIA as string,\n\t\tCODI_COMARCA as string,\n\t\tCODI_PROVINCIA as string,\n\t\tCODI_VEGUERIA as string,\n\t\tIND_PRINCIPAL as string,\n\t\tVERSION as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimEXPMUN\nSTGfactEXPEDIENT select(mapColumn(\n\t\tCOD_EXPEDIENT = CODINT_EXP,\n\t\tCOD_TIPEX = CODI_TIPEX,\n\t\tCOD_ESTAT = CODI_ESTAT,\n\t\tCOD_REFEXT = REFEXT,\n\t\tCOD_REFINT = REFINT,\n\t\tID_BAIXA = IND_BAIXA,\n\t\tID_EXP_REL,\n\t\tID_CONTADOR = CONTADOR,\n\t\tID_PRORROGABLE = PRORROGABLE,\n\t\tID_TECNIC,\n\t\tDESC_TEMA = TEMA,\n\t\tDESC_ADRECA = ADRECA,\n\t\tDESC_OBSERVACIONS = OBSERVACIONS,\n\t\tDESC_MOTIU_BAIXA = MOTIU_BAIXA,\n\t\tDESC_CAPSA_ARXIVAT = CAPSA_ARXIVAT,\n\t\tDESC_FORMAT = FORMAT,\n\t\tNUM_EXPEDIENT,\n\t\tNUM_ARXIVADOR_INI,\n\t\tNUM_ARXIVADOR_FI,\n\t\tUTM_X,\n\t\tUTM_Y,\n\t\tDATA_INI_TERMINI,\n\t\tDATA_FI_TERMINI,\n\t\tDATA_ALTA_SISTEMA,\n\t\tDATA_BAIXA,\n\t\tDATA_INI_AUTORITZACIO,\n\t\tDATA_FI_AUTORITZACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps\nJoinEXPMUN select(mapColumn(\n\t\tCOD_EXPEDIENT,\n\t\tCOD_TIPEX,\n\t\tCOD_ESTAT,\n\t\tCOD_REFEXT,\n\t\tCOD_REFINT,\n\t\tCOD_MUNICIPI = CODI_MUNICIPI,\n\t\tCOD_LLOGARET = CODI_LLOGARET,\n\t\tID_BAIXA,\n\t\tID_EXP_REL,\n\t\tID_CONTADOR,\n\t\tID_PRORROGABLE,\n\t\tID_TECNIC,\n\t\tDESC_TEMA,\n\t\tDESC_ADRECA,\n\t\tDESC_OBSERVACIONS,\n\t\tDESC_MOTIU_BAIXA,\n\t\tDESC_CAPSA_ARXIVAT,\n\t\tDESC_FORMAT,\n\t\tNUM_EXPEDIENT,\n\t\tNUM_ARXIVADOR_INI,\n\t\tNUM_ARXIVADOR_FI,\n\t\tUTM_X,\n\t\tUTM_Y,\n\t\tDATA_INI_TERMINI,\n\t\tDATA_FI_TERMINI,\n\t\tDATA_ALTA_SISTEMA,\n\t\tDATA_BAIXA,\n\t\tDATA_INI_AUTORITZACIO,\n\t\tDATA_FI_AUTORITZACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nNormalitzarCamps, STGdimEXPMUN join(COD_EXPEDIENT == CODINT_EXP,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JoinEXPMUN\nSelect1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tCOD_TIPEX as string,\n\t\tCOD_ESTAT as string,\n\t\tCOD_REFEXT as string,\n\t\tCOD_REFINT as string,\n\t\tCOD_MUNICIPI as string,\n\t\tCOD_LLOGARET as string,\n\t\tID_BAIXA as string,\n\t\tID_EXP_REL as decimal(7,0),\n\t\tID_CONTADOR as decimal(8,0),\n\t\tID_PRORROGABLE as decimal(1,0),\n\t\tID_TECNIC as decimal(4,0),\n\t\tDESC_TEMA as string,\n\t\tDESC_ADRECA as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_MOTIU_BAIXA as string,\n\t\tDESC_CAPSA_ARXIVAT as string,\n\t\tDESC_FORMAT as string,\n\t\tNUM_EXPEDIENT as string,\n\t\tNUM_ARXIVADOR_INI as string,\n\t\tNUM_ARXIVADOR_FI as string,\n\t\tUTM_X as string,\n\t\tUTM_Y as string,\n\t\tDATA_INI_TERMINI as string,\n\t\tDATA_FI_TERMINI as string,\n\t\tDATA_ALTA_SISTEMA as string,\n\t\tDATA_BAIXA as string,\n\t\tDATA_INI_AUTORITZACIO as string,\n\t\tDATA_FI_AUTORITZACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSfactEXPEDIENT"
+		}
+	}
+}

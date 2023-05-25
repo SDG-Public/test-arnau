@@ -1,0 +1,43 @@
+{
+	"name": "COSTES_STG_DIM_PARTY_GROUP_PERS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PARTY_ID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "GROUP_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COMMENTS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RAO_SOCIAL",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_PARTY_GROUP_PERS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

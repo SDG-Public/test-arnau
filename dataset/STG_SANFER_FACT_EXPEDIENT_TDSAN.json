@@ -1,0 +1,216 @@
+{
+	"name": "STG_SANFER_FACT_EXPEDIENT_TDSAN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Alta expedient",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Num. Agent",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Cos Alta ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Linia ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Trajecte ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tren",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Estació",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Codificació denúncia",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data i hora alta de la denúncia",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data i hora de la infracció",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Conducta infractora",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Conducta infractora entenedor",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Codi conducta infractora intern del barem",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Codi expedient",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Nom de l’infractor",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tipus Document Infractor",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Núm. identificació",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Adreça infractor",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Població",
+				"type": "nvarchar"
+			},
+			{
+				"name": "província ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Codi Postal infractor",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tipus expedient",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Estat de l'expedient",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data acord d’inici",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data Notificació acord d’inici",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Import acord d’inici/ Import € proposat Sanció",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Motiu arxiu",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data de presentació de l’alegació",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data presentació reconeixement",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Notificació carta pagament amb descompte",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data proposta",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data notificació proposta",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data audiència",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data notificació audiència",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data resolució",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tipus de resolució (gravetat)",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data notificació resolució",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Import resolució sanció",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Import pagat",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data de pagament",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data registre d’entrada del recurs",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Tipus de recurs",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data resolució del recurs",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data notificació recurs",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sentit resolució del recurs",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Import recurs",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data caducitat",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data prescripció infracció",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Data prescripció sanció",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_STG",
+			"table": "STG_SANFER_FACT_EXPEDIENT_TDSAN"
+		}
+	}
+}

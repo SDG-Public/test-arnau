@@ -1,0 +1,87 @@
+{
+	"name": "DF_DM_03_TAULES_PARAMETRES",
+	"properties": {
+		"folder": {
+			"name": "XEAC_COMUN/DM_PARAMETRES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_ELEMENT_MESURABLE",
+						"type": "DatasetReference"
+					},
+					"name": "ODSelementMESURABLE"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_XEAC_UNITAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacUNITAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_XEAC_PERIODE_VLE",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacPERIODEvle"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_IMPOST_EMISSIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSimpostEMISSIONS"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_IMPOST_EMISSIONS_350",
+						"type": "DatasetReference"
+					},
+					"name": "ODSimpostEMISSIONS350"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_ELEMENT_MESURABLE",
+						"type": "DatasetReference"
+					},
+					"name": "DMelementMESURABLE"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_XEAC_UNITAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMxeacUNITAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_XEAC_PERIODE_VLE",
+						"type": "DatasetReference"
+					},
+					"name": "DMxeacPERIODEvle"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_IMPOST_EMISSIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMimpostEMISSIONS"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "CambioTipos"
+				}
+			],
+			"script": "source(output(\n\t\tID_ELEMENT as decimal(6,0),\n\t\tNOM_ELEMENT as string,\n\t\tID_TIPUS_ELEM as decimal(6,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSelementMESURABLE\nsource(output(\n\t\tID_UNITAT as string,\n\t\tID_UNITAT_NOM as string,\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacUNITAT\nsource(output(\n\t\tID_PERIODE as string,\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacPERIODEvle\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tP_NORMAL as string,\n\t\tAPLICAR_P_DECLARADA as string,\n\t\tP_DECLARADA_HPA as decimal(9,2),\n\t\tT_NORMAL as string,\n\t\tAPLICAR_T_DECLARADA as string,\n\t\tT_DECLARADA_CENTIGRADS as decimal(9,2),\n\t\tH_SEC as string,\n\t\tAPLICAR_H_DECLARADA as string,\n\t\tH_DECLARADA_PERCENTATGE as decimal(5,2),\n\t\tAPLICAR_CABAL_DECLARAT as string,\n\t\tCABAL_DECLARAT_DAM3 as float,\n\t\tO2_CORREGIT as string,\n\t\tO2REF as decimal(9,2),\n\t\tAPLICAR_O2SEC_DECLARAT as string,\n\t\tO2SEC_DECLARAT_PERCENTATGE as decimal(9,2),\n\t\tVLE_FINAL as decimal(10,3),\n\t\tIC_PERCENTATGE as decimal(6,0),\n\t\tID_FOCUS_BRUT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSimpostEMISSIONS\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_ELEMENT as string,\n\t\tDATA_INICI as string,\n\t\tDATA_FI as string,\n\t\tP_NORMAL as string,\n\t\tAPLICAR_P_DECLARADA as string,\n\t\tP_DECLARADA_HPA as string,\n\t\tT_NORMAL as string,\n\t\tAPLICAR_T_DECLARADA as string,\n\t\tT_DECLARADA_CENTIGRADS as string,\n\t\tH_SEC as string,\n\t\tAPLICAR_H_DECLARADA as string,\n\t\tH_DECLARADA_PERCENTATGE as string,\n\t\tAPLICAR_CABAL_DECLARAT as string,\n\t\tCABAL_DECLARAT_DAM3 as string,\n\t\tO2_CORREGIT as string,\n\t\tO2REF as string,\n\t\tAPLICAR_O2SEC_DECLARAT as string,\n\t\tO2SEC_DECLARAT_PERCENTATGE as string,\n\t\tVLE_FINAL as string,\n\t\tIC_PERCENTATGE as string,\n\t\tID_FOCUS_BRUT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSimpostEMISSIONS350\nODSimpostEMISSIONS, CambioTipos union(byName: true)~> Union1\nODSimpostEMISSIONS350 derive(ID_ELEMENT = toDecimal(ID_ELEMENT, 6, 0),\n\t\tDATA_INICI = toTimestamp(DATA_INICI, 'yyyy-MM-dd'),\n\t\tDATA_FI = toTimestamp(DATA_FI),\n\t\tP_DECLARADA_HPA = toDecimal(P_DECLARADA_HPA, 9, 2),\n\t\tT_DECLARADA_CENTIGRADS = toDecimal(T_DECLARADA_CENTIGRADS, 9, 2),\n\t\tH_DECLARADA_PERCENTATGE = toDecimal(H_DECLARADA_PERCENTATGE, 5, 2),\n\t\tCABAL_DECLARAT_DAM3 = toFloat(1844.59275),\n\t\tO2REF = toDecimal(O2REF, 9, 2),\n\t\tO2SEC_DECLARAT_PERCENTATGE = toDecimal(O2SEC_DECLARAT_PERCENTATGE, 9, 2),\n\t\tVLE_FINAL = toDecimal(VLE_FINAL, 10, 3),\n\t\tIC_PERCENTATGE = toDecimal(IC_PERCENTATGE, 6, 0)) ~> CambioTipos\nODSelementMESURABLE sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMelementMESURABLE\nODSxeacUNITAT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMxeacUNITAT\nODSxeacPERIODEvle sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMxeacPERIODEvle\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tP_NORMAL as string,\n\t\tAPLICAR_P_DECLARADA as string,\n\t\tP_DECLARADA_HPA as decimal(9,2),\n\t\tT_NORMAL as string,\n\t\tAPLICAR_T_DECLARADA as string,\n\t\tT_DECLARADA_CENTIGRADS as decimal(9,2),\n\t\tH_SEC as string,\n\t\tAPLICAR_H_DECLARADA as string,\n\t\tH_DECLARADA_PERCENTATGE as decimal(5,2),\n\t\tAPLICAR_CABAL_DECLARAT as string,\n\t\tCABAL_DECLARAT_DAM3 as float,\n\t\tO2_CORREGIT as string,\n\t\tO2REF as decimal(9,2),\n\t\tAPLICAR_O2SEC_DECLARAT as string,\n\t\tO2SEC_DECLARAT_PERCENTATGE as decimal(9,2),\n\t\tVLE_FINAL as decimal(10,3),\n\t\tIC_PERCENTATGE as decimal(6,0),\n\t\tID_FOCUS_BRUT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMimpostEMISSIONS"
+		}
+	}
+}

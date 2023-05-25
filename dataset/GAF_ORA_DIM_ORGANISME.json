@@ -1,0 +1,20 @@
+{
+	"name": "GAF_ORA_DIM_ORGANISME",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GAF_ADM",
+			"table": "ORGANISMES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

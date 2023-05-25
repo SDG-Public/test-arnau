@@ -1,0 +1,160 @@
+{
+	"name": "STG_ARB_FACT_EXPEDIENTS_TARRAGONA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ARB_EXP_REF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_DENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_DREG",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_NREG",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_TEXP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_QRECM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_QRECP",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_QRECE",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "ARB_EXP_DVISTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_HVISTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_HIVISTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_DDECISIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_DLAUDE",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_TSEN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_CONCIL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_QLAUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_QLAUP",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_QLAUE",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "ARB_EXP_TLAUDE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_DREC",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_DEXEC",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_DARXIU",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_DVISTAA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ARB_EXP_HVISTAA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_DEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_DEM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_MOTIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_MOTIU_LAUD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EXP_IND_ILAUD",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_STG",
+			"table": "STG_ARB_FACT_EXPEDIENTS_TARRAGONA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANFER_DM_DIM_ESTAT",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEstat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANFER_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstat"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_ESTAT as string,\n\t\tCOD_IDENTIFICADOR as string,\n\t\tNUM_VERSIO as double,\n\t\tNUM_ORDRE as double,\n\t\tDESC_ESTAT as string,\n\t\tFLAG_TRAMITACIO as string,\n\t\tFLAG_VIGENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimEstat\nODSDimEstat sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimEstat"
+		}
+	}
+}

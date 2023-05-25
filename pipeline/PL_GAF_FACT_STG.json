@@ -1,0 +1,561 @@
+{
+	"name": "PL_GAF_FACT_STG",
+	"properties": {
+		"activities": [
+			{
+				"name": "GAF_STG_FACT_DADES",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select ID\n,DIA\n,IDCARRIL\n,IDESTATDADES\n,IDUSUARI\n,IMDDIARI\n,IDTASCA\n,PESANTS\n,VELOCITAT\n,DATAREGISTRE\nfrom GAF_ADM.DADES\nWHERE to_date(DATAREGISTRE) >= to_date(@{pipeline().parameters.P_DATA_INI}, 'yyyyMMdd')\nand to_date(DATAREGISTRE) < to_date(@{pipeline().parameters.P_DATA_FI}, 'yyyyMMdd')+1;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [GAF_STG].[STG_GAF_FACT_DADES]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ID",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 8
+								}
+							},
+							{
+								"source": {
+									"name": "DIA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DIA",
+									"type": "DateTime",
+									"physicalType": "datetime2"
+								}
+							},
+							{
+								"source": {
+									"name": "IDCARRIL",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "IDCARRIL",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 8
+								}
+							},
+							{
+								"source": {
+									"name": "IDESTATDADES",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "IDESTATDADES",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 1
+								}
+							},
+							{
+								"source": {
+									"name": "IDUSUARI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "IDUSUARI",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "IMDDIARI",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "IMDDIARI",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 8
+								}
+							},
+							{
+								"source": {
+									"name": "IDTASCA",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "IDTASCA",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 8
+								}
+							},
+							{
+								"source": {
+									"name": "PESANTS",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "PESANTS",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 7
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 4,
+									"precision": 7
+								}
+							},
+							{
+								"source": {
+									"name": "DATAREGISTRE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DATAREGISTRE",
+									"type": "DateTime",
+									"physicalType": "datetime2"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "GAF_ORA_FACT_DADES",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "STG_GAF_FACT_DADES",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "GAF_STG_FACT_DADES_DEPURADES",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select ID,\nDATA ,\nIDDADA ,\nVELOCITAT01 ,\nVELOCITAT02 ,\nVELOCITAT03 ,\nVELOCITAT04 ,\nVELOCITAT05 ,\nVELOCITAT06 ,\nVELOCITAT07 ,\nVELOCITAT08 ,\nVELOCITAT09 ,\nVELOCITAT10 ,\nLONGITUD01 ,\nLONGITUD02 ,\nLONGITUD03 ,\nLONGITUD04 ,\nERRORSLONG01 ,\nERRORSLONG02 ,\nERRORSLONG03 ,\nERRORSLONG04 ,\nCODIESTACIO ,\nCODICARRIL ,\nDATAREGISTRE\nfrom GAF_ADM.DADESDEPURADES\nWHERE to_date(DATAREGISTRE) >= to_date(@{pipeline().parameters.P_DATA_INI},'yyyyMMdd')\nand to_date(DATAREGISTRE) < to_date(@{pipeline().parameters.P_DATA_FI},'yyyyMMdd')+1;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [GAF_STG].[STG_GAF_FACT_DADES_DEPURADES]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "ID",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 8
+								}
+							},
+							{
+								"source": {
+									"name": "DATA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DATA",
+									"type": "DateTime",
+									"physicalType": "datetime2"
+								}
+							},
+							{
+								"source": {
+									"name": "IDDADA",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "IDDADA",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 8
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT01",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT01",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT02",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT02",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT03",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT03",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT04",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT04",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT05",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT05",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT06",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT06",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT07",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT07",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT08",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT08",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT09",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT09",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "VELOCITAT10",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "VELOCITAT10",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "LONGITUD01",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "LONGITUD01",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "LONGITUD02",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "LONGITUD02",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "LONGITUD03",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "LONGITUD03",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "LONGITUD04",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "LONGITUD04",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "ERRORSLONG01",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ERRORSLONG01",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "ERRORSLONG02",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ERRORSLONG02",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "ERRORSLONG03",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ERRORSLONG03",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "ERRORSLONG04",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ERRORSLONG04",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "CODIESTACIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CODIESTACIO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "CODICARRIL",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CODICARRIL",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DATAREGISTRE",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DATAREGISTRE",
+									"type": "DateTime",
+									"physicalType": "datetime2"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "GAF_ORA_FACT_DADES_DEPURADES",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "STG_GAF_FACT_DADES_DEPURADES",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string",
+				"defaultValue": "20080101"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20220120"
+			}
+		},
+		"folder": {
+			"name": "GAF"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:05:24Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

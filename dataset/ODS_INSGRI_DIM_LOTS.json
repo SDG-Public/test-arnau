@@ -1,0 +1,79 @@
+{
+	"name": "ODS_INSGRI_DIM_LOTS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_LOT",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "ID_SERVEI_TERRITORIAL",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "DESC_NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INICI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_ODS",
+			"table": "ODS_INSGRI_DIM_LOTS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

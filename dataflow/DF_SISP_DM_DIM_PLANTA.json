@@ -1,0 +1,31 @@
+{
+	"name": "DF_SISP_DM_DIM_PLANTA",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_PLANTA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPlanta"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_PLANTA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimPlanta"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_PLANTA as decimal(4,0),\n\t\tID_EDIFICI as decimal(4,0),\n\t\tCOD_PLANTA as string,\n\t\tNUM_ORDENACIO as decimal(4,0),\n\t\tNUM_EXTENSIO as decimal(5,0),\n\t\tNUM_EXTENSIO_EXTERNA as string,\n\t\tNUM_TELEFON_SUBALTERN as decimal(9,0),\n\t\tDESC_PLANTA as string,\n\t\tFLAG_VIGENT as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimPlanta\nODSDimPlanta sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PLANTA as decimal(4,0),\n\t\tID_EDIFICI as decimal(4,0),\n\t\tCOD_PLANTA as string,\n\t\tNUM_ORDENACIO as decimal(4,0),\n\t\tNUM_EXTENSIO as decimal(5,0),\n\t\tNUM_EXTENSIO_EXTERNA as string,\n\t\tNUM_TELEFON_SUBALTERN as decimal(9,0),\n\t\tDESC_PLANTA as string,\n\t\tFLAG_VIGENT as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimPlanta"
+		}
+	}
+}

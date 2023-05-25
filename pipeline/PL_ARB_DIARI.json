@@ -1,0 +1,46 @@
+{
+	"name": "PL_ARB_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_ARB_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_ARB_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_ARB_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_ARB_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_ARB_FACT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "ARB"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

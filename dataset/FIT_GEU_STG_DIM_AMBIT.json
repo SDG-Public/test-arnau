@@ -1,0 +1,42 @@
+{
+	"name": "FIT_GEU_STG_DIM_AMBIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Hoja1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "STG_DIM_AMBIT.xlsx",
+				"container": "contenedortesgeu"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "CODI_AMBIT",
+				"type": "String"
+			},
+			{
+				"name": "DESC_AMBIT",
+				"type": "String"
+			},
+			{
+				"name": "CODI_JERARQUIC_CLASSIFICACIO",
+				"type": "String"
+			},
+			{
+				"name": "IND_VEGUERIA",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

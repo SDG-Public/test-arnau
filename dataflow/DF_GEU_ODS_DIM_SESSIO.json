@@ -1,0 +1,55 @@
+{
+	"name": "DF_GEU_ODS_DIM_SESSIO",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_EXP_SESSIO",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimEXPSESSIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_SESSIO_COMISSIO",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimSESSIOCOMISSIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_COMISSIONS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimCOMISSIONS"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_SESSIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimSESSIO"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JOINSESSIOCOMISSIO"
+				},
+				{
+					"name": "JOINCOMISSIONS"
+				},
+				{
+					"name": "NormalitzarCamps1"
+				}
+			],
+			"script": "source(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tCODINT_SESSIO as decimal(7,0),\n\t\tNUM_ORDRE as decimal(2,0),\n\t\tIND_TRAMIT_FET as string,\n\t\tCODI_BLOC_OD as decimal(2,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimEXPSESSIO\nsource(output(\n\t\tCODINT_SESSIO as decimal(7,0),\n\t\tID_COMISSIO as string,\n\t\tNUM_SESSIO as decimal(2,0),\n\t\tDATA_SESSIO as timestamp,\n\t\tHORA_PRIM_CONV as timestamp,\n\t\tHORA_SEG_CONV as timestamp,\n\t\tCARACTER_SESSIO as string,\n\t\tSESSIO_PT_ASSOC as decimal(7,0),\n\t\tIND_BLOQUEIG_ACTA as string,\n\t\tPRIV_PUBLICAR as string,\n\t\tPRIV_DATA_PUBLICACIO_ACTA as timestamp,\n\t\tOBSERVACIONS as string,\n\t\tENVIAT_EE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimSESSIOCOMISSIO\nsource(output(\n\t\tID_COMISSIO as string,\n\t\tNOM_COMISSIO as string,\n\t\tCODI_UORG as string,\n\t\tTIPUS_COMISSIO as string,\n\t\tLLOC_REUNIO as string,\n\t\tPT_ASSOCIADA as string,\n\t\tCODI_AMBIT as string,\n\t\tNUMERO_INSCRIPCIO_INICIAL as decimal(5,0),\n\t\tCODI_ORGAN as string,\n\t\tCORREU_ELECTRONIC as string,\n\t\tUSUARI_SMTP as string,\n\t\tCONTRASENYA_SMTP as string,\n\t\tIND_SIGNATURA2_ACTA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimCOMISSIONS\nSTGdimEXPSESSIO, STGdimSESSIOCOMISSIO join(STGdimEXPSESSIO@CODINT_SESSIO == STGdimSESSIOCOMISSIO@CODINT_SESSIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JOINSESSIOCOMISSIO\nJOINSESSIOCOMISSIO, STGdimCOMISSIONS join(STGdimSESSIOCOMISSIO@ID_COMISSIO == STGdimCOMISSIONS@ID_COMISSIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JOINCOMISSIONS\nJOINCOMISSIONS select(mapColumn(\n\t\tCOD_EXP = CODINT_EXP,\n\t\tCOD_SESSIO = STGdimEXPSESSIO@CODINT_SESSIO,\n\t\tCOD_BLOC_OD = CODI_BLOC_OD,\n\t\tID_COMISSIO = STGdimSESSIOCOMISSIO@ID_COMISSIO,\n\t\tDESC_NOM_COMISSIO = NOM_COMISSIO,\n\t\tDESC_CARACTER_SESSIO = CARACTER_SESSIO,\n\t\tDATA_SESSIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps1\nNormalitzarCamps1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXP as decimal(7,0),\n\t\tCOD_BLOC_OD as decimal(2,0),\n\t\tDESC_NOM_COMISSIO as string,\n\t\tDATA_SESSIO as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSdimSESSIO"
+		}
+	}
+}

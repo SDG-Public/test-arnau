@@ -1,0 +1,73 @@
+{
+	"name": "DF_GEU_ODS_DIM_CARREC",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_CARREC",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimCarrec"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_CARREC",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimCarrec"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "FixFlag"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CODI_CARREC as decimal(3,0),",
+				"          DESC_CARREC as string,",
+				"          CODI_TRACTAMENT as decimal(2,0),",
+				"          CODI_TRACTAMENT_DONA as decimal(2,0),",
+				"          DESC_CARREC_DONA as string,",
+				"          IND_CARREC_COMISSIO as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimCarrec",
+				"STGDimCarrec select(mapColumn(",
+				"          CODI_CARREC,",
+				"          DESC_CARREC,",
+				"          CODI_TRACTAMENT,",
+				"          CODI_TRACTAMENT_DONA,",
+				"          DESC_CARREC_DONA,",
+				"          FLAG_CARREC_COMISSIO = IND_CARREC_COMISSIO",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraCampos",
+				"RenombraCampos derive(FLAG_CARREC_COMISSIO = iif(FLAG_CARREC_COMISSIO=='S', 1, iif(FLAG_CARREC_COMISSIO=='1', 1, iif(FLAG_CARREC_COMISSIO=='N', 0, iif(FLAG_CARREC_COMISSIO=='0', 0, toInteger(null())))))) ~> FixFlag",
+				"FixFlag sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimCarrec"
+			]
+		}
+	}
+}

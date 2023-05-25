@@ -1,0 +1,60 @@
+{
+	"name": "DF_SANFER_ODS_FACT_TRAMITACIO",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANFER_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactTramitacio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactTramitacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactTramitacio1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraRenombrarCampos"
+				},
+				{
+					"name": "AddDataInsercio"
+				},
+				{
+					"name": "FilterInsert"
+				},
+				{
+					"name": "FilterUpdate"
+				},
+				{
+					"name": "FiltraRenombrarCampos1"
+				},
+				{
+					"name": "AddDataInsercio1"
+				},
+				{
+					"name": "alterRow1"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_MODIF_TRAMIT as string,\n\tP_DATA_ALTA_TRAMIT as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tNUMINT_TRAMIT as decimal(7,0),\n\t\tDATA_TRAMIT as timestamp,\n\t\tCODINT_EXP as decimal(7,0),\n\t\tDATA_TRAMITACIO as timestamp,\n\t\tDATA_FI_TRAMITACIO as timestamp,\n\t\tDATA_CADUCITAT as timestamp,\n\t\tDATA_PAGAMENT as timestamp,\n\t\tCOMENTARIS as string,\n\t\tCODREG_E as string,\n\t\tANYREG_E as decimal(5,0),\n\t\tNUMREG_E as decimal(10,0),\n\t\tDATA_RE as timestamp,\n\t\tUSUARI_ALTA as string,\n\t\tDATA_ALTA_SISTEMA as timestamp,\n\t\tUSUARI_DARRERA_MODIF as string,\n\t\tDATA_DARRERA_MODIF as timestamp,\n\t\tVERSION as double,\n\t\tIMPORT_PAGAMENT as decimal(8,2),\n\t\tPARTY_ID_SUBJECTE_PASSIU as decimal(10,0),\n\t\tPAGAMENT_GENERAT as string,\n\t\tID_RESPONSABLE as decimal(4,0),\n\t\tCODI_CONCEPTE as string,\n\t\tDATA_NOTIFICACIO as timestamp,\n\t\tTIPUS_NOTIFICACIO as string,\n\t\tID_ACUSAMENT as double,\n\t\tDATA_ACUSAMENT as timestamp,\n\t\tNUM_DOGC as string,\n\t\tDATA_PUBLICACIO_DOGC as timestamp,\n\t\tDATA_ACUSAMENT_REAL as timestamp,\n\t\tIND_MIGRADO as decimal(1,0),\n\t\tDATA_PRESENTACIO as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactTramitacio\nFilterInsert select(mapColumn(\n\t\tNUM_TRAMIT = NUMINT_TRAMIT,\n\t\tDATA_TRAMIT,\n\t\tCOD_EXP = CODINT_EXP,\n\t\tDATA_TRAMITACIO,\n\t\tDATA_FI_TRAMITACIO,\n\t\tDATA_PAGAMENT,\n\t\tDESC_COMENTARIS = COMENTARIS,\n\t\tCOD_REG_E = CODREG_E,\n\t\tDATA_ANYREG_E = ANYREG_E,\n\t\tNUM_REG_E = NUMREG_E,\n\t\tDATA_RE,\n\t\tDESC_DNI_USUARI_ALTA = USUARI_ALTA,\n\t\tDATA_ALTA_SISTEMA,\n\t\tDESC_USUARI_DARRERA_MODIF = USUARI_DARRERA_MODIF,\n\t\tDATA_DARRERA_MODIF,\n\t\tCOD_VERSION = VERSION,\n\t\tIMP_PAGAMENT = IMPORT_PAGAMENT,\n\t\tID_PARTY_SUBJECTE_PASSIU = PARTY_ID_SUBJECTE_PASSIU,\n\t\tID_RESPONSABLE,\n\t\tCOD_CONCEPTE = CODI_CONCEPTE,\n\t\tID_ACUSAMENT,\n\t\tDATA_ACUSAMENT,\n\t\tNUM_DOGC,\n\t\tDATA_PUBLICACIO_DOGC,\n\t\tDATA_ACUSAMENT_REAL,\n\t\tFLAG_MIGRADO = IND_MIGRADO,\n\t\tDATA_PRESENTACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraRenombrarCampos\nFiltraRenombrarCampos derive(DATA_INSERCIO = currentDate()) ~> AddDataInsercio\nSTGFactTramitacio filter(DATA_ALTA_SISTEMA >= toTimestamp($P_DATA_ALTA_TRAMIT) && DATA_ALTA_SISTEMA < toTimestamp($P_DATA_FI)) ~> FilterInsert\nSTGFactTramitacio filter(DATA_DARRERA_MODIF >= toTimestamp($P_DATA_MODIF_TRAMIT) && DATA_DARRERA_MODIF < toTimestamp($P_DATA_FI)) ~> FilterUpdate\nFilterUpdate select(mapColumn(\n\t\tNUM_TRAMIT = NUMINT_TRAMIT,\n\t\tDATA_TRAMIT,\n\t\tCOD_EXP = CODINT_EXP,\n\t\tDATA_TRAMITACIO,\n\t\tDATA_FI_TRAMITACIO,\n\t\tDATA_PAGAMENT,\n\t\tDESC_COMENTARIS = COMENTARIS,\n\t\tCOD_REG_E = CODREG_E,\n\t\tDATA_ANYREG_E = ANYREG_E,\n\t\tNUM_REG_E = NUMREG_E,\n\t\tDATA_RE,\n\t\tDESC_DNI_USUARI_ALTA = USUARI_ALTA,\n\t\tDATA_ALTA_SISTEMA,\n\t\tDES_USUARI_DARRERA_MODIF = USUARI_DARRERA_MODIF,\n\t\tDATA_DARRERA_MODIF,\n\t\tCOD_VERSION = VERSION,\n\t\tIMP_PAGAMENT = IMPORT_PAGAMENT,\n\t\tID_PARTY_SUBJECTE_PASSIU = PARTY_ID_SUBJECTE_PASSIU,\n\t\tID_RESPONSABLE,\n\t\tCOD_CONCEPTE = CODI_CONCEPTE,\n\t\tID_ACUSAMENT,\n\t\tDATA_ACUSAMENT,\n\t\tNUM_DOGC,\n\t\tDATA_PUBLICACIO_DOGC,\n\t\tDATA_ACUSAMENT_REAL,\n\t\tFLAG_MIGRADO = IND_MIGRADO,\n\t\tDATA_PRESENTACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraRenombrarCampos1\nFiltraRenombrarCampos1 derive(DATA_INSERCIO = currentDate()) ~> AddDataInsercio1\nAddDataInsercio1 alterRow(updateIf(NUM_TRAMIT==NUM_TRAMIT && DATA_TRAMIT == DATA_TRAMIT && COD_EXP ==COD_EXP)) ~> alterRow1\nAddDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tNUM_TRAMIT as decimal(7,0),\n\t\tDATA_TRAMIT as timestamp,\n\t\tCOD_EXP as decimal(7,0),\n\t\tDATA_TRAMITACIO as timestamp,\n\t\tDATA_FI_TRAMITACIO as timestamp,\n\t\tDATA_PAGAMENT as timestamp,\n\t\tDESC_COMENTARIS as string,\n\t\tCOD_REG_E as string,\n\t\tDATA_ANYREG_E as decimal(5,0),\n\t\tNUM_REG_E as decimal(10,0),\n\t\tDATA_RE as timestamp,\n\t\tDESC_DNI_USUARI_ALTA as string,\n\t\tDATA_ALTA_SISTEMA as timestamp,\n\t\tDESC_USUARI_DARRERA_MODIF as string,\n\t\tDATA_DARRERA_MODIF as timestamp,\n\t\tCOD_VERSION as double,\n\t\tIMP_PAGAMENT as decimal(8,2),\n\t\tID_PARTY_SUBJECTE_PASSIU as decimal(10,0),\n\t\tID_RESPONSABLE as decimal(4,0),\n\t\tCOD_CONCEPTE as string,\n\t\tID_ACUSAMENT as double,\n\t\tDATA_ACUSAMENT as timestamp,\n\t\tNUM_DOGC as string,\n\t\tDATA_PUBLICACIO_DOGC as timestamp,\n\t\tDATA_ACUSAMENT_REAL as timestamp,\n\t\tFLAG_MIGRADO as decimal(1,0),\n\t\tDATA_PRESENTACIO as timestamp,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactTramitacio\nalterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tNUM_TRAMIT as decimal(7,0),\n\t\tDATA_TRAMIT as timestamp,\n\t\tCOD_EXP as decimal(7,0),\n\t\tDATA_TRAMITACIO as timestamp,\n\t\tDATA_FI_TRAMITACIO as timestamp,\n\t\tDATA_PAGAMENT as timestamp,\n\t\tDESC_COMENTARIS as string,\n\t\tCOD_REG_E as string,\n\t\tDATA_ANYREG_E as decimal(5,0),\n\t\tNUM_REG_E as decimal(10,0),\n\t\tDATA_RE as timestamp,\n\t\tDESC_DNI_USUARI_ALTA as string,\n\t\tDATA_ALTA_SISTEMA as timestamp,\n\t\tDESC_USUARI_DARRERA_MODIF as string,\n\t\tDATA_DARRERA_MODIF as timestamp,\n\t\tCOD_VERSION as double,\n\t\tIMP_PAGAMENT as decimal(8,2),\n\t\tID_PARTY_SUBJECTE_PASSIU as decimal(10,0),\n\t\tID_RESPONSABLE as decimal(4,0),\n\t\tCOD_CONCEPTE as string,\n\t\tID_ACUSAMENT as double,\n\t\tDATA_ACUSAMENT as timestamp,\n\t\tNUM_DOGC as string,\n\t\tDATA_PUBLICACIO_DOGC as timestamp,\n\t\tDATA_ACUSAMENT_REAL as timestamp,\n\t\tFLAG_MIGRADO as decimal(1,0),\n\t\tDATA_PRESENTACIO as timestamp,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['NUM_TRAMIT','DATA_TRAMIT','COD_EXP'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactTramitacio1"
+		}
+	}
+}

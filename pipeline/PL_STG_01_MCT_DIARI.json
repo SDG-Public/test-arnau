@@ -1,0 +1,439 @@
+{
+	"name": "PL_STG_01_MCT_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_MCT",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT CODI_EMIS\n      ,ID_FOCUS\n      ,MARCA_TEMPS_TZ\n      ,MARCA_TEMPS_UTC\n      ,MARCA_TEMPS_LOCAL\n      ,SUBSTR(MARCA_TEMPS_TZ_TXT, -6,6) AS ZONA_HORARIA\n      ,MINUTOS_MCT\n      ,ID_ELEMENT\n      ,ID_LEGISLACIO\n      ,ID_SUBMODE\n      ,V_VLE\n      ,F_VLE\n      ,V_IMP\n      ,F_IMP\n      ,V_INV\n      ,F_INV\n      ,V_PRT\n      ,F_PRT\n      ,V_GEH\n      ,F_GEH\n  FROM XEAC_ADMIN.XEAC_MCT\n   WHERE to_number(to_char(MARCA_TEMPS_UTC, 'YYYYMMDD')) >= to_number('@{variables('V_DATA_INI')}') \nand to_number(to_char(MARCA_TEMPS_UTC, 'YYYYMMDD')) < to_number('@{variables('V_DATA_FI')}')+1;\n",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CODI_EMIS"
+								},
+								"sink": {
+									"name": "CODI_EMIS",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_FOCUS"
+								},
+								"sink": {
+									"name": "ID_FOCUS",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MARCA_TEMPS_TZ"
+								},
+								"sink": {
+									"name": "MARCA_TEMPS_UTC",
+									"physicalType": "datetime2"
+								}
+							},
+							{
+								"source": {
+									"name": "MARCA_TEMPS_UTC"
+								},
+								"sink": {
+									"name": "MARCA_TEMPS_UTC_OLD",
+									"physicalType": "datetime2"
+								}
+							},
+							{
+								"source": {
+									"name": "MARCA_TEMPS_LOCAL"
+								},
+								"sink": {
+									"name": "MARCA_TEMPS_LOCAL",
+									"type": "DateTime",
+									"physicalType": "datetime2"
+								}
+							},
+							{
+								"source": {
+									"name": "ZONA_HORARIA"
+								},
+								"sink": {
+									"name": "ZONA_HORARIA"
+								}
+							},
+							{
+								"source": {
+									"name": "MINUTOS_MCT"
+								},
+								"sink": {
+									"name": "MINUTOS_MCT",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 3
+								}
+							},
+							{
+								"source": {
+									"name": "ID_ELEMENT"
+								},
+								"sink": {
+									"name": "ID_ELEMENT",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "ID_LEGISLACIO"
+								},
+								"sink": {
+									"name": "ID_LEGISLACIO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_SUBMODE"
+								},
+								"sink": {
+									"name": "ID_SUBMODE",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_VLE"
+								},
+								"sink": {
+									"name": "V_VLE",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "F_VLE"
+								},
+								"sink": {
+									"name": "F_VLE",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_IMP"
+								},
+								"sink": {
+									"name": "V_IMP",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "F_IMP"
+								},
+								"sink": {
+									"name": "F_IMP",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "F_INV",
+									"type": "String"
+								},
+								"sink": {
+									"name": "F_INV",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_PRT"
+								},
+								"sink": {
+									"name": "V_PRT",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "F_PRT"
+								},
+								"sink": {
+									"name": "F_PRT",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_GEH"
+								},
+								"sink": {
+									"name": "V_GEH",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "F_GEH"
+								},
+								"sink": {
+									"name": "F_GEH",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_INV"
+								},
+								"sink": {
+									"name": "V_INV",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ORA_STG_MCT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "DELETE_ROWS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Set DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "MARCA_TEMPS_UTC",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@variables('V_DATA_FI')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@variables('V_DATA_INI')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "STG_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "STG_XEAC_MCT",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DATA_INI",
+				"description": "La DATA_INI es 15 meses atrás de la última fecha que se haya insertado. Esto es así porque el origen puede ser modificado en todo el anterior en el que nos encontramos y además en los 3 primeros meses del año en el que estamos. De ahí que se decida tomar 15 meses hacia atrás",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select convert(varchar, (DATEADD(day,1,DATA)), 112) as DATA\nfrom (\nselect dateadd(month,-17,dateadd(year,-1,MAX(MARCA_TEMPS_UTC))) as DATA \nfrom [STG_XEAC].[STG_XEAC_MCT]\n) a;",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set DATA_INI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_INI",
+					"value": {
+						"value": "@string(activity('DATA_INI').output.value[0].DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DATA_FI",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select convert(varchar, DATEADD(day,-1,MAX(getdate())),112) as DATA;",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set DATA_FI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_FI",
+					"value": {
+						"value": "@string(activity('DATA_FI').output.value[0].DATA)",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"V_DATA_INI": {
+				"type": "String"
+			},
+			"V_DATA_FI": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v3/STG_MCT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:05:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,31 @@
+{
+	"name": "DF_COSTES_DM_FACT_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSfactEXPEDIENT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_DM_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "DMfactEXPEDIENT"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tCOD_TIPEX as string,\n\t\tCOD_ESTAT as string,\n\t\tCOD_REFEXT as string,\n\t\tCOD_REFINT as string,\n\t\tCOD_MUNICIPI as string,\n\t\tCOD_LLOGARET as string,\n\t\tID_BAIXA as string,\n\t\tID_EXP_REL as decimal(7,0),\n\t\tID_CONTADOR as decimal(8,0),\n\t\tID_PRORROGABLE as decimal(1,0),\n\t\tID_TECNIC as decimal(4,0),\n\t\tDESC_TEMA as string,\n\t\tDESC_ADRECA as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_MOTIU_BAIXA as string,\n\t\tDESC_CAPSA_ARXIVAT as string,\n\t\tDESC_FORMAT as string,\n\t\tNUM_EXPEDIENT as string,\n\t\tNUM_ARXIVADOR_INI as string,\n\t\tNUM_ARXIVADOR_FI as string,\n\t\tUTM_X as string,\n\t\tUTM_Y as string,\n\t\tDATA_INI_TERMINI as string,\n\t\tDATA_FI_TERMINI as string,\n\t\tDATA_ALTA_SISTEMA as string,\n\t\tDATA_BAIXA as string,\n\t\tDATA_INI_AUTORITZACIO as string,\n\t\tDATA_FI_AUTORITZACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSfactEXPEDIENT\nODSfactEXPEDIENT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMfactEXPEDIENT"
+		}
+	}
+}

@@ -1,0 +1,38 @@
+{
+	"name": "PL_GAF_ESTACIO_AFOR_STG_EXCEL",
+	"properties": {
+		"description": "AFOR = Aforament",
+		"activities": [
+			{
+				"name": "VALIDACION DEL EXCEL",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "VALIDACION_ELXCEL_GAF",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "GAF/GAF - ESTACIO AFORAMENT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-03-08T13:36:52Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

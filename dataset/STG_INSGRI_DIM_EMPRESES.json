@@ -1,0 +1,85 @@
+{
+	"name": "STG_INSGRI_DIM_EMPRESES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_SERVEI_TERRITORIAL",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS_EMPRESA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_DIMENSIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_ADRECA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RAO_SOCIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EMAIL_PRINCIPAL",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_STG",
+			"table": "STG_INSGRI_DIM_EMPRESES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,45 @@
+{
+	"name": "DF_COSTES_ODS_DIM_INTERESSAT",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimINTERESSAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_TIPUS_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTIPUSINTERESSAT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimINTERESSAT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JOININTERESSAT"
+				},
+				{
+					"name": "NormalitzarCamps4"
+				}
+			],
+			"script": "source(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tPARTY_ID as decimal(10,0),\n\t\tPOSTAL_ADDRESS_ID as decimal(10,0),\n\t\tIND_PRINCIPAL as string,\n\t\tCODI_TIPUS_INT as string,\n\t\tUSUARI_BAIXA as string,\n\t\tVERSION as double,\n\t\tID_REPRESENTANT as decimal(10,0),\n\t\tID_PADDRESS_REPRESENTANT as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimINTERESSAT\nsource(output(\n\t\tCODI_TIPUS_INT as string,\n\t\tDESC_TIPUS_INT as string,\n\t\tIND_VIGENT as string,\n\t\tVERSION as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTIPUSINTERESSAT\nSTGdimINTERESSAT, STGdimTIPUSINTERESSAT join(STGdimINTERESSAT@CODI_TIPUS_INT == STGdimTIPUSINTERESSAT@CODI_TIPUS_INT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JOININTERESSAT\nJOININTERESSAT select(mapColumn(\n\t\tCOD_EXPEDIENT = CODINT_EXP,\n\t\tID_PARTY = PARTY_ID,\n\t\tID_POSTAL_ADDRESS = POSTAL_ADDRESS_ID,\n\t\tID_PRINCIPAL = IND_PRINCIPAL,\n\t\tDESC_USUARI_BAIXA = USUARI_BAIXA,\n\t\tDESC_TIPUS_INTERESSAT = DESC_TIPUS_INT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps4\nNormalitzarCamps4 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tID_PARTY as decimal(10,0),\n\t\tID_POSTAL_ADDRESS as decimal(10,0),\n\t\tID_PRINCIPAL as string,\n\t\tDESC_USUARI_BAIXA as string,\n\t\tDESC_TIPUS_INTERESSAT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_EXPEDIENT,\n\t\tID_PARTY,\n\t\tID_POSTAL_ADDRESS,\n\t\tID_PRINCIPAL,\n\t\tDESC_USUARI_BAIXA,\n\t\tDESC_TIPUS_INTERESSAT\n\t)) ~> ODSdimINTERESSAT"
+		}
+	}
+}

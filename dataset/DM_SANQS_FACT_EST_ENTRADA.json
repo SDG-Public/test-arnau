@@ -1,0 +1,20 @@
+{
+	"name": "DM_SANQS_FACT_EST_ENTRADA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SANQS_DM",
+			"table": "DM_SANQS_FACT_EST_ENTRADA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

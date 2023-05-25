@@ -1,0 +1,17 @@
+{
+	"name": "TDSAN_ORIGEN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SFTP_TES_PRO_TDSAN",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "SftpLocation",
+				"folderPath": "/pro/out"
+			}
+		}
+	}
+}

@@ -1,0 +1,29 @@
+{
+	"name": "STG_ARB_DIM_ESTATS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ARB_EST_CODI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_EST_DESC",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_STG",
+			"table": "STG_ARB_DIM_ESTATS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,240 @@
+{
+	"name": "DF_BARRIS_ODS_DIMs",
+	"properties": {
+		"folder": {
+			"name": "BARRIS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_ALTRESAJUTS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimALTRESAJUTS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_DESGLOSFINANCER",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimDESGLOSFINANCER"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_DESPESES",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimDESPESES"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_FACTURES",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimFACTURES"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_FCTALL",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimFCTALL"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimINDICADORS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_INFOPOBLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimINFOPOBLACIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_PAGAMENTSOK",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPAGAMENTSOK"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_PLANSFINANZEROS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPLANSFINANZEROS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_RESUMFACT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimRESUMFACT"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_RESUMFACT_ANYS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimRESUMFACTANYS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_STG_DIM_SOLLICITUDS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimSOLLICITUDS"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_DESGLOSFINANCER",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimDESGLOSFINACER"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_DESPESES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimDESPESES"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_FACTURES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimFACTURES"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_FCTALL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimFCTALL"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_INDICADORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimINDICADORS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_INFOPOBLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimINFOPOBLACIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_PAGAMENTSOK",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPAGAMENTSOK"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_PLANSFINANZEROS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPLANSFINANZEROS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_RESUMFACT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimRESUMFACT"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_RESUMFACT_ANYS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimRESUMFACTANYS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_SOLLICITUDS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimSOLLICITUDS"
+				},
+				{
+					"dataset": {
+						"referenceName": "BARRIS_ODS_DIM_ALTRESAJUTS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimALTRESAJUTS"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalitzarCamps"
+				},
+				{
+					"name": "NormalitzarCamps2"
+				},
+				{
+					"name": "NormalitzarCamps3"
+				},
+				{
+					"name": "NormalitzarCamps4"
+				},
+				{
+					"name": "NormalitzarCamps5"
+				},
+				{
+					"name": "NormalitzarCamps6"
+				},
+				{
+					"name": "NormalitzarCamps7"
+				},
+				{
+					"name": "NormalitzarCamps8"
+				},
+				{
+					"name": "NormalitzarCamps9"
+				},
+				{
+					"name": "NormalitzarCamps10"
+				},
+				{
+					"name": "NormalitzarCamps11"
+				},
+				{
+					"name": "NormalitzarCamps12"
+				},
+				{
+					"name": "Concat"
+				},
+				{
+					"name": "Concats"
+				},
+				{
+					"name": "AddConcatPK"
+				},
+				{
+					"name": "CorrecionMunicipis"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "DerivedColumn2"
+				}
+			],
+			"script": "source(output(\n\t\tCODIMUNICIPI as decimal(19,0),\n\t\tMUNICIPI as string,\n\t\tCODICOMARCA as decimal(19,0),\n\t\tCOMARCA as string,\n\t\tCODIDELEGACIO as decimal(19,0),\n\t\tDELEGACIO as string,\n\t\tANYCONV as decimal(19,0),\n\t\tBAE as string,\n\t\tTITOLPROJECTE as string,\n\t\tPERIODE as decimal(19,0),\n\t\tNOMPERIODE as string,\n\t\tCODIAMBIT as string,\n\t\tCODIACTUACIO as string,\n\t\tTITOLACTUACIO as string,\n\t\tORGANISME as string,\n\t\tDATAAJUT as timestamp,\n\t\tIMPORT as decimal(19,2),\n\t\tANYAJUTS as double,\n\t\tCRT_ID as decimal(19,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimALTRESAJUTS\nsource(output(\n\t\tCONVOCATORIA as decimal(19,0),\n\t\tCARPETA as string,\n\t\tEXP_AJUNTAMENT as decimal(19,0),\n\t\tEXP_GENCAT as string,\n\t\tNOM_AJUNTAMENT as string,\n\t\tFECHACREAACION as timestamp,\n\t\tCODIEXP as decimal(19,0),\n\t\tCODIACTUACION as string,\n\t\tCODISEGONNIVELL as string,\n\t\tNOMACTUACIO as string,\n\t\tTOTALACTAUCIO as decimal(19,2),\n\t\tTIPUSAJUT as string,\n\t\t{Aportacio GenCat any 1} as double,\n\t\t{Aportacio GenCat any 2} as double,\n\t\t{Aportacio GenCat any 3} as double,\n\t\t{Aportacio GenCat any 4} as double,\n\t\t{Aportacio GenCat any 5} as double,\n\t\t{Aportació ajuntament any 1} as double,\n\t\t{Aportació ajuntament any 2} as double,\n\t\t{Aportació ajuntament any 3} as double,\n\t\t{Aportació ajuntament any 4} as double,\n\t\t{Aportació ajuntament any 5} as double,\n\t\t{Aportació Altres any 1} as double,\n\t\t{Aportació Altres any 2} as double,\n\t\t{Aportació Altres any 3} as double,\n\t\t{Aportació Altres any 4} as double,\n\t\t{Aportació Altres any 5} as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimDESGLOSFINANCER\nsource(output(\n\t\tCODIMUNICIPI as decimal(19,0),\n\t\tMUNICIPI as string,\n\t\tCODICOMARCA as decimal(19,0),\n\t\tCOMARCA as string,\n\t\tCODIDELEGACIO as decimal(19,0),\n\t\tDELEGACIO as string,\n\t\tANYCONV as decimal(19,0),\n\t\tBAE as string,\n\t\tTITOLPROJECTE as string,\n\t\tPERIODE as decimal(19,0),\n\t\tNOMPERIODE as string,\n\t\tDATADESPESA as timestamp,\n\t\tDESCDESPESA as string,\n\t\tIMPORTTOTAL as decimal(19,2),\n\t\tIMPORTBARRIS as decimal(19,2),\n\t\tANYDESP as double,\n\t\tCRT_ID as decimal(19,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimDESPESES\nsource(output(\n\t\tCODIMUNICIPI as decimal(19,0),\n\t\tMUNICIPI as string,\n\t\tCODICOMARCA as decimal(19,0),\n\t\tCOMARCA as string,\n\t\tCODIDELEGACIO as decimal(19,0),\n\t\tDELEGACIO as string,\n\t\tANYCONV as decimal(19,0),\n\t\tBAE as string,\n\t\tTITOLPROJECTE as string,\n\t\tCODICONTRACTE as decimal(19,0),\n\t\tNOMCONTRACTE as string,\n\t\tNIFEMISSOR as string,\n\t\tNOMEMISSOR as string,\n\t\tDATAFACTURA as timestamp,\n\t\tNUMFACTURA as string,\n\t\tIMPORTTOTAL as decimal(19,2),\n\t\tIMPORTSUBVENC as decimal(19,2),\n\t\tDATAPAGAMENT as timestamp,\n\t\tESFEDER as decimal(1,0),\n\t\tPERFASE1 as decimal(19,0),\n\t\tNOMFASE1 as string,\n\t\tPERFASE2 as decimal(19,0),\n\t\tNOMFASE2 as string,\n\t\tCODIAMBIT as string,\n\t\tCODIACTUACIO as string,\n\t\tTITOLACTUACIO as string,\n\t\tIMPORTACTUACIO as decimal(19,2),\n\t\tIMPORTBARRIS as decimal(19,2),\n\t\tIMPORTFEDER as decimal(19,2),\n\t\tESTAT as decimal(10,0),\n\t\tCONCEPTE as string,\n\t\tREFER as string,\n\t\tCRT_ID_F1 as decimal(19,0),\n\t\tCRT_ID_F2 as decimal(19,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimFACTURES\nsource(output(\n\t\tBAE as string,\n\t\tEXP_ID as decimal(19,0),\n\t\tPJT_ID as decimal(19,0),\n\t\tCTE_ID as decimal(19,0),\n\t\tFCT_ID as decimal(19,0),\n\t\tCTE_VERSION as decimal(10,0),\n\t\tCTE_NOMADJUDICATARI as string,\n\t\tCTE_NUMCONTRACTE as string,\n\t\tCTE_CODICONTRACTE as string,\n\t\tCTE_IDTIPUSCONTRACTE as string,\n\t\tCTE_IMPORTADJINCIVA as decimal(19,2),\n\t\tCTE_IMPORTADJEXCIVA as decimal(19,2),\n\t\tCTE_CODICTEPRIMITIU as string,\n\t\tCTE_NOMCTE as string,\n\t\tCTE_ESTAT as string,\n\t\tFCT_ANYFACTURA as decimal(10,0),\n\t\tFCT_CONCEPTE as string,\n\t\tFCT_DATAFACTURA as timestamp,\n\t\tFCT_DATAORDREPAGAMENT as timestamp,\n\t\tFCT_DATAPAGAMENT as timestamp,\n\t\tFCT_ELEGIBILITAT as decimal(1,0),\n\t\tFCT_ESTAT as string,\n\t\tFCT_IMPORTACTUACIONS as decimal(19,2),\n\t\tFCT_IMPORTBARRIS as decimal(19,2),\n\t\tFCT_IMPORTPAGMESURA51 as decimal(19,2),\n\t\tFCT_IMPORTPAGSENSEIVA as decimal(19,2),\n\t\tFCT_IMPORTTOTAL as decimal(19,2),\n\t\tFCT_NIFEMISSOR as string,\n\t\tFCT_NIFPERCEPTOR as string,\n\t\tFCT_NOMEMISSOR as string,\n\t\tFCT_NOMPERCEPTOR as string,\n\t\tFCT_NUMCONTRACTE as string,\n\t\tFCT_NUMFACTURA as string,\n\t\tFCT_REFCOMPTABLE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimFCTALL\nsource(output(\n\t\tCODIMUNICIPI as decimal(19,0),\n\t\tMUNICIPI as string,\n\t\tCODICOMARCA as decimal(19,0),\n\t\tCOMARCA as string,\n\t\tCODIDELEGACIO as decimal(19,0),\n\t\tDELEGACIO as string,\n\t\tANYCONV as decimal(19,0),\n\t\tESTAT as decimal(10,0),\n\t\tCODIUNIC as decimal(19,0),\n\t\tBAE as string,\n\t\tTITOLPROJECTE as string,\n\t\tIDENTGRUP as decimal(19,0),\n\t\tGRUP as string,\n\t\tIDENTINDICADOR as decimal(19,0),\n\t\tINDICADOR as string,\n\t\tVALBOOLEA as double,\n\t\tVALREAL as double,\n\t\tVALREFERENCIA as double,\n\t\tPUNTUACIO as double,\n\t\tCOMENTARI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimINDICADORS\nsource(output(\n\t\tBAE as string,\n\t\tCODIMUNICIPI as decimal(19,0),\n\t\tMUNICIPI as string,\n\t\tCODICOMARCA as decimal(19,0),\n\t\tCOMARCA as string,\n\t\tCODIDELEGACIO as double,\n\t\tDELEGACIO as string,\n\t\tANYCONV as decimal(19,0),\n\t\tTITOLPROJECTE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimINFOPOBLACIO\nsource(output(\n\t\tCODIMUNICIPI as decimal(19,0),\n\t\tMUNICIPI as string,\n\t\tCODICOMARCA as decimal(19,0),\n\t\tCOMARCA as string,\n\t\tCODIDELEGACIO as decimal(19,0),\n\t\tDELEGACIO as string,\n\t\tANYCONV as decimal(19,0),\n\t\tBAE as string,\n\t\tTITOLPROJECTE as string,\n\t\tPERIODE as decimal(19,0),\n\t\tNOMPERIODE as string,\n\t\tCONCEPTE as string,\n\t\tDATAOPERACIO as timestamp,\n\t\tDATACONFIRMACIO as timestamp,\n\t\tIMPORT as decimal(19,2),\n\t\tESTAT as decimal(10,0),\n\t\tCRT_ID as decimal(19,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPAGAMENTSOK\nsource(output(\n\t\tCODIMUNICIPI as decimal(19,0),\n\t\tMUNICIPI as string,\n\t\tCODICOMARCA as decimal(19,0),\n\t\tCOMARCA as string,\n\t\tCODIDELEGACIO as decimal(19,0),\n\t\tDELEGACIO as string,\n\t\tANYCONV as decimal(19,0),\n\t\tBAE as string,\n\t\tTITOLPROJECTE as string,\n\t\tESTAT as decimal(10,0),\n\t\tCODIAMBIT as string,\n\t\tCODIACTUACIO as string,\n\t\tTITOLACTUACIO as string,\n\t\tESFEDER as decimal(1,0),\n\t\tANYDADES as double,\n\t\tGENERALITAT as double,\n\t\tAJUNTAMENT as double,\n\t\tALTRES as double,\n\t\tAJUT as string,\n\t\tORGAN as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPLANSFINANZEROS\nsource(output(\n\t\tBAE as string,\n\t\tCODIAMBIT as string,\n\t\tCODIACTUACIO as string,\n\t\tTITOLACTUACIO as string,\n\t\tGENERALITAT as double,\n\t\tAJUNTAMENT as double,\n\t\tALTRES as double,\n\t\tIMPORTACTUACIO as double,\n\t\tIMPORTBARRIS as double,\n\t\tIMPORTFEDER as double,\n\t\tTITOLPROJECTE as string,\n\t\tAJUTS_ALTRES as double,\n\t\tAJUT as string,\n\t\tORGAN as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimRESUMFACT\nsource(output(\n\t\tBAE as string,\n\t\tANYDADES as double,\n\t\tGENERALITAT as double,\n\t\tAJUNTAMENT as double,\n\t\tALTRES as double,\n\t\tTITOLPROJECTE as string,\n\t\tIMPORTACTUACIO as double,\n\t\tIMPORTBARRIS as double,\n\t\tIMPORTFEDER as double,\n\t\tDESPBARRIS as double,\n\t\tDESPTOTAL as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimRESUMFACTANYS\nsource(output(\n\t\tCODIMUNICIPI as decimal(19,0),\n\t\tMUNICIPI as string,\n\t\tCODICOMARCA as decimal(19,0),\n\t\tCOMARCA as string,\n\t\tCODIDELEGACIO as decimal(19,0),\n\t\tDELEGACIO as string,\n\t\tANYCONV as decimal(19,0),\n\t\tESTAT as decimal(10,0),\n\t\tCODIUNIC as decimal(19,0),\n\t\tBAE as string,\n\t\tTITOLPROJECTE as string,\n\t\tNIFRESP as string,\n\t\tNOMRESP as string,\n\t\tCOGNOMSRESP as string,\n\t\tCARRECRESP as string,\n\t\tORGANISMERESP as string,\n\t\tCORREURESP as string,\n\t\tTELRESP as string,\n\t\tFAXRESP as string,\n\t\tADRECARESP as string,\n\t\tPOBLACIORESP as string,\n\t\tCODIPOSTALRESP as string,\n\t\tPUNTLOCAL as string,\n\t\tPUNTGLOBAL as double,\n\t\tPUNTDEFINITIVA as double,\n\t\tTOTALBARRIS as double,\n\t\tTOTALAJUNTAMENT as double,\n\t\tTOTALALTRES as double,\n\t\tHABITANTSBARRI as double,\n\t\tHABITANTSMUNICIPI as double,\n\t\tIMPORTCONSOLIDAT as double,\n\t\tBARRI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimSOLLICITUDS\nSTGdimALTRESAJUTS select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tIMP_ALTRESAJUTS = IMPORT,\n\t\tDATA_ANYAJUTS = ANYAJUTS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps\nSTGdimDESGLOSFINANCER select(mapColumn(\n\t\tCOD_BAE = EXP_GENCAT,\n\t\tCOD_ACTUACIO = CODIACTUACION,\n\t\tCOD_SEGONNIVELL = CODISEGONNIVELL,\n\t\tDESC_NOMACTUACIO = NOMACTUACIO,\n\t\tIMP_TOTALACTAUCIO = TOTALACTAUCIO,\n\t\tIMP_APORTACIO_GENCAT_ANY1 = {Aportacio GenCat any 1},\n\t\tIMP_APORTACIO_GENCAT_ANY2 = {Aportacio GenCat any 2},\n\t\tIMP_APORTACIO_GENCAT_ANY3 = {Aportacio GenCat any 3},\n\t\tIMP_APORTACIO_GENCAT_ANY4 = {Aportacio GenCat any 4},\n\t\tIMP_APORTACIO_GENCAT_ANY5 = {Aportacio GenCat any 5},\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY1 = {Aportació ajuntament any 1},\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY2 = {Aportació ajuntament any 2},\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY3 = {Aportació ajuntament any 3},\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY4 = {Aportació ajuntament any 4},\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY5 = {Aportació ajuntament any 5},\n\t\tIMP_APORTACIO_ALTRES_ANY1 = {Aportació Altres any 1},\n\t\tIMP_APORTACIO_ALTRES_ANY2 = {Aportació Altres any 2},\n\t\tIMP_APORTACIO_ALTRES_ANY3 = {Aportació Altres any 3},\n\t\tIMP_APORTACIO_ALTRES_ANY4 = {Aportació Altres any 4},\n\t\tIMP_APORTACIO_ALTRES_ANY5 = {Aportació Altres any 5},\n\t\tDATA_CONVOCATORIA = CONVOCATORIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps2\nSTGdimDESPESES select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tID_PERIODE = PERIODE,\n\t\tDESC_MUNICIPI = MUNICIPI,\n\t\tDESC_COMARCA = COMARCA,\n\t\tDESC_DELEGACIO = DELEGACIO,\n\t\tDESC_TITOLPROJECTE = TITOLPROJECTE,\n\t\tDESC_NOMPERIODE = NOMPERIODE,\n\t\tDESC_DESPESA = DESCDESPESA,\n\t\tIMP_TOTAL = IMPORTTOTAL,\n\t\tIMP_BARRIS = IMPORTBARRIS,\n\t\tDATA_ANYCONV = ANYCONV,\n\t\tDATA_ANYDESPESA = ANYDESP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps3\nDerivedColumn2 select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tCOD_CONTRACTE = CODICONTRACTE,\n\t\tCOD_NIFEMISSOR = NIFEMISSOR,\n\t\tCOD_AMBIT = CODIAMBIT,\n\t\tCOD_ACTUACIO = CODIACTUACIO,\n\t\tCOD_INE,\n\t\tID_ESFEDER = ESFEDER,\n\t\tID_PERFASE1 = PERFASE1,\n\t\tID_PERFASE2 = PERFASE2,\n\t\tID_ESTAT = ESTAT,\n\t\tDESC_MUNICIPI = MUNICIPI,\n\t\tDESC_TITOLPROJECTE = TITOLPROJECTE,\n\t\tDESC_NOMCONTRACTE = NOMCONTRACTE,\n\t\tDESC_NOMEMISSOR = NOMEMISSOR,\n\t\tDESC_FACTURA = NUMFACTURA,\n\t\tDESC_NOMFASE1 = NOMFASE1,\n\t\tDESC_NOMFASE2 = NOMFASE2,\n\t\tDESC_TITOLACTUACIO = TITOLACTUACIO,\n\t\tDESC_CONCEPTE = CONCEPTE,\n\t\tIMP_TOTAL = IMPORTTOTAL,\n\t\tIMP_SUBVENC = IMPORTSUBVENC,\n\t\tIMP_ACTUACIO = IMPORTACTUACIO,\n\t\tIMP_BARRIS = IMPORTBARRIS,\n\t\tIMP_FEDER = IMPORTFEDER,\n\t\tDATA_ANYCONV = ANYCONV,\n\t\tDATA_FACTURA = DATAFACTURA,\n\t\tDATA_PAGAMENT = DATAPAGAMENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps4\nSTGdimFCTALL select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tID_NUMCONTRACTE = CTE_NUMCONTRACTE,\n\t\tCOD_TIPUSCONTRACTE = CTE_IDTIPUSCONTRACTE,\n\t\tCOD_ESTAT = FCT_ESTAT,\n\t\tDESC_NOMCTE = CTE_NOMCTE,\n\t\tIMP_ADJINCIVA = CTE_IMPORTADJINCIVA,\n\t\tIMP_ACTUACIONS = FCT_IMPORTACTUACIONS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps5\nSTGdimINDICADORS select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tID_GRUP = IDENTGRUP,\n\t\tDESC_MUNICIPI = MUNICIPI,\n\t\tDESC_COMARCA = COMARCA,\n\t\tDESC_DELEGACIO = DELEGACIO,\n\t\tDESC_GRUP = GRUP,\n\t\tDESC_INDICADOR = INDICADOR,\n\t\tDESC_COMENTARI = COMENTARI,\n\t\tIMP_VALBOOLEA = VALBOOLEA,\n\t\tIMP_VALREAL = VALREAL,\n\t\tIMP_VALREFERENCIA = VALREFERENCIA,\n\t\tIMP_PUNTUACIO = PUNTUACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps6\nSTGdimINFOPOBLACIO select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tDESC_MUNICIPI = MUNICIPI,\n\t\tDESC_COMARCA = COMARCA,\n\t\tDESC_DELEGACIO = DELEGACIO,\n\t\tDESC_TITOLPROJECTE = TITOLPROJECTE,\n\t\tDATA_ANYCONV = ANYCONV\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps7\nSTGdimPAGAMENTSOK select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tID_PERIODE = PERIODE,\n\t\tID_ESTAT = ESTAT,\n\t\tID_CRT = CRT_ID,\n\t\tDESC_MUNICIPI = MUNICIPI,\n\t\tDESC_COMARCA = COMARCA,\n\t\tDESC_TITOLPROJECTE = TITOLPROJECTE,\n\t\tDESC_NOMPERIODE = NOMPERIODE,\n\t\tDESC_CONCEPTE = CONCEPTE,\n\t\tIMP_PAGAMENTS = IMPORT,\n\t\tDATA_ANYCONV = ANYCONV,\n\t\tDATA_OPERACIO = DATAOPERACIO,\n\t\tDATA_CONFIRMACIO = DATACONFIRMACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps8\nSTGdimPLANSFINANZEROS select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tCOD_AMBIT = CODIAMBIT,\n\t\tCOD_ACTUACIO = CODIACTUACIO,\n\t\tCOD_AJUT = AJUT,\n\t\tDESC_MUNICIPI = MUNICIPI,\n\t\tDESC_COMARCA = COMARCA,\n\t\tDESC_TITOLPROJECTE = TITOLPROJECTE,\n\t\tDESC_TITOLACTUACIO = TITOLACTUACIO,\n\t\tIMP_GENERALITAT = GENERALITAT,\n\t\tIMP_AJUNTAMENT = AJUNTAMENT,\n\t\tIMP_ALTRES = ALTRES,\n\t\tDATA_ANYCONV = ANYCONV,\n\t\tDATA_ANYDADES = ANYDADES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps9\nAddConcatPK select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tCOD_AMBIT = CODIAMBIT,\n\t\tCOD_ACTUACIO = CODIACTUACIO,\n\t\tCOD_AJUT = AJUT,\n\t\tDESC_TITOLACTUACIO = TITOLACTUACIO,\n\t\tDESC_TITOLPROJECTE = TITOLPROJECTE,\n\t\tIMP_GENERALITAT = GENERALITAT,\n\t\tIMP_AJUNTAMENT = AJUNTAMENT,\n\t\tIMP_ALTRES = ALTRES,\n\t\tIMP_ACTUACIO = IMPORTACTUACIO,\n\t\tIMP_BARRIS = IMPORTBARRIS,\n\t\tIMP_FEDER = IMPORTFEDER,\n\t\tIMP_AJUTSALTRES = AJUTS_ALTRES,\n\t\tCONCAT_BAE_COD_ACTUACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps10\nSTGdimRESUMFACTANYS select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tDESC_TITOLPROJECTE = TITOLPROJECTE,\n\t\tIMP_GENERALITAT = GENERALITAT,\n\t\tIMP_AJUNTAMENT = AJUNTAMENT,\n\t\tIMP_ALTRES = ALTRES,\n\t\tIMP_ACTUACIO = IMPORTACTUACIO,\n\t\tIMP_BARRIS = IMPORTBARRIS,\n\t\tIMP_FEDER = IMPORTFEDER,\n\t\tIMP_DESPBARRIS = DESPBARRIS,\n\t\tIMP_DESPTOTAL = DESPTOTAL,\n\t\tDATA_ANYDADES = ANYDADES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps11\nSTGdimSOLLICITUDS select(mapColumn(\n\t\tCOD_BAE = BAE,\n\t\tCOD_NIFRESP = NIFRESP,\n\t\tDESC_MUNICIPI = MUNICIPI,\n\t\tDESC_COMARCA = COMARCA,\n\t\tDESC_DELEGACIO = DELEGACIO,\n\t\tDESC_TITOLPROJECTE = TITOLPROJECTE,\n\t\tDESC_NOMRESP = NOMRESP,\n\t\tDESC_COGNOMSRESP = COGNOMSRESP,\n\t\tDESC_CARRECRESP = CARRECRESP,\n\t\tDESC_ORGANISMERESP = ORGANISMERESP,\n\t\tDESC_CORREURESP = CORREURESP,\n\t\tDESC_ADRECARESP = ADRECARESP,\n\t\tDESC_POBLACIORESP = POBLACIORESP,\n\t\tDESC_BARRI = BARRI,\n\t\tNUM_TELRESP = TELRESP,\n\t\tNUM_FAXRESP = FAXRESP,\n\t\tNUM_CODIPOSTALRESP = CODIPOSTALRESP,\n\t\tNUM_PUNTGLOBAL = PUNTGLOBAL,\n\t\tNUM_PUNTLOCAL = PUNTLOCAL,\n\t\tNUM_PUNTDEFINITIVA = PUNTDEFINITIVA,\n\t\tNUM_HABITANTSBARRI = HABITANTSBARRI,\n\t\tNUM_HABITANTSMUNICIPI = HABITANTSMUNICIPI,\n\t\tIMP_TOTALBARRIS = TOTALBARRIS,\n\t\tIMP_TOTALAJUNTAMENT = TOTALAJUNTAMENT,\n\t\tIMP_TOTALALTRES = TOTALALTRES,\n\t\tIMP_CONSOLIDAT = IMPORTCONSOLIDAT,\n\t\tDATA_ANYCONV = ANYCONV\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps12\nNormalitzarCamps2 derive(CONCAT_BAE_DATA_CONV = concat(COD_BAE, toString(DATA_CONVOCATORIA))) ~> Concat\nNormalitzarCamps4 derive(CONCAT_BAE_DATA_CONV = concat(COD_BAE, toString(DATA_ANYCONV)),\n\t\tCONCAT_BAE_COD_ACTUACIO = concat(COD_BAE, COD_ACTUACIO)) ~> Concats\nSTGdimRESUMFACT derive(CONCAT_BAE_COD_ACTUACIO = concat(BAE, CODIACTUACIO)) ~> AddConcatPK\nNormalitzarCamps7 derive(DESC_MUNICIPI = iif(DESC_MUNICIPI == 'Escala', \"l'Escala\", \r\n    iif(DESC_MUNICIPI == 'Hospitalet de Llobregat',\"l'Hospitalet de Llobregat\",\r\n        iif(DESC_MUNICIPI == 'Pobla de Lillet',\"la Pobla de Lillet\",\r\n            iif(DESC_MUNICIPI == 'Pobla de Segur',\"la Pobla de Segur\",\r\n                iif(DESC_MUNICIPI == 'Pont de Suert',\"el Pont de Suert\",\r\n                    iif(DESC_MUNICIPI == 'Prat de Llobregat',\"el Prat de Llobregat\",\r\n                        iif(DESC_MUNICIPI == 'Arboç',\"l’Arboç\",\r\n                            iif(DESC_MUNICIPI == 'Selva del Camp',\"La Selva del Camp\",DESC_MUNICIPI))))))))) ~> CorrecionMunicipis\nSTGdimFACTURES derive(COD_INE = dropRight(toString(CODIMUNICIPI),5)) ~> DerivedColumn1\nDerivedColumn1 derive(COD_INE = iif(length(COD_INE)==5, COD_INE, concat('0',COD_INE))) ~> DerivedColumn2\nConcat sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tCOD_ACTUACIO as string,\n\t\tCOD_SEGONNIVELL as string,\n\t\tDESC_NOMACTUACIO as string,\n\t\tIMP_TOTALACTAUCIO as decimal(19,2),\n\t\tIMP_APORTACIO_GENCAT_ANY1 as double,\n\t\tIMP_APORTACIO_GENCAT_ANY2 as double,\n\t\tIMP_APORTACIO_GENCAT_ANY3 as double,\n\t\tIMP_APORTACIO_GENCAT_ANY4 as double,\n\t\tIMP_APORTACIO_GENCAT_ANY5 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY1 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY2 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY3 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY4 as double,\n\t\tIMP_APORTACIO_AJUNTAMENT_ANY5 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY1 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY2 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY3 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY4 as double,\n\t\tIMP_APORTACIO_ALTRES_ANY5 as double,\n\t\tDATA_CONVOCATORIA as decimal(19,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSdimDESGLOSFINACER\nNormalitzarCamps3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tID_PERIODE as decimal(19,0),\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_DELEGACIO as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_NOMPERIODE as string,\n\t\tDESC_DESPESA as string,\n\t\tIMP_TOTAL as decimal(19,2),\n\t\tIMP_BARRIS as decimal(19,2),\n\t\tDATA_ANYCONV as decimal(19,0),\n\t\tDATA_ANYDESPESA as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tID_PERIODE,\n\t\tDESC_MUNICIPI,\n\t\tDESC_COMARCA,\n\t\tDESC_DELEGACIO,\n\t\tDESC_TITOLPROJECTE,\n\t\tDESC_NOMPERIODE,\n\t\tDESC_DESPESA,\n\t\tIMP_TOTAL,\n\t\tIMP_BARRIS,\n\t\tDATA_ANYCONV,\n\t\tDATA_ANYDESPESA\n\t)) ~> ODSdimDESPESES\nConcats sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tCOD_CONTRACTE as decimal(19,0),\n\t\tCOD_NIFEMISSOR as string,\n\t\tCOD_AMBIT as string,\n\t\tCOD_ACTUACIO as string,\n\t\tID_ESFEDER as decimal(1,0),\n\t\tID_PERFASE1 as decimal(19,0),\n\t\tID_PERFASE2 as decimal(19,0),\n\t\tID_ESTAT as decimal(10,0),\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_NOMCONTRACTE as string,\n\t\tDESC_NOMEMISSOR as string,\n\t\tDESC_FACTURA as string,\n\t\tDESC_NOMFASE1 as string,\n\t\tDESC_NOMFASE2 as string,\n\t\tDESC_TITOLACTUACIO as string,\n\t\tDESC_CONCEPTE as string,\n\t\tIMP_TOTAL as decimal(19,2),\n\t\tIMP_SUBVENC as decimal(19,2),\n\t\tIMP_ACTUACIO as decimal(19,2),\n\t\tIMP_BARRIS as decimal(19,2),\n\t\tIMP_FEDER as decimal(19,2),\n\t\tDATA_ANYCONV as decimal(19,0),\n\t\tDATA_FACTURA as timestamp,\n\t\tDATA_PAGAMENT as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSdimFACTURES\nNormalitzarCamps5 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tID_NUMCONTRACTE as string,\n\t\tCOD_TIPUSCONTRACTE as string,\n\t\tCOD_ESTAT as string,\n\t\tDESC_NOMCTE as string,\n\t\tIMP_ADJINCIVA as decimal(19,2),\n\t\tIMP_ACTUACIONS as decimal(19,2)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tID_NUMCONTRACTE,\n\t\tCOD_TIPUSCONTRACTE,\n\t\tCOD_ESTAT,\n\t\tDESC_NOMCTE,\n\t\tIMP_ADJINCIVA,\n\t\tIMP_ACTUACIONS\n\t)) ~> ODSdimFCTALL\nNormalitzarCamps6 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tID_GRUP as decimal(19,0),\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_DELEGACIO as string,\n\t\tDESC_GRUP as string,\n\t\tDESC_INDICADOR as string,\n\t\tDESC_COMENTARI as string,\n\t\tIMP_VALBOOLEA as double,\n\t\tIMP_VALREAL as double,\n\t\tIMP_VALREFERENCIA as double,\n\t\tIMP_PUNTUACIO as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tID_GRUP,\n\t\tDESC_MUNICIPI,\n\t\tDESC_COMARCA,\n\t\tDESC_DELEGACIO,\n\t\tDESC_GRUP,\n\t\tDESC_INDICADOR,\n\t\tDESC_COMENTARI,\n\t\tIMP_VALBOOLEA,\n\t\tIMP_VALREAL,\n\t\tIMP_VALREFERENCIA,\n\t\tIMP_PUNTUACIO\n\t)) ~> ODSdimINDICADORS\nCorrecionMunicipis sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_DELEGACIO as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDATA_ANYCONV as decimal(19,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tDESC_MUNICIPI,\n\t\tDESC_COMARCA,\n\t\tDESC_DELEGACIO,\n\t\tDESC_TITOLPROJECTE,\n\t\tDATA_ANYCONV\n\t)) ~> ODSdimINFOPOBLACIO\nNormalitzarCamps8 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tID_PERIODE as decimal(19,0),\n\t\tID_ESTAT as decimal(10,0),\n\t\tID_CRT as decimal(19,0),\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_NOMPERIODE as string,\n\t\tDESC_CONCEPTE as string,\n\t\tIMP_PAGAMENTS as decimal(19,2),\n\t\tDATA_ANYCONV as decimal(19,0),\n\t\tDATA_OPERACIO as timestamp,\n\t\tDATA_CONFIRMACIO as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tID_PERIODE,\n\t\tID_ESTAT,\n\t\tID_CRT,\n\t\tDESC_MUNICIPI,\n\t\tDESC_COMARCA,\n\t\tDESC_TITOLPROJECTE,\n\t\tDESC_NOMPERIODE,\n\t\tDESC_CONCEPTE,\n\t\tIMP_PAGAMENTS,\n\t\tDATA_ANYCONV,\n\t\tDATA_OPERACIO,\n\t\tDATA_CONFIRMACIO\n\t)) ~> ODSdimPAGAMENTSOK\nNormalitzarCamps9 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tCOD_AMBIT as string,\n\t\tCOD_ACTUACIO as string,\n\t\tCOD_AJUT as string,\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_TITOLACTUACIO as string,\n\t\tIMP_GENERALITAT as double,\n\t\tIMP_AJUNTAMENT as double,\n\t\tIMP_ALTRES as double,\n\t\tDATA_ANYCONV as decimal(19,0),\n\t\tDATA_ANYDADES as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tCOD_AMBIT,\n\t\tCOD_ACTUACIO,\n\t\tCOD_AJUT,\n\t\tDESC_MUNICIPI,\n\t\tDESC_COMARCA,\n\t\tDESC_TITOLPROJECTE,\n\t\tDESC_TITOLACTUACIO,\n\t\tIMP_GENERALITAT,\n\t\tIMP_AJUNTAMENT,\n\t\tIMP_ALTRES,\n\t\tDATA_ANYCONV,\n\t\tDATA_ANYDADES\n\t)) ~> ODSdimPLANSFINANZEROS\nNormalitzarCamps10 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tCOD_AMBIT as string,\n\t\tCOD_ACTUACIO as string,\n\t\tCOD_AJUT as string,\n\t\tDESC_TITOLACTUACIO as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tIMP_GENERALITAT as double,\n\t\tIMP_AJUNTAMENT as double,\n\t\tIMP_ALTRES as double,\n\t\tIMP_ACTUACIO as double,\n\t\tIMP_BARRIS as double,\n\t\tIMP_FEDER as double,\n\t\tIMP_AJUTSALTRES as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSdimRESUMFACT\nNormalitzarCamps11 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tIMP_GENERALITAT as double,\n\t\tIMP_AJUNTAMENT as double,\n\t\tIMP_ALTRES as double,\n\t\tIMP_ACTUACIO as double,\n\t\tIMP_BARRIS as double,\n\t\tIMP_FEDER as double,\n\t\tIMP_DESPBARRIS as double,\n\t\tIMP_DESPTOTAL as double,\n\t\tDATA_ANYDADES as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tDESC_TITOLPROJECTE,\n\t\tIMP_GENERALITAT,\n\t\tIMP_AJUNTAMENT,\n\t\tIMP_ALTRES,\n\t\tIMP_ACTUACIO,\n\t\tIMP_BARRIS,\n\t\tIMP_FEDER,\n\t\tIMP_DESPBARRIS,\n\t\tIMP_DESPTOTAL,\n\t\tDATA_ANYDADES\n\t)) ~> ODSdimRESUMFACTANYS\nNormalitzarCamps12 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tCOD_NIFRESP as string,\n\t\tDESC_MUNICIPI as string,\n\t\tDESC_COMARCA as string,\n\t\tDESC_DELEGACIO as string,\n\t\tDESC_TITOLPROJECTE as string,\n\t\tDESC_NOMRESP as string,\n\t\tDESC_COGNOMSRESP as string,\n\t\tDESC_CARRECRESP as string,\n\t\tDESC_ORGANISMERESP as string,\n\t\tDESC_CORREURESP as string,\n\t\tDESC_ADRECARESP as string,\n\t\tDESC_POBLACIORESP as string,\n\t\tDESC_BARRI as string,\n\t\tNUM_TELRESP as string,\n\t\tNUM_FAXRESP as string,\n\t\tNUM_CODIPOSTALRESP as string,\n\t\tNUM_PUNTGLOBAL as double,\n\t\tNUM_PUNTLOCAL as string,\n\t\tNUM_PUNTDEFINITIVA as double,\n\t\tNUM_HABITANTSBARRI as double,\n\t\tNUM_HABITANTSMUNICIPI as double,\n\t\tIMP_TOTALBARRIS as double,\n\t\tIMP_TOTALAJUNTAMENT as double,\n\t\tIMP_TOTALALTRES as double,\n\t\tIMP_CONSOLIDAT as double,\n\t\tDATA_ANYCONV as decimal(19,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tCOD_NIFRESP,\n\t\tDESC_MUNICIPI,\n\t\tDESC_COMARCA,\n\t\tDESC_DELEGACIO,\n\t\tDESC_TITOLPROJECTE,\n\t\tDESC_NOMRESP,\n\t\tDESC_COGNOMSRESP,\n\t\tDESC_CARRECRESP,\n\t\tDESC_ORGANISMERESP,\n\t\tDESC_CORREURESP,\n\t\tDESC_ADRECARESP,\n\t\tDESC_POBLACIORESP,\n\t\tDESC_BARRI,\n\t\tNUM_TELRESP,\n\t\tNUM_FAXRESP,\n\t\tNUM_CODIPOSTALRESP,\n\t\tNUM_PUNTGLOBAL,\n\t\tNUM_PUNTLOCAL,\n\t\tNUM_PUNTDEFINITIVA,\n\t\tNUM_HABITANTSBARRI,\n\t\tNUM_HABITANTSMUNICIPI,\n\t\tIMP_TOTALBARRIS,\n\t\tIMP_TOTALAJUNTAMENT,\n\t\tIMP_TOTALALTRES,\n\t\tIMP_CONSOLIDAT,\n\t\tDATA_ANYCONV\n\t)) ~> ODSdimSOLLICITUDS\nNormalitzarCamps sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_BAE as string,\n\t\tIMP_ALTRESAJUTS as decimal(19,2),\n\t\tDATA_ANYAJUTS as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_BAE,\n\t\tIMP_ALTRESAJUTS,\n\t\tDATA_ANYAJUTS\n\t)) ~> ODSdimALTRESAJUTS"
+		}
+	}
+}

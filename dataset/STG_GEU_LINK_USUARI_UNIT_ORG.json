@@ -1,0 +1,28 @@
+{
+	"name": "STG_GEU_LINK_USUARI_UNIT_ORG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_USUARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_UORG",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_LINK_USUARI_UNIT_ORG"
+		}
+	}
+}

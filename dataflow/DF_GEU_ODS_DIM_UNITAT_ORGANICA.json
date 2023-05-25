@@ -1,0 +1,117 @@
+{
+	"name": "DF_GEU_ODS_DIM_UNITAT_ORGANICA",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_UNITAT_ORGANICA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimUnitOrga"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_UNITAT_ORGANICA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimUnitOrga"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "FixFlag"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CODI_UORG as string,",
+				"          DESC_UORG as string,",
+				"          DESC_UORG_LLARGA as string,",
+				"          AMBIT as string,",
+				"          TIPUS_UNITAT as string,",
+				"          IND_COORD_COMARCAL as string,",
+				"          CODI_SERVEI as string,",
+				"          CODI_SIGEDA_UORG as string,",
+				"          CODREG_ENT as string,",
+				"          CODREG_SOR as string,",
+				"          IND_VIGENT as string,",
+				"          IDCENTRE as string,",
+				"          CODREG_SARCAT as string,",
+				"          UO_SARCAT as string,",
+				"          CODI_ARXIU as string,",
+				"          CODI_DIPOSIT as string,",
+				"          SUBDIRECCIO_URBANISME as string,",
+				"          IND_GENERACIO_AUT_UG as string,",
+				"          IND_ASSIGNABLE_USUARIS as string,",
+				"          IND_MULTIPLES_AMBITS as string,",
+				"          IND_PERMETRE_ACCES_PARES as string,",
+				"          IND_TE_UORG as string,",
+				"          CODI_SAC as string,",
+				"          SIGNATARI as decimal(8,0),",
+				"          NIVELL_ACCESS as string,",
+				"          SARCAT_WS_RESPOSTES as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimUnitOrga",
+				"STGDimUnitOrga select(mapColumn(",
+				"          CODI_UNIT_ORG = CODI_UORG,",
+				"          CODI_AMBIT = AMBIT,",
+				"          CODI_TIPUS_UNITAT = TIPUS_UNITAT,",
+				"          DESC_UNIT_ORG = DESC_UORG,",
+				"          DESC_UNIT_ORG_LLARGA = DESC_UORG_LLARGA,",
+				"          CODI_COORD_COMARCAL = IND_COORD_COMARCAL,",
+				"          CODI_SERVEI,",
+				"          CODI_SIGEDA_UNIT_ORG = CODI_SIGEDA_UORG,",
+				"          CODI_REG_ENTRADA = CODREG_ENT,",
+				"          CODI_REG_SORTIDA = CODREG_SOR,",
+				"          FLAG_VIGENT = IND_VIGENT,",
+				"          ID_CENTRE = IDCENTRE,",
+				"          CODI_REG_SARCAT = CODREG_SARCAT,",
+				"          CODI_UNIT_ORG_SARCAT = UO_SARCAT,",
+				"          CODI_ARXIU,",
+				"          CODI_DIPOSIT,",
+				"          COID_SUBDIRECCIO_URBANISME = SUBDIRECCIO_URBANISME,",
+				"          FLAG_GENERACIO_AUT_UG = IND_GENERACIO_AUT_UG,",
+				"          FLAG_ASSIGNABLE_USUARIS = IND_ASSIGNABLE_USUARIS,",
+				"          FLAG_MULTIPLES_AMBITS = IND_MULTIPLES_AMBITS,",
+				"          FLAG_PERMETRE_ACCES_PARES = IND_PERMETRE_ACCES_PARES,",
+				"          FLAG_TE_UORG = IND_TE_UORG,",
+				"          CODI_SAC,",
+				"          NUM_SIGNATARI = SIGNATARI,",
+				"          NUM_NIVELL_ACCESS = NIVELL_ACCESS,",
+				"          CODI_SARCAT_WS_RESPOSTES = SARCAT_WS_RESPOSTES",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraCampos",
+				"RenombraCampos derive(FLAG_GENERACIO_AUT_UG = iif(FLAG_GENERACIO_AUT_UG=='S', 1, iif(FLAG_GENERACIO_AUT_UG=='N', 0, -1)),",
+				"          FLAG_ASSIGNABLE_USUARIS = iif(FLAG_ASSIGNABLE_USUARIS=='S', 1, iif(FLAG_ASSIGNABLE_USUARIS=='N', 0, -1)),",
+				"          FLAG_MULTIPLES_AMBITS = iif(FLAG_MULTIPLES_AMBITS=='S', 1, iif(FLAG_MULTIPLES_AMBITS=='N', 0, -1)),",
+				"          FLAG_PERMETRE_ACCES_PARES = iif(FLAG_PERMETRE_ACCES_PARES=='S', 1, iif(FLAG_PERMETRE_ACCES_PARES=='N', 0, -1)),",
+				"          FLAG_TE_UORG = iif(FLAG_TE_UORG=='S', 1, iif(FLAG_TE_UORG=='N', 0, -1))) ~> FixFlag",
+				"FixFlag sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimUnitOrga"
+			]
+		}
+	}
+}

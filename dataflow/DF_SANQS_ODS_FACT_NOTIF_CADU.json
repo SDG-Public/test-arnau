@@ -1,0 +1,100 @@
+{
+	"name": "DF_SANQS_ODS_FACT_NOTIF_CADU",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_RESOL_NOTIF_RECUR_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSResolNotifRecurTSA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_NOTIFICACIO_CADUCAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSNotificacioCaducat"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FfilterNotifCaducat"
+				},
+				{
+					"name": "FiltraCampos"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Prop_0 as string,",
+				"          CODI_EXPEDIENT as string,",
+				"          DATA_PROPOSTA_RESOLUCIO as date,",
+				"          COD_PRECEPTE as string,",
+				"          DATA_RESOLUCIO as date,",
+				"          IND_IMPORT_RESOLUCIO as string,",
+				"          COD_GRAVETAT_RESOLUCIO as string,",
+				"          COD_TIPUS_RESOLUCIO as string,",
+				"          COD_TIPUS_NOTIFICACIO as string,",
+				"          DATA_REGISTRE_SORTIDA as date,",
+				"          DATA_NOTIFICACIO as date,",
+				"          DATA_ARRIBADA_NOTIFICACIO as date,",
+				"          COD_TANOT as string,",
+				"          COD_NOTIFICACIO as string,",
+				"          COD_TRAMNOT as string,",
+				"          DATA_PRESENTACIO as date,",
+				"          COD_TIPUS_RECURS as string,",
+				"          DATA_INF_RA as date,",
+				"          DESC_IMPRE_REC as string,",
+				"          COD_DEMARCACIO as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSResolNotifRecurTSA",
+				"ODSResolNotifRecurTSA filter(COD_TIPUS_NOTIFICACIO == 'CADU') ~> FfilterNotifCaducat",
+				"FfilterNotifCaducat select(mapColumn(",
+				"          CODI_EXPEDIENT,",
+				"          COD_NOTIFICACIO,",
+				"          COD_TIPUS_NOTIFICACIO,",
+				"          COD_TIPUS_RECURS,",
+				"          COD_TIPUS_RESOLUCIO,",
+				"          COD_DEMARCACIO,",
+				"          COD_GRAVETAT_RESOLUCIO,",
+				"          COD_PRECEPTE,",
+				"          COD_TANOT,",
+				"          COD_TRAMNOT,",
+				"          DESC_IMPRE_REC,",
+				"          IND_IMPORT_RESOLUCIO,",
+				"          DATA_REGISTRE_SORTIDA,",
+				"          DATA_PROPOSTA_RESOLUCIO,",
+				"          DATA_RESOLUCIO,",
+				"          DATA_NOTIFICACIO,",
+				"          DATA_ARRIBADA_NOTIFICACIO,",
+				"          DATA_PRESENTACIO,",
+				"          DATA_INF_RA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FiltraCampos",
+				"FiltraCampos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSNotificacioCaducat"
+			]
+		}
+	}
+}

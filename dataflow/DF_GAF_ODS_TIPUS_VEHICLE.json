@@ -1,0 +1,31 @@
+{
+	"name": "DF_GAF_ODS_TIPUS_VEHICLE",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "FIT_STG_GAF_DIM_TIPUS_VEHICLES",
+						"type": "DatasetReference"
+					},
+					"name": "STGTipusVehicel"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_TIPUS_VEHICLES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSTipusVehicles"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_TIPUS_VEHICLES as integer,\n\t\tDESC_TIPUS_VEHICLES as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGTipusVehicel\nSTGTipusVehicel sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_VEHICLES as integer,\n\t\tDESC_TIPUS_VEHICLES as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSTipusVehicles"
+		}
+	}
+}

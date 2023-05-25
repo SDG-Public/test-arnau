@@ -1,0 +1,46 @@
+{
+	"name": "FIT_STG_GAF_AUX_MODELO_PLA_ANYAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Hoja1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DIM_MODELO_PLA_ANYAL.xlsx",
+				"container": "contenedortesgaf"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "DATA_MES",
+				"type": "String"
+			},
+			{
+				"name": "GRUP",
+				"type": "String"
+			},
+			{
+				"name": "CONCEPTE",
+				"type": "String"
+			},
+			{
+				"name": "POSICIO",
+				"type": "String"
+			},
+			{
+				"name": "POSICIO2",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,65 @@
+{
+	"name": "DF_GEU_ODS_DIM_LLISTA_USU",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_LLISTA_USU",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimLlistaUsu"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_LLISTA_USU",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimListaUsu"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CODI_LLISTA_USU as decimal(3,0),",
+				"          DESC_LLISTA_USU as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimLlistaUsu",
+				"STGDimLlistaUsu select(mapColumn(",
+				"          ID_LLISTA_USU = CODI_LLISTA_USU,",
+				"          DESC_LLISTA_USU",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraCampos",
+				"RenombraCampos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_LLISTA_USU as decimal(3,0),",
+				"          DESC_LLISTA_USU as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimListaUsu"
+			]
+		}
+	}
+}

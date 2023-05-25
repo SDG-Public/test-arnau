@@ -1,0 +1,74 @@
+{
+	"name": "DF_ARB_ODS_FACT_EXPEDIENT_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_FACT_EXPEDIENT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactExpedientPersonaBCN"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_FACT_EXPEDIENT_PERSONA_TGN",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactExpedientPersonaTGN"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_FACT_EXPEDIENT_PERSONA_LLEIDA",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactExpedientPersonaLLEIDA"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_FACT_EXPEDIENT_PERSONA_GIR",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactExpedientPersonaGIR"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_FACT_EXPEDIENT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedientPersona"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "DataInsercio"
+				},
+				{
+					"name": "AfegimCodiDemarcacioBCN"
+				},
+				{
+					"name": "AfegimCodiDemarcacioTGN"
+				},
+				{
+					"name": "AfegimCodiDemarcacioLLEIDA"
+				},
+				{
+					"name": "AfegimCodiDemarcacioGIR"
+				},
+				{
+					"name": "UnimDemarcacions"
+				}
+			],
+			"script": "source(output(\n\t\tARB_PEX_REF as string,\n\t\tARB_PEX_PER as string,\n\t\tARB_PEX_TIPUS as string,\n\t\tARB_PEX_QDE as string,\n\t\tARB_PEX_NPAD as decimal(3,0),\n\t\tARB_PEX_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactExpedientPersonaBCN\nsource(output(\n\t\tARB_PEX_REF as string,\n\t\tARB_PEX_PER as string,\n\t\tARB_PEX_TIPUS as string,\n\t\tARB_PEX_QDE as string,\n\t\tARB_PEX_NPAD as decimal(3,0),\n\t\tARB_PEX_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactExpedientPersonaTGN\nsource(output(\n\t\tARB_PEX_REF as string,\n\t\tARB_PEX_PER as string,\n\t\tARB_PEX_TIPUS as string,\n\t\tARB_PEX_QDE as string,\n\t\tARB_PEX_NPAD as decimal(3,0),\n\t\tARB_PEX_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactExpedientPersonaLLEIDA\nsource(output(\n\t\tARB_PEX_REF as string,\n\t\tARB_PEX_PER as string,\n\t\tARB_PEX_TIPUS as string,\n\t\tARB_PEX_QDE as string,\n\t\tARB_PEX_NPAD as decimal(3,0),\n\t\tARB_PEX_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactExpedientPersonaGIR\nUnimDemarcacions select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tID_PERSONA = ARB_PEX_PER,\n\t\tID_TIPUS_PERSONA = ARB_PEX_TIPUS,\n\t\tID_QUALITAT_DE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(DATA_INSERCIO = currentDate()) ~> DataInsercio\nSTGFactExpedientPersonaBCN derive(ID_EXPEDIENT = concat('08',ARB_PEX_REF),\n\t\tID_QUALITAT_DE = concat('08',ARB_PEX_QDE)) ~> AfegimCodiDemarcacioBCN\nSTGFactExpedientPersonaTGN derive(ID_EXPEDIENT = concat('43',ARB_PEX_REF),\n\t\tID_QUALITAT_DE = concat('43',ARB_PEX_QDE)) ~> AfegimCodiDemarcacioTGN\nSTGFactExpedientPersonaLLEIDA derive(ID_EXPEDIENT = concat('25',ARB_PEX_REF),\n\t\tID_QUALITAT_DE = concat('25',ARB_PEX_QDE)) ~> AfegimCodiDemarcacioLLEIDA\nSTGFactExpedientPersonaGIR derive(ID_EXPEDIENT = concat('17',ARB_PEX_REF),\n\t\tID_QUALITAT_DE = concat('17',ARB_PEX_QDE)) ~> AfegimCodiDemarcacioGIR\nAfegimCodiDemarcacioBCN, AfegimCodiDemarcacioTGN, AfegimCodiDemarcacioLLEIDA, AfegimCodiDemarcacioGIR union(byName: true)~> UnimDemarcacions\nDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_EXPEDIENT as string,\n\t\tID_PERSONA as string,\n\t\tID_TIPUS_PERSONA as string,\n\t\tID_QUALITAT_DE as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactExpedientPersona"
+		}
+	}
+}

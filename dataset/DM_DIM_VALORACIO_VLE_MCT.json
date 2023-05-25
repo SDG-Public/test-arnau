@@ -1,0 +1,89 @@
+{
+	"name": "DM_DIM_VALORACIO_VLE_MCT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_SUBMODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ELEMENT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "COMPTADOR",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INICI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "VLE_MCT_TIPUS_MCT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "VLE_MCT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VLE_MCT_UNITATS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_MCT_VAL_PERC_COMP",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MCT_VAL_PERIODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_VALORACIO_VLE_MCT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_DIM_FOCUS",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_DIM_VALORACIO_VLE_MCT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

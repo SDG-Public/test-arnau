@@ -1,0 +1,35 @@
+{
+	"name": "DF_SANQS_ODS_FACT_QUALIF_TSA",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANQS_FACT_QUALIF_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactQualifTSA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_QUALIF_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactQualifTSA"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Columnes"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactQualifTSA\nSTGFactQualifTSA derive(ID_EXPEDIENT = substring(Prop_0, 1, 9),\n\t\tID_PERCEPTESANCIONADOR = substring(Prop_0, 11, 3),\n\t\tID_TIPUSQUALIFICACIO = substring(Prop_0, 14, 2),\n\t\tDT_QUALIFICACIO = toDate(substring(Prop_0, 16, 8),'yyyyMMdd'),\n\t\tNM_IMPORTQUA = substring(Prop_0, 25, 9),\n\t\tDT_PLECDESCARREC = toDate(substring(Prop_0, 34, 8),'yyyyMMdd'),\n\t\tID_TIPUSNOTIFICACIO = substring(Prop_0, 42, 4),\n\t\tDT_REGISTRESORTIDA = toDate(substring(Prop_0, 46, 8),'yyyyMMdd'),\n\t\tDT_NOTIFICACIO = toDate(substring(Prop_0, 54, 8),'yyyyMMdd'),\n\t\tDT_ARRIBADANOTIFICACIO = toDate(substring(Prop_0, 62, 8),'yyyyMMdd'),\n\t\tDS_TANOT = substring(Prop_0, 70, 2),\n\t\tID_NOTIFICACIO = substring(Prop_0, 72, 2),\n\t\tID_TRAMNOT = substring(Prop_0, 74, 4),\n\t\tID_BAREM = substring(Prop_0, 78, 8),\n\t\tNM_IMPMINBAREM = substring(Prop_0, 87, 9),\n\t\tNM_IMPMAXBAREM = substring(Prop_0, 97, 9),\n\t\tID_PREBAREM = substring(Prop_0, 107, 3),\n\t\tDS_GRAVBAREM = substring(Prop_0, 110, 2),\n\t\tDS_TEXTBAREM = substring(Prop_0, 112, 495)) ~> Columnes\nColumnes sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tID_PERCEPTESANCIONADOR as string,\n\t\tID_TIPUSQUALIFICACIO as string,\n\t\tDT_QUALIFICACIO as date,\n\t\tNM_IMPORTQUA as string,\n\t\tDT_PLECDESCARREC as date,\n\t\tID_TIPUSNOTIFICACIO as string,\n\t\tDT_REGISTRESORTIDA as date,\n\t\tDT_NOTIFICACIO as date,\n\t\tDT_ARRIBADANOTIFICACIO as date,\n\t\tDS_TANOT as string,\n\t\tID_NOTIFICACIO as string,\n\t\tID_TRAMNOT as string,\n\t\tID_BAREM as string,\n\t\tNM_IMPMINBAREM as string,\n\t\tNM_IMPMAXBAREM as string,\n\t\tID_PREBAREM as string,\n\t\tDS_GRAVBAREM as string,\n\t\tDS_TEXTBAREM as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactQualifTSA"
+		}
+	}
+}

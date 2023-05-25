@@ -1,0 +1,58 @@
+{
+	"name": "STG_GAF_DIM_PLA_HISTORICO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet 1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DIM_PLA_ID_NEGATIVO.xlsx",
+				"container": "contenedortesgaf"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "IDPLA",
+				"type": "String"
+			},
+			{
+				"name": "IDORGANISME",
+				"type": "String"
+			},
+			{
+				"name": "IDPLAGENERAL",
+				"type": "String"
+			},
+			{
+				"name": "NOMPLA",
+				"type": "String"
+			},
+			{
+				"name": "DATAINICI",
+				"type": "String"
+			},
+			{
+				"name": "DATAFI",
+				"type": "String"
+			},
+			{
+				"name": "IDESTATPLA",
+				"type": "String"
+			},
+			{
+				"name": "GENERAT",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

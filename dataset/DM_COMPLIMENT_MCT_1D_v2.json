@@ -1,0 +1,87 @@
+{
+	"name": "DM_COMPLIMENT_MCT_1D_v2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "VLE_MCT_TIPUS_MCT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "VLE_MCT_VAL_PERC_COMP",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 2
+			},
+			{
+				"name": "MCT_VAL_PERIODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PCT_COMPLIMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "MCTS_VALIDA",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "MCTS_TOTAL",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "MCT_VAL_PERIODE_COMP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_DIM_FOCUS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_COMPLIMENT_MCT_1D_V2",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_COMPLIMENT_MCT_1D_v2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

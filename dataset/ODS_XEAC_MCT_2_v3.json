@@ -1,0 +1,98 @@
+{
+	"name": "ODS_XEAC_MCT_2_v3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "TIPUS_MCT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "VALOR_MCT",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "VALORACION_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_DIM_FOCUS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_VALORACIO_LEGISLACIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_TRUNC",
+				"type": "date"
+			},
+			{
+				"name": "ID_VALORACIO_TRACTAMENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_VALORACIO_VLE_MCT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_COMPLIMENT_MCT_1D_V3",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_IND_DIA_v3",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_XEAC_ANOMALAS_v3",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ZONA_HORARIA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_XEAC_MCT_2_v3"
+		}
+	}
+}

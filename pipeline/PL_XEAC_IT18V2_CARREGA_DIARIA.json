@@ -1,0 +1,152 @@
+{
+	"name": "PL_XEAC_IT18V2_CARREGA_DIARIA",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_XEAC_V2_AGE_MINUTALS_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_V2_AGE_MINUTALS_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_V2_MCT_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_V2_AGE_MINUTALS_DIARI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_V2_MCT_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_V2_MLT_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_V2_MCT_DIARI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_V2_MLT_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_V2_IND_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_V2_MCT_DIARI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_V2_IND_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_ANOMALAS_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_V2_MCT_DIARI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_ANOMALAS_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_EM_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_V2_MCT_DIARI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_EM_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_V2_DM_MCT_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_V2_IND_DIARI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "PL_XEAC_ANOMALAS_DIARI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_V2_DM_MCT_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "XEAC_v2"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

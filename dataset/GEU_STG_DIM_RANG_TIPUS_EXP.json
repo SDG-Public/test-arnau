@@ -1,0 +1,45 @@
+{
+	"name": "GEU_STG_DIM_RANG_TIPUS_EXP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_RANG_TIPUS_EXP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_RANG_TIPUS_EXP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_LITERAL_CACORD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_IND_PORTAL_RPUC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_IND_CERCA_RPUC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_IND_CERCA_PORTAL",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_RANG_TIPUS_EXP"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

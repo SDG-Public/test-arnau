@@ -1,0 +1,31 @@
+{
+	"name": "DF_ARB_DM_DIM_ESTATS",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_ESTATS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEstats"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ARB_DIM_ESTATS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstats"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_ESTAT as string,\n\t\tDESC_ESTAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimEstats\nODSDimEstats sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimEstats"
+		}
+	}
+}

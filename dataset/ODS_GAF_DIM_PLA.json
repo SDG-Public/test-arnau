@@ -1,0 +1,84 @@
+{
+	"name": "ODS_GAF_DIM_PLA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_PLA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_ORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_PLA_GENERAL",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTAT_PLA",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DESC_PLA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_PENDENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_FINALITZAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_INI_PROCES",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_FI_PROCES",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_GENERAT",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_ODS",
+			"table": "ODS_GAF_DIM_PLA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

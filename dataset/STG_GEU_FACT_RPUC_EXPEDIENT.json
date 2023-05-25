@@ -1,0 +1,163 @@
+{
+	"name": "STG_GEU_FACT_RPUC_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "ANY_EXP",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "NUMERO_EXP",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_RECURS",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "NUM_COMPLERT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "TEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_CODI_ORGAN",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTAT_EXPEDIENT",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ASSENTAMENT_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_BAIXA_VIGENCIA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "COMPETENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_REGISTRAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DESC_DOCS_AFECTATS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_MIGRACIO",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_APROVACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_PUBLICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_CREACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_CREACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "VERSION",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ACTIVAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "RPUC_IND_ACT_DOCS",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "RPUC_COMENTARI_ACT_DOCS",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_FACT_RPUC_EXPEDIENT"
+		}
+	}
+}

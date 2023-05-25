@@ -1,0 +1,38 @@
+{
+	"name": "DF_INSGRI_ODS_DIM_TIPUS_RESULTATS",
+	"properties": {
+		"folder": {
+			"name": "INSGRI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_INSGRI_DIM_TIPUS_RESULTATS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTipusResultats"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_INSGRI_DIM_TIPUS_RESULTATS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusResultats"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(8,0),\n\t\tCODI as string,\n\t\tNOM as string,\n\t\tDESCRIPCIO as string,\n\t\tVIGENT as decimal(1,0),\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tUSUARI_ALTA as string,\n\t\tUSUARI_MODIFICACIO as string,\n\t\tDE_SISTEMA as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTipusResultats\nSTGDimTipusResultats select(mapColumn(\n\t\tID_TIPUS_RESULTAT = ID,\n\t\tCOD_TIPUS_RESULTAT = CODI,\n\t\tDESC_NOM = NOM,\n\t\tDESC_TIPUS_RESULTAT = DESCRIPCIO,\n\t\tDESC_USUARI_ALTA = USUARI_ALTA,\n\t\tDESC_USUARI_MODIFICACIO = USUARI_MODIFICACIO,\n\t\tDATA_ALTA,\n\t\tDATA_MODIFICACIO,\n\t\tFLAG_VIGENT = VIGENT,\n\t\tFLAG_DE_SISTEMA = DE_SISTEMA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(DATA_INSERCIO = currentDate()) ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_RESULTAT as decimal(8,0),\n\t\tCOD_TIPUS_RESULTAT as string,\n\t\tDESC_NOM as string,\n\t\tDESC_TIPUS_RESULTAT as string,\n\t\tDESC_USUARI_ALTA as string,\n\t\tDESC_USUARI_MODIFICACIO as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tFLAG_VIGENT as decimal(1,0),\n\t\tFLAG_DE_SISTEMA as decimal(1,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTipusResultats"
+		}
+	}
+}

@@ -1,0 +1,29 @@
+{
+	"name": "ODS_ASJ_AUX_SENTENCIES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "METADATA_NUMERIC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_ODS",
+			"table": "ODS_ASJ_AUX_SENTENCIES"
+		}
+	}
+}

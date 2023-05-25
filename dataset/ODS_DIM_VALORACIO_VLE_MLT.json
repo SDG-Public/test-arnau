@@ -1,0 +1,97 @@
+{
+	"name": "ODS_DIM_VALORACIO_VLE_MLT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_SUBMODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ELEMENT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "COMPTADOR",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INICI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "VLE_MLT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_MLT_UNITATS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_MLT_MITJANA_TIPUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_MLT_MITJANA_TIPUS_NOMBRE",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "VLE_MLT_MCT_MLT_BASE_MLT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_MLT_MCT_MLT_BASE_MLT_N_MIN",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "VLE_MLT_PERIODE_VALORACIO_TIPN",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "VLE_MLT_PERIODE_VALORACIO_TIP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_MLT_VAL_PERC_COMP",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_DIM_VALORACIO_VLE_MLT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

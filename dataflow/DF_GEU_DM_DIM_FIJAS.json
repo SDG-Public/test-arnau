@@ -1,0 +1,86 @@
+{
+	"name": "DF_GEU_DM_DIM_FIJAS",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "FIT_GEU_STG_DIM_MUC_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimMUCESTATS"
+				},
+				{
+					"dataset": {
+						"referenceName": "FIT_GEU_STG_DIM_MUC_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimMUCTRAMITS"
+				},
+				{
+					"dataset": {
+						"referenceName": "FIT_GEU_STG_DIM_AMBIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimAMBIT"
+				},
+				{
+					"dataset": {
+						"referenceName": "FIT_GEU_STG_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimESTAT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "GEU_DM_DIM_MUC_ESTATS",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimMUCESTATS"
+				},
+				{
+					"dataset": {
+						"referenceName": "GEU_DM_DIM_MUC_TRAMITS",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimMUCTRAMITS"
+				},
+				{
+					"dataset": {
+						"referenceName": "GEU_DM_DIM_AMBIT",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimAMBIT"
+				},
+				{
+					"dataset": {
+						"referenceName": "GEU_DM_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimESTAT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalitzarCamps1"
+				},
+				{
+					"name": "NormalitzarCamps2"
+				},
+				{
+					"name": "NormalitzarCamps3"
+				},
+				{
+					"name": "NormalitzarCamps4"
+				}
+			],
+			"script": "source(output(\n\t\tCOD_MUCESTATS as integer,\n\t\tDESC_MUCESTATS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGdimMUCESTATS\nsource(output(\n\t\tCOD_MUCTRAMITS as integer,\n\t\tDESC_MUCTRAMITS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGdimMUCTRAMITS\nsource(output(\n\t\tCODI_AMBIT as string,\n\t\tDESC_AMBIT as string,\n\t\tCODI_JERARQUIC_CLASSIFICACIO as string,\n\t\tIND_VEGUERIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGdimAMBIT\nsource(output(\n\t\tCOD_ESTAT as string,\n\t\tDESC_ESTAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGdimESTAT\nSTGdimMUCESTATS select(mapColumn(\n\t\tCOD_MUCESTATS,\n\t\tDESC_MUCESTATS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps1\nSTGdimMUCTRAMITS select(mapColumn(\n\t\tCOD_MUCTRAMITS,\n\t\tDESC_MUCTRAMITS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps2\nSTGdimAMBIT select(mapColumn(\n\t\tCOD_AMBIT = CODI_AMBIT,\n\t\tDESC_AMBIT,\n\t\tCODI_JERARQUIC_CLASSIFICACIO,\n\t\tIND_VEGUERIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps3\nSTGdimESTAT select(mapColumn(\n\t\tCOD_ESTAT,\n\t\tDESC_ESTAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps4\nNormalitzarCamps1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_MUCESTATS,\n\t\tDESC_MUCESTATS\n\t)) ~> DMdimMUCESTATS\nNormalitzarCamps2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_MUCTRAMITS,\n\t\tDESC_MUCTRAMITS\n\t)) ~> DMdimMUCTRAMITS\nNormalitzarCamps3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMdimAMBIT\nNormalitzarCamps4 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_ESTAT,\n\t\tDESC_ESTAT\n\t)) ~> DMdimESTAT"
+		}
+	}
+}

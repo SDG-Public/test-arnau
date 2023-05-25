@@ -1,0 +1,234 @@
+{
+	"name": "STG_SANFER_FACT_PAGAMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NUMINT_TRAMIT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "DATA_TRAMIT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "TIPUS_TRANSACCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MOTIU_ANULACIO",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "LIQUIDACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMPORT",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "SUBCONCEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RESULTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_ERROR1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ERROR1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_ERROR2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ERROR2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_ERROR3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ERROR3",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_ERROR4",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ERROR4",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_ERROR5",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ERROR5",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UNITAT_LIQ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_UNITAT_LIQ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CONCEPTE_LIQ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SEQ_LIQ",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "DC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_EMISSIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_VENCIMENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_PAGAMENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "NIF_SUBJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_SUBJECTE_PASSIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_SUBJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM1_SUBJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM2_SUBJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRECA_SUBJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "POBLACIO_SUBJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_POSTAL_SUBJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EMISOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SUFIXE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REFERENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_BARRES",
+				"type": "varbinary"
+			},
+			{
+				"name": "NUM_CODI_BARRES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FILLER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ES_GIDECAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "ANY_LIQUIDACIO",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ESTAT_GIDECAT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "DATA_VENCIMENT_REAL",
+				"type": "datetime2",
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_STG",
+			"table": "STG_SANFER_FACT_PAGAMENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

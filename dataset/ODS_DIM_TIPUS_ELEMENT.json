@@ -1,0 +1,20 @@
+{
+	"name": "ODS_DIM_TIPUS_ELEMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_DIM_TIPUS_ELEMENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

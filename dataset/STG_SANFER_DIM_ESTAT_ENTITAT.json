@@ -1,0 +1,29 @@
+{
+	"name": "STG_SANFER_DIM_ESTAT_ENTITAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_STG",
+			"table": "STG_SANFER_DIM_ESTAT_ENTITAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

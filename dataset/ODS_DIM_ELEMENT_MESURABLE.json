@@ -1,0 +1,37 @@
+{
+	"name": "ODS_DIM_ELEMENT_MESURABLE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ELEMENT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "NOM_ELEMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_TIPUS_ELEM",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_DIM_ELEMENT_MESURABLE"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

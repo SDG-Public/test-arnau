@@ -1,0 +1,88 @@
+{
+	"name": "DF_DM_XEAC_MCT_v3",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_MCT_2_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODS2MCT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_v3",
+						"type": "DatasetReference"
+					},
+					"name": "DMXEACMCTv3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "UPDATE"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_CONTAMINANT as decimal(6,0),",
+				"          ID_FOCUS as string,",
+				"          DATA as timestamp,",
+				"          TIPUS_MCT as decimal(3,0),",
+				"          VALOR_MCT as float,",
+				"          VALORACION_MCT as string,",
+				"          MODE_REPORTABLE_NUM as string,",
+				"          ID_LEGISLACIO as string,",
+				"          ID_DIM_FOCUS as integer,",
+				"          ID_VALORACIO_LEGISLACIO as integer,",
+				"          DATA_TRUNC as date,",
+				"          ID_VALORACIO_TRACTAMENT as integer,",
+				"          ID_VALORACIO_VLE_MCT as integer,",
+				"          ID_COMPLIMENT_MCT_1D_V3 as integer,",
+				"          ID_IND_DIA_v3 as integer,",
+				"          ID_XEAC_ANOMALAS_v3 as integer,",
+				"          ZONA_HORARIA as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODS2MCT",
+				"ODS2MCT alterRow(upsertIf(true())) ~> UPDATE",
+				"UPDATE sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_CONTAMINANT as decimal(6,0),",
+				"          ID_FOCUS as string,",
+				"          DATA as timestamp,",
+				"          TIPUS_MCT as decimal(3,0),",
+				"          VALOR_MCT as float,",
+				"          VALORACION_MCT as string,",
+				"          MODE_REPORTABLE_NUM as string,",
+				"          ID_LEGISLACIO as string,",
+				"          ID_DIM_FOCUS as integer,",
+				"          ID_VALORACIO_LEGISLACIO as integer,",
+				"          DATA_TRUNC as date,",
+				"          ID_VALORACIO_TRACTAMENT as integer,",
+				"          ID_VALORACIO_VLE_MCT as integer,",
+				"          ID_IND_DIA_v3 as integer,",
+				"          ID_XEAC_ANOMALAS_v3 as integer,",
+				"          ID_VALORACIO_VLE_MLT as integer,",
+				"          ID_COMPLIMENT_MCT_1D_V3 as integer,",
+				"          ZONA_HORARIA as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['ID_CONTAMINANT','ID_FOCUS','DATA','ZONA_HORARIA','MODE_REPORTABLE_NUM','TIPUS_MCT','ID_LEGISLACIO'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> DMXEACMCTv3"
+			]
+		}
+	}
+}

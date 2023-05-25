@@ -1,0 +1,35 @@
+{
+	"name": "DF_SANQS_ODS_FACT_DEVOLUCIO",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_DEVOLUCIONS_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDevolucioTSA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_DEVOLUCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDevolucio"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelecCampos"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tDATA_CSST as date,\n\t\tDATA_VIP as date,\n\t\tID_CODI as string,\n\t\tIND_IMPORT_DEVOLUCIO as string,\n\t\tDATA_SOLLICITUD as date,\n\t\tDATA_REB as date,\n\t\tDATA_RES as date,\n\t\tDATA_CER as date,\n\t\tDATA_PAG as date,\n\t\tCOD_CON as string,\n\t\tCOD_COM as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDevolucioTSA\nODSDevolucioTSA select(mapColumn(\n\t\tCODI_EXPEDIENT = ID_EXPEDIENT,\n\t\tIND_IMPORT_DEVOLUCIO,\n\t\tDATA_SOLLICITUD\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelecCampos\nSelecCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_EXPEDIENT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDevolucio"
+		}
+	}
+}

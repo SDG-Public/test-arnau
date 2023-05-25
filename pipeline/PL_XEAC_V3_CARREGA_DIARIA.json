@@ -1,0 +1,46 @@
+{
+	"name": "PL_XEAC_V3_CARREGA_DIARIA",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_XEAC_PARAMETRES",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_PARAMETRES",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_IT18V3_CARREGA_DIARIA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_PARAMETRES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_IT18V3_CARREGA_DIARIA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "XEAC_COMUN"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

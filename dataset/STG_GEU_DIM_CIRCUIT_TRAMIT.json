@@ -1,0 +1,116 @@
+{
+	"name": "STG_GEU_DIM_CIRCUIT_TRAMIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_CIRCUIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUMINT_TRAMIT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "NUM_ORDRE_TRA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CODI_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_INI_TERMINI_CU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_FI_TERMINI_CU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LLISTA_USU",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_TAXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_CD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INGRES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TARIFA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_SIGNIFICATIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_RE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORDRE",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "IND_PROTEGIBLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRIV_PUBLICABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CARACTER_ACORD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUB_IND_PUBLICABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_IND_PUBLICABLE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_CIRCUIT_TRAMIT"
+		}
+	}
+}

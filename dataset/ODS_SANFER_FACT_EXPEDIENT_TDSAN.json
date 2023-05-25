@@ -1,0 +1,237 @@
+{
+	"name": "ODS_SANFER_FACT_EXPEDIENT_TDSAN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_PERSONA_DENUNCIANT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_TIPUS_RECURS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_TIPUS_DOCUMENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "COD_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_DENUNCIA_TDSAN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_BAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_DOCUMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_OPERADOR_FERROVIARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ESTAT_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_CODI_POSTAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NUM_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMP_SANCIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IMP_SANCIO_FERMA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IMP_TOTAL_PAGAT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IMP_RECURS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_TIPUS_GRAVETAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ESTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_LINIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TRAJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TREN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CONDUCTA_INFRACTORA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CONDUCTA_INFRACTORA_ENTENEDORA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOM_COMPLET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_POBLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MOTIU_ARXIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_SENTIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA_SISTEMA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_DENUNCIA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_INFRACCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_ACORD_INICI",
+				"type": "date"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_AI",
+				"type": "date"
+			},
+			{
+				"name": "DATA_RECONEIXAMENT",
+				"type": "date"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_PAGAMENT",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PROPOSTA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_PROPOSTA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_AUDIENCIA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_AUDIENCIA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_RESOLUCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_RESOLUCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PAGAMENT",
+				"type": "date"
+			},
+			{
+				"name": "DATA_RESOLUCIO_RECURS",
+				"type": "date"
+			},
+			{
+				"name": "DATA_ENTRADA_RECURS",
+				"type": "date"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_RECURS",
+				"type": "date"
+			},
+			{
+				"name": "DATA_CADUCITAT",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PRESCRIPCIO_INFRACCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PRESCRIPCIO_SANCIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_ALEGACIONS",
+				"type": "date"
+			},
+			{
+				"name": "DESC_ESTAT_TRAMITACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_PAGAMENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_ODS",
+			"table": "ODS_SANFER_FACT_EXPEDIENT_TDSAN"
+		}
+	}
+}

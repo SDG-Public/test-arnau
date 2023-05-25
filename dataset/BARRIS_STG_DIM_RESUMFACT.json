@@ -1,0 +1,84 @@
+{
+	"name": "BARRIS_STG_DIM_RESUMFACT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIAMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITOLACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GENERALITAT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AJUNTAMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ALTRES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMPORTACTUACIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMPORTBARRIS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMPORTFEDER",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AJUTS_ALTRES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AJUT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORGAN",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_STG",
+			"table": "STG_BARRIS_DIM_RESUMFACT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

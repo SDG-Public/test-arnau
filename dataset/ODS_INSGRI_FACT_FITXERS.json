@@ -1,0 +1,88 @@
+{
+	"name": "ODS_INSGRI_FACT_FITXERS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FITXER",
+				"type": "decimal",
+				"precision": 11,
+				"scale": 0
+			},
+			{
+				"name": "ID_REQUERIMENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "COD_TIPUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_MIDA",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "NUM_TRANSACCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ENVIAMENT_WEB",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_TEMPORAL_WEB",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_ODS",
+			"table": "ODS_INSGRI_FACT_FITXERS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

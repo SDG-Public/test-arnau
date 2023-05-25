@@ -1,0 +1,113 @@
+{
+	"name": "DF_GAF_ODS_PLA_ANYAL_DIES_AFORATS",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtr5"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSeccio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDades"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_DIES_AFORATS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalDiesAforats"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "AddMesAnyoTipusDia"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "AddDiesAforats"
+				},
+				{
+					"name": "AddDiesAforats2"
+				},
+				{
+					"name": "AddDiesAforats3"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "AddConcepte"
+				},
+				{
+					"name": "AddConcepte2"
+				},
+				{
+					"name": "AddConcepte3"
+				},
+				{
+					"name": "AddConcepte4"
+				},
+				{
+					"name": "AddMes13Total"
+				},
+				{
+					"name": "SumNumDiesAforats"
+				},
+				{
+					"name": "Union2"
+				},
+				{
+					"name": "ReordenaCampos"
+				},
+				{
+					"name": "FilterData"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimEstacioSubtr5\nsource(output(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSeccio\nsource(output(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCOD_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimCarrils\nsource(output(\n\t\tID_DADES as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_ESTAT_DADES as decimal(1,0),\n\t\tID_TASCA as decimal(8,0),\n\t\tCOD_USUARI as string,\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tDATA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactDades\nDMDimEstacioSubtr5 select(mapColumn(\n\t\tID_ESTACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos, DMDimSeccio join(FiltraCampos@ID_ESTACIO == DMDimSeccio@ID_ESTACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join2\nJoin2, DMDimCarrils join(DMDimSeccio@ID_SECCIO == DMDimCarrils@ID_SECCIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join3\nJoin3, FilterData join(DMDimCarrils@ID_CARRIL == ODSFactDades@ID_CARRIL,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join4\nJoin4 derive(TIPUS_DIA = iif(dayOfWeek(DATA) == 1,7,dayOfWeek(DATA)-1),\n\t\tDATA_MES = month(DATA),\n\t\tDATA_ANYO = year(DATA)) ~> AddMesAnyoTipusDia\nAddMesAnyoTipusDia split(TIPUS_DIA == 1 || TIPUS_DIA == 2 || TIPUS_DIA == 3 || TIPUS_DIA == 4 || TIPUS_DIA == 5,\n\tTIPUS_DIA == 6,\n\tTIPUS_DIA == 7,\n\tdisjoint: false) ~> ConditionalSplit1@(Laborales, Sabado, Domingo, Default)\nConditionalSplit1@Laborales aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tConditionalSplit1@Laborales@ID_ESTACIO),\n\tNUM_DIES_AFORATS = countDistinct(DATA)) ~> AddDiesAforats\nConditionalSplit1@Sabado aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tConditionalSplit1@Sabado@ID_ESTACIO),\n\tNUM_DIES_AFORATS = countDistinct(DATA)) ~> AddDiesAforats2\nConditionalSplit1@Domingo aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tConditionalSplit1@Domingo@ID_ESTACIO),\n\tNUM_DIES_AFORATS = countDistinct(DATA)) ~> AddDiesAforats3\nAddConcepte, AddConcepte2, AddConcepte3, AddConcepte4 union(byName: true)~> Union1\nAddMesAnyoTipusDia aggregate(groupBy(FiltraCampos@ID_ESTACIO,\n\t\tDATA_MES,\n\t\tDATA_ANYO),\n\tNUM_DIES_AFORATS = countDistinct(DATA)) ~> Aggregate1\nAddDiesAforats derive(CONCEPTE = 'dl. a dv.') ~> AddConcepte\nAddDiesAforats2 derive(CONCEPTE = 'dissabtes') ~> AddConcepte2\nAddDiesAforats3 derive(CONCEPTE = 'diumenges') ~> AddConcepte3\nAggregate1 derive(CONCEPTE = 'dies totals') ~> AddConcepte4\nUnion1 derive(DATA_MES = 13) ~> AddMes13Total\nAddMes13Total aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO,\n\t\tCONCEPTE),\n\tNUM_DIES_AFORATS = sum(NUM_DIES_AFORATS)) ~> SumNumDiesAforats\nUnion1, SumNumDiesAforats union(byName: true)~> Union2\nUnion2 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tCONCEPTE,\n\t\tNUM_DIES_AFORATS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos\nODSFactDades filter(year(DATA) >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nyear(DATA) < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterData\nReordenaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as string,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tNUM_DIES_AFORATS as long\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSPlaAnyalDiesAforats"
+		}
+	}
+}

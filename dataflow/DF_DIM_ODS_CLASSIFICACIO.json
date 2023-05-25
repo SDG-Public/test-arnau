@@ -1,0 +1,99 @@
+{
+	"name": "DF_DIM_ODS_CLASSIFICACIO",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimMetaData"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_TIPUS_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTipusMetaData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_Classificacio",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimClassificacio"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Camp01Classifi01"
+				},
+				{
+					"name": "DistinctEnumerat01Classifi01"
+				},
+				{
+					"name": "FilterEnumerat01classif01"
+				},
+				{
+					"name": "UpperDescEnumerat01Classif01"
+				},
+				{
+					"name": "CampSelec02Classifi01"
+				},
+				{
+					"name": "SubStringCamp02Classifi01"
+				},
+				{
+					"name": "Camp02Classifi01"
+				},
+				{
+					"name": "AddID999902Classifi01"
+				},
+				{
+					"name": "SelectCamp01Classifi01"
+				},
+				{
+					"name": "SurrogateKey1"
+				},
+				{
+					"name": "Sort1"
+				},
+				{
+					"name": "IDCamp01Classifi01"
+				},
+				{
+					"name": "Join01Classifi01Genero02Classifi01"
+				},
+				{
+					"name": "MaxID"
+				},
+				{
+					"name": "JoinMaxID01Classifi01"
+				},
+				{
+					"name": "IDBlank"
+				},
+				{
+					"name": "DerivedColumn2"
+				},
+				{
+					"name": "Union3"
+				},
+				{
+					"name": "RemoveDuplicateCamp02Classifi01"
+				},
+				{
+					"name": "SelectCamp02Classifi01"
+				}
+			],
+			"script": "parameters{\n\tIDMax as integer (max(ID))\n}\nsource(output(\n\t\tID_METADATA as decimal(10,0),\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TRAMIT as decimal(10,0),\n\t\tID_OBJECTE_AGRUP as decimal(10,0),\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tDESC_TIPUS_METADATA as string,\n\t\tDESC_METADATA as string,\n\t\tMETADATA_LITERAL as string,\n\t\tMETADATA_DATA as timestamp,\n\t\tMETADATA_ENUMERAT as string,\n\t\tMETADATA_DECIMAL as double,\n\t\tMETADATA_NUMERIC as decimal(10,0),\n\t\tMETADATA_BOOL as decimal(1,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimMetaData\nsource(output(\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tNUM_TIPUS_CAMP as decimal(10,0),\n\t\tDESC_NOM as string,\n\t\tFLAG_OBLIGATORIA as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimTipusMetaData\nDMDimMetaData select(mapColumn(\n\t\tID_SUBCLASSIFICACIO = ID_TIPUS_METADATA,\n\t\tDESC_ENUMERAT = METADATA_ENUMERAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Camp01Classifi01\nFilterEnumerat01classif01 aggregate(groupBy(DESC_ENUMERAT,\n\t\tID_SUBCLASSIFICACIO),\n\tCOUNT = count(DESC_ENUMERAT)) ~> DistinctEnumerat01Classifi01\nCamp01Classifi01 filter(!isNull(DESC_ENUMERAT) && (ID_SUBCLASSIFICACIO>= 3 && ID_SUBCLASSIFICACIO<= 11)) ~> FilterEnumerat01classif01\nSort1 derive(DESC_ENUMERAT = upper(DESC_ENUMERAT)) ~> UpperDescEnumerat01Classif01\nDMDimTipusMetaData select(mapColumn(\n\t\tID_TIPUS_METADATA,\n\t\tDESC_NOM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CampSelec02Classifi01\nCampSelec02Classifi01 derive(DESC_NOM = substring(iifNull(toString(DESC_NOM), toString('DESCONEGUT')), 18, 256)) ~> SubStringCamp02Classifi01\nJoin01Classifi01Genero02Classifi01 select(mapColumn(\n\t\tID,\n\t\tDESC_ENUMERAT,\n\t\tID_SUBCLASSIFICACIO,\n\t\tDESC_NOM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Camp02Classifi01\nCamp02Classifi01 derive(DESC_ENUMERAT = 'DESCONEGUT',\n\t\tID = toInteger(9999),\n\t\tID_SUBCLASSIFICACIO = toInteger(9999999),\n\t\tSUBCLASSIFICACIO = 'DESCONEGUT',\n\t\tDESC_NOM = 'DESCONEGUT') ~> AddID999902Classifi01\nUpperDescEnumerat01Classif01 select(mapColumn(\n\t\tDESC_ENUMERAT,\n\t\tID_SUBCLASSIFICACIO,\n\t\tCOUNT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCamp01Classifi01\nSelectCamp01Classifi01 keyGenerate(output(ID as long),\n\tstartAt: 1L) ~> SurrogateKey1\nDistinctEnumerat01Classifi01 sort(asc(DESC_ENUMERAT, false)) ~> Sort1\nSurrogateKey1 derive(ID = toInteger(ID)-1) ~> IDCamp01Classifi01\nIDBlank, CampSelec02Classifi01 join(ID_SUBCLASSIFICACIO == ID_TIPUS_METADATA,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join01Classifi01Genero02Classifi01\nIDCamp01Classifi01 aggregate(ID = max(ID)) ~> MaxID\nIDCamp01Classifi01, MaxID join(1==1,\n\tjoinType:'cross',\n\tbroadcast: 'auto')~> JoinMaxID01Classifi01\nJoinMaxID01Classifi01 derive(ID = iif(DESC_ENUMERAT==' ', (MaxID@ID+1), IDCamp01Classifi01@ID)) ~> IDBlank\nCamp02Classifi01 derive(DESC_NOM = substring((DESC_NOM), 18, 256)) ~> DerivedColumn2\nDerivedColumn2, AddID999902Classifi01 union(byName: false)~> Union3\nUnion3 aggregate(groupBy(ID),\n\teach(match(name!='ID'), $$ = first($$))) ~> RemoveDuplicateCamp02Classifi01\nRemoveDuplicateCamp02Classifi01 select(mapColumn(\n\t\tID,\n\t\tID_SUBCLASSIFICACIO,\n\t\tDESC_SUBCLASSIFICACIO = DESC_NOM,\n\t\tMETADATA_ENUMERAT = DESC_ENUMERAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCamp02Classifi01\nSelectCamp02Classifi01 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID as integer,\n\t\tID_SUBCLASSIFICACIO as decimal(10,0),\n\t\tDESC_SUBCLASSIFICACIO as string,\n\t\tMETADATA_ENUMERAT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimClassificacio"
+		}
+	}
+}

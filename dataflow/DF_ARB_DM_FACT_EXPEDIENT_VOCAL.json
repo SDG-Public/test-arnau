@@ -1,0 +1,31 @@
+{
+	"name": "DF_ARB_DM_FACT_EXPEDIENT_VOCAL",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_FACT_EXPEDIENT_VOCAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedientVocal"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ARB_FACT_EXPEDIENT_VOCAL",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactExpedientVocal"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_EXPEDIENT as string,\n\t\tID_VOCAL as string,\n\t\tID_TIPUS_VOCAL as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactExpedientVocal\nODSFactExpedientVocal sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactExpedientVocal"
+		}
+	}
+}

@@ -1,0 +1,294 @@
+{
+	"name": "DF_SANQS_ODS_FACT_RECURS",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_RESOL_NOTIF_RECUR_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSResolNotifRecurTSA"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_RESOLUCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSResolucions"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_RECURS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactRecurs"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinResolucions"
+				},
+				{
+					"name": "SelectCampsResolucio"
+				},
+				{
+					"name": "AddCamps"
+				},
+				{
+					"name": "DistinctRA"
+				},
+				{
+					"name": "DataPresentacioNotNull"
+				},
+				{
+					"name": "JoinRA"
+				},
+				{
+					"name": "DataRecurRA"
+				},
+				{
+					"name": "DataRecurRE"
+				},
+				{
+					"name": "union1"
+				},
+				{
+					"name": "FilterRecursRA"
+				},
+				{
+					"name": "FilterRecursRE"
+				},
+				{
+					"name": "RenombraReordenaCamps"
+				},
+				{
+					"name": "QuitaCamposDup1"
+				},
+				{
+					"name": "QuitaCamposDup2"
+				},
+				{
+					"name": "FilterRecurs"
+				},
+				{
+					"name": "window1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "window2"
+				},
+				{
+					"name": "filter2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Prop_0 as string,",
+				"          CODI_EXPEDIENT as string,",
+				"          DATA_PROPOSTA_RESOLUCIO as date,",
+				"          COD_PRECEPTE as string,",
+				"          DATA_RESOLUCIO as date,",
+				"          IND_IMPORT_RESOLUCIO as string,",
+				"          COD_GRAVETAT_RESOLUCIO as string,",
+				"          COD_TIPUS_RESOLUCIO as string,",
+				"          COD_TIPUS_NOTIFICACIO as string,",
+				"          DATA_REGISTRE_SORTIDA as date,",
+				"          DATA_NOTIFICACIO as date,",
+				"          DATA_ARRIBADA_NOTIFICACIO as date,",
+				"          COD_TANOT as string,",
+				"          COD_NOTIFICACIO as string,",
+				"          COD_TRAMNOT as string,",
+				"          DATA_PRESENTACIO as date,",
+				"          COD_TIPUS_RECURS as string,",
+				"          DATA_INF_RA as date,",
+				"          DESC_IMPRE_REC as string,",
+				"          COD_DEMARCACIO as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSResolNotifRecurTSA",
+				"source(output(",
+				"          CODI_EXPEDIENT as string,",
+				"          COD_DEMARCACIO as string,",
+				"          COD_TIPUS_RESOLUCIO as string,",
+				"          COD_TIPUS_RECURS as string,",
+				"          COD_TIPUS_NOTIFICACIO as string,",
+				"          COD_NOTIFICACIO as string,",
+				"          COD_GRAVETAT_RESOLUCIO as string,",
+				"          COD_PRECEPTE as string,",
+				"          COD_TRAMNOT as string,",
+				"          COD_TANOT as string,",
+				"          IND_IMPORT_RESOLUCIO as string,",
+				"          IND_IMPORT_RESOLUCIO_EUROS as decimal(10,2),",
+				"          NUM_ORDRE as integer,",
+				"          DESC_TIPUS_RESOLUCIO as string,",
+				"          DESC_GRAVETAT_RESOLUCIO as string,",
+				"          DESC_IMPRE_REC as string,",
+				"          DATA_REGISTRE_SORTIDA as date,",
+				"          DATA_PRESENTACIO_RECUR as date,",
+				"          DATA_RESOLUCIO as date,",
+				"          DATA_PROPOSTA_RESOLUCIO as date,",
+				"          DATA_NOTIFICACIO_RESOLUCIO as date,",
+				"          DATA_ARRIBADA_NOTIFICACIO as date,",
+				"          DATA_INF_RA as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSResolucions",
+				"filter2, SelectCampsResolucio join(ODSResolNotifRecurTSA@CODI_EXPEDIENT == SelectCampsResolucio@CODI_EXPEDIENT,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinResolucions",
+				"ODSResolucions select(mapColumn(",
+				"          CODI_EXPEDIENT,",
+				"          DATA_PRESENTACIO_RESOL = DATA_PRESENTACIO_RECUR",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectCampsResolucio",
+				"FilterRecurs derive(DESC_TIPUS_RECURS = iif(COD_TIPUS_RESOLUCIO == 'RA' , \"Recurs d'alçada\", \"Recurs de revisió\"),",
+				"          IND_IMPORT_RECURS_EUROS = toDecimal(toDecimal(IND_IMPORT_RESOLUCIO)/toDecimal(166.386))) ~> AddCamps",
+				"DataPresentacioNotNull aggregate(groupBy(ODSResolNotifRecurTSA@CODI_EXPEDIENT,",
+				"          DATA_PRESENTACIO),",
+				"     Distinct = max(1)) ~> DistinctRA",
+				"JoinResolucions filter(!isNull(DATA_PRESENTACIO)) ~> DataPresentacioNotNull",
+				"filter1, DistinctRA join(ODSResolNotifRecurTSA@CODI_EXPEDIENT == DistinctRA@CODI_EXPEDIENT,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> JoinRA",
+				"JoinResolucions derive(DATA_RECUR = DATA_PRESENTACIO_RESOL) ~> DataRecurRA",
+				"JoinRA derive(DATA_RECUR = DistinctRA@DATA_PRESENTACIO) ~> DataRecurRE",
+				"QuitaCamposDup1, QuitaCamposDup2 union(byName: true)~> union1",
+				"AddCamps filter(in(array('RA'),COD_TIPUS_RESOLUCIO)) ~> FilterRecursRA",
+				"AddCamps filter(in(array('RR','RE'),COD_TIPUS_RESOLUCIO)) ~> FilterRecursRE",
+				"union1 select(mapColumn(",
+				"          CODI_EXPEDIENT,",
+				"          COD_DEMARCACIO,",
+				"          COD_TIPUS_RECURS,",
+				"          COD_TIPUS_NOTIFICACIO,",
+				"          COD_NOTIFICACIO,",
+				"          COD_PRECEPTE,",
+				"          COD_TRAMNOT,",
+				"          COD_TANOT,",
+				"          IND_IMPORT_RECURS = IND_IMPORT_RESOLUCIO,",
+				"          IND_IMPORT_RECURS_EUROS,",
+				"          DESC_TIPUS_RECURS,",
+				"          DATA_RESOLUCIO_RECUR = DATA_RESOLUCIO,",
+				"          DATA_RECUR,",
+				"          DATA_PRESENTACIO_REVISIO = DATA_PRESENTACIO,",
+				"          DATA_ARRIBADA_NOTIFICACIO,",
+				"          DATA_NOTIFICACIO_RECURS = DATA_NOTIFICACIO",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraReordenaCamps",
+				"DataRecurRA select(mapColumn(",
+				"          Prop_0,",
+				"          CODI_EXPEDIENT = ODSResolNotifRecurTSA@CODI_EXPEDIENT,",
+				"          DATA_PROPOSTA_RESOLUCIO,",
+				"          COD_PRECEPTE,",
+				"          DATA_RESOLUCIO,",
+				"          IND_IMPORT_RESOLUCIO,",
+				"          COD_GRAVETAT_RESOLUCIO,",
+				"          COD_TIPUS_RESOLUCIO,",
+				"          COD_TIPUS_NOTIFICACIO,",
+				"          DATA_REGISTRE_SORTIDA,",
+				"          DATA_NOTIFICACIO,",
+				"          DATA_ARRIBADA_NOTIFICACIO,",
+				"          COD_TANOT,",
+				"          COD_NOTIFICACIO,",
+				"          COD_TRAMNOT,",
+				"          DATA_PRESENTACIO,",
+				"          COD_TIPUS_RECURS,",
+				"          DATA_INF_RA,",
+				"          DESC_IMPRE_REC,",
+				"          COD_DEMARCACIO,",
+				"          DESC_TIPUS_RECURS,",
+				"          IND_IMPORT_RECURS_EUROS,",
+				"          CODI_EXPEDIENT = SelectCampsResolucio@CODI_EXPEDIENT,",
+				"          DATA_PRESENTACIO_RESOL,",
+				"          DATA_RECUR",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitaCamposDup1",
+				"DataRecurRE select(mapColumn(",
+				"          Prop_0,",
+				"          CODI_EXPEDIENT = ODSResolNotifRecurTSA@CODI_EXPEDIENT,",
+				"          DATA_PROPOSTA_RESOLUCIO,",
+				"          COD_PRECEPTE,",
+				"          DATA_RESOLUCIO,",
+				"          IND_IMPORT_RESOLUCIO,",
+				"          COD_GRAVETAT_RESOLUCIO,",
+				"          COD_TIPUS_RESOLUCIO,",
+				"          COD_TIPUS_NOTIFICACIO,",
+				"          DATA_REGISTRE_SORTIDA,",
+				"          DATA_NOTIFICACIO,",
+				"          DATA_ARRIBADA_NOTIFICACIO,",
+				"          COD_TANOT,",
+				"          COD_NOTIFICACIO,",
+				"          COD_TRAMNOT,",
+				"          DATA_PRESENTACIO = ODSResolNotifRecurTSA@DATA_PRESENTACIO,",
+				"          COD_TIPUS_RECURS,",
+				"          DATA_INF_RA,",
+				"          DESC_IMPRE_REC,",
+				"          COD_DEMARCACIO,",
+				"          DESC_TIPUS_RECURS,",
+				"          IND_IMPORT_RECURS_EUROS,",
+				"          CODI_EXPEDIENT = DistinctRA@CODI_EXPEDIENT,",
+				"          DATA_PRESENTACIO = DistinctRA@DATA_PRESENTACIO,",
+				"          Distinct,",
+				"          DATA_RECUR",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> QuitaCamposDup2",
+				"ODSResolNotifRecurTSA filter(in(array('RR','RE','RA'),COD_TIPUS_RESOLUCIO)) ~> FilterRecurs",
+				"FilterRecursRE window(over(CODI_EXPEDIENT),",
+				"     desc(DATA_NOTIFICACIO, false),",
+				"     desc(DATA_PRESENTACIO, false),",
+				"     NUM_ORDRE = rowNumber()) ~> window1",
+				"window1 filter(NUM_ORDRE == 1) ~> filter1",
+				"FilterRecursRA window(over(CODI_EXPEDIENT),",
+				"     desc(DATA_NOTIFICACIO, false),",
+				"     desc(DATA_PRESENTACIO, false),",
+				"     NUM_ORDRE = rowNumber()) ~> window2",
+				"window2 filter(NUM_ORDRE == 1) ~> filter2",
+				"RenombraReordenaCamps sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CODI_EXPEDIENT as string,",
+				"          COD_DEMARCACIO as string,",
+				"          COD_TIPUS_RECURS as string,",
+				"          COD_TIPUS_NOTIFICACIO as string,",
+				"          COD_NOTIFICACIO as string,",
+				"          COD_PRECEPTE as string,",
+				"          COD_TRAMNOT as string,",
+				"          COD_TANOT as string,",
+				"          IND_IMPORT_RECURS as string,",
+				"          IND_IMPORT_RECURS_EUROS as decimal(10,2),",
+				"          DESC_TIPUS_RECURS as string,",
+				"          DATA_RESOLUCIO as date,",
+				"          DATA_RECUR as date,",
+				"          DATA_PRESENTACIO as date,",
+				"          DATA_ARRIBADA_NOTIFICACIO as date,",
+				"          DATA_NOTIFICACIO_RECURS as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSFactRecurs"
+			]
+		}
+	}
+}

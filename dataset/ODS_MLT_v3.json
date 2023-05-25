@@ -1,0 +1,86 @@
+{
+	"name": "ODS_MLT_v3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v3/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "TIPUS_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_MLT_VAL_PERC_COMP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_MLT_MCT_MLT_BASE_MLT_N_MIN",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "VLE_MLT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_MLT_MITJANA_TIPUS_NOMBRE",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "VLE_MLT_MITJANA_TIPUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VAL_MLT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COUNT_MCT",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "COMPLIMENT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_MLT_v3"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

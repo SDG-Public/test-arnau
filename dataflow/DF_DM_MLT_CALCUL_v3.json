@@ -1,0 +1,71 @@
+{
+	"name": "DF_DM_MLT_CALCUL_v3",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/MLT-MLT_COMPLIMENT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_MLT_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSmltV3"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_MLT_COMPLIMENT_v3",
+						"type": "DatasetReference"
+					},
+					"name": "SKGmltCOMPLIMENTv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_TRACTAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALORACIOtractament"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimVALORACIOvleMLT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_MLT_v3",
+						"type": "DatasetReference"
+					},
+					"name": "DMmltV3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DATAtrunc"
+				},
+				{
+					"name": "SKGmltCOMPLIMENT"
+				},
+				{
+					"name": "SKGvaloracioTRACTAMENT"
+				},
+				{
+					"name": "SKGvaloracioVLEmlt"
+				},
+				{
+					"name": "VigenciaValoracioVLEMLT"
+				},
+				{
+					"name": "VigenciaValoracioTractament"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tID_CONTAMINANT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVAL_MLT as double,\n\t\tCOUNT_MCT as long,\n\t\tCOMPLIMENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSmltV3\nsource(output(\n\t\tID_MLT_COMPLIMENT_v3 as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tTIPUS_MCT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGmltCOMPLIMENTv2\nsource(output(\n\t\tID_VALORACIO_TRACTAMENT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOtractament\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string,\n\t\tID_VALORACIO_VLE_MLT as integer,\n\t\tID_DIM_FOCUS as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMdimVALORACIOvleMLT\nODSmltV3 derive(DATA_TRUNC = toTimestamp(concat(toString(toDate(DATA)),' 00:00:00'))) ~> DATAtrunc\nDATAtrunc, SKGmltCOMPLIMENTv2 join(ODSmltV3@ID_FOCUS == SKGmltCOMPLIMENTv2@ID_FOCUS\n\t&& toString(ODSmltV3@ID_CONTAMINANT) == SKGmltCOMPLIMENTv2@ID_CONTAMINANT\n\t&& ODSmltV3@ID_LEGISLACIO == SKGmltCOMPLIMENTv2@ID_LEGISLACIO\n\t&& ODSmltV3@MODE_REPORTABLE_NUM == SKGmltCOMPLIMENTv2@MODE_REPORTABLE_NUM\n\t&& DATA_TRUNC == SKGmltCOMPLIMENTv2@DATA\n\t&& ODSmltV3@VLE_MLT_MITJANA_TIPUS_NOMBRE == SKGmltCOMPLIMENTv2@VLE_MLT_MITJANA_TIPUS_NOMBRE\n\t&& ODSmltV3@VLE_MLT_MITJANA_TIPUS == SKGmltCOMPLIMENTv2@VLE_MLT_MITJANA_TIPUS\n\t&& ODSmltV3@TIPUS_MCT == SKGmltCOMPLIMENTv2@TIPUS_MCT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGmltCOMPLIMENT\nSKGmltCOMPLIMENT, SKGdimVALORACIOtractament join(ODSmltV3@ID_FOCUS == SKGdimVALORACIOtractament@ID_FOCUS\n\t&& ODSmltV3@ID_LEGISLACIO == SKGdimVALORACIOtractament@ID_LEGISLACIO\n\t&& ODSmltV3@MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& toString(ODSmltV3@ID_CONTAMINANT) == toString(ID_ELEMENT),\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGvaloracioTRACTAMENT\nVigenciaValoracioTractament, DMdimVALORACIOvleMLT join(ODSmltV3@ID_FOCUS == DMdimVALORACIOvleMLT@ID_FOCUS\n\t&& ODSmltV3@ID_LEGISLACIO == DMdimVALORACIOvleMLT@ID_LEGISLACIO\n\t&& ODSmltV3@MODE_REPORTABLE_NUM == DMdimVALORACIOvleMLT@ID_SUBMODE\n\t&& ODSmltV3@ID_CONTAMINANT == DMdimVALORACIOvleMLT@ID_ELEMENT\n\t&& ODSmltV3@VLE_MLT_MITJANA_TIPUS == DMdimVALORACIOvleMLT@VLE_MLT_MITJANA_TIPUS,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGvaloracioVLEmlt\nSKGvaloracioVLEmlt filter(!isNull(DMdimVALORACIOvleMLT@DATA_FI)\n&&\nODSmltV3@DATA >= DMdimVALORACIOvleMLT@DATA_INICI\n&&\nODSmltV3@DATA <= DMdimVALORACIOvleMLT@DATA_FI) ~> VigenciaValoracioVLEMLT\nSKGvaloracioTRACTAMENT filter(!isNull(DATA_FI)\n&&\nODSmltV3@DATA >= DATA_INICI\n&&\nODSmltV3@DATA <= DATA_FI) ~> VigenciaValoracioTractament\nVigenciaValoracioVLEMLT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tVLE_MLT_VAL_PERC_COMP as decimal(5,2),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT as decimal(9,2),\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVAL_MLT as double,\n\t\tCOUNT_MCT as long,\n\t\tCOMPLIMENT as string,\n\t\tDATA_TRUNC as date,\n\t\tID_MLT_COMPLIMENT_v2 as integer,\n\t\tID_VALORACIO_VLE_MLT as integer,\n\t\tID_VALORACIO_TRACTAMENT as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS = ODSmltV3@ID_FOCUS,\n\t\tDATA = ODSmltV3@DATA,\n\t\tTIPUS_MCT = ODSmltV3@TIPUS_MCT,\n\t\tID_CONTAMINANT = ODSmltV3@ID_CONTAMINANT,\n\t\tID_LEGISLACIO = ODSmltV3@ID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM = ODSmltV3@MODE_REPORTABLE_NUM,\n\t\tVLE_MLT_VAL_PERC_COMP = ODSmltV3@VLE_MLT_VAL_PERC_COMP,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN = ODSmltV3@VLE_MLT_MCT_MLT_BASE_MLT_N_MIN,\n\t\tVLE_MLT = ODSmltV3@VLE_MLT,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE = ODSmltV3@VLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MITJANA_TIPUS = ODSmltV3@VLE_MLT_MITJANA_TIPUS,\n\t\tVAL_MLT,\n\t\tCOUNT_MCT,\n\t\tCOMPLIMENT,\n\t\tDATA_TRUNC,\n\t\tID_MLT_COMPLIMENT_v2 = ID_MLT_COMPLIMENT_v3,\n\t\tID_VALORACIO_TRACTAMENT,\n\t\tID_VALORACIO_VLE_MLT\n\t)) ~> DMmltV3"
+		}
+	}
+}

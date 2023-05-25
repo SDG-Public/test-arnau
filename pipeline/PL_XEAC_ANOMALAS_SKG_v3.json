@@ -1,0 +1,37 @@
+{
+	"name": "PL_XEAC_ANOMALAS_SKG_v3",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_SKG_ANOM_01",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_SKG_ANOM_01_v3",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "XEAC_v2/ANOMALAS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

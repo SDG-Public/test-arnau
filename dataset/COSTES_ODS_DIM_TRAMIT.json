@@ -1,0 +1,43 @@
+{
+	"name": "COSTES_ODS_DIM_TRAMIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NUM_TRAMIT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "COD_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_SUBTRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPUS_TRAMIT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_ODS",
+			"table": "ODS_COSTES_DIM_TRAMIT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,74 @@
+{
+	"name": "BARRIS_STG_DIM_RESUMFACT_ANYS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANYDADES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "GENERALITAT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "AJUNTAMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ALTRES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMPORTACTUACIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMPORTBARRIS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMPORTFEDER",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DESPBARRIS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DESPTOTAL",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_STG",
+			"table": "STG_BARRIS_DIM_RESUMFACT_ANYS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

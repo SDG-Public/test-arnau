@@ -1,0 +1,31 @@
+{
+	"name": "DF_SISP_DM_DIM_TIPUS_HORARI",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_TIPUS_HORARI",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusHorari"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_TIPUS_HORARI",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTipusHorari"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_TIPUS_HORARI as decimal(4,0),\n\t\tDESC_TIPUS_HORARI as string,\n\t\tDESC_ENTITAT as string,\n\t\tNUM_TORN as decimal(4,0),\n\t\tFLAG_PLEGAT as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimTipusHorari\nODSDimTipusHorari sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimTipusHorari"
+		}
+	}
+}

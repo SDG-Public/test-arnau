@@ -1,0 +1,173 @@
+{
+	"name": "STG_GAF_DIM_SUBTRAMS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CARRETERA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SUBTRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODIFICACIO",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 0
+			},
+			{
+				"name": "DENOMINACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PKINICIAL",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRESINICIAL",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIOINICIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PKFINAL",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRESFINAL",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIOFINAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CLASSIFICACIOFUNCIONAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CLASSFUNCESTABLERTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CLASSIFICACIOTECNICA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CLASSIFICACIOTECNICAESTABLERTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REGIMDECIRCULACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ENTORNURBANISTIC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LONGITUDREAL",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 3
+			},
+			{
+				"name": "NOMBREDECARRILS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMD",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "ANYCALCULIMD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATAALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ACCIDENTABILITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PROCEDENCIA",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "LONGITUDAPARENT",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 3
+			},
+			{
+				"name": "COMARCA",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "CALCADES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATABAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESTINACIO",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "DATAVALIDACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUSMODIF",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "STG_GAF_DIM_SUBTRAMS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

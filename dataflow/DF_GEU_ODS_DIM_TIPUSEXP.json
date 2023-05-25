@@ -1,0 +1,55 @@
+{
+	"name": "DF_GEU_ODS_DIM_TIPUSEXP",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_TIPUS_EXP",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTIPUSEXP"
+				},
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_RANG_TIPUS_EXP",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimRANGTIPUSEXP"
+				},
+				{
+					"dataset": {
+						"referenceName": "FIT_GEU_STG_DIM_TIPUS_EXP",
+						"type": "DatasetReference"
+					},
+					"name": "STGTipusExpNoInformat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_TIPUS_EXP",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimTIPUSEXP"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JOINRANG"
+				},
+				{
+					"name": "NormalitzarCamps1"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tCODI_TIPEX as string,\n\t\tDESC_TIPEX as string,\n\t\tDESC_LLARGA_TIPEX as string,\n\t\tIND_RECURS as string,\n\t\tIND_RECURS_CONT as string,\n\t\tIND_RELACIO as string,\n\t\tCODI_SIGEDA_CLASSIF as string,\n\t\tCODI_SIGEDA_SUBDIV_ESP as string,\n\t\tCODI_SIGEDA_SUBDIV_UNIF as string,\n\t\tNUM_ORDRE as decimal(3,0),\n\t\tIND_VIGENT as string,\n\t\tCODI_BLOC_OD as decimal(2,0),\n\t\tIND_PLANEJAMENT as string,\n\t\tCODI_PLA as string,\n\t\tIND_SUP as string,\n\t\tTIPUS_SUP as string,\n\t\tIND_VIGENCIA_PLANEJAMENT as string,\n\t\tIND_PAUM as string,\n\t\tIND_INCLOU_PAUM as string,\n\t\tIND_PLANEJAMENT_DERIVAT as string,\n\t\tCODI_JERARQUIC_CLASSIFICACIO as string,\n\t\tCODI_RANG_TIPUS_EXP as string,\n\t\tIND_ACUMULA as string,\n\t\tIND_REQ_PROJ_URBANITZACIO as string,\n\t\tIND_FITXA_COMPETENCIAL as string,\n\t\tPUB_IND_PUBLICABLE as string,\n\t\tIND_POUM as string,\n\t\tIND_INCLOU_SECTORS as string,\n\t\tRPUC_IND_PUBLICABLE as string,\n\t\tDESC_TIPEX_RPUC as string,\n\t\tDESC_TIPEX_RPUC_CASTELLA as string,\n\t\tIND_PRIOR_COMISSIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTIPUSEXP\nsource(output(\n\t\tCODI_RANG_TIPUS_EXP as string,\n\t\tDESC_RANG_TIPUS_EXP as string,\n\t\tDESC_LITERAL_CACORD as string,\n\t\tRPUC_IND_PORTAL_RPUC as string,\n\t\tRPUC_IND_CERCA_RPUC as string,\n\t\tRPUC_IND_CERCA_PORTAL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimRANGTIPUSEXP\nsource(output(\n\t\tCOD_TIPEX as string,\n\t\tDESC_TIPEX as string,\n\t\tDESC_RANG_TIPUS_EXP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGTipusExpNoInformat\nSTGdimTIPUSEXP, STGdimRANGTIPUSEXP join(STGdimTIPUSEXP@CODI_RANG_TIPUS_EXP == STGdimRANGTIPUSEXP@CODI_RANG_TIPUS_EXP,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JOINRANG\nJOINRANG select(mapColumn(\n\t\tCOD_TIPEX = CODI_TIPEX,\n\t\tDESC_TIPEX,\n\t\tDESC_RANG_TIPUS_EXP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps1\nNormalitzarCamps1, STGTipusExpNoInformat union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_TIPEX as string,\n\t\tDESC_TIPEX as string,\n\t\tDESC_RANG_TIPUS_EXP as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_TIPEX,\n\t\tDESC_TIPEX,\n\t\tDESC_RANG_TIPUS_EXP\n\t)) ~> ODSdimTIPUSEXP"
+		}
+	}
+}

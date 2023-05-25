@@ -1,0 +1,20 @@
+{
+	"name": "ORA_STG_IMPOST_EMISSIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_XEAC",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ORIGEN"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "XEAC_ADMIN",
+			"table": "XEAC_IMPOST_EMISSIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

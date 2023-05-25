@@ -1,0 +1,48 @@
+{
+	"name": "DF_SISP_ODS_DIM_UNITAT",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_UNITAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimUnitat"
+				},
+				{
+					"dataset": {
+						"referenceName": "Fit_STG_AUX_ABREVIATURES",
+						"type": "DatasetReference"
+					},
+					"name": "STGAuxAbreviatures"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_UNITAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimUnitat"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "FusionaEnUnaColumna"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tID_UNITAT as decimal(4,0),\n\t\tID_ORG as decimal(4,0),\n\t\tDESCRIPCIO as string,\n\t\tCODI as string,\n\t\tID_PARE as decimal(4,0),\n\t\tEDIFICI as decimal(4,0),\n\t\tTIPUS as decimal(4,0),\n\t\tPLEGAT as decimal(1,0),\n\t\tVIGENT as decimal(1,0),\n\t\tUSUARI_ALTA as string,\n\t\tDATA_ALTA as timestamp,\n\t\tUSUARI_BAIXA as string,\n\t\tDATA_BAIXA as timestamp,\n\t\tUSUARI_MODIF as string,\n\t\tDATA_MODIF as timestamp,\n\t\tAREA_FUNCIONAL as decimal(1,0),\n\t\tID_PARE_FUNCIONAL as decimal(4,0),\n\t\tFUNCIONS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimUnitat\nsource(output(\n\t\tDESC_ENTITAT_EXTERNA as string,\n\t\tDESC_ENTITAT_EXTERNA_ABREVIAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGAuxAbreviatures\nFusionaEnUnaColumna select(mapColumn(\n\t\tID_UNITAT = ID,\n\t\tID_AUDITORIA = ID_UNITAT,\n\t\tID_ORG,\n\t\tID_PARE,\n\t\tID_EDIFICI = EDIFICI,\n\t\tID_TIPUS = TIPUS,\n\t\tID_PARE_FUNCIONAL,\n\t\tCOD_UNITAT = CODI,\n\t\tCOD_USUARI_ALTA = USUARI_ALTA,\n\t\tCOD_USUARI_BAIXA = USUARI_BAIXA,\n\t\tCOD_USUARI_MODIF = USUARI_MODIF,\n\t\tDESC_UNITAT = DESC_ENTITAT_EXTERNA_ABREVIAT,\n\t\tDESC_FUNCIONS = FUNCIONS,\n\t\tDATA_ALTA,\n\t\tDATA_BAIXA,\n\t\tDATA_MODIF,\n\t\tFLAG_PLEGAT = PLEGAT,\n\t\tFLAG_VIGENT = VIGENT,\n\t\tFLAG_AREA_FUNCIONAL = AREA_FUNCIONAL\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nSTGDimUnitat, STGAuxAbreviatures join(DESCRIPCIO == DESC_ENTITAT_EXTERNA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join1\nJoin1 derive(DESC_ENTITAT_EXTERNA_ABREVIAT = iif(isNull(DESC_ENTITAT_EXTERNA_ABREVIAT), DESCRIPCIO,DESC_ENTITAT_EXTERNA_ABREVIAT)) ~> FusionaEnUnaColumna\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_UNITAT as decimal(4,0),\n\t\tID_AUDITORIA as decimal(4,0),\n\t\tID_ORG as decimal(4,0),\n\t\tID_PARE as decimal(4,0),\n\t\tID_EDIFICI as decimal(4,0),\n\t\tID_TIPUS as decimal(4,0),\n\t\tID_PARE_FUNCIONAL as decimal(4,0),\n\t\tCOD_UNITAT as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_USUARI_BAIXA as string,\n\t\tCOD_USUARI_MODIF as string,\n\t\tDESC_UNITAT as string,\n\t\tDESC_FUNCIONS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp,\n\t\tDATA_MODIF as timestamp,\n\t\tFLAG_PLEGAT as decimal(1,0),\n\t\tFLAG_VIGENT as decimal(1,0),\n\t\tFLAG_AREA_FUNCIONAL as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimUnitat"
+		}
+	}
+}

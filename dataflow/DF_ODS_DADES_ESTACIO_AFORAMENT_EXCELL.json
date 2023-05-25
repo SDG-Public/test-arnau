@@ -1,0 +1,117 @@
+{
+	"name": "DF_ODS_DADES_ESTACIO_AFORAMENT_EXCELL",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactDadesEstacioAforament"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES_ESTACIO_AFORAMENT_EXCEL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDadesEstacioAforament"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CreaColumnas"
+				},
+				{
+					"name": "ConvierteEnNum"
+				},
+				{
+					"name": "SumaPorEsglaon"
+				},
+				{
+					"name": "Calculos"
+				},
+				{
+					"name": "Calculos2"
+				},
+				{
+					"name": "CalcLong"
+				},
+				{
+					"name": "FilterDemarcacio"
+				},
+				{
+					"name": "FilterTipusXarxa"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     P_DEMARCACIO as string,",
+				"     P_TIPUS_XARXA as string,",
+				"     P_FLAG_DEM_CAT as integer,",
+				"     P_FLAG_TIPUS_XARXA_TOTAL as integer",
+				"}",
+				"source(output(",
+				"          ID_ESTACIO as decimal(8,0),",
+				"          COD_ESTACIO as string,",
+				"          DATA_ANYO as integer,",
+				"          ID_TIPUS_ESTACIO as decimal(2,0),",
+				"          CODI_TIPUS_XARXA as string,",
+				"          COD_INE as string,",
+				"          DESC_DEMARCACIO as string,",
+				"          IND_IMD as double,",
+				"          IND_PESANTS as double,",
+				"          NUM_PK_INI as double,",
+				"          NUM_PK_FI as double,",
+				"          COD_ORGTRAM as string,",
+				"          COD_CARRETERA as string,",
+				"          COD_MOD_CARRETERA as decimal(15,0),",
+				"          COD_TRAM as string,",
+				"          COD_SUBTRAM as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGFactDadesEstacioAforament",
+				"CalcLong derive(ID_ESGLAON = iif(IND_IMD<1000, 1, iif(IND_IMD<2000, 2, iif(IND_IMD <5000, 3, iif(IND_IMD<10000,4, iif(IND_IMD<15000, 5, iif(IND_IMD<20000,6,iif(IND_IMD<50000,7,iif(IND_IMD<80000,8 , iif(IND_IMD<100000, 9, 10 ))))))))),",
+				"          IMD_LONG = IND_IMD*NUM_LONG_KM,",
+				"          IMD_PESANT = IND_IMD*IND_PESANTS) ~> CreaColumnas",
+				"FilterTipusXarxa derive(IND_IMD = toDouble(IND_IMD),",
+				"          IND_PESANTS = toDouble(IND_PESANTS),",
+				"          NUM_PK_INI = toDouble(NUM_PK_INI),",
+				"          NUM_PK_FI = toDouble(NUM_PK_FI)) ~> ConvierteEnNum",
+				"CreaColumnas aggregate(groupBy(ID_ESGLAON,",
+				"          DATA_ANYO),",
+				"     NUM_SUM_LONG = sum(NUM_LONG_KM),",
+				"          NUM_SUM_IMD_LONG = sum(IMD_LONG),",
+				"          NUM_SUM_IMD_PESANT = sum(IMD_PESANT),",
+				"          NUM_SUM_IMD = sum(IND_IMD)) ~> SumaPorEsglaon",
+				"SumaPorEsglaon derive(IND_IMD_MITJANA = NUM_SUM_IMD_LONG/NUM_SUM_LONG,",
+				"          IND_PERCENTATGE_VEH_PESANT = (NUM_SUM_IMD_PESANT/NUM_SUM_IMD)*100) ~> Calculos",
+				"Calculos derive(IND_VEHICLES_KM_RECORREGUTS = IND_IMD_MITJANA*NUM_SUM_LONG*365,",
+				"          CODI_TERRITORI = $P_DEMARCACIO,",
+				"          CODI_TIPUS_XARXA = $P_TIPUS_XARXA) ~> Calculos2",
+				"ConvierteEnNum derive(NUM_LONG_KM = NUM_PK_FI-NUM_PK_INI) ~> CalcLong",
+				"STGFactDadesEstacioAforament filter(iif( $P_FLAG_DEM_CAT == 1, 1==1, DESC_DEMARCACIO == $P_DEMARCACIO)) ~> FilterDemarcacio",
+				"FilterDemarcacio filter(iif( $P_FLAG_TIPUS_XARXA_TOTAL == 1, 1==1, CODI_TIPUS_XARXA == $P_TIPUS_XARXA)) ~> FilterTipusXarxa",
+				"Calculos2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSFactDadesEstacioAforament"
+			]
+		}
+	}
+}

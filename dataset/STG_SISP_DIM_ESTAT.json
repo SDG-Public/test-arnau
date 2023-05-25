@@ -1,0 +1,29 @@
+{
+	"name": "STG_SISP_DIM_ESTAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_STG",
+			"table": "STG_SISP_DIM_ESTAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

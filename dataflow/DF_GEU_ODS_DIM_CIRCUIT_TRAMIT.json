@@ -1,0 +1,110 @@
+{
+	"name": "DF_GEU_ODS_DIM_CIRCUIT_TRAMIT",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_CIRCUIT_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGCircuitTramit"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_CIRCUIT_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSCircuitTramit"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "FixFlag"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CODI_CIRCUIT as string,",
+				"          NUMINT_TRAMIT as decimal(4,0),",
+				"          NUM_ORDRE_TRA as decimal(4,0),",
+				"          CODI_ESTAT as string,",
+				"          IND_INI_TERMINI_CU as string,",
+				"          IND_FI_TERMINI_CU as string,",
+				"          CODI_LLISTA_USU as decimal(3,0),",
+				"          COMENTARIS as string,",
+				"          IND_TAXA as string,",
+				"          IND_CD as string,",
+				"          CODI_INGRES as string,",
+				"          CODI_TARIFA as string,",
+				"          IND_SIGNIFICATIU as string,",
+				"          IND_RE as string,",
+				"          ORDRE as decimal(4,0),",
+				"          IND_PROTEGIBLE as string,",
+				"          PRIV_PUBLICABLE as string,",
+				"          IND_VIGENT as string,",
+				"          CARACTER_ACORD as string,",
+				"          PUB_IND_PUBLICABLE as string,",
+				"          CODI_TIPUS_TRAMIT as string,",
+				"          RPUC_IND_PUBLICABLE as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGCircuitTramit",
+				"STGCircuitTramit select(mapColumn(",
+				"          CODI_CIRCUIT,",
+				"          CODI_ESTAT,",
+				"          CODI_INGRES,",
+				"          CODI_TARIFA,",
+				"          CODI_CARACTER_ACORD = CARACTER_ACORD,",
+				"          CODI_PUB_IND_PUBLICABLE = PUB_IND_PUBLICABLE,",
+				"          CODI_TIPUS_TRAMIT,",
+				"          ID_LLISTA_USU = CODI_LLISTA_USU,",
+				"          NUM_TRAMIT = NUMINT_TRAMIT,",
+				"          NUM_ORDRE = ORDRE,",
+				"          NUM_ORDRE_TRAMIT = NUM_ORDRE_TRA,",
+				"          DESC_COMENTARIS = COMENTARIS,",
+				"          FLAG_TAXA = IND_TAXA,",
+				"          FLAG_CD = IND_CD,",
+				"          FLAG_SIGNIFICATIU = IND_SIGNIFICATIU,",
+				"          FLAG_RE = IND_RE,",
+				"          FLAG_PROTEGIBLE = IND_PROTEGIBLE,",
+				"          FLAG_PUBLICABLE = PRIV_PUBLICABLE,",
+				"          FLAG_VIGENT = IND_VIGENT,",
+				"          FLAG_RPUC_PUBLICABLE = RPUC_IND_PUBLICABLE",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraCampos",
+				"RenombraCampos derive(FLAG_TAXA = iif(FLAG_TAXA == 'N', 0, iif(FLAG_TAXA == 'T', 1, -1)),",
+				"          FLAG_SIGNIFICATIU = iif(FLAG_SIGNIFICATIU== 'N', 0, iif(FLAG_SIGNIFICATIU== 'S', 1, -1)),",
+				"          FLAG_RE = iif(FLAG_RE== 'N', 0, iif(FLAG_RE == 'S', 1, -1)),",
+				"          FLAG_CD = iif(FLAG_CD== 'N', 0, iif(FLAG_CD == 'S', 1, -1)),",
+				"          FLAG_PROTEGIBLE = iif(FLAG_PROTEGIBLE== 'N', 0, iif(FLAG_PROTEGIBLE== 'S', 1, -1)),",
+				"          FLAG_PUBLICABLE = iif(FLAG_PUBLICABLE== 'N', 0, iif(FLAG_PUBLICABLE== 'S', 1, -1)),",
+				"          FLAG_VIGENT = iif(FLAG_VIGENT== 'N', 0, iif(FLAG_VIGENT== 'S', 1, -1)),",
+				"          FLAG_RPUC_PUBLICABLE = iif(FLAG_RPUC_PUBLICABLE== 'N', 0, iif(FLAG_RPUC_PUBLICABLE== 'S', 1, -1))) ~> FixFlag",
+				"FixFlag sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSCircuitTramit"
+			]
+		}
+	}
+}

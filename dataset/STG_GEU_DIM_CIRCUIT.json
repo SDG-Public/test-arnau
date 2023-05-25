@@ -1,0 +1,66 @@
+{
+	"name": "STG_GEU_DIM_CIRCUIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_CIRCUIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CIRCUIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PROTEGIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TERMINI",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "TERMINI_MESOS_DIES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TERMINI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_SILENCI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PDT_CU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PDT_CUC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_COBERTURA_PAUM",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_CIRCUIT"
+		}
+	}
+}

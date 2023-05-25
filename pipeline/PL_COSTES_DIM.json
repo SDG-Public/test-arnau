@@ -1,0 +1,66 @@
+{
+	"name": "PL_COSTES_DIM",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_COSTES_DIM_STG",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_COSTES_DIM_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_COSTES_DIM_ODS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_COSTES_DIM_STG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_COSTES_DIM_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_COSTES_DIM_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_COSTES_DIM_ODS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_COSTES_DIM_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "COSTES"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

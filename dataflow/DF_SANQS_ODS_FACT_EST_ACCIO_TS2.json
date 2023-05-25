@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANQS_ODS_FACT_EST_ACCIO_TS2",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANQS_FACT_EST_ACCIO_TS2",
+						"type": "DatasetReference"
+					},
+					"name": "STGEstAccioTS2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EST_ACCIO_TS2",
+						"type": "DatasetReference"
+					},
+					"name": "ODSEstAccioTS2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Colums"
+				},
+				{
+					"name": "AddDemarcacio"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGEstAccioTS2\nSTGEstAccioTS2 derive(ID_EXPEDIENT = substring(Prop_0, 1, 9),\n\t\tDATA_DENUNCIA = toDate(substring(Prop_0, 10, 8),'yyyyMMdd'),\n\t\tDATA_QUA = toDate(substring(Prop_0, 18, 8),'yyyyMMdd'),\n\t\tDATA_PLEC = toDate(substring(Prop_0, 26, 8),'yyyyMMdd'),\n\t\tDATA_INI_FAUDIE = toDate(substring(Prop_0,34, 8),'yyyyMMdd'),\n\t\tDATA_RES = toDate(substring(Prop_0,42, 8),'yyyyMMdd'),\n\t\tID_GRA_RES = substring(Prop_0,50, 2),\n\t\tIND_IMPORT_RES = substring(Prop_0,53, 9),\n\t\tDATA_PRES_REC = toDate(substring(Prop_0,62, 8),'yyyyMMdd'),\n\t\tDATA_I_REC = toDate(substring(Prop_0,70, 8),'yyyyMMdd'),\n\t\tDATA_RES2 = substring(Prop_0,78, 8)) ~> Colums\nColums derive(COD_DEMARCACIO = iif(substring(ID_EXPEDIENT, 1, 2) == 'FB' || substring(ID_EXPEDIENT, 1, 2) == 'MB' || substring(ID_EXPEDIENT, 1, 2) == '17' || substring(ID_EXPEDIENT, 1, 2) == '08' || substring(ID_EXPEDIENT, 1, 2) == '25'|| substring(ID_EXPEDIENT, 1, 2) == '43', substring(ID_EXPEDIENT, 1, 2),'-1')) ~> AddDemarcacio\nAddDemarcacio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tDATA_DENUNCIA as date,\n\t\tDATA_QUA as date,\n\t\tDATA_PLEC as date,\n\t\tDATA_INI_FAUDIE as date,\n\t\tDATA_RES as date,\n\t\tID_GRA_RES as string,\n\t\tIND_IMPORT_RES as string,\n\t\tDATA_PRES_REC as date,\n\t\tDATA_I_REC as date,\n\t\tDATA_RES2 as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSEstAccioTS2"
+		}
+	}
+}

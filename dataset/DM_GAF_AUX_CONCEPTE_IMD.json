@@ -1,0 +1,24 @@
+{
+	"name": "DM_GAF_AUX_CONCEPTE_IMD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CONCEPTE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_AUX_CONCEPTE_IMD"
+		}
+	}
+}

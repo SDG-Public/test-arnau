@@ -1,0 +1,37 @@
+{
+	"name": "MAPBI_STG_SGTB_PERSONA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MAPBI/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NUMERO_IDENTIFICADOR",
+				"type": "varchar"
+			},
+			{
+				"name": "NOM",
+				"type": "varchar"
+			},
+			{
+				"name": "COGNOM1",
+				"type": "varchar"
+			},
+			{
+				"name": "COGNOM2",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "MAPBISTG",
+			"table": "STG_SGTB_PERSONA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

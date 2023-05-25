@@ -1,0 +1,145 @@
+{
+	"name": "PL_GAF_PLA_ANYAL_PDFs",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_GAF_DM_PLA_ANYAL_PDF",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DELETE_DM_PLA_ANYAL_PDF",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_DM_PLA_ANYAL_PDF",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							},
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DELETE_DM_PLA_ANYAL_PDF",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE_YEAR]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ANYO",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GAF_DM",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_GAF_FACT_PLA_ANYAL_PDF",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_GAF_DM_PLA_ANYAL_PDF_COBERTURA",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_DM_PLA_ANYAL_PDF",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_DM_PLA_ANYAL_PDF_COBERTURA",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_ANYO": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string"
+			},
+			"P_DATA_FI": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "GAF/GAF - PLA ANYAL"
+		},
+		"annotations": []
+	}
+}

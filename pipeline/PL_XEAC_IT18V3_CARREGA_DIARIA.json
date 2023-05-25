@@ -1,0 +1,173 @@
+{
+	"name": "PL_XEAC_IT18V3_CARREGA_DIARIA",
+	"properties": {
+		"description": "Antes de que funcione la carga diaria hay que lanzar la carga historica para tener registros en las tablas finales y entonces funcionara la variable de DATA_INI.",
+		"activities": [
+			{
+				"name": "PL_STG_01_MCT_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_STG_01_MCT_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_MCT_DIARI_v3",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_STG_01_MCT_DIARI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_MCT_DIARI_v3",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_MLT_DIARI_v3",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MCT_DIARI_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_MLT_DIARI_v3",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_IND_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MCT_DIARI_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_IND_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_EM_DIARI_DETALL1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MCT_DIARI_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_EM_DIARI_DETALL",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_ANOMALAS_DIARI_v3",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MCT_DIARI_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_ANOMALAS_DIARI_v3",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_V3_DM_MCT_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_IND_DIARI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "PL_XEAC_ANOMALAS_DIARI_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_V3_DM_MCT_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_EM_HIST",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_EM_DIARI_DETALL1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_EM_HIST",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "XEAC_v3"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

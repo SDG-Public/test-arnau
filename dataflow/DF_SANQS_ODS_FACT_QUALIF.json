@@ -1,0 +1,47 @@
+{
+	"name": "DF_SANQS_ODS_FACT_QUALIF",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_QUALIF_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactQualifTSA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_QUALIF",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactQualif"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelecColumnes"
+				},
+				{
+					"name": "NuevasColumnas"
+				},
+				{
+					"name": "Window"
+				},
+				{
+					"name": "FiltroRowNumber"
+				},
+				{
+					"name": "FiltraCampos"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tID_PERCEPTESANCIONADOR as string,\n\t\tID_TIPUSQUALIFICACIO as string,\n\t\tDT_QUALIFICACIO as date,\n\t\tNM_IMPORTQUA as string,\n\t\tDT_PLECDESCARREC as date,\n\t\tID_TIPUSNOTIFICACIO as string,\n\t\tDT_REGISTRESORTIDA as date,\n\t\tDT_NOTIFICACIO as date,\n\t\tDT_ARRIBADANOTIFICACIO as date,\n\t\tDS_TANOT as string,\n\t\tID_NOTIFICACIO as string,\n\t\tID_TRAMNOT as string,\n\t\tID_BAREM as string,\n\t\tNM_IMPMINBAREM as string,\n\t\tNM_IMPMAXBAREM as string,\n\t\tID_PREBAREM as string,\n\t\tDS_GRAVBAREM as string,\n\t\tDS_TEXTBAREM as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactQualifTSA\nNuevasColumnas select(mapColumn(\n\t\tCODI_EXPEDIENT = ID_EXPEDIENT,\n\t\tCODI_BAREM = ID_BAREM,\n\t\tCODI_PRE_BAREM = ID_PREBAREM,\n\t\tCODI_NOTIFICACIO = ID_NOTIFICACIO,\n\t\tCODI_PERCEPTE_SANCIONADOR = ID_PERCEPTESANCIONADOR,\n\t\tCODI_TIPUS_QUALIFICACIO = ID_TIPUSQUALIFICACIO,\n\t\tID_TIPUS_NOTIFICACIO = ID_TIPUSNOTIFICACIO,\n\t\tNUM_IMPORT_QUA = NM_IMPORTQUA,\n\t\tDESC_BAREM = DS_TEXTBAREM,\n\t\tDESC_GRAVETAT_BAREM = DS_GRAVBAREM,\n\t\tDESC_TANOT = DS_TANOT,\n\t\tDATA_QUALIFICACIO = DT_QUALIFICACIO,\n\t\tDATA_NOTIFICACIO = DT_NOTIFICACIO,\n\t\tDATA_PLEC_DESCARREC = DT_PLECDESCARREC,\n\t\tDATA_REGISTRE_SORTIDA = DT_REGISTRESORTIDA,\n\t\tDATA_CADUCITAT,\n\t\tNUM_IMPORT_EUROS\n\t),\n\tpartitionBy('roundRobin', 2),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelecColumnes\nODSFactQualifTSA derive(NUM_IMPORT_EUROS = toInteger(NM_IMPORTQUA)/166.386,\n\t\tDATA_CADUCITAT = addDays(DT_QUALIFICACIO,365)) ~> NuevasColumnas\nSelecColumnes window(over(CODI_EXPEDIENT),\n\tdesc(DATA_QUALIFICACIO, true),\n\tdesc(DATA_REGISTRE_SORTIDA, true),\n\tRowNumber = rowNumber()) ~> Window\nWindow filter(RowNumber == 1) ~> FiltroRowNumber\nFiltroRowNumber select(mapColumn(\n\t\tCODI_EXPEDIENT,\n\t\tCODI_BAREM,\n\t\tCODI_PRE_BAREM,\n\t\tCODI_NOTIFICACIO,\n\t\tCODI_PERCEPTE_SANCIONADOR,\n\t\tCODI_TIPUS_QUALIFICACIO,\n\t\tID_TIPUS_NOTIFICACIO,\n\t\tNUM_IMPORT_QUA,\n\t\tDESC_BAREM,\n\t\tDESC_GRAVETAT_BAREM,\n\t\tDESC_TANOT,\n\t\tDATA_QUALIFICACIO,\n\t\tDATA_NOTIFICACIO,\n\t\tDATA_PLEC_DESCARREC,\n\t\tDATA_REGISTRE_SORTIDA,\n\t\tDATA_CADUCITAT,\n\t\tNUM_IMPORT_EUROS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_EXPEDIENT as string,\n\t\tCODI_BAREM as string,\n\t\tCODI_PRE_BAREM as string,\n\t\tCODI_NOTIFICACIO as string,\n\t\tCODI_PERCEPTE_SANCIONADOR as string,\n\t\tCODI_TIPUS_QUALIFICACIO as string,\n\t\tID_TIPUS_NOTIFICACIO as string,\n\t\tNUM_IMPORT_QUA as string,\n\t\tDESC_BAREM as string,\n\t\tDESC_GRAVETAT_BAREM as string,\n\t\tDESC_TANOT as string,\n\t\tDATA_QUALIFICACIO as date,\n\t\tDATA_NOTIFICACIO as date,\n\t\tDATA_PLEC_DESCARREC as date,\n\t\tDATA_REGISTRE_SORTIDA as date,\n\t\tDATA_CADUCITAT as date,\n\t\tNUM_IMPORT_EUROS as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactQualif"
+		}
+	}
+}

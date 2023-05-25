@@ -1,0 +1,49 @@
+{
+	"name": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_Ttot",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PK_AGR_ANOMAL_TOTAL_Ttot",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "supera_llindar_anomal",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_XEAC_MCT_AGR_ANOMAL_TOTAL_Ttot"
+		}
+	}
+}

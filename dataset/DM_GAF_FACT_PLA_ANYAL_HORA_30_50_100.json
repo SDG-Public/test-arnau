@@ -1,0 +1,20 @@
+{
+	"name": "DM_GAF_FACT_PLA_ANYAL_HORA_30_50_100",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_FACT_PLA_ANYAL_HORA_30_50_100"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

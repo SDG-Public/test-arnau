@@ -1,0 +1,38 @@
+{
+	"name": "DF_ARB_ODS_DIM_MOTIU_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_TIPUS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTipusExpedient"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_MOTIU_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusExpedient"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltrarMotiuExpedient"
+				},
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"script": "source(output(\n\t\tARB_TAU_CODI as string,\n\t\tARB_TAU_ELE as string,\n\t\tARB_TAU_DAD as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTipusExpedient\nSTGDimTipusExpedient filter(ARB_TAU_CODI == '300') ~> FiltrarMotiuExpedient\nFiltrarMotiuExpedient select(mapColumn(\n\t\tID_MOTIU_EXPEDIENT = ARB_TAU_ELE,\n\t\tDESC_MOTIU_EXPEDIENT = ARB_TAU_DAD\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_MOTIU_EXPEDIENT as string,\n\t\tDESC_MOTIU_EXPEDIENT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTipusExpedient"
+		}
+	}
+}

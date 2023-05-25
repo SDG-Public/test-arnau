@@ -1,0 +1,93 @@
+{
+	"name": "STG_novaIT20_2_v3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v3/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CodiEmis",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IDFocus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MarcaTemps",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "NumMinuts",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IDParametre",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IDLegis",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDSubmode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_VLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "F_VLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_IMP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "F_IMP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_INV",
+				"type": "nvarchar"
+			},
+			{
+				"name": "F_INV",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_PRT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "F_PRT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "V_GEH",
+				"type": "nvarchar"
+			},
+			{
+				"name": "F_GEH",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "STG_XEAC",
+			"table": "novait20_2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

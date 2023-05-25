@@ -1,0 +1,19 @@
+{
+	"name": "DM_XEAC_MCT_PBI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_XEAC_MCT_PBI"
+		}
+	}
+}

@@ -1,0 +1,40 @@
+{
+	"name": "DM_ASJ_DIM_CLASSIFICACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_SUBCLASSIFICACIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_SUBCLASSIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "METADATA_ENUMERAT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_DM",
+			"table": "DM_ASJ_DIM_CLASSIFICACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

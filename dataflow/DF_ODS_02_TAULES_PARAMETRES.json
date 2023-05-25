@@ -1,0 +1,143 @@
+{
+	"name": "DF_ODS_02_TAULES_PARAMETRES",
+	"properties": {
+		"folder": {
+			"name": "XEAC_COMUN/PARAMETRES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_GRUP_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "STGgrupCAPCA"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_CODI_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "STGcodiCAPCA"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_TIPUS_ELEMENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGtipusELEMENT"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_EMPRESA",
+						"type": "DatasetReference"
+					},
+					"name": "STGempresa"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_ESTABLIMENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGestabliment"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "STGfocus"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_GRUP_CODI_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "STGgrupCODIcapca"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "STGlegislacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_TEMPS_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "STGtempsMCT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_GRUP_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSgrupCAPCA"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_CODI_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "ODScodiCAPCA"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_TIPUS_ELEMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODStipusELEMENT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_EMPRESA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSempresa"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_ESTABLIMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSestabliment"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSfocus"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_GRUP_CODI_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSgrupCODIcapca"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSlegislacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_TEMPS_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODStempsMCT"
+				}
+			],
+			"transformations": [],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGgrupCAPCA\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGcodiCAPCA\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGtipusELEMENT\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGempresa\nsource(output(\n\t\tCODI_EMIS as string,\n\t\tCIF_EMPRESA as string,\n\t\tNOM_ESTABLIMENT as string,\n\t\tADRECA as string,\n\t\tPERSONA_CONTACTE as string,\n\t\tTELEFON_CONTACTE as string,\n\t\tEMAIL_CONTACTE as string,\n\t\tSFTP_IP as string,\n\t\tSFTP_USUARI as string,\n\t\tSFTP_PASS as string,\n\t\tSFTP_PATH as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGestabliment\nsource(output(\n\t\tID_FOCUS as string,\n\t\tNOM_FOCUS as string,\n\t\tUTM_X as string,\n\t\tUTM_Y as string,\n\t\tID_FOCUS_BRUT as string,\n\t\tLLIBRE_REGISTRE as string,\n\t\tID_GRUP_CAPCA as string,\n\t\tID_CODI_CAPCA as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp,\n\t\tCODI_EMIS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGfocus\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGgrupCODIcapca\nsource(output(\n\t\tID_LEGISLACIO as string,\n\t\tDESCRIPCIO as string,\n\t\tDESCRIPCIO_ACRONIM as string,\n\t\tMCT_BASE as decimal(3,0),\n\t\tMAX_H_ANOMALES as decimal(4,0),\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tMAX_DIES_INDISPON as decimal(4,0),\n\t\tMAX_H_ANOMALES_SEGUIDES as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGlegislacio\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGtempsMCT\nSTGgrupCAPCA sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSgrupCAPCA\nSTGcodiCAPCA sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODScodiCAPCA\nSTGtipusELEMENT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODStipusELEMENT\nSTGempresa sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSempresa\nSTGestabliment sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_EMIS as string,\n\t\tCIF_EMPRESA as string,\n\t\tNOM_ESTABLIMENT as string,\n\t\tADRECA as string,\n\t\tPERSONA_CONTACTE as string,\n\t\tTELEFON_CONTACTE as string,\n\t\tEMAIL_CONTACTE as string,\n\t\tSFTP_IP as string,\n\t\tSFTP_USUARI as string,\n\t\tSFTP_PASS as string,\n\t\tSFTP_PATH as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSestabliment\nSTGfocus sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tNOM_FOCUS as string,\n\t\tUTM_X as string,\n\t\tUTM_Y as string,\n\t\tID_FOCUS_BRUT as string,\n\t\tLLIBRE_REGISTRE as string,\n\t\tID_GRUP_CAPCA as string,\n\t\tID_CODI_CAPCA as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp,\n\t\tCODI_EMIS as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSfocus\nSTGgrupCODIcapca sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSgrupCODIcapca\nSTGlegislacio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_LEGISLACIO as string,\n\t\tDESCRIPCIO as string,\n\t\tDESCRIPCIO_ACRONIM as string,\n\t\tMCT_BASE as decimal(3,0),\n\t\tMAX_H_ANOMALES as decimal(4,0),\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tMAX_DIES_INDISPON as decimal(4,0),\n\t\tMAX_H_ANOMALES_SEGUIDES as decimal(4,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSlegislacio\nSTGtempsMCT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODStempsMCT"
+		}
+	}
+}

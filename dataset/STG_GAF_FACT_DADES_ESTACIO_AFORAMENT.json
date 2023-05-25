@@ -1,0 +1,95 @@
+{
+	"name": "STG_GAF_FACT_DADES_ESTACIO_AFORAMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTACIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "COD_ESTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_TIPUS_ESTACIO",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "CODI_TIPUS_XARXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_DEMARCACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_IMD",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_PESANTS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_PK_INI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_PK_FI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COD_ORGTRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_CARRETERA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_MOD_CARRETERA",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 0
+			},
+			{
+				"name": "COD_TRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_SUBTRAM",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "STG_GAF_FACT_DADES_ESTACIO_AFORAMENT"
+		}
+	}
+}

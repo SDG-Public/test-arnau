@@ -1,0 +1,47 @@
+{
+	"name": "DF_SISP_ODS_DIM_SECTOR",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_SECTOR",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimSector"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_SECTOR",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSector"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Rename"
+				},
+				{
+					"name": "addNoInformat"
+				},
+				{
+					"name": "toUnion"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tDESCRIPCIO as string,\n\t\tID_PLANTA as decimal(4,0),\n\t\tVIGENT as decimal(1,0),\n\t\tCODI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimSector\nSTGDimSector select(mapColumn(\n\t\tID_SECTOR = ID,\n\t\tID_PLANTA,\n\t\tCOD_SECTOR = CODI,\n\t\tDESC_SECTOR = DESCRIPCIO,\n\t\tFLAG_VIGENT = VIGENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Rename\nRename derive(ID_SECTOR = -1,\n\t\tID_PLANTA = -1,\n\t\tCOD_SECTOR = '-1',\n\t\tDESC_SECTOR = 'No Informat',\n\t\tFLAG_VIGENT = 0) ~> addNoInformat\nDistinct select(mapColumn(\n\t\tID_SECTOR,\n\t\tID_PLANTA,\n\t\tCOD_SECTOR,\n\t\tDESC_SECTOR,\n\t\tFLAG_VIGENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> toUnion\naddNoInformat aggregate(groupBy(DESC_SECTOR,\n\t\tID_SECTOR,\n\t\tID_PLANTA,\n\t\tCOD_SECTOR,\n\t\tFLAG_VIGENT),\n\tcont = count(ID_SECTOR)) ~> Distinct\nRename, toUnion union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_SECTOR as decimal(4,0),\n\t\tID_PLANTA as decimal(4,0),\n\t\tCOD_SECTOR as string,\n\t\tDESC_SECTOR as string,\n\t\tFLAG_VIGENT as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimSector"
+		}
+	}
+}

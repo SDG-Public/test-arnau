@@ -1,0 +1,38 @@
+{
+	"name": "DF_ODS_EM_IMPOSTOS_EMISSIONS_DETALL",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/EM"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "STGxeacMCT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_EM_IMP_DETALL_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSemIMPdetallV3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectCOLUMNS"
+				},
+				{
+					"name": "FilterDATA"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tCODI_EMIS as string,\n\t\tID_FOCUS as string,\n\t\tMARCA_TEMPS_TZ as timestamp,\n\t\tMARCA_TEMPS_UTC as timestamp,\n\t\tMARCA_TEMPS_LOCAL as timestamp,\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tID_ELEMENT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tV_VLE as float,\n\t\tF_VLE as string,\n\t\tV_IMP as float,\n\t\tF_IMP as string,\n\t\tV_INV as float,\n\t\tF_INV as string,\n\t\tV_PRT as float,\n\t\tF_PRT as string,\n\t\tV_GEH as float,\n\t\tF_GEH as string,\n\t\tZONA_HORARIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGxeacMCT\nSTGxeacMCT select(mapColumn(\n\t\tID_FOCUS,\n\t\tMARCA_TEMPS_UTC,\n\t\tMINUTOS_MCT,\n\t\tID_ELEMENT,\n\t\tV_IMP,\n\t\tF_IMP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLUMNS\nSelectCOLUMNS filter(toDate(MARCA_TEMPS_UTC) >= toDate($P_DATA_INI,'yyyyMMdd')\r\n&&\r\ntoDate(MARCA_TEMPS_UTC) < addDays(toDate($P_DATA_FI,'yyyyMMdd'), 1)) ~> FilterDATA\nFilterDATA sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSemIMPdetallV3"
+		}
+	}
+}

@@ -1,0 +1,241 @@
+{
+	"name": "PL_SANFER_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_SANFER_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_SANFER_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANFER_FACT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_FI": {
+							"value": "@variables('V_DATA_FI')",
+							"type": "Expression"
+						},
+						"P_DATA_MODIF": {
+							"value": "@variables('V_DATA_MODIF')",
+							"type": "Expression"
+						},
+						"P_DATA_ALTA": {
+							"value": "@variables('V_DATA_ALTA')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_SANFER_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "SET_DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANFER_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "SET_DATA_MODIFICACIO",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_MODIFICACIO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_MODIF",
+					"value": {
+						"value": "@string(activity('DATA_MODIFICACIO').output.value[0].DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "SET_DATA_FI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_FI",
+					"value": {
+						"value": "@string(activity('DATA_FI').output.value[0].DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"description": "Para calcular DATA_INI, tomamos el máximo valor de DATA_ALTA de la tabla STG_GEU_FACT_EXPEDIENT y le restamos un mes. Esto lo hacemos porque puede ser que introduzcan registros con DATA_ALTA ya pasada",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "SET_DATA_ALTA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT convert(varchar, MAX(DATA_DARRERA_MODIF),120) as DATA\n  FROM [SANFER_DM].[DM_SANFER_FACT_EXPEDIENT];",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GEU_STG_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "DATA_FI",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "SET_DATA_MODIFICACIO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select convert(varchar, MAX(getdate()),120) as DATA;",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GEU_STG_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "SET_DATA_ALTA",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_ALTA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_ALTA",
+					"value": {
+						"value": "@string(activity('DATA_ALTA').output.value[0].DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DATA_ALTA",
+				"description": "Aquí buscamos la última fecha de Alta que haya habido en la tabla Expediente. Haciendo un máximo de las que fechas que hay en la DM",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT  convert(varchar, MAX(DATA_ALTA_SISTEMA),120) as DATA\n  FROM [SANFER_DM].[DM_SANFER_FACT_EXPEDIENT];",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GEU_STG_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"variables": {
+			"V_DATA_ALTA": {
+				"type": "String"
+			},
+			"V_DATA_MODIF": {
+				"type": "String"
+			},
+			"V_DATA_FI": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "SANFER"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

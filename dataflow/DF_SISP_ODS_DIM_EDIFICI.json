@@ -1,0 +1,50 @@
+{
+	"name": "DF_SISP_ODS_DIM_EDIFICI",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_EDIFICI",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimEdifici"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_EDIFICI",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEdifici"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "addNoInformat"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "toUnion"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tDESCRIPCIO as string,\n\t\tADRECA as string,\n\t\tPOBLACIO as string,\n\t\tCODI_POSTAL as string,\n\t\tTELEFON as decimal(9,0),\n\t\tFAX as decimal(9,0),\n\t\tLLIBRE as binary,\n\t\tPLANOLS as decimal(1,0),\n\t\tVIGENT as decimal(1,0),\n\t\tCODI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimEdifici\nSTGDimEdifici select(mapColumn(\n\t\tID_EDIFICI = ID,\n\t\tCOD_EDIFICI = CODI,\n\t\tCOD_LLIBRE = LLIBRE,\n\t\tNUM_CODI_POSTAL = CODI_POSTAL,\n\t\tNUM_TELEFON = TELEFON,\n\t\tNUM_FAX = FAX,\n\t\tDESC_EDIFICI = DESCRIPCIO,\n\t\tDESC_ADRECA = ADRECA,\n\t\tDESC_POBLACIO = POBLACIO,\n\t\tFLAG_PLANOLS = PLANOLS,\n\t\tFLAG_VIGENT = VIGENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(ID_EDIFICI = -1,\n\t\tCOD_EDIFICI = '-1',\n\t\tCOD_LLIBRE = '-1',\n\t\tNUM_CODI_POSTAL = '-1',\n\t\tNUM_TELEFON = -1,\n\t\tNUM_FAX = -1,\n\t\tDESC_EDIFICI = 'No Informat',\n\t\tDESC_ADRECA = 'No Informat',\n\t\tDESC_POBLACIO = 'No Informat',\n\t\tFLAG_PLANOLS = 0,\n\t\tFLAG_VIGENT = 0) ~> addNoInformat\naddNoInformat aggregate(groupBy(DESC_EDIFICI,\n\t\tID_EDIFICI,\n\t\tCOD_EDIFICI,\n\t\tCOD_LLIBRE,\n\t\tNUM_CODI_POSTAL,\n\t\tNUM_TELEFON,\n\t\tNUM_FAX,\n\t\tDESC_ADRECA,\n\t\tDESC_POBLACIO,\n\t\tFLAG_PLANOLS,\n\t\tFLAG_VIGENT),\n\tcont = count(COD_EDIFICI)) ~> Distinct\nDistinct select(mapColumn(\n\t\tDESC_EDIFICI,\n\t\tID_EDIFICI,\n\t\tCOD_EDIFICI,\n\t\tCOD_LLIBRE,\n\t\tNUM_CODI_POSTAL,\n\t\tNUM_TELEFON,\n\t\tDESC_EDIFICI,\n\t\tNUM_FAX,\n\t\tDESC_ADRECA,\n\t\tDESC_POBLACIO,\n\t\tFLAG_PLANOLS,\n\t\tFLAG_VIGENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> toUnion\nDerivedColumn1, toUnion union(byName: true)~> Union1\nRenombrarCampos derive(COD_EDIFICI = toString(COD_EDIFICI),\n\t\tCOD_LLIBRE = toString(COD_LLIBRE)) ~> DerivedColumn1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_EDIFICI as decimal(4,0),\n\t\tCOD_EDIFICI as string,\n\t\tCOD_LLIBRE as binary,\n\t\tNUM_CODI_POSTAL as string,\n\t\tNUM_TELEFON as decimal(9,0),\n\t\tNUM_FAX as decimal(9,0),\n\t\tDESC_EDIFICI as string,\n\t\tDESC_ADRECA as string,\n\t\tDESC_POBLACIO as string,\n\t\tFLAG_PLANOLS as decimal(1,0),\n\t\tFLAG_VIGENT as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimEdifici"
+		}
+	}
+}

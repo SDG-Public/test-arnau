@@ -1,0 +1,91 @@
+{
+	"name": "PL_SANFER_FACT",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_SANFER_FACT_STG",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANFER_FACT_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_SANFER_FACT_ODS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_SANFER_FACT_STG",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANFER_FACT_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_ALTA": {
+							"value": "@pipeline().parameters.P_DATA_ALTA",
+							"type": "Expression"
+						},
+						"P_DATA_MODIF": {
+							"value": "@pipeline().parameters.P_DATA_MODIF",
+							"type": "Expression"
+						},
+						"P_DATA_FI": {
+							"value": "@pipeline().parameters.P_DATA_FI",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_SANFER_FACT_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_SANFER_FACT_ODS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANFER_FACT_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_FI": {
+				"type": "string"
+			},
+			"P_DATA_MODIF": {
+				"type": "string"
+			},
+			"P_DATA_ALTA": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "SANFER"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,109 @@
+{
+	"name": "ODS_DIM_IMPOST_EMISSIONS_350",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_ELEMENT",
+				"type": "varchar"
+			},
+			{
+				"name": "DATA_INICI",
+				"type": "varchar"
+			},
+			{
+				"name": "DATA_FI",
+				"type": "varchar"
+			},
+			{
+				"name": "P_NORMAL",
+				"type": "varchar"
+			},
+			{
+				"name": "APLICAR_P_DECLARADA",
+				"type": "varchar"
+			},
+			{
+				"name": "P_DECLARADA_HPA",
+				"type": "varchar"
+			},
+			{
+				"name": "T_NORMAL",
+				"type": "varchar"
+			},
+			{
+				"name": "APLICAR_T_DECLARADA",
+				"type": "varchar"
+			},
+			{
+				"name": "T_DECLARADA_CENTIGRADS",
+				"type": "varchar"
+			},
+			{
+				"name": "H_SEC",
+				"type": "varchar"
+			},
+			{
+				"name": "APLICAR_H_DECLARADA",
+				"type": "varchar"
+			},
+			{
+				"name": "H_DECLARADA_PERCENTATGE",
+				"type": "varchar"
+			},
+			{
+				"name": "APLICAR_CABAL_DECLARAT",
+				"type": "varchar"
+			},
+			{
+				"name": "CABAL_DECLARAT_DAM3",
+				"type": "varchar"
+			},
+			{
+				"name": "O2_CORREGIT",
+				"type": "varchar"
+			},
+			{
+				"name": "O2REF",
+				"type": "varchar"
+			},
+			{
+				"name": "APLICAR_O2SEC_DECLARAT",
+				"type": "varchar"
+			},
+			{
+				"name": "O2SEC_DECLARAT_PERCENTATGE",
+				"type": "varchar"
+			},
+			{
+				"name": "VLE_FINAL",
+				"type": "varchar"
+			},
+			{
+				"name": "IC_PERCENTATGE",
+				"type": "varchar"
+			},
+			{
+				"name": "ID_FOCUS_BRUT",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_DIM_IMPOST_EMISSIONS_350"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

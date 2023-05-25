@@ -1,0 +1,118 @@
+{
+	"name": "STG_ASJ_FACT_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "EXPEDIENTID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "NUMEROEXPEDIENTINTERN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUMEROEXPEDIENTIMPORT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ASSUMPTECURT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TANCAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "IDTIPUSEXPEDIENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "IDTRAMITACTUAL",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "IDTRAMITINICIAL",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "RESPONSABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ASSIGNATINICIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ASSIGNATESPECIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATAALTA",
+				"type": "datetime2",
+				"scale": 6
+			},
+			{
+				"name": "INFOREGENTRADA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ULTIMINFOLOG",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DATATERMINIMESPROPER",
+				"type": "datetime2",
+				"scale": 6
+			},
+			{
+				"name": "URGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DONATDEBAIXA",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATAENTRADA",
+				"type": "datetime2",
+				"scale": 6
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_STG",
+			"table": "STG_ASJ_FACT_EXPEDIENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

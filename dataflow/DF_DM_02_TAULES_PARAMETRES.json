@@ -1,0 +1,101 @@
+{
+	"name": "DF_DM_02_TAULES_PARAMETRES",
+	"properties": {
+		"folder": {
+			"name": "XEAC_COMUN/DM_PARAMETRES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_GRUP_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSgrupCAPCA"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_CODI_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "ODScodiCAPCA"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_TIPUS_ELEMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODStipusELEMENT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_EMPRESA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSempresa"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_GRUP_CODI_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSgrupCODIcapca"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_TEMPS_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODStempsMCT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_GRUP_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "DMgrupCAPCA"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_CODI_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "DMcodiCAPCA"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_TIPUS_ELEMENT",
+						"type": "DatasetReference"
+					},
+					"name": "DMtipusELEMENT"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_EMPRESA",
+						"type": "DatasetReference"
+					},
+					"name": "DMempresa"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_GRUP_CODI_CAPCA",
+						"type": "DatasetReference"
+					},
+					"name": "DMgrupCODIcapca"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_TEMPS_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "DMtempsMCT"
+				}
+			],
+			"transformations": [],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSgrupCAPCA\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODScodiCAPCA\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODStipusELEMENT\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSempresa\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSgrupCODIcapca\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODStempsMCT\nODSgrupCAPCA sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMgrupCAPCA\nODScodiCAPCA sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMcodiCAPCA\nODStipusELEMENT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMtipusELEMENT\nODSempresa sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMempresa\nODSgrupCODIcapca sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMgrupCODIcapca\nODStempsMCT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMtempsMCT"
+		}
+	}
+}

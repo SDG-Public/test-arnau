@@ -1,0 +1,29 @@
+{
+	"name": "DM_SANQS_DIM_DEMARCACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_DEMARCACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_DEMARCACIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_DM",
+			"table": "DM_SANQS_DIM_DEMARCACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,50 @@
+{
+	"name": "DF_SISP_ODS_DIM_ESTAT",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimEstat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEstat"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Rename"
+				},
+				{
+					"name": "SurrogateKey1"
+				},
+				{
+					"name": "addNoInformat"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "toUnion"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tID as string,\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimEstat\nSurrogateKey1 select(mapColumn(\n\t\tID_ESTAT,\n\t\tDESC_ESTAT = DESCRIPCIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Rename\nSTGDimEstat keyGenerate(output(ID_ESTAT as long),\n\tstartAt: 1L,\n\tstepValue: 1L) ~> SurrogateKey1\nRename derive(ID_ESTAT = -1,\n\t\tDESC_ESTAT = 'No Informat') ~> addNoInformat\naddNoInformat aggregate(groupBy(DESC_ESTAT,\n\t\tID_ESTAT),\n\tcon = count(ID_ESTAT)) ~> Distinct\nDistinct select(mapColumn(\n\t\tDESC_ESTAT,\n\t\tID_ESTAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> toUnion\nRename, toUnion union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTAT as long,\n\t\tDESC_ESTAT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimEstat"
+		}
+	}
+}

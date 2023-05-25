@@ -1,0 +1,55 @@
+{
+	"name": "STG_ASJ_DIM_OBJECTE_REF_TERR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "OBJECTEREFERENCIAID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIOPOBLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESCRIPCIOPROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIINE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODILLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DADAID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "POSICIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_STG",
+			"table": "STG_ASJ_DIM_OBJECTE_REF_TERR"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

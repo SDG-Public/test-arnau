@@ -1,0 +1,37 @@
+{
+	"name": "FIT_DM_DIM_CATALEG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Hoja1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DM_GAF_DIM_CATALEG.xlsx",
+				"container": "contenedortesgaf"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "DATA_ANYO",
+				"type": "String"
+			},
+			{
+				"name": "DEMARCACIO",
+				"type": "String"
+			},
+			{
+				"name": "IND_VALOR",
+				"type": "String"
+			}
+		]
+	}
+}

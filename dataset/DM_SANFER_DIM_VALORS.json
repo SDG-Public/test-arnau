@@ -1,0 +1,38 @@
+{
+	"name": "DM_SANFER_DIM_VALORS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_VALOR",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DESC_VALOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_VALOR_COMPLETA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPUS_VALOR",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_DM",
+			"table": "DM_SANFER_DIM_VALORS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,38 @@
+{
+	"name": "DF_SKG_IND_DIA_v3",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/INDISPONIBLES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_IND_DIA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSindDIAv3"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SKG_IND_DIA_v3",
+						"type": "DatasetReference"
+					},
+					"name": "SKGindDIAv3FINAL"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectPK"
+				},
+				{
+					"name": "UPSERT"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDIA as date,\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tNUMERO_CASOS as long,\n\t\tIND_N_MCT_DIA_IND as string,\n\t\tCOMPLIMENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSindDIAv3\nODSindDIAv3 select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tDIA,\n\t\tMINUTOS_MCT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nSelectPK alterRow(upsertIf(true())) ~> UPSERT\nUPSERT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_IND_DIA_v3 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tDIA as date\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ID_FOCUS','ID_LEGISLACIO','ID_ELEMENT','DIA','MINUTOS_MCT'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> SKGindDIAv3FINAL"
+		}
+	}
+}

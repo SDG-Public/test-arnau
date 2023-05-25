@@ -1,0 +1,348 @@
+{
+	"name": "DF_SANFER_ODS_FACT_TRAMITACIO_TDSAN",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_FACT_EXPEDIENT_TDSAN",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedientTDSAN"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_FACT_TRAMITACIO_TDSAN",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactTramitacioTDSAN"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SeleccionCampos"
+				},
+				{
+					"name": "UNPIVOTAR"
+				},
+				{
+					"name": "CambiarTipo"
+				},
+				{
+					"name": "DescTramityCodTramit"
+				},
+				{
+					"name": "DataDenuncia"
+				},
+				{
+					"name": "DataAcordInici"
+				},
+				{
+					"name": "DataNotificacioAcordInici"
+				},
+				{
+					"name": "DataReconeixament"
+				},
+				{
+					"name": "DataAlegacions"
+				},
+				{
+					"name": "DataAudiencia"
+				},
+				{
+					"name": "DataNotificacioAudiencia"
+				},
+				{
+					"name": "DataNotificacioResolucio"
+				},
+				{
+					"name": "DataNotificacioPagament"
+				},
+				{
+					"name": "DataEntradaRecurs"
+				},
+				{
+					"name": "DataResolucioRecurs"
+				},
+				{
+					"name": "DataNotificacioRecurs"
+				},
+				{
+					"name": "DataPagament"
+				},
+				{
+					"name": "EstadoExpediente"
+				},
+				{
+					"name": "DATAMAX",
+					"description": "Cogemos la fecha más alta de las seleccionadas"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "FiltraData",
+					"description": "Seleccionar los campos de fecha que se utilizan para el condicional."
+				},
+				{
+					"name": "CogerDATAmax",
+					"description": "En caso de que no este informada la Data ponemos el DataMax "
+				},
+				{
+					"name": "OrdenadoryRenombrarCampos"
+				},
+				{
+					"name": "CambiarDatatoDate"
+				},
+				{
+					"name": "FiltrarNulls",
+					"description": "Elimino los tramites que no tienen fechas"
+				},
+				{
+					"name": "DataResolucio"
+				},
+				{
+					"name": "DataProposta"
+				},
+				{
+					"name": "DataNotificacioProposta"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_PERSONA_DENUNCIANT as integer,",
+				"          ID_TIPUS_RECURS as string,",
+				"          ID_TIPUS_DOCUMENT as integer,",
+				"          COD_ALTA as string,",
+				"          COD_DENUNCIA_TDSAN as string,",
+				"          COD_BAREM as string,",
+				"          COD_DOCUMENT as string,",
+				"          COD_OPERADOR_FERROVIARI as string,",
+				"          COD_ESTAT_EXPEDIENT as string,",
+				"          NUM_CODI_POSTAL as integer,",
+				"          NUM_EXPEDIENT as string,",
+				"          IMP_SANCIO as integer,",
+				"          IMP_SANCIO_FERMA as integer,",
+				"          IMP_TOTAL_PAGAT as integer,",
+				"          IMP_RECURS as integer,",
+				"          DESC_TIPUS_GRAVETAT as string,",
+				"          DESC_ESTACIO as string,",
+				"          DESC_LINIA as string,",
+				"          DESC_TRAJECTE as string,",
+				"          DESC_TREN as string,",
+				"          DESC_CONDUCTA_INFRACTORA as string,",
+				"          DESC_CONDUCTA_INFRACTORA_ENTENEDORA as string,",
+				"          DESC_NOM_COMPLET as string,",
+				"          DESC_ADRECA as string,",
+				"          DESC_POBLACIO as string,",
+				"          DESC_PROVINCIA as string,",
+				"          DESC_MOTIU_ARXIU as string,",
+				"          DESC_SENTIT as string,",
+				"          DATA_ALTA_SISTEMA as date,",
+				"          DATA_DENUNCIA as date,",
+				"          DATA_INFRACCIO as date,",
+				"          DATA_ACORD_INICI as date,",
+				"          DATA_NOTIFICACIO_AI as date,",
+				"          DATA_RECONEIXAMENT as date,",
+				"          DATA_NOTIFICACIO_PAGAMENT as date,",
+				"          DATA_PROPOSTA as date,",
+				"          DATA_NOTIFICACIO_PROPOSTA as date,",
+				"          DATA_AUDIENCIA as date,",
+				"          DATA_NOTIFICACIO_AUDIENCIA as date,",
+				"          DATA_RESOLUCIO as date,",
+				"          DATA_NOTIFICACIO_RESOLUCIO as date,",
+				"          DATA_PAGAMENT as date,",
+				"          DATA_RESOLUCIO_RECURS as date,",
+				"          DATA_ENTRADA_RECURS as date,",
+				"          DATA_NOTIFICACIO_RECURS as date,",
+				"          DATA_CADUCITAT as date,",
+				"          DATA_PRESCRIPCIO_INFRACCIO as date,",
+				"          DATA_PRESCRIPCIO_SANCIO as date,",
+				"          DATA_ALEGACIONS as date,",
+				"          DESC_ESTAT_TRAMITACIO as string,",
+				"          FLAG_PAGAMENT as integer,",
+				"          ID_EXPEDIENT as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSFactExpedientTDSAN",
+				"ODSFactExpedientTDSAN select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          IMP_SANCIO_FERMA,",
+				"          DESC_SENTIT,",
+				"          DESC_MOTIU_ARXIU,",
+				"          DATA_DENUNCIA,",
+				"          DATA_ACORD_INICI,",
+				"          DATA_NOTIFICACIO_AI,",
+				"          DATA_RECONEIXAMENT,",
+				"          DATA_NOTIFICACIO_PAGAMENT,",
+				"          DATA_PAGAMENT,",
+				"          DATA_NOTIFICACIO_AUDIENCIA,",
+				"          DATA_AUDIENCIA,",
+				"          DATA_RESOLUCIO,",
+				"          DATA_NOTIFICACIO_RESOLUCIO,",
+				"          DATA_ENTRADA_RECURS,",
+				"          DATA_NOTIFICACIO_RECURS,",
+				"          DATA_RESOLUCIO_RECURS,",
+				"          DATA_ALEGACIONS,",
+				"          DATA_PROPOSTA,",
+				"          DATA_NOTIFICACIO_PROPOSTA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SeleccionCampos",
+				"CambiarTipo unpivot(output(",
+				"          DESC_DATA as string,",
+				"          DATA as string",
+				"     ),",
+				"     ungroupBy(ID_EXPEDIENT,",
+				"          IMP_SANCIO_FERMA,",
+				"          DESC_SENTIT,",
+				"          DESC_MOTIU_ARXIU),",
+				"     lateral: false,",
+				"     ignoreNullPivots: false) ~> UNPIVOTAR",
+				"SeleccionCampos derive(DATA_DENUNCIA = toString(DATA_DENUNCIA),",
+				"          DATA_ACORD_INICI = toString(DATA_ACORD_INICI),",
+				"          DATA_NOTIFICACIO_AI = toString(DATA_NOTIFICACIO_AI),",
+				"          DATA_RECONEIXAMENT = toString(DATA_RECONEIXAMENT),",
+				"          DATA_NOTIFICACIO_PAGAMENT = toString(DATA_NOTIFICACIO_PAGAMENT),",
+				"          DATA_NOTIFICACIO_AUDIENCIA = toString(DATA_NOTIFICACIO_AUDIENCIA),",
+				"          DATA_RESOLUCIO = toString(DATA_RESOLUCIO),",
+				"          DATA_AUDIENCIA = toString(DATA_AUDIENCIA),",
+				"          DATA_NOTIFICACIO_RESOLUCIO = toString(DATA_NOTIFICACIO_RESOLUCIO),",
+				"          DATA_ENTRADA_RECURS = toString(DATA_ENTRADA_RECURS),",
+				"          DATA_NOTIFICACIO_RECURS = toString(DATA_NOTIFICACIO_RECURS),",
+				"          DATA_RESOLUCIO_RECURS = toString(DATA_RESOLUCIO_RECURS),",
+				"          DATA_PAGAMENT = toString(DATA_PAGAMENT),",
+				"          DATA_ALEGACIONS = toString(DATA_ALEGACIONS),",
+				"          IMP_SANCIO_FERMA = toString(IMP_SANCIO_FERMA),",
+				"          DATA_PROPOSTA = toString(DATA_PROPOSTA),",
+				"          DATA_NOTIFICACIO_PROPOSTA = toString(DATA_NOTIFICACIO_PROPOSTA)) ~> CambiarTipo",
+				"DataNotificacioProposta derive(DESC_TRAMIT = iif(DATA_DENUNCIA!='NULL', 'Alta Denuncia',\r",
+				"    iif(DATA_ACORD_INICI!='NULL','Acord Inici',\r",
+				"        iif(DATA_NOTIFICACIO_ACORD_INICI!='NULL','Notificacio Acord Inici',\r",
+				"            iif(DATA_RECONEIXAMENT!='NULL','Presentació Reconeixement',\r",
+				"                iif(DATA_ALEGACIONS!='NULL','Alegacions',\r",
+				"                    iif(DATA_AUDIENCIA!='NULL','Audiència',\r",
+				"                        iif(DATA_NOTIFICACIO_AUDIENCIA!='NULL','Notificació Audiència',\r",
+				"                            iif(DATA_NOTIFICACIO_RESOLUCIO!='NULL' && toInteger(IMP_SANCIO_FERMA)>0,'Notificació Resolució amb carta de pagament',\r",
+				"                                 iif(DATA_NOTIFICACIO_RESOLUCIO!='NULL' && (isNull(IMP_SANCIO_FERMA) || toInteger(IMP_SANCIO_FERMA)==0) ,'Notificació Resolució sense carta de pagament',\r",
+				"                                    iif(DATA_NOTIFICACIO_PAGAMENT!='NULL','Notificació Resolució amb carta de pagament amb descompte',\r",
+				"                                        iif(DATA_ENTRADA_RECURS!='NULL','Presentació Recurs',\r",
+				"                                            iif(DATA_RESOLUCIO_RECURS!='NULL','Resolució recurs',\r",
+				"                                                iif(DATA_NOTIFICACIO_RECURS!='NULL' && (isNull(DESC_SENTIT) || DESC_SENTIT!='Estimatori total'),'Notificació Resolució recurs sense estimatori',\r",
+				"                                                       iif(DATA_NOTIFICACIO_RECURS!='NULL' && DESC_SENTIT=='Estimatori total','Notificació Resolució recurs',\r",
+				"                                                            iif(DATA_RESOLUCIO!='NULL' && toInteger(IMP_SANCIO_FERMA)>0,'Resolució amb carta de pagament',\r",
+				"                                                                    iif(DATA_RESOLUCIO!='NULL' && (isNull(IMP_SANCIO_FERMA) || toInteger(IMP_SANCIO_FERMA)==0) ,'Resolució sense carta de pagament',\r",
+				"                                                                      iif(DATA_PROPOSTA!='NULL','Proposta Resolució',\r",
+				"                                                                          iif(DATA_NOTIFICACIO_PROPOSTA!='NULL','Notificació Proposta Resolució',\r",
+				"                                                                                  iif(DATA_PAGAMENT!='NULL','Arxivar Expedient',toString(null())))))))))))))))))))),",
+				"          COD_TRAMIT = iif(DATA_DENUNCIA!='NULL', 'AD',\r",
+				"    iif(DATA_ACORD_INICI!='NULL','AI',\r",
+				"        iif(DATA_NOTIFICACIO_ACORD_INICI!='NULL','NAI',\r",
+				"            iif(DATA_RECONEIXAMENT!='NULL','REC',\r",
+				"                iif(DATA_ALEGACIONS!='NULL','AL',\r",
+				"                    iif(DATA_AUDIENCIA!='NULL','AUD',\r",
+				"                        iif(DATA_NOTIFICACIO_AUDIENCIA!='NULL','NAUD',\r",
+				"                            iif(DATA_NOTIFICACIO_RESOLUCIO!='NULL' && toInteger(IMP_SANCIO_FERMA)>0,'NREC',\r",
+				"                                 iif(DATA_NOTIFICACIO_RESOLUCIO!='NULL' && (isNull(IMP_SANCIO_FERMA) || toInteger(IMP_SANCIO_FERMA)==0) ,'NRES',\r",
+				"                                    iif(DATA_NOTIFICACIO_PAGAMENT!='NULL','NRECD',\r",
+				"                                        iif(DATA_ENTRADA_RECURS!='NULL','PRC ',\r",
+				"                                            iif(DATA_RESOLUCIO_RECURS!='NULL','RERC',\r",
+				"                                                iif(DATA_NOTIFICACIO_RECURS!='NULL' && (isNull(DESC_SENTIT) || DESC_SENTIT!='Estimatori total'),'NRERC',\r",
+				"                                                       iif(DATA_NOTIFICACIO_RECURS!='NULL' && DESC_SENTIT=='Estimatori total','NRERC',\r",
+				"                                                            iif(DATA_RESOLUCIO!='NULL' && toInteger(IMP_SANCIO_FERMA)>0,'NREC',\r",
+				"                                                                    iif(DATA_RESOLUCIO!='NULL' && (isNull(IMP_SANCIO_FERMA) || toInteger(IMP_SANCIO_FERMA)==0) ,'NRES',\r",
+				"                                                                      iif(DATA_PROPOSTA!='NULL','PRE',\r",
+				"                                                                          iif(DATA_NOTIFICACIO_PROPOSTA!='NULL','NPRE',\r",
+				"                                                                                  iif(DATA_PAGAMENT!='NULL','AE',toString(null()))))))))))))))))))))) ~> DescTramityCodTramit",
+				"UNPIVOTAR derive(DATA_DENUNCIA = iif(DESC_DATA=='DATA_DENUNCIA',DATA,toString(null()))) ~> DataDenuncia",
+				"DataDenuncia derive(DATA_ACORD_INICI = iif(DESC_DATA=='DATA_ACORD_INICI',DATA,toString(null()))) ~> DataAcordInici",
+				"DataAcordInici derive(DATA_NOTIFICACIO_ACORD_INICI = iif(DESC_DATA=='DATA_NOTIFICACIO_AI',DATA,toString(null()))) ~> DataNotificacioAcordInici",
+				"DataNotificacioAcordInici derive(DATA_RECONEIXAMENT = iif(DESC_DATA=='DATA_RECONEIXAMENT',DATA,toString(null()))) ~> DataReconeixament",
+				"DataReconeixament derive(DATA_ALEGACIONS = iif(DESC_DATA=='DATA_ALEGACIONS',DATA,toString(null()))) ~> DataAlegacions",
+				"DataAlegacions derive(DATA_AUDIENCIA = iif(DESC_DATA=='DATA_AUDIENCIA',DATA,toString(null()))) ~> DataAudiencia",
+				"DataAudiencia derive(DATA_NOTIFICACIO_AUDIENCIA = iif(DESC_DATA=='DATA_NOTIFICACIO_AUDIENCIA',DATA,toString(null()))) ~> DataNotificacioAudiencia",
+				"DataNotificacioAudiencia derive(DATA_NOTIFICACIO_RESOLUCIO = iif(DESC_DATA=='DATA_NOTIFICACIO_RESOLUCIO',DATA,toString(null()))) ~> DataNotificacioResolucio",
+				"DataNotificacioResolucio derive(DATA_NOTIFICACIO_PAGAMENT = iif(DESC_DATA=='DATA_NOTIFICACIO_PAGAMENT',DATA,toString(null()))) ~> DataNotificacioPagament",
+				"DataNotificacioPagament derive(DATA_ENTRADA_RECURS = iif(DESC_DATA=='DATA_ENTRADA_RECURS',DATA,toString(null()))) ~> DataEntradaRecurs",
+				"DataEntradaRecurs derive(DATA_RESOLUCIO_RECURS = iif(DESC_DATA=='DATA_RESOLUCIO_RECURS',DATA,toString(null()))) ~> DataResolucioRecurs",
+				"DataResolucio derive(DATA_NOTIFICACIO_RECURS = iif(DESC_DATA=='DATA_NOTIFICACIO_RECURS',DATA,toString(null()))) ~> DataNotificacioRecurs",
+				"DataNotificacioRecurs derive(DATA_PAGAMENT = iif(DESC_DATA=='DATA_PAGAMENT',DATA,toString(null()))) ~> DataPagament",
+				"join1 derive(DESC_ESTAT_EXPEDIENT = iif(DESC_TRAMIT=='Notificació Resolució sense carta de pagament','Arxivar Expedient 1',\r",
+				"    iif(DESC_TRAMIT=='Notificació Resolució recurs','Arxivar Expedient 2',\r",
+				"        iif(DESC_TRAMIT=='Arxivar Expedient','Arxivar Expedient 3',\r",
+				"            iif(not(isNull(DESC_MOTIU_ARXIU)), 'Arxivar Expedient 4',toString(null())))))) ~> EstadoExpediente",
+				"FiltraData aggregate(groupBy(ID_EXPEDIENT),",
+				"     DATA_MAX = max(toDate(DATA,'yyyy-MM-dd'))) ~> DATAMAX",
+				"DescTramityCodTramit, DATAMAX join(UNPIVOTAR@ID_EXPEDIENT == DATAMAX@ID_EXPEDIENT,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"DescTramityCodTramit filter(DESC_DATA=='DATA_DENUNCIA'||DESC_DATA=='DATA_ACORD_INICI'||DESC_DATA=='DATA_NOTIFICACIO_AI' || DESC_DATA=='DATA_RECONEIXAMENT' || DESC_DATA=='DATA_ALEGACIONS' || DESC_DATA=='DATA_NOTIFICACIO_AUDIENCIA' || DESC_DATA=='DATA_AUDIENCIA' || DESC_DATA=='DATA_RESOLUCIO' || DESC_DATA=='DATA_NOTIFICACIO_RESOLUCIO' || DESC_DATA=='DATA_NOTIFICACIO_PAGAMENT' || DESC_DATA=='DATA_ENTRADA_RECURS' || DESC_DATA=='DATA_RESOLUCIO_RECURS' || DESC_DATA=='DATA_NOTIFICACIO_RECURS' || DESC_DATA=='DATA_PAGAMENT' || DESC_DATA=='DATA_PROPOSTA' || DESC_DATA=='DATA_NOTIFICACIO_PROPOSTA') ~> FiltraData",
+				"EstadoExpediente derive(DATA = iif(not(isNull(DATA)), DATA, toString(DATA_MAX))) ~> CogerDATAmax",
+				"CogerDATAmax select(mapColumn(",
+				"          ID_EXPEDIENT = UNPIVOTAR@ID_EXPEDIENT,",
+				"          COD_TRAMIT,",
+				"          DESC_TRAMIT,",
+				"          DATA_TRAMIT = DATA,",
+				"          DESC_DATA,",
+				"          DATA_DENUNCIA,",
+				"          DATA_ACORD_INICI,",
+				"          DATA_NOTIFICACIO_ACORD_INICI,",
+				"          DATA_RECONEIXAMENT,",
+				"          DATA_ALEGACIONS,",
+				"          DATA_NOTIFICACIO_RESOLUCIO,",
+				"          DATA_NOTIFICACIO_PAGAMENT,",
+				"          DATA_ENTRADA_RECURS,",
+				"          DATA_RESOLUCIO_RECURS,",
+				"          DATA_NOTIFICACIO_RECURS,",
+				"          DATA_PAGAMENT,",
+				"          DATA_RESOLUCIO,",
+				"          IMP_SANCIO_FERMA,",
+				"          DESC_SENTIT,",
+				"          DESC_MOTIU_ARXIU,",
+				"          DESC_ESTAT_EXPEDIENT,",
+				"          DATA_MAX",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> OrdenadoryRenombrarCampos",
+				"OrdenadoryRenombrarCampos derive(DATA_TRAMIT = toDate(DATA_TRAMIT,'yyyy-MM-dd'),",
+				"          DATA_DENUNCIA = toDate(DATA_DENUNCIA,'yyyy-MM-dd'),",
+				"          DATA_ACORD_INICI = toDate(DATA_ACORD_INICI,'yyyy-MM-dd'),",
+				"          DATA_NOTIFICACIO_ACORD_INICI = toDate(DATA_NOTIFICACIO_ACORD_INICI,'yyyy-MM-dd'),",
+				"          DATA_RECONEIXAMENT = toDate(DATA_RECONEIXAMENT,'yyyy-MM-dd'),",
+				"          DATA_ALEGACIONS = toDate(DATA_ALEGACIONS,'yyyy-MM-dd'),",
+				"          DATA_NOTIFICACIO_RESOLUCIO = toDate(DATA_NOTIFICACIO_RESOLUCIO,'yyyy-MM-dd'),",
+				"          DATA_NOTIFICACIO_PAGAMENT = toDate(DATA_NOTIFICACIO_PAGAMENT,'yyyy-MM-dd'),",
+				"          DATA_ENTRADA_RECURS = toDate(DATA_ENTRADA_RECURS,'yyyy-MM-dd'),",
+				"          DATA_RESOLUCIO_RECURS = toDate(DATA_RESOLUCIO_RECURS,'yyyy-MM-dd'),",
+				"          DATA_NOTIFICACIO_RECURS = toDate(DATA_NOTIFICACIO_RECURS,'yyyy-MM-dd'),",
+				"          DATA_PAGAMENT = toDate(DATA_PAGAMENT,'yyyy-MM-dd'),",
+				"          DATA_RESOLUCIO = toDate(DATA_RESOLUCIO,'yyyy-MM-dd')) ~> CambiarDatatoDate",
+				"CambiarDatatoDate filter(not(isNull(DESC_TRAMIT))) ~> FiltrarNulls",
+				"DataResolucioRecurs derive(DATA_RESOLUCIO = iif(DESC_DATA=='DATA_RESOLUCIO',DATA,toString(null()))) ~> DataResolucio",
+				"DataPagament derive(DATA_PROPOSTA = iif(DESC_DATA=='DATA_PROPOSTA',DATA,toString(null()))) ~> DataProposta",
+				"DataProposta derive(DATA_NOTIFICACIO_PROPOSTA = iif(DESC_DATA=='DATA_NOTIFICACIO_PROPOSTA',DATA,toString(null()))) ~> DataNotificacioProposta",
+				"FiltrarNulls sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSFactTramitacioTDSAN"
+			]
+		}
+	}
+}

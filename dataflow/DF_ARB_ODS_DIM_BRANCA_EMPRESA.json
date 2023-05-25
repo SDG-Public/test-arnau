@@ -1,0 +1,35 @@
+{
+	"name": "DF_ARB_ODS_DIM_BRANCA_EMPRESA",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_BRANCA_EMPRESA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimBrancaEmpresa"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_BRANCA_EMPRESA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimBrancaEmpresa"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"script": "source(output(\n\t\tARB_BEM_CODI as string,\n\t\tARB_BEM_DESC as string,\n\t\tARB_BEM_ARTICLE as string,\n\t\tARB_BEM_QDE as string,\n\t\tARB_BEM_CDESC as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimBrancaEmpresa\nSTGDimBrancaEmpresa select(mapColumn(\n\t\tID_BRANCA_EMPRESA = ARB_BEM_CODI,\n\t\tDESC_BRANCA_EMPRESA = ARB_BEM_DESC,\n\t\tDESC_ARTICLE = ARB_BEM_ARTICLE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_BRANCA_EMPRESA as string,\n\t\tDESC_BRANCA_EMPRESA as string,\n\t\tDESC_ARTICLE as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimBrancaEmpresa"
+		}
+	}
+}

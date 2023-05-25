@@ -1,0 +1,126 @@
+{
+	"name": "STG_GEU_DIM_UNITAT_ORGANICA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_UORG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_UORG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_UORG_LLARGA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_UNITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_COORD_COMARCAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SERVEI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SIGEDA_UORG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODREG_ENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODREG_SOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDCENTRE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODREG_SARCAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UO_SARCAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ARXIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_DIPOSIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SUBDIRECCIO_URBANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_GENERACIO_AUT_UG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_ASSIGNABLE_USUARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_MULTIPLES_AMBITS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PERMETRE_ACCES_PARES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_TE_UORG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SAC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SIGNATARI",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "NIVELL_ACCESS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SARCAT_WS_RESPOSTES",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_UNITAT_ORGANICA"
+		}
+	}
+}

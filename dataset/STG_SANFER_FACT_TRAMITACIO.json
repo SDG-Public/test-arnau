@@ -1,0 +1,176 @@
+{
+	"name": "STG_SANFER_FACT_TRAMITACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NUMINT_TRAMIT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "DATA_TRAMIT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "DATA_TRAMITACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI_TRAMITACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_CADUCITAT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_PAGAMENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODREG_E",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANYREG_E",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "NUMREG_E",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DATA_RE",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA_SISTEMA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_DARRERA_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_DARRERA_MODIF",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "VERSION",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMPORT_PAGAMENT",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "PARTY_ID_SUBJECTE_PASSIU",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "PAGAMENT_GENERAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_RESPONSABLE",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CODI_CONCEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_NOTIFICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ACUSAMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DATA_ACUSAMENT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "NUM_DOGC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PUBLICACIO_DOGC",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_ACUSAMENT_REAL",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "IND_MIGRADO",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_PRESENTACIO",
+				"type": "datetime2",
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_STG",
+			"table": "STG_SANFER_FACT_TRAMITACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

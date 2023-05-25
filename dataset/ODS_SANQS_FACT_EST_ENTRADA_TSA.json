@@ -1,0 +1,73 @@
+{
+	"name": "ODS_SANQS_FACT_EST_ENTRADA_TSA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_DENUNCIA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_QUA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_PLEC",
+				"type": "date"
+			},
+			{
+				"name": "DATA_INI_FAUDE",
+				"type": "date"
+			},
+			{
+				"name": "DATA_RES",
+				"type": "date"
+			},
+			{
+				"name": "COD_GRA_RES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_IMPORT_RES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PRES_REC",
+				"type": "date"
+			},
+			{
+				"name": "DATA_I_REC",
+				"type": "date"
+			},
+			{
+				"name": "DATA_RES2",
+				"type": "date"
+			},
+			{
+				"name": "COD_DEMARCACIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_EST_ENTRADA_TSA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

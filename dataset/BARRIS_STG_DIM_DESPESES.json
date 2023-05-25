@@ -1,0 +1,107 @@
+{
+	"name": "BARRIS_STG_DIM_DESPESES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODIMUNICIPI",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODICOMARCA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIDELEGACIO",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "DELEGACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANYCONV",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PERIODE",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "NOMPERIODE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATADESPESA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DESCDESPESA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMPORTTOTAL",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMPORTBARRIS",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "ANYDESP",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CRT_ID",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_STG",
+			"table": "STG_BARRIS_DIM_DESPESES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

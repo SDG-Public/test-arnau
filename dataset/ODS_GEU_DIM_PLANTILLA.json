@@ -1,0 +1,19 @@
+{
+	"name": "ODS_GEU_DIM_PLANTILLA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GEU_ODS",
+			"table": "ODS_GEU_DIM_PLANTILLA"
+		}
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "STG_SISP_DIM_TIPUS_PERSONAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_STG",
+			"table": "STG_SISP_DIM_TIPUS_PERSONAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

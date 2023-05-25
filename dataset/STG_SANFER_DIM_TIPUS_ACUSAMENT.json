@@ -1,0 +1,37 @@
+{
+	"name": "STG_SANFER_DIM_TIPUS_ACUSAMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CODI_TIPUS_ACUSAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TIPUS_ACUSAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INICIA_EDICTE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_STG",
+			"table": "STG_SANFER_DIM_TIPUS_ACUSAMENT"
+		}
+	}
+}

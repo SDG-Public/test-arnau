@@ -1,0 +1,153 @@
+{
+	"name": "BARRIS_STG_DIM_DESGLOSFINANCER",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CONVOCATORIA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "CARPETA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EXP_AJUNTAMENT",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "EXP_GENCAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_AJUNTAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FECHACREAACION",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CODIEXP",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "CODIACTUACION",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODISEGONNIVELL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOMACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TOTALACTAUCIO",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "TIPUSAJUT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Aportacio GenCat any 1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportacio GenCat any 2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportacio GenCat any 3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportacio GenCat any 4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportacio GenCat any 5",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació ajuntament any 1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació ajuntament any 2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació ajuntament any 3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació ajuntament any 4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació ajuntament any 5",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació Altres any 1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació Altres any 2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació Altres any 3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació Altres any 4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Aportació Altres any 5",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_STG",
+			"table": "STG_BARRIS_DIM_DESGLOSFINANCER"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,31 @@
+{
+	"name": "DF_ARB_DM_DIM_MOTIU_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_MOTIU_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimMotiuExpedient"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ARB_DIM_MOTIU_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimMotiuExpedient"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_MOTIU_EXPEDIENT as string,\n\t\tDESC_MOTIU_EXPEDIENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimMotiuExpedient\nODSDimMotiuExpedient sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimMotiuExpedient"
+		}
+	}
+}

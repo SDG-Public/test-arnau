@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANFER_ODS_FACT_PAGAMENT",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANFER_FACT_PAGAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactPagament"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_FACT_PAGAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactPagament"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "AddDataInsercio"
+				}
+			],
+			"script": "source(output(\n\t\tNUMINT_TRAMIT as decimal(7,0),\n\t\tDATA_TRAMIT as timestamp,\n\t\tCODINT_EXP as decimal(7,0),\n\t\tTIPUS_TRANSACCIO as string,\n\t\tTIPUS_MODIFICACIO as string,\n\t\tMOTIU_ANULACIO as decimal(4,0),\n\t\tLIQUIDACIO as string,\n\t\tIMPORT as decimal(8,2),\n\t\tSUBCONCEPTE as string,\n\t\tRESULTAT as string,\n\t\tTIPUS_ERROR1 as string,\n\t\tDESC_ERROR1 as string,\n\t\tTIPUS_ERROR2 as string,\n\t\tDESC_ERROR2 as string,\n\t\tTIPUS_ERROR3 as string,\n\t\tDESC_ERROR3 as string,\n\t\tTIPUS_ERROR4 as string,\n\t\tDESC_ERROR4 as string,\n\t\tTIPUS_ERROR5 as string,\n\t\tDESC_ERROR5 as string,\n\t\tNUM_EXPEDIENT as string,\n\t\tUNITAT_LIQ as string,\n\t\tDESC_UNITAT_LIQ as string,\n\t\tCONCEPTE_LIQ as string,\n\t\tSEQ_LIQ as decimal(5,0),\n\t\tDC as string,\n\t\tDATA_EMISSIO as timestamp,\n\t\tDATA_VENCIMENT as timestamp,\n\t\tDATA_PAGAMENT as timestamp,\n\t\tNIF_SUBJECTE as string,\n\t\tTIPUS_SUBJECTE_PASSIU as string,\n\t\tNOM_SUBJECTE as string,\n\t\tCOGNOM1_SUBJECTE as string,\n\t\tCOGNOM2_SUBJECTE as string,\n\t\tADRECA_SUBJECTE as string,\n\t\tPOBLACIO_SUBJECTE as string,\n\t\tCODI_POSTAL_SUBJECTE as string,\n\t\tEMISOR as string,\n\t\tSUFIXE as string,\n\t\tREFERENCIA as string,\n\t\tCODI_INE as string,\n\t\tCODI_BARRES as binary,\n\t\tNUM_CODI_BARRES as string,\n\t\tFILLER as string,\n\t\tES_GIDECAT as decimal(1,0),\n\t\tANY_LIQUIDACIO as decimal(4,0),\n\t\tESTAT_GIDECAT as decimal(3,0),\n\t\tDATA_VENCIMENT_REAL as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactPagament\nSTGFactPagament select(mapColumn(\n\t\tNUM_TRAMIT = NUMINT_TRAMIT,\n\t\tDATA_TRAMIT,\n\t\tID_EXPEDIENT = CODINT_EXP,\n\t\tDESC_TIPUS_TRANSACCIO = TIPUS_TRANSACCIO,\n\t\tCOD_LIQUIDACIO = LIQUIDACIO,\n\t\tIMP_PAGAMENT = IMPORT,\n\t\tDESC_SUBCONCEPTE = SUBCONCEPTE,\n\t\tCOD_RESULTAT = RESULTAT,\n\t\tCOD_TIPUS_ERROR1 = TIPUS_ERROR1,\n\t\tDESC_ERROR1,\n\t\tCOD_TIPUS_ERROR2 = TIPUS_ERROR2,\n\t\tDESC_ERROR2,\n\t\tCOD_TIPUS_ERROR3 = TIPUS_ERROR3,\n\t\tDESC_ERROR3,\n\t\tCOD_TIPUS_ERROR4 = TIPUS_ERROR4,\n\t\tDESC_ERROR4,\n\t\tCOD_TIPUS_ERROR5 = TIPUS_ERROR5,\n\t\tDESC_ERROR5,\n\t\tNUM_EXPEDIENT,\n\t\tNUM_UNITAT_LIQ = UNITAT_LIQ,\n\t\tDESC_UNITAT_LIQ,\n\t\tNUM_CONCEPTE_LIQ = CONCEPTE_LIQ,\n\t\tNUM_SEQ_LIQ = SEQ_LIQ,\n\t\tNUM_DC = DC,\n\t\tDATA_EMISSIO,\n\t\tDATA_VENCIMENT,\n\t\tDATA_PAGAMENT,\n\t\tDESC_NIF_SUBJECTE = NIF_SUBJECTE,\n\t\tCOD_TIPUS_SUBJECTE_PASSIU = TIPUS_SUBJECTE_PASSIU,\n\t\tDESC_NOM_SUBJECTE = NOM_SUBJECTE,\n\t\tDESC_COGNOM1_SUBJECTE = COGNOM1_SUBJECTE,\n\t\tDESC_COGNOM2_SUBJECTE = COGNOM2_SUBJECTE,\n\t\tDESC_ADRECA_SUBJECTE = ADRECA_SUBJECTE,\n\t\tDESC_POBLACIO_SUBJECTE = POBLACIO_SUBJECTE,\n\t\tCOD_POSTAL_SUBJECTE = CODI_POSTAL_SUBJECTE,\n\t\tCOD_EMISOR = EMISOR,\n\t\tCOD_SUFIXE = SUFIXE,\n\t\tCOD_REFERENCIA = REFERENCIA,\n\t\tCOD_INE = CODI_INE,\n\t\tCOD_BARRES = CODI_BARRES,\n\t\tDESC_NUM_CODI_BARRES = NUM_CODI_BARRES,\n\t\tFLAG_ES_GIDECAT = ES_GIDECAT,\n\t\tDATA_ANY_LIQUIDACIO = ANY_LIQUIDACIO,\n\t\tDESC_ESTAT_GIDECAT = ESTAT_GIDECAT,\n\t\tDATA_VENCIMENT_REAL\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(DATA_INSERCIO = currentDate()) ~> AddDataInsercio\nAddDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tNUM_TRAMIT as decimal(7,0),\n\t\tDATA_TRAMIT as timestamp,\n\t\tID_EXPEDIENT as decimal(7,0),\n\t\tDESC_TIPUS_TRANSACCIO as string,\n\t\tCOD_LIQUIDACIO as string,\n\t\tIMP_PAGAMENT as decimal(8,2),\n\t\tDESC_SUBCONCEPTE as string,\n\t\tCOD_RESULTAT as string,\n\t\tCOD_TIPUS_ERROR1 as string,\n\t\tDESC_ERROR1 as string,\n\t\tCOD_TIPUS_ERROR2 as string,\n\t\tDESC_ERROR2 as string,\n\t\tCOD_TIPUS_ERROR3 as string,\n\t\tDESC_ERROR3 as string,\n\t\tCOD_TIPUS_ERROR4 as string,\n\t\tDESC_ERROR4 as string,\n\t\tCOD_TIPUS_ERROR5 as string,\n\t\tDESC_ERROR5 as string,\n\t\tNUM_EXPEDIENT as string,\n\t\tNUM_UNITAT_LIQ as string,\n\t\tDESC_UNITAT_LIQ as string,\n\t\tNUM_CONCEPTE_LIQ as string,\n\t\tNUM_SEQ_LIQ as decimal(5,0),\n\t\tNUM_DC as string,\n\t\tDATA_EMISSIO as timestamp,\n\t\tDATA_VENCIMENT as timestamp,\n\t\tDATA_PAGAMENT as timestamp,\n\t\tDESC_NIF_SUBJECTE as string,\n\t\tCOD_TIPUS_SUBJECTE_PASSIU as string,\n\t\tDESC_NOM_SUBJECTE as string,\n\t\tDESC_COGNOM1_SUBJECTE as string,\n\t\tDESC_COGNOM2_SUBJECTE as string,\n\t\tDESC_ADRECA_SUBJECTE as string,\n\t\tDESC_POBLACIO_SUBJECTE as string,\n\t\tCOD_POSTAL_SUBJECTE as string,\n\t\tCOD_EMISOR as string,\n\t\tCOD_SUFIXE as string,\n\t\tCOD_REFERENCIA as string,\n\t\tCOD_INE as string,\n\t\tCOD_BARRES as binary,\n\t\tDESC_NUM_CODI_BARRES as string,\n\t\tFLAG_ES_GIDECAT as decimal(1,0),\n\t\tDATA_ANY_LIQUIDACIO as decimal(4,0),\n\t\tDESC_ESTAT_GIDECAT as decimal(3,0),\n\t\tDATA_VENCIMENT_REAL as timestamp,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactPagament"
+		}
+	}
+}

@@ -1,0 +1,284 @@
+{
+	"name": "PL_GAF_RESUM_VEHICLE",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_GAF_DM_FACT_RESUM_VEHICLES",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Until1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_DM_FACT_RESUM_VEHICLES",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "TRUNCATE_SUBTRAMS_AGR_AMBIT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@variables('V_Until')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Concat Var",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Check Fin Bucle",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_DATA_FI",
+								"value": {
+									"value": "@concat(string(add(int(substring(variables('V_DATA_FI_2'),0,4)),1)),substring(variables('V_DATA_FI_2'),4,4))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set DATA_FI_2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Concat Var",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_DATA_FI_2",
+								"value": {
+									"value": "@variables('V_DATA_FI')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Check Fin Bucle",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "DF_GAF_DM_DIM_SUBTRAMS_AGR_AMBIT",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_Until",
+								"value": {
+									"value": "@bool(less(pipeline().parameters.P_DATA_FI,variables('V_DATA_FI')))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "DF_GAF_DM_DIM_SUBTRAMS_AGR_AMBIT",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [
+								{
+									"activity": "DF_GAF_DM_FACT_RESUM_VEHICLES_RANKS",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "1.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "DF_GAF_DM_DIM_SUBTRAMS_AGR_AMBIT",
+									"type": "DataFlowReference",
+									"parameters": {
+										"P_DATA_FI": {
+											"value": "'@{variables('V_DATA_FI')}'",
+											"type": "Expression"
+										}
+									}
+								},
+								"integrationRuntime": {
+									"referenceName": "AutoResolveIntegrationRuntime2",
+									"type": "IntegrationRuntimeReference"
+								},
+								"traceLevel": "Fine"
+							}
+						},
+						{
+							"name": "DF_GAF_DM_FACT_RESUM_VEHICLES_RANKS",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "1.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "DF_GAF_DM_FACT_RESUM_VEHICLES_RANKS",
+									"type": "DataFlowReference",
+									"parameters": {
+										"P_DATA_FI": {
+											"value": "'@{variables('V_DATA_FI')}'",
+											"type": "Expression"
+										}
+									}
+								},
+								"integrationRuntime": {
+									"referenceName": "AutoResolveIntegrationRuntime2",
+									"type": "IntegrationRuntimeReference"
+								},
+								"traceLevel": "Fine"
+							}
+						}
+					],
+					"timeout": "7.00:00:00"
+				}
+			},
+			{
+				"name": "TRUNCATE_SUBTRAMS_AGR_AMBIT",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "TRUNCATE_RESUM_VEHICLES_RANKS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[TRUNCATE_TABLE]",
+					"storedProcedureParameters": {
+						"vSchemaName": {
+							"value": "GAF_DM",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_GAF_DIM_SUBTRAMS_AGR_AMBIT",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "TRUNCATE_RESUM_VEHICLES_RANKS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[TRUNCATE_TABLE]",
+					"storedProcedureParameters": {
+						"vSchemaName": {
+							"value": "GAF_DM",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_GAF_FACT_RESUM_VEHICLE_RANK",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20211001"
+			}
+		},
+		"variables": {
+			"V_Until": {
+				"type": "Boolean",
+				"defaultValue": false
+			},
+			"V_DATA_FI": {
+				"type": "String",
+				"defaultValue": "20051231"
+			},
+			"V_DATA_FI_2": {
+				"type": "String",
+				"defaultValue": "20051231"
+			}
+		},
+		"folder": {
+			"name": "GAF"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

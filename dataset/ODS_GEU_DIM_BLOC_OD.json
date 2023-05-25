@@ -1,0 +1,31 @@
+{
+	"name": "ODS_GEU_DIM_BLOC_OD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_BLOC_OD",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "DESC_BLOC_OD",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_ODS",
+			"table": "ODS_GEU_DIM_BLOC_OD"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

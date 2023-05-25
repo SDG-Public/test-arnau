@@ -1,0 +1,139 @@
+{
+	"name": "BARRIS_ODS_DIM_SOLLICITUDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_NIFRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_DELEGACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOMRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_COGNOMSRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CARRECRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ORGANISMERESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CORREURESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ADRECARESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_POBLACIORESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_BARRI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_TELRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_FAXRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_CODIPOSTALRESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_PUNTGLOBAL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_PUNTLOCAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_PUNTDEFINITIVA",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_HABITANTSBARRI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_HABITANTSMUNICIPI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_TOTALBARRIS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_TOTALAJUNTAMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_TOTALALTRES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_CONSOLIDAT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DATA_ANYCONV",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_ODS",
+			"table": "ODS_BARRIS_DIM_SOLLICITUDS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

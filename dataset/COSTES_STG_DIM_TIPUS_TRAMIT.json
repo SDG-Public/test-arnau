@@ -1,0 +1,31 @@
+{
+	"name": "COSTES_STG_DIM_TIPUS_TRAMIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESC_TIPUS",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_TIPUS_TRAMIT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

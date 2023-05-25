@@ -1,0 +1,111 @@
+{
+	"name": "DF02_TR_XEAC_MCT",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "TR_CONTAMINANT_MINU",
+						"type": "DatasetReference"
+					},
+					"name": "TRcontaminantMINU"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_PARAM_VALORACIO_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSparamVALORACIOmct"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "TR_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "TRxeacMCT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "calculMCT"
+				},
+				{
+					"name": "calculNcodVALIDACIO"
+				},
+				{
+					"name": "afegimMINUTSvalids"
+				},
+				{
+					"name": "VALORACIOmctVD"
+				},
+				{
+					"name": "ADDvaloracioVDx"
+				},
+				{
+					"name": "COLUMNESinteressades"
+				},
+				{
+					"name": "addVALORACIOvd"
+				},
+				{
+					"name": "COLUMNESinteressadesII"
+				},
+				{
+					"name": "aggreguemVD"
+				},
+				{
+					"name": "VALORACIOmctNI"
+				},
+				{
+					"name": "agreguemNI"
+				},
+				{
+					"name": "VALORACIOmctPD"
+				},
+				{
+					"name": "agreguemPD"
+				},
+				{
+					"name": "ADDvaloracioPDx"
+				},
+				{
+					"name": "ADDvaloracioNIx"
+				},
+				{
+					"name": "VALORACIOmctND"
+				},
+				{
+					"name": "agreguemND"
+				},
+				{
+					"name": "ADDvaloracioNDx"
+				},
+				{
+					"name": "addVALORACIOpd"
+				},
+				{
+					"name": "addVALORACIOni"
+				},
+				{
+					"name": "addVALORACIOnd"
+				},
+				{
+					"name": "ADDvaloracioMCT"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "CanviUnitatsHg"
+				}
+			],
+			"script": "source(output(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tID_LEGISLACIO as string,\n\t\tTIPUS_MCT as string,\n\t\tCOD_VALIDACIO as string,\n\t\tVALOR as double,\n\t\tMODE_REPORTABLE_NUM as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> TRcontaminantMINU\nsource(output(\n\t\tVALORACIO_MCT as string,\n\t\tCOD_VALIDACIO as string,\n\t\tDESC as string,\n\t\tTIPUS_MCT as string,\n\t\tMINUTS_VALIDESA as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSparamVALORACIOmct\nDerivedColumn1 aggregate(groupBy(ID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tID_LEGISLACIO),\n\tVALOR_MCT = sum(VALOR)/count(VALOR)) ~> calculMCT\nTRcontaminantMINU aggregate(groupBy(ID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tCOD_VALIDACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tID_LEGISLACIO),\n\tN_COD = count(1)) ~> calculNcodVALIDACIO\ncalculNcodVALIDACIO, ODSparamVALORACIOmct join(calculNcodVALIDACIO@COD_VALIDACIO == ODSparamVALORACIOmct@COD_VALIDACIO\n\t&& calculNcodVALIDACIO@TIPUS_MCT == ODSparamVALORACIOmct@TIPUS_MCT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> afegimMINUTSvalids\nCOLUMNESinteressades filter(VALORACIO_MCT == 'VD') ~> VALORACIOmctVD\naggreguemVD derive(VALORACIO_VD = iif(N_COD >= MINUTS_VALIDESA, 'VD', toString(null()))) ~> ADDvaloracioVDx\nafegimMINUTSvalids select(mapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT = calculNcodVALIDACIO@TIPUS_MCT,\n\t\tCOD_VALIDACIO = calculNcodVALIDACIO@COD_VALIDACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVALORACIO_MCT,\n\t\tN_COD,\n\t\tMINUTS_VALIDESA,\n\t\tID_LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> COLUMNESinteressades\nCanviUnitatsHg, ADDvaloracioVDx join(calculMCT@ID_CONTAMINANT == aggreguemVD@ID_CONTAMINANT\n\t&& calculMCT@ID_FOCUS == aggreguemVD@ID_FOCUS\n\t&& calculMCT@DATA == aggreguemVD@DATA\n\t&& calculMCT@TIPUS_MCT == aggreguemVD@TIPUS_MCT\n\t&& calculMCT@MODE_REPORTABLE_NUM == aggreguemVD@MODE_REPORTABLE_NUM\n\t&& calculMCT@ID_LEGISLACIO == aggreguemVD@ID_LEGISLACIO,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> addVALORACIOvd\naddVALORACIOnd select(mapColumn(\n\t\tID_CONTAMINANT = calculMCT@ID_CONTAMINANT,\n\t\tID_FOCUS = calculMCT@ID_FOCUS,\n\t\tDATA = calculMCT@DATA,\n\t\tTIPUS_MCT = calculMCT@TIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM = calculMCT@MODE_REPORTABLE_NUM,\n\t\tVALOR_MCT,\n\t\tMODE_REPORTABLE_NUM = calculMCT@MODE_REPORTABLE_NUM,\n\t\tVALORACIO_VD,\n\t\tVALORACIO_PD,\n\t\tVALORACIO_NI,\n\t\tVALORACIO_VE,\n\t\tID_LEGISLACIO = calculMCT@ID_LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> COLUMNESinteressadesII\nVALORACIOmctVD aggregate(groupBy(ID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVALORACIO_MCT,\n\t\tMINUTS_VALIDESA,\n\t\tID_LEGISLACIO),\n\tN_COD = sum(N_COD)) ~> aggreguemVD\nCOLUMNESinteressades filter(VALORACIO_MCT == 'NI') ~> VALORACIOmctNI\nVALORACIOmctNI aggregate(groupBy(ID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVALORACIO_MCT,\n\t\tMINUTS_VALIDESA,\n\t\tID_LEGISLACIO),\n\tN_COD = sum(N_COD)) ~> agreguemNI\nCOLUMNESinteressades filter(VALORACIO_MCT == 'PD') ~> VALORACIOmctPD\nVALORACIOmctPD aggregate(groupBy(ID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVALORACIO_MCT,\n\t\tMINUTS_VALIDESA,\n\t\tID_LEGISLACIO),\n\tN_COD = sum(N_COD)) ~> agreguemPD\nagreguemPD derive(VALORACIO_PD = iif(N_COD >= MINUTS_VALIDESA, 'PD', toString(null()))) ~> ADDvaloracioPDx\nagreguemNI derive(VALORACIO_NI = iif(N_COD >= MINUTS_VALIDESA, 'NI', toString(null()))) ~> ADDvaloracioNIx\nCOLUMNESinteressades filter(VALORACIO_MCT == 'VE') ~> VALORACIOmctND\nVALORACIOmctND aggregate(groupBy(ID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVALORACIO_MCT,\n\t\tMINUTS_VALIDESA,\n\t\tID_LEGISLACIO),\n\tVALORACIO_ND = sum(N_COD)) ~> agreguemND\nagreguemND derive(VALORACIO_VE = 'VE') ~> ADDvaloracioNDx\naddVALORACIOvd, ADDvaloracioPDx join(calculMCT@ID_CONTAMINANT == agreguemPD@ID_CONTAMINANT\n\t&& calculMCT@ID_FOCUS == agreguemPD@ID_FOCUS\n\t&& calculMCT@DATA == agreguemPD@DATA\n\t&& calculMCT@TIPUS_MCT == agreguemPD@TIPUS_MCT\n\t&& calculMCT@MODE_REPORTABLE_NUM == agreguemPD@MODE_REPORTABLE_NUM\n\t&& calculMCT@ID_LEGISLACIO == agreguemPD@ID_LEGISLACIO,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> addVALORACIOpd\naddVALORACIOpd, ADDvaloracioNIx join(calculMCT@ID_CONTAMINANT == agreguemNI@ID_CONTAMINANT\n\t&& calculMCT@ID_FOCUS == agreguemNI@ID_FOCUS\n\t&& calculMCT@DATA == agreguemNI@DATA\n\t&& calculMCT@TIPUS_MCT == agreguemNI@TIPUS_MCT\n\t&& calculMCT@MODE_REPORTABLE_NUM == agreguemNI@MODE_REPORTABLE_NUM\n\t&& calculMCT@ID_LEGISLACIO == agreguemNI@ID_LEGISLACIO,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> addVALORACIOni\naddVALORACIOni, ADDvaloracioNDx join(calculMCT@ID_CONTAMINANT == agreguemND@ID_CONTAMINANT\n\t&& calculMCT@ID_FOCUS == agreguemND@ID_FOCUS\n\t&& calculMCT@DATA == agreguemND@DATA\n\t&& calculMCT@TIPUS_MCT == agreguemND@TIPUS_MCT\n\t&& calculMCT@MODE_REPORTABLE_NUM == agreguemND@MODE_REPORTABLE_NUM\n\t&& calculMCT@ID_LEGISLACIO == agreguemND@ID_LEGISLACIO,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> addVALORACIOnd\nCOLUMNESinteressadesII derive(VALORACIO_MCT = case(\r\n    VALORACIO_VD=='VD','VD',\r\n    VALORACIO_PD=='PD','PD',\r\n    VALORACIO_NI=='NI','NI',\r\n    VALORACIO_VE=='VE','VE',\r\n    'ND'\r\n)) ~> ADDvaloracioMCT\nTRcontaminantMINU derive(VALOR = iif(COD_VALIDACIO == 'V' || COD_VALIDACIO == 'E' , VALOR, toDouble(0))) ~> DerivedColumn1\ncalculMCT derive(VALOR_MCT = iif(ID_CONTAMINANT=='142', VALOR_MCT/1000, VALOR_MCT)) ~> CanviUnitatsHg\nADDvaloracioMCT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tVALOR_MCT as double,\n\t\tVALORACIO_MCT as string,\n\t\tID_LEGISLACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tID_LEGISLACIO\n\t)) ~> TRxeacMCT"
+		}
+	}
+}

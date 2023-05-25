@@ -1,0 +1,152 @@
+{
+	"name": "DF_GAF_DM_FACT_DADES_ANY_DIA_ANY",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_DIA_MES",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesAnyMesAny1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_DIA_ANY",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesAnyDiaAny"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddTipusDiaFristnLast"
+				},
+				{
+					"name": "RecalculaIMDMult1"
+				},
+				{
+					"name": "AGGSumaMes"
+				},
+				{
+					"name": "RecalculaIMDDiv1"
+				},
+				{
+					"name": "ReordenaCampos1"
+				},
+				{
+					"name": "JoinTipusDiaAny"
+				},
+				{
+					"name": "AddCountTipusDiaMes"
+				},
+				{
+					"name": "AGGSumCountTipusDia"
+				},
+				{
+					"name": "AGGMaxTipusDia"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "RecalculaIMDDiv8"
+				},
+				{
+					"name": "RecalculaIMDDiv7"
+				},
+				{
+					"name": "RecalculaIMDDiv6"
+				},
+				{
+					"name": "RecalculaIMDDiv5"
+				},
+				{
+					"name": "RecalculaIMDDiv4"
+				},
+				{
+					"name": "RecalculaIMDDiv3"
+				},
+				{
+					"name": "RecalculaIMDDiv2"
+				},
+				{
+					"name": "RecalculaIMDDiv99"
+				},
+				{
+					"name": "ReordenaCampos8"
+				},
+				{
+					"name": "ReordenaCampos7"
+				},
+				{
+					"name": "ReordenaCampos6"
+				},
+				{
+					"name": "ReordenaCampos5"
+				},
+				{
+					"name": "ReordenaCampos4"
+				},
+				{
+					"name": "ReordenaCampos3"
+				},
+				{
+					"name": "ReordenaCampos2"
+				},
+				{
+					"name": "ReordenaCampos99"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "AddCountTipusDiaMes899"
+				},
+				{
+					"name": "ConditionalSplit2"
+				},
+				{
+					"name": "UnionSplit"
+				},
+				{
+					"name": "RecalculaIMDMult8"
+				},
+				{
+					"name": "RecalculaIMDMult7"
+				},
+				{
+					"name": "RecalculaIMDMult6"
+				},
+				{
+					"name": "RecalculaIMDMult5"
+				},
+				{
+					"name": "RecalculaIMDMult4"
+				},
+				{
+					"name": "RecalculaIMDMult3"
+				},
+				{
+					"name": "RecalculaIMDMult2"
+				},
+				{
+					"name": "RecalculaIMDMult99"
+				},
+				{
+					"name": "Round"
+				},
+				{
+					"name": "FiltroAnyo"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_TIPUS_VEHICLE as integer,\n\t\tID_TIPUS_DIA as integer,\n\t\tIND_IMD_MES_X_DIA as decimal(15,4),\n\t\tIND_VOLUM_MES_X_DIA as decimal(31,0),\n\t\tIND_IMD_MES_X_DIA_VEHICLE as decimal(15,4),\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE as decimal(28,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactDadesAnyMesAny1\nFiltroAnyo derive(tipus_dia_first = iif(dayOfWeek(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy'))-1 == 0,\r\n7,\r\ndayOfWeek(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy'))-1),\n\t\ttipus_dia_last = iif(dayOfWeek(lastDayOfMonth(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy'))) -1 == 0,\r\n7,\r\ndayOfWeek(lastDayOfMonth(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy'))) -1\r\n),\n\t\tLast_day_month = dayOfMonth(lastDayOfMonth(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy')))) ~> AddTipusDiaFristnLast\nConditionalSplit2@TipusDia1 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA * Count_Tipus_dia_1,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE * Count_Tipus_dia_1) ~> RecalculaIMDMult1\nUnionSplit aggregate(groupBy(ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tDATA_ANYO),\n\tIND_IMD_MES_X_DIA = sum(IND_IMD_MES_X_DIA),\n\t\tIND_VOLUM_MES_X_DIA = sum(IND_VOLUM_MES_X_DIA),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = sum(IND_IMD_MES_X_DIA_VEHICLE),\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE = sum(IND_VOLUM_MES_X_DIA_VEHICLE)) ~> AGGSumaMes\nConditionalSplit1@Tipus1 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA/(Count_Tipus_dia_1),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE/(Count_Tipus_dia_1)) ~> RecalculaIMDDiv1\nRecalculaIMDDiv1 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@Tipus1@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = ConditionalSplit1@Tipus1@ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_ANY_X_DIA = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_ANY_X_DIA = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO = ConditionalSplit1@Tipus1@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos1\nAGGSumaMes, AGGMaxTipusDia join(AGGSumaMes@ID_ESTACIO == AGGMaxTipusDia@ID_ESTACIO\n\t&& AGGSumaMes@DATA_ANYO == AGGMaxTipusDia@DATA_ANYO\n\t&& AGGSumaMes@ID_TIPUS_VEHICLE == AGGMaxTipusDia@ID_TIPUS_VEHICLE,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinTipusDiaAny\nAddTipusDiaFristnLast derive(Count_Tipus_dia_1 = iif(Last_day_month == 28,\r\n    4,\r\n\tiif(tipus_dia_first\t<= \ttipus_dia_last,\r\n\t\t\tiif(\r\n\t\t\t\ttipus_dia_first\t<= 1\t&& \t1 <=\ttipus_dia_last,\r\n\t\t\t\t5,\r\n\t\t\t\t4)\r\n\t\t\t,iif(\r\n\t\t\t\ttipus_dia_last < 1 && 1 < tipus_dia_first,\r\n\t\t\t\t4,\r\n\t\t\t\t5) \r\n\t\t)\r\n\t),\n\t\tCount_Tipus_dia_2 = iif(Last_day_month == 28,\r\n    4,\r\n\tiif(tipus_dia_first\t<= \ttipus_dia_last,\r\n\t\t\tiif(\r\n\t\t\t\ttipus_dia_first\t<= 2\t&& \t2 <=\ttipus_dia_last,\r\n\t\t\t\t5,\r\n\t\t\t\t4)\r\n\t\t\t,iif(\r\n\t\t\t\ttipus_dia_last < 2 && 2 < tipus_dia_first,\r\n\t\t\t\t4,\r\n\t\t\t\t5) \r\n\t\t)\r\n\t),\n\t\tCount_Tipus_dia_3 = iif(Last_day_month == 28,\r\n    4,\r\n\tiif(tipus_dia_first\t<= \ttipus_dia_last,\r\n\t\t\tiif(\r\n\t\t\t\ttipus_dia_first\t<= 3\t&& \t3 <=\ttipus_dia_last,\r\n\t\t\t\t5,\r\n\t\t\t\t4)\r\n\t\t\t,iif(\r\n\t\t\t\ttipus_dia_last < 3 && 3 < tipus_dia_first,\r\n\t\t\t\t4,\r\n\t\t\t\t5) \r\n\t\t)\r\n\t),\n\t\tCount_Tipus_dia_4 = iif(Last_day_month == 28,\r\n    4,\r\n\tiif(tipus_dia_first\t<= \ttipus_dia_last,\r\n\t\t\tiif(\r\n\t\t\t\ttipus_dia_first\t<= 4\t&& \t4 <=\ttipus_dia_last,\r\n\t\t\t\t5,\r\n\t\t\t\t4)\r\n\t\t\t,iif(\r\n\t\t\t\ttipus_dia_last < 4 && 4 < tipus_dia_first,\r\n\t\t\t\t4,\r\n\t\t\t\t5) \r\n\t\t)\r\n\t),\n\t\tCount_Tipus_dia_5 = iif(Last_day_month == 28,\r\n    4,\r\n\tiif(tipus_dia_first\t<= \ttipus_dia_last,\r\n\t\t\tiif(\r\n\t\t\t\ttipus_dia_first\t<= 5\t&& \t5 <=\ttipus_dia_last,\r\n\t\t\t\t5,\r\n\t\t\t\t4)\r\n\t\t\t,iif(\r\n\t\t\t\ttipus_dia_last < 5 && 5 < tipus_dia_first,\r\n\t\t\t\t4,\r\n\t\t\t\t5) \r\n\t\t)\r\n\t),\n\t\tCount_Tipus_dia_6 = iif(Last_day_month == 28,\r\n    4,\r\n\tiif(tipus_dia_first\t<= \ttipus_dia_last,\r\n\t\t\tiif(\r\n\t\t\t\ttipus_dia_first\t<= 6\t&& \t6 <=\ttipus_dia_last,\r\n\t\t\t\t5,\r\n\t\t\t\t4)\r\n\t\t\t,iif(\r\n\t\t\t\ttipus_dia_last < 6 && 6 < tipus_dia_first,\r\n\t\t\t\t4,\r\n\t\t\t\t5) \r\n\t\t)\r\n\t),\n\t\tCount_Tipus_dia_7 = iif(Last_day_month == 28,\r\n    4,\r\n\tiif(tipus_dia_first\t<= \ttipus_dia_last,\r\n\t\t\tiif(\r\n\t\t\t\ttipus_dia_first\t<=7\t&& \t7 <=\ttipus_dia_last,\r\n\t\t\t\t5,\r\n\t\t\t\t4)\r\n\t\t\t,iif(\r\n\t\t\t\ttipus_dia_last < 7 && 7 < tipus_dia_first,\r\n\t\t\t\t4,\r\n\t\t\t\t5) \r\n\t\t)\r\n\t)) ~> AddCountTipusDiaMes\nAddCountTipusDiaMes899 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA),\n\tCount_Tipus_dia_1 = sum(Count_Tipus_dia_1),\n\t\tCount_Tipus_dia_2 = sum(Count_Tipus_dia_2),\n\t\tCount_Tipus_dia_3 = sum(Count_Tipus_dia_3),\n\t\tCount_Tipus_dia_4 = sum(Count_Tipus_dia_4),\n\t\tCount_Tipus_dia_5 = sum(Count_Tipus_dia_5),\n\t\tCount_Tipus_dia_6 = sum(Count_Tipus_dia_6),\n\t\tCount_Tipus_dia_7 = sum(Count_Tipus_dia_7),\n\t\tCount_Tipus_dia_8 = sum(Count_Tipus_dia_8),\n\t\tCount_Tipus_dia_99 = sum(Count_Tipus_dia_99)) ~> AGGSumCountTipusDia\nAGGSumCountTipusDia aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tID_TIPUS_VEHICLE),\n\tCount_Tipus_dia_1 = max(Count_Tipus_dia_1),\n\t\tCount_Tipus_dia_6 = max(Count_Tipus_dia_6),\n\t\tCount_Tipus_dia_5 = max(Count_Tipus_dia_5),\n\t\tCount_Tipus_dia_4 = max(Count_Tipus_dia_4),\n\t\tCount_Tipus_dia_3 = max(Count_Tipus_dia_3),\n\t\tCount_Tipus_dia_2 = max(Count_Tipus_dia_2),\n\t\tCount_Tipus_dia_7 = max(Count_Tipus_dia_7),\n\t\tCount_Tipus_dia_8 = max(Count_Tipus_dia_8),\n\t\tCount_Tipus_dia_99 = max(Count_Tipus_dia_99)) ~> AGGMaxTipusDia\nJoinTipusDiaAny split(ID_TIPUS_DIA==1,\n\tID_TIPUS_DIA==2,\n\tID_TIPUS_DIA==3,\n\tID_TIPUS_DIA==4,\n\tID_TIPUS_DIA==5,\n\tID_TIPUS_DIA==6,\n\tID_TIPUS_DIA==7,\n\tID_TIPUS_DIA==8,\n\tdisjoint: false) ~> ConditionalSplit1@(Tipus1, Tipus2, Tipus3, Tipus4, Tipus5, Tipus6, Tipus7, Tipus8, Tipus99)\nConditionalSplit1@Tipus8 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA/(Count_Tipus_dia_8),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE/(Count_Tipus_dia_8)) ~> RecalculaIMDDiv8\nConditionalSplit1@Tipus7 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA/(Count_Tipus_dia_7),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE/(Count_Tipus_dia_7)) ~> RecalculaIMDDiv7\nConditionalSplit1@Tipus6 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA/(Count_Tipus_dia_6),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE/(Count_Tipus_dia_6)) ~> RecalculaIMDDiv6\nConditionalSplit1@Tipus5 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA/(Count_Tipus_dia_5),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE/(Count_Tipus_dia_5)) ~> RecalculaIMDDiv5\nConditionalSplit1@Tipus4 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA/(Count_Tipus_dia_4),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE/(Count_Tipus_dia_4)) ~> RecalculaIMDDiv4\nConditionalSplit1@Tipus3 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA/(Count_Tipus_dia_3),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE/(Count_Tipus_dia_3)) ~> RecalculaIMDDiv3\nConditionalSplit1@Tipus2 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA/(Count_Tipus_dia_2),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE/(Count_Tipus_dia_2)) ~> RecalculaIMDDiv2\nConditionalSplit1@Tipus99 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA/(Count_Tipus_dia_99),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE/(Count_Tipus_dia_99)) ~> RecalculaIMDDiv99\nRecalculaIMDDiv8 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@Tipus8@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = ConditionalSplit1@Tipus8@ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_ANY_X_DIA = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_ANY_X_DIA = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO = ConditionalSplit1@Tipus8@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos8\nRecalculaIMDDiv7 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@Tipus7@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = ConditionalSplit1@Tipus7@ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_ANY_X_DIA = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_ANY_X_DIA = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO = ConditionalSplit1@Tipus7@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos7\nRecalculaIMDDiv6 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@Tipus6@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = ConditionalSplit1@Tipus6@ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_ANY_X_DIA = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_ANY_X_DIA = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO = ConditionalSplit1@Tipus6@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos6\nRecalculaIMDDiv5 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@Tipus5@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = ConditionalSplit1@Tipus5@ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_ANY_X_DIA = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_ANY_X_DIA = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO = ConditionalSplit1@Tipus5@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos5\nRecalculaIMDDiv4 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@Tipus4@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = ConditionalSplit1@Tipus4@ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_ANY_X_DIA = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_ANY_X_DIA = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO = ConditionalSplit1@Tipus4@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos4\nRecalculaIMDDiv3 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@Tipus3@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = ConditionalSplit1@Tipus3@ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_ANY_X_DIA = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_ANY_X_DIA = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO = ConditionalSplit1@Tipus3@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos3\nRecalculaIMDDiv2 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@Tipus2@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = ConditionalSplit1@Tipus2@ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_ANY_X_DIA = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_ANY_X_DIA = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO = ConditionalSplit1@Tipus2@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos2\nRecalculaIMDDiv99 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@Tipus99@ID_ESTACIO,\n\t\tID_TIPUS_VEHICLE = ConditionalSplit1@Tipus99@ID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_ANY_X_DIA = IND_IMD_MES_X_DIA,\n\t\tIND_VOLUM_ANY_X_DIA = IND_VOLUM_MES_X_DIA,\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE,\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE = IND_VOLUM_MES_X_DIA_VEHICLE,\n\t\tDATA_ANYO = ConditionalSplit1@Tipus99@DATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos99\nReordenaCampos1, ReordenaCampos8, ReordenaCampos99, ReordenaCampos2, ReordenaCampos4, ReordenaCampos3, ReordenaCampos5, ReordenaCampos6, ReordenaCampos7 union(byName: true)~> Union1\nAddCountTipusDiaMes derive(Count_Tipus_dia_8 = Count_Tipus_dia_1+Count_Tipus_dia_5+Count_Tipus_dia_4+Count_Tipus_dia_3+Count_Tipus_dia_2,\n\t\tCount_Tipus_dia_99 = Count_Tipus_dia_1+Count_Tipus_dia_6+Count_Tipus_dia_5+Count_Tipus_dia_4+Count_Tipus_dia_3+Count_Tipus_dia_2+Count_Tipus_dia_7) ~> AddCountTipusDiaMes899\nAddCountTipusDiaMes899 split(ID_TIPUS_DIA==1,\n\tID_TIPUS_DIA==2,\n\tID_TIPUS_DIA==3,\n\tID_TIPUS_DIA==4,\n\tID_TIPUS_DIA==5,\n\tID_TIPUS_DIA==6,\n\tID_TIPUS_DIA==7,\n\tID_TIPUS_DIA==8,\n\tdisjoint: false) ~> ConditionalSplit2@(TipusDia1, TipusDia2, TipusDia3, TipusDia4, TipusDia5, TipusDia6, TipusDia7, TipusDia8, TipusDia99)\nRecalculaIMDMult1, RecalculaIMDMult99, RecalculaIMDMult2, RecalculaIMDMult8, RecalculaIMDMult5, RecalculaIMDMult7, RecalculaIMDMult6, RecalculaIMDMult4, RecalculaIMDMult3 union(byName: true)~> UnionSplit\nConditionalSplit2@TipusDia8 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA * Count_Tipus_dia_8,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE * Count_Tipus_dia_8) ~> RecalculaIMDMult8\nConditionalSplit2@TipusDia7 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA * Count_Tipus_dia_7,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE * Count_Tipus_dia_7) ~> RecalculaIMDMult7\nConditionalSplit2@TipusDia6 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA * Count_Tipus_dia_6,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE * Count_Tipus_dia_6) ~> RecalculaIMDMult6\nConditionalSplit2@TipusDia5 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA * Count_Tipus_dia_5,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE * Count_Tipus_dia_5) ~> RecalculaIMDMult5\nConditionalSplit2@TipusDia4 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA * Count_Tipus_dia_4,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE * Count_Tipus_dia_4) ~> RecalculaIMDMult4\nConditionalSplit2@TipusDia3 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA * Count_Tipus_dia_3,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE * Count_Tipus_dia_3) ~> RecalculaIMDMult3\nConditionalSplit2@TipusDia2 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA * Count_Tipus_dia_2,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE * Count_Tipus_dia_2) ~> RecalculaIMDMult2\nConditionalSplit2@TipusDia99 derive(IND_IMD_MES_X_DIA = IND_IMD_MES_X_DIA * Count_Tipus_dia_99,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_MES_X_DIA_VEHICLE * Count_Tipus_dia_99) ~> RecalculaIMDMult99\nUnion1 derive(IND_IMD_ANY_X_DIA = round(IND_IMD_ANY_X_DIA),\n\t\tIND_IMD_ANY_X_DIA_VEHICLE = round(IND_IMD_ANY_X_DIA_VEHICLE)) ~> Round\nDMFactDadesAnyMesAny1 filter(DATA_ANYO >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO  < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FiltroAnyo\nRound sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_TIPUS_VEHICLE as integer,\n\t\tID_TIPUS_DIA as integer,\n\t\tIND_IMD_ANY_X_DIA as decimal(38,6),\n\t\tIND_VOLUM_ANY_X_DIA as decimal(38,0),\n\t\tIND_IMD_ANY_X_DIA_VEHICLE as decimal(38,6),\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE as decimal(38,0),\n\t\tDATA_ANYO as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactDadesAnyDiaAny"
+		}
+	}
+}

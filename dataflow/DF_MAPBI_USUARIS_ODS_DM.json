@@ -1,0 +1,45 @@
+{
+	"name": "DF_MAPBI_USUARIS_ODS_DM",
+	"properties": {
+		"folder": {
+			"name": "MAPBI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MAPBI_ODS_USUARIS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSUSUARIS"
+				},
+				{
+					"dataset": {
+						"referenceName": "MAPBI_DM_USUARIS",
+						"type": "DatasetReference"
+					},
+					"name": "DMUSUARI"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "MAPBI_DM_USUARIS",
+						"type": "DatasetReference"
+					},
+					"name": "DMUSUARIS"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DATAinsercionYmodificacion"
+				},
+				{
+					"name": "PasanLosQueNoExisten"
+				}
+			],
+			"script": "source(output(\n\t\tID_USUARI as string,\n\t\tNOM as string,\n\t\tCOGNOM1 as string,\n\t\tCOGNOM2 as string,\n\t\tDT_INSERCIO as timestamp,\n\t\tDT_MODIFICACIO as timestamp,\n\t\tID_USER as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSUSUARIS\nsource(output(\n\t\tID_USUARI as string,\n\t\tNOM as string,\n\t\tCOGNOM1 as string,\n\t\tCOGNOM2 as string,\n\t\tDT_INSERCIO as timestamp,\n\t\tDT_MODIFICACIO as timestamp,\n\t\tID_ESQUEMA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMUSUARI\nPasanLosQueNoExisten derive(DT_INSERCIO = fromUTC(currentUTC(),'Europe/Madrid'),\n\t\tDT_MODIFICACIO = fromUTC(currentUTC(),'Europe/Madrid'),\n\t\tID_USER = 'MAP_BI') ~> DATAinsercionYmodificacion\nODSUSUARIS, DMUSUARI exists(ODSUSUARIS@ID_USUARI == DMUSUARI@ID_USUARI\n\t&& ODSUSUARIS@NOM == DMUSUARI@NOM\n\t&& ODSUSUARIS@COGNOM1 == DMUSUARI@COGNOM1\n\t&& ODSUSUARIS@COGNOM2 == DMUSUARI@COGNOM2,\n\tnegate:true,\n\tbroadcast: 'auto')~> PasanLosQueNoExisten\nDATAinsercionYmodificacion sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_USUARI as string,\n\t\tNOM as string,\n\t\tCOGNOM1 as string,\n\t\tCOGNOM2 as string,\n\t\tDT_INSERCIO as timestamp,\n\t\tDT_MODIFICACIO as timestamp,\n\t\tID_ESQUEMA as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_USUARI,\n\t\tNOM,\n\t\tCOGNOM1,\n\t\tCOGNOM2,\n\t\tDT_INSERCIO,\n\t\tDT_MODIFICACIO,\n\t\tID_ESQUEMA = ID_USER\n\t)) ~> DMUSUARIS"
+		}
+	}
+}

@@ -1,0 +1,42 @@
+{
+	"name": "STG_DIM_PARAM_VALORACIO_MCT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "VALORACIO_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_VALIDACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MINUTS_VALIDESA",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "STG_XEAC",
+			"table": "STG_DIM_PARAM_VALORACIO_MCT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

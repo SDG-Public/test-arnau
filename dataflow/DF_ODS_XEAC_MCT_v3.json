@@ -1,0 +1,41 @@
+{
+	"name": "DF_ODS_XEAC_MCT_v3",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/MCT_COMPLIMENT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "STGxeacMCT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_MCT_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacMCT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_FI as string,\n\tP_DATA_INI as string\n}\nsource(output(\n\t\tCODI_EMIS as string,\n\t\tID_FOCUS as string,\n\t\tMARCA_TEMPS_TZ as timestamp,\n\t\tMARCA_TEMPS_UTC as timestamp,\n\t\tMARCA_TEMPS_LOCAL as timestamp,\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tID_ELEMENT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tV_VLE as float,\n\t\tF_VLE as string,\n\t\tV_IMP as float,\n\t\tF_IMP as string,\n\t\tV_INV as float,\n\t\tF_INV as string,\n\t\tV_PRT as float,\n\t\tF_PRT as string,\n\t\tV_GEH as float,\n\t\tF_GEH as string,\n\t\tZONA_HORARIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGxeacMCT\nSTGxeacMCT filter(toDate(MARCA_TEMPS_UTC) >= toDate($P_DATA_INI,'yyyyMMdd')\r\n&&\r\ntoDate(MARCA_TEMPS_UTC) < addDays(toDate($P_DATA_FI,'yyyyMMdd'),1)) ~> Filter1\nDerivedColumn1 select(mapColumn(\n\t\tID_CONTAMINANT = ID_ELEMENT,\n\t\tID_FOCUS,\n\t\tDATA = MARCA_TEMPS_UTC,\n\t\tTIPUS_MCT = MINUTOS_MCT,\n\t\tVALOR_MCT = V_VLE,\n\t\tVALORACION_MCT = F_VLE,\n\t\tMODE_REPORTABLE_NUM = ID_SUBMODE,\n\t\tID_LEGISLACIO,\n\t\tDATA_TRUNC,\n\t\tZONA_HORARIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nFilter1 derive(DATA_TRUNC = toDate(MARCA_TEMPS_UTC)) ~> DerivedColumn1\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CONTAMINANT as decimal(6,0),\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as decimal(3,0),\n\t\tVALOR_MCT as float,\n\t\tVALORACION_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tID_LEGISLACIO as string,\n\t\tDATA_TRUNC as date,\n\t\tZONA_HORARIA as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSxeacMCT"
+		}
+	}
+}

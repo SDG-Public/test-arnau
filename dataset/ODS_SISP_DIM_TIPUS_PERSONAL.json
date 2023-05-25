@@ -1,0 +1,39 @@
+{
+	"name": "ODS_SISP_DIM_TIPUS_PERSONAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_TIPUS_PERSONAL",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESC_TIPUS_PERSONAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_PERSONAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_ODS",
+			"table": "ODS_SISP_DIM_TIPUS_PERSONAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

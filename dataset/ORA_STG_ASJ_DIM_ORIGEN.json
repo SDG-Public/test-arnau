@@ -1,0 +1,19 @@
+{
+	"name": "ORA_STG_ASJ_DIM_ORIGEN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ASJ_ADM",
+			"table": "ASJGEN_01206_EXPORIGEN"
+		}
+	}
+}

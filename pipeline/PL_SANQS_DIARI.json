@@ -1,0 +1,26 @@
+{
+	"name": "PL_SANQS_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_SANQS_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANQS_FACT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "SAN QS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

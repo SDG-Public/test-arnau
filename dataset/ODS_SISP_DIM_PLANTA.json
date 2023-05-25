@@ -1,0 +1,69 @@
+{
+	"name": "ODS_SISP_DIM_PLANTA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_PLANTA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_EDIFICI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COD_PLANTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_ORDENACIO",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "NUM_EXTENSIO",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "NUM_EXTENSIO_EXTERNA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_TELEFON_SUBALTERN",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "DESC_PLANTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_ODS",
+			"table": "ODS_SISP_DIM_PLANTA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

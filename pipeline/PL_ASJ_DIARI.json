@@ -1,0 +1,46 @@
+{
+	"name": "PL_ASJ_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_ASJ_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_ASJ_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_ASJ_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_ASJ_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_ASJ_FACT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "ASJ"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

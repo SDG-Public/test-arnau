@@ -1,0 +1,46 @@
+{
+	"name": "PL_COSTES_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_COSTES_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_COSTES_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_COSTES_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_COSTES_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_COSTES_FACT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "COSTES"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

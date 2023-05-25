@@ -1,0 +1,37 @@
+{
+	"name": "ODS_SISP_DIM_ORGANIGRAMA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ORG",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_ODS",
+			"table": "ODS_SISP_DIM_ORGANIGRAMA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

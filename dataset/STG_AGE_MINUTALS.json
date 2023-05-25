@@ -1,0 +1,41 @@
+{
+	"name": "STG_AGE_MINUTALS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IDCONTAMINANT",
+				"type": "varchar"
+			},
+			{
+				"name": "IDFOCUS",
+				"type": "varchar"
+			},
+			{
+				"name": "DATA",
+				"type": "date"
+			},
+			{
+				"name": "VALORS",
+				"type": "varchar"
+			},
+			{
+				"name": "VALIDACIO",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "STG_XEAC",
+			"table": "STG_AGE_MINUTALS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

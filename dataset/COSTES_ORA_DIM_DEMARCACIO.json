@@ -1,0 +1,20 @@
+{
+	"name": "COSTES_ORA_DIM_DEMARCACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "COS_ADM",
+			"table": "CTRTB_DEMARCACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

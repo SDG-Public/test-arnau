@@ -1,0 +1,83 @@
+{
+	"name": "ODS_DIM_EM_TRACTAMENT_CABAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_EMISSIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_FOCUS_BRUT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "P_NORMAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "APLICAR_P_DECLARADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "P_DECLARADA_HPA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "T_NORMAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "APLICAR_T_DECLARADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "T_DECLARADA_CENTIGRADS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "H_SEC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "APLICAR_H_DECLARADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "H_DECLARADA_PRECENTATGE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "APLICAR_CABAL_DECLARAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CABAL_DECLARAT_DAM3",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_DIM_EM_TRACTAMENT_CABAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

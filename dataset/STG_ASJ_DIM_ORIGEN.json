@@ -1,0 +1,36 @@
+{
+	"name": "STG_ASJ_DIM_ORIGEN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "EXPEDIENTID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "EXPEDIENTORIGEN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "POSICIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_STG",
+			"table": "STG_ASJ_DIM_ORIGEN"
+		}
+	}
+}

@@ -1,0 +1,41 @@
+{
+	"name": "DF_GEU_ODS_DIM_TRAMIT",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTRAMIT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimTRAMIT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormaitzarCamps"
+				},
+				{
+					"name": "TratamientoNulos"
+				},
+				{
+					"name": "FixFlags"
+				}
+			],
+			"script": "source(output(\n\t\tNUMINT_TRAMIT as decimal(4,0),\n\t\tCODI_TRAMIT as string,\n\t\tCODI_SUBTRAMIT as string,\n\t\tDESC_TRAMIT as string,\n\t\tIND_VIGENT as string,\n\t\tIND_PROTEGIT as string,\n\t\tIND_ACORD as string,\n\t\tTIPUS_COMISSIO as string,\n\t\tCARACTER_ACORD as string,\n\t\tCODI_RANG_TRAMIT as string,\n\t\tIND_EE_TRAMIT as string,\n\t\tIND_SIGNAR as string,\n\t\tIND_NOTIF_ENS_LOCAL as string,\n\t\tIND_RETORN_EACAT as string,\n\t\tCODI_UORG_DESTINATARI_RESPOSTA as string,\n\t\tIND_RESPOSTA_ELECTRONICA as string,\n\t\tIND_TEU_TRAMIT as string,\n\t\tIND_TRAMIT_LLIURAMENT as string,\n\t\tIND_AFECTA_MUC as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTRAMIT\nSTGdimTRAMIT select(mapColumn(\n\t\tNUM_TRAMIT = NUMINT_TRAMIT,\n\t\tCOD_TRAMIT = CODI_TRAMIT,\n\t\tCOD_SUBTRAMIT = CODI_SUBTRAMIT,\n\t\tCOD_RANG_TRAMIT = CODI_RANG_TRAMIT,\n\t\tFLAG_ACORD = IND_ACORD,\n\t\tDESC_TRAMIT,\n\t\tFLAG_EE_TRAMIT = IND_EE_TRAMIT,\n\t\tFLAG_SIGNAR = IND_SIGNAR,\n\t\tFLAG_NOTIF_ENS_LOCAL = IND_NOTIF_ENS_LOCAL,\n\t\tFLAG_RETORN_EACAT = IND_RETORN_EACAT,\n\t\tFLAG_RESPOSTA_ELECTRONICA = IND_RESPOSTA_ELECTRONICA,\n\t\tFLAG_TRAMIT_LLIURAMENT = IND_TRAMIT_LLIURAMENT,\n\t\tFLAG_AFECTA_MUC = IND_AFECTA_MUC\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormaitzarCamps\nFixFlags derive(COD_TRAMIT = iifNull(COD_TRAMIT,'NULL',COD_TRAMIT),\n\t\tCOD_SUBTRAMIT = iifNull(COD_SUBTRAMIT,'NULL',COD_SUBTRAMIT),\n\t\tCOD_RANG_TRAMIT = iifNull(COD_RANG_TRAMIT,'No Informat'),\n\t\tDESC_TRAMIT = iifNull(DESC_TRAMIT,'No Informat')) ~> TratamientoNulos\nNormaitzarCamps derive(FLAG_ACORD = iif(FLAG_ACORD=='S', 1, iif(FLAG_ACORD=='N',0,-1)),\n\t\tFLAG_EE_TRAMIT = iif(FLAG_EE_TRAMIT=='S', 1, iif(FLAG_EE_TRAMIT=='N',0,-1)),\n\t\tFLAG_SIGNAR = iif(FLAG_SIGNAR=='S', 1, iif(FLAG_SIGNAR=='N',0,-1)),\n\t\tFLAG_NOTIF_ENS_LOCAL = iif(FLAG_NOTIF_ENS_LOCAL=='S', 1, iif(FLAG_NOTIF_ENS_LOCAL=='N',0,-1)),\n\t\tFLAG_RETORN_EACAT = iif(FLAG_RETORN_EACAT=='S', 1, iif(FLAG_RETORN_EACAT=='N',0,-1)),\n\t\tFLAG_RESPOSTA_ELECTRONICA = iif(FLAG_RESPOSTA_ELECTRONICA=='S', 1, iif(FLAG_RESPOSTA_ELECTRONICA=='N',0,-1)),\n\t\tFLAG_TRAMIT_LLIURAMENT = iif(FLAG_TRAMIT_LLIURAMENT=='S', 1, iif(FLAG_TRAMIT_LLIURAMENT=='N',0,-1)),\n\t\tFLAG_AFECTA_MUC = iif(FLAG_AFECTA_MUC=='S', 1, iif(FLAG_AFECTA_MUC=='N',0,-1))) ~> FixFlags\nTratamientoNulos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tNUM_TRAMIT as decimal(4,0),\n\t\tCOD_TRAMIT as string,\n\t\tCOD_SUBTRAMIT as string,\n\t\tCOD_RANG_TRAMIT as string,\n\t\tFLAG_ACORD as integer,\n\t\tDESC_TRAMIT as string,\n\t\tFLAG_EE_TRAMIT as integer,\n\t\tFLAG_SIGNAR as integer,\n\t\tFLAG_NOTIF_ENS_LOCAL as integer,\n\t\tFLAG_RETORN_EACAT as integer,\n\t\tFLAG_RESPOSTA_ELECTRONICA as integer,\n\t\tFLAG_TRAMIT_LLIURAMENT as integer,\n\t\tFLAG_AFECTA_MUC as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSdimTRAMIT"
+		}
+	}
+}

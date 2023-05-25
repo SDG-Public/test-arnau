@@ -1,0 +1,19 @@
+{
+	"name": "ODS_GAF_FACT_DADES_ESTACIO_AFORAMENT_EXCEL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GAF_ODS",
+			"table": "ODS_GAF_FACT_DADES_ESTACIO_AFORAMENT_EXCEL"
+		}
+	}
+}

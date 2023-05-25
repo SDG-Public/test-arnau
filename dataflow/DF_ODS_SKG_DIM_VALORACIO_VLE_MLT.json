@@ -1,0 +1,48 @@
+{
+	"name": "DF_ODS_SKG_DIM_VALORACIO_VLE_MLT",
+	"properties": {
+		"folder": {
+			"name": "XEAC_COMUN/SKG"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOvleMLT"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALORACIOvleMLT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALORACIOvleMLTFINAL"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectPK"
+				},
+				{
+					"name": "NotExists"
+				},
+				{
+					"name": "DISTINCT"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOvleMLT\nsource(output(\n\t\tID_VALORACIO_VLE_MLT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOvleMLT\nODSdimVALORACIOvleMLT select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nDISTINCT, SKGdimVALORACIOvleMLT exists(DISTINCT@ID_FOCUS == SKGdimVALORACIOvleMLT@ID_FOCUS\n\t&& DISTINCT@ID_LEGISLACIO == SKGdimVALORACIOvleMLT@ID_LEGISLACIO\n\t&& DISTINCT@ID_SUBMODE == SKGdimVALORACIOvleMLT@ID_SUBMODE\n\t&& DISTINCT@ID_ELEMENT == SKGdimVALORACIOvleMLT@ID_ELEMENT,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nSelectPK aggregate(groupBy(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT),\n\tTMP = count(ID_FOCUS)) ~> DISTINCT\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_VALORACIO_VLE_MLT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT\n\t)) ~> SKGdimVALORACIOvleMLTFINAL"
+		}
+	}
+}

@@ -1,0 +1,112 @@
+{
+	"name": "DF_GEU_ODS_DIM_SECURITY_USERS",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_SECURITY_USERS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimSecurityUser"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_LINK_USUARI_UNIT_ORG",
+						"type": "DatasetReference"
+					},
+					"name": "STGLINKUserUnitOrg"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_SECURITY_USERS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSecurityUser"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "FixFlags"
+				},
+				{
+					"name": "join1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          NAME as string,",
+				"          DESCRIPTION as string,",
+				"          PRIORITY as decimal(5,0),",
+				"          USER_TYPE as decimal(5,0),",
+				"          PASSWD as string,",
+				"          CODI_TIPUS_USU as decimal(2,0),",
+				"          NIVELL_ACCES as string,",
+				"          DATA_PASSWD as timestamp,",
+				"          IND_ACCES_PORTAL as string,",
+				"          CIF_DNI as string,",
+				"          IND_VIGENT as string,",
+				"          CODI_ROL_CTU as decimal(2,0),",
+				"          NOMBRE_INTENTS_FALLITS as decimal(2,0),",
+				"          IND_BLOQUEJAT as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimSecurityUser",
+				"source(output(",
+				"          CODI_USUARI as string,",
+				"          CODI_UORG as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGLINKUserUnitOrg",
+				"join1 select(mapColumn(",
+				"          CODI_NOMBRE = NAME,",
+				"          CODI_DNI_CIF = CIF_DNI,",
+				"          CODI_UNIT_ORG = CODI_UORG,",
+				"          CODI_TIPUS_USER = CODI_TIPUS_USU,",
+				"          DESC_NOMBRE = DESCRIPTION,",
+				"          DATA_PASSWD,",
+				"          NOMBRE_INTENTS_FALLITS,",
+				"          DESC_NIVELL_ACCES = NIVELL_ACCES,",
+				"          CODI_ROL_CTU,",
+				"          FLAG_GRUP = USER_TYPE,",
+				"          FLAG_PRIORITAT = PRIORITY,",
+				"          FLAG_ACCES_PORTAL = IND_ACCES_PORTAL,",
+				"          FLAG_VIGENT = IND_VIGENT,",
+				"          FLAG_BLOQUEJAT = IND_BLOQUEJAT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraCampos",
+				"RenombraCampos derive(FLAG_ACCES_PORTAL = iif(FLAG_ACCES_PORTAL == 'S', 1, 0),",
+				"          FLAG_VIGENT = iif(FLAG_VIGENT== 'S', 1, 0),",
+				"          FLAG_BLOQUEJAT = iif(FLAG_BLOQUEJAT== 'S', 1, 0)) ~> FixFlags",
+				"STGDimSecurityUser, STGLINKUserUnitOrg join(NAME == CODI_USUARI,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> join1",
+				"FixFlags sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimSecurityUser"
+			]
+		}
+	}
+}

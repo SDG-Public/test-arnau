@@ -1,0 +1,79 @@
+{
+	"name": "ODS_ASJ_FACT_TRAMIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_TRAMIT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS_TRAMIT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOM_LLIURE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_TRAMIT",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_ESTAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_URGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_TANCAMENT",
+				"type": "date"
+			},
+			{
+				"name": "DATA_INSERT",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_ODS",
+			"table": "ODS_ASJ_FACT_TRAMIT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

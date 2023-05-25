@@ -1,0 +1,80 @@
+{
+	"name": "DF_ASJ_ODS_DIM_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPersona"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          PERSONA_ID as decimal(10,0),",
+				"          NOM as string,",
+				"          COGNOM1 as string,",
+				"          COGNOM2 as string,",
+				"          DESCRIPCIO as string,",
+				"          IDTIPUSPERSONA as decimal(10,0),",
+				"          ELEGIBLE as decimal(1,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimPersona",
+				"STGDimPersona select(mapColumn(",
+				"          ID_PERSONA = PERSONA_ID,",
+				"          DESC_NOM = NOM,",
+				"          DESC_COGNOM1 = COGNOM1,",
+				"          DESC_COGNOM2 = COGNOM2,",
+				"          DESC_NOM_SENCER = DESCRIPCIO,",
+				"          ID_TIPUS_PERSONA = IDTIPUSPERSONA,",
+				"          FLAG_ELEGIBLE = ELEGIBLE",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombrarCampos",
+				"RenombrarCampos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_PERSONA as decimal(10,0),",
+				"          DESC_NOM as string,",
+				"          DESC_COGNOM1 as string,",
+				"          DESC_COGNOM2 as string,",
+				"          DESC_NOM_SENCER as string,",
+				"          ID_TIPUS_PERSONA as decimal(10,0),",
+				"          FLAG_ELEGIBLE as decimal(1,0)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimPersona"
+			]
+		}
+	}
+}

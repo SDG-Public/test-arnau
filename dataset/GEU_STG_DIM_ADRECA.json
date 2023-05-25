@@ -1,0 +1,81 @@
+{
+	"name": "GEU_STG_DIM_ADRECA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NUM_ADRECA",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "CODI_PERSONA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "CODI_VIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_POSTAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PAIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_ESTRANGER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "POBLACIO_ESTR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TELEFON",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FAX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CORREU_ELECTRONIC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CORREU_ELECTRONIC_2",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_ADRECA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

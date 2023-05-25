@@ -1,0 +1,31 @@
+{
+	"name": "DF_ASJ_DM_DIM_TIPUS_METADATA",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_TIPUS_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusMetadata"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_TIPUS_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTipusMetadata"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tNUM_TIPUS_CAMP as decimal(10,0),\n\t\tDESC_NOM as string,\n\t\tFLAG_OBLIGATORIA as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimTipusMetadata\nODSDimTipusMetadata sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tNUM_TIPUS_CAMP as decimal(10,0),\n\t\tDESC_NOM as string,\n\t\tFLAG_OBLIGATORIA as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimTipusMetadata"
+		}
+	}
+}

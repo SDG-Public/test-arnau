@@ -1,0 +1,226 @@
+{
+	"name": "ODS1_GAF_DIM_ESTACIO_SUBTRM5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTACIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_PLA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_ESTAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTACIO_AFIN",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_DETECTOR",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "ID_EQUIP",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "ID_ALIMENTACIO",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS_ESTACIO",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "ID_FACTOR",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_PLANOL",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTACIO_REF_1",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTACIO_REF_2",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ESTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_CARRETERA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_MOD_CARRETERA",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 0
+			},
+			{
+				"name": "COD_TRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_SUBTRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_TELEFON",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 0
+			},
+			{
+				"name": "DESC_ESTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PK",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRES_PK",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "UTMX",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "UTMY",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "PK_INI",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRES_PK_INI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESC_PK_INI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PK_FI",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRES_PK_FI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESC_PK_FI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_IMD",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IND_PESANTS",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 4
+			},
+			{
+				"name": "IND_IFA",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 4
+			},
+			{
+				"name": "IND_VELOC_MITJA",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 4
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_ODS",
+			"table": "ODS1_GAF_DIM_ESTACIO_SUBTRM5"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

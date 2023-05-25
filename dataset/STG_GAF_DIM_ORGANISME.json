@@ -1,0 +1,54 @@
+{
+	"name": "STG_GAF_DIM_ORGANISME",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DEPENDENT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "ORDENACIO",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "ESTAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOMRESUMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TRAMPA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATABAIXA",
+				"type": "datetime2",
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "STG_GAF_DIM_ORGANISME"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

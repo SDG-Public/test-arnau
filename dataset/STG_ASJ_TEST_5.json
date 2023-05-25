@@ -1,0 +1,16 @@
+{
+	"name": "STG_ASJ_TEST_5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ASJ_STG",
+			"table": "STG_ASJ_TEST_5"
+		}
+	}
+}

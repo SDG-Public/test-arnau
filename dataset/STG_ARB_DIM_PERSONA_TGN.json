@@ -1,0 +1,51 @@
+{
+	"name": "STG_ARB_DIM_PERSONA_TGN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ARB_PER_CODI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PER_DNI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PER_COGN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PER_NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PER_NOM2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PER_CONTACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PER_ALTRES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PER_NPAD",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_STG",
+			"table": "STG_ARB_DIM_PERSONA_TGN"
+		}
+	}
+}

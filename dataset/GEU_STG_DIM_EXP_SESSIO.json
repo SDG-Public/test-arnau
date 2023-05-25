@@ -1,0 +1,49 @@
+{
+	"name": "GEU_STG_DIM_EXP_SESSIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "CODINT_SESSIO",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "NUM_ORDRE",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "IND_TRAMIT_FET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_BLOC_OD",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_EXP_SESSIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,20 @@
+{
+	"name": "DM_GAF_FACT_RESUM_VEHICLE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_FACT_RESUM_VEHICLE"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

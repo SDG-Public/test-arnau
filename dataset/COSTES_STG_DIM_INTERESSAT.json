@@ -1,0 +1,68 @@
+{
+	"name": "COSTES_STG_DIM_INTERESSAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "PARTY_ID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "POSTAL_ADDRESS_ID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "IND_PRINCIPAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_INT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VERSION",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ID_REPRESENTANT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_PADDRESS_REPRESENTANT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_INTERESSAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

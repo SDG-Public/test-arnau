@@ -1,0 +1,66 @@
+{
+	"name": "PL_INSGRI_FACT",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_INSGRI_STG_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_INSGRI_FACT_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_INSGRI_ODS_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_INSGRI_STG_FACT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_INSGRI_FACT_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_INSGRI_DM_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_INSGRI_ODS_FACT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_INSGRI_FACT_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "INSGRI"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

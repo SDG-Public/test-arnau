@@ -1,0 +1,31 @@
+{
+	"name": "DF_COSTES_DM_FACT_TRAMITACIO",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSfactTRAMITACIO"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_DM_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					},
+					"name": "DMfactTRAMITACIO"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCOD_EXP as decimal(7,0),\n\t\tNUM_TRAMIT as decimal(7,0),\n\t\tCOD_REG_E as string,\n\t\tCOD_USUARI_DARRERA_MODIF as string,\n\t\tID_RESPONSABLE as decimal(4,0),\n\t\tNUM_REG_E as decimal(10,0),\n\t\tDESC_COMENTARIS as string,\n\t\tDATA_TRAMITACIO as string,\n\t\tDATA_FI_TRAMITACIO as string,\n\t\tDATA_CADUCITAT as string,\n\t\tDATA_ANYREG_E as decimal(5,0),\n\t\tDATA_RE as string,\n\t\tDATA_ALTA_SISTEMA as string,\n\t\tDATA_DARRERA_MODIF as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSfactTRAMITACIO\nODSfactTRAMITACIO sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_EXP,\n\t\tNUM_TRAMIT,\n\t\tCOD_REG_E,\n\t\tCOD_USUARI_DARRERA_MODIF,\n\t\tID_RESPONSABLE,\n\t\tNUM_REG_E,\n\t\tDESC_COMENTARIS,\n\t\tDATA_TRAMITACIO,\n\t\tDATA_FI_TRAMITACIO,\n\t\tDATA_CADUCITAT,\n\t\tDATA_ANYREG_E,\n\t\tDATA_RE,\n\t\tDATA_ALTA_SISTEMA,\n\t\tDATA_DARRERA_MODIF\n\t)) ~> DMfactTRAMITACIO"
+		}
+	}
+}

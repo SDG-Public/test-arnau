@@ -1,0 +1,157 @@
+{
+	"name": "PL_GAF_DADES_OBERTES",
+	"properties": {
+		"activities": [
+			{
+				"name": "DATA_INI",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "  SELECT convert( varchar, year(dateadd(yyyy, -1, max(getdate()))),112) as DATA\n  from [GAF_DM].[DM_GAF_DIM_DADES_OBERTES]\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_DADES_OBERTES",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "SET_DATA_INI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "DATA_INI",
+					"value": {
+						"value": "@activity('DATA_INI').output.firstRow.DATA",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DATA_FI",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "SET_DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "  SELECT convert( varchar, year(max(getdate())),112) as DATA\n  from [GAF_DM].[DM_GAF_DIM_DADES_OBERTES]",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_DADES_OBERTES",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "SET_DATA_FI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "DATA_FI",
+					"value": {
+						"value": "@activity('DATA_FI').output.firstRow.DATA",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DF_GAF_DADES_OBERTES",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "SET_DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_DADES_OBERTES",
+						"type": "DataFlowReference",
+						"parameters": {
+							"DATA_INI": {
+								"value": "'@{variables('DATA_INI')}'",
+								"type": "Expression"
+							},
+							"DATA_FI": {
+								"value": "'@{variables('DATA_FI')}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"variables": {
+			"DATA_INI": {
+				"type": "String"
+			},
+			"DATA_FI": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "GAF/DADES OBERTES"
+		},
+		"annotations": []
+	}
+}

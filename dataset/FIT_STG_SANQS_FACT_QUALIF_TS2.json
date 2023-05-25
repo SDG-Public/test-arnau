@@ -1,0 +1,26 @@
+{
+	"name": "FIT_STG_SANQS_FACT_QUALIF_TS2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/FITXERS"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "TS2_QUALI.TXT",
+				"container": "contenedorsanqs"
+			},
+			"columnDelimiter": "\u0001",
+			"encodingName": "ISO-8859-1",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

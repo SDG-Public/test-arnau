@@ -1,0 +1,58 @@
+{
+	"name": "DF_DM_01_DIM_VALORACIO_VLE_MLT",
+	"properties": {
+		"folder": {
+			"name": "XEAC_COMUN/DM_PARAMETRES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOvleMLT"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALORACIOvleMLT"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimFOCUS"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimVALORACIOvleMLT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinSKG"
+				},
+				{
+					"name": "SKGfocus"
+				},
+				{
+					"name": "DUMMY"
+				},
+				{
+					"name": "CambiodeTipo"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOvleMLT\nsource(output(\n\t\tID_VALORACIO_VLE_MLT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOvleMLT\nsource(output(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimFOCUS\nODSdimVALORACIOvleMLT, SKGdimVALORACIOvleMLT join(ODSdimVALORACIOvleMLT@ID_FOCUS == SKGdimVALORACIOvleMLT@ID_FOCUS\n\t&& ODSdimVALORACIOvleMLT@ID_LEGISLACIO == SKGdimVALORACIOvleMLT@ID_LEGISLACIO\n\t&& ODSdimVALORACIOvleMLT@ID_SUBMODE == SKGdimVALORACIOvleMLT@ID_SUBMODE\n\t&& ODSdimVALORACIOvleMLT@ID_ELEMENT == SKGdimVALORACIOvleMLT@ID_ELEMENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinSKG\nJoinSKG, SKGdimFOCUS join(ODSdimVALORACIOvleMLT@ID_FOCUS == SKGdimFOCUS@ID_FOCUS,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGfocus\nSKGfocus derive(ID_DIM_FOCUS = iifNull(ID_DIM_FOCUS,0)) ~> DUMMY\nDUMMY derive(VLE_MLT = toDecimal(VLE_MLT)) ~> CambiodeTipo\nCambiodeTipo sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string,\n\t\tID_VALORACIO_VLE_MLT as integer,\n\t\tID_DIM_FOCUS as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS = ODSdimVALORACIOvleMLT@ID_FOCUS,\n\t\tID_LEGISLACIO = ODSdimVALORACIOvleMLT@ID_LEGISLACIO,\n\t\tID_SUBMODE = ODSdimVALORACIOvleMLT@ID_SUBMODE,\n\t\tID_ELEMENT = ODSdimVALORACIOvleMLT@ID_ELEMENT,\n\t\tCOMPTADOR,\n\t\tDATA_INICI,\n\t\tDATA_FI,\n\t\tVLE_MLT,\n\t\tVLE_MLT_UNITATS,\n\t\tVLE_MLT_MITJANA_TIPUS,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP,\n\t\tVLE_MLT_VAL_PERC_COMP,\n\t\tID_VALORACIO_VLE_MLT,\n\t\tID_DIM_FOCUS\n\t)) ~> DMdimVALORACIOvleMLT"
+		}
+	}
+}

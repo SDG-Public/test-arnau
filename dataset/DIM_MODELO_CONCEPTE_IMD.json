@@ -1,0 +1,29 @@
+{
+	"name": "DIM_MODELO_CONCEPTE_IMD",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Hoja1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DIM_MODELO_CONCEPTE_I.xlsx",
+				"container": "contenedortesgaf"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "CONCEPTE",
+				"type": "String"
+			}
+		]
+	}
+}

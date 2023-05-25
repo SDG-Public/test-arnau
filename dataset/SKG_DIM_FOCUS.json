@@ -1,0 +1,30 @@
+{
+	"name": "SKG_DIM_FOCUS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/SKG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_DIM_FOCUS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SKG_XEAC",
+			"table": "SKG_DIM_FOCUS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,63 @@
+{
+	"name": "DF_ODS_02_CONT_INTERVAL_CONF",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/EM"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_CONTAMINANT_MINUTAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacCONTAMINANTminutal"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_IMPOST_EMISSIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimIMPOSTemissions"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_CONT_NORM_INTERVAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacCONTnormINTERVAL"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterVE"
+				},
+				{
+					"name": "calculV1V2"
+				},
+				{
+					"name": "IJimpostos"
+				},
+				{
+					"name": "FilterDATAvalida"
+				},
+				{
+					"name": "SelectCOLUMNAS"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "SelectCOLUMNASfinal"
+				},
+				{
+					"name": "CanviUnitatsHg"
+				}
+			],
+			"script": "source(output(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tVALOR as double,\n\t\tCOD_VALIDACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacCONTAMINANTminutal\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tP_NORMAL as string,\n\t\tAPLICAR_P_DECLARADA as string,\n\t\tP_DECLARADA_HPA as decimal(9,2),\n\t\tT_NORMAL as string,\n\t\tAPLICAR_T_DECLARADA as string,\n\t\tT_DECLARADA_CENTIGRADS as decimal(9,2),\n\t\tH_SEC as string,\n\t\tAPLICAR_H_DECLARADA as string,\n\t\tH_DECLARADA_PERCENTATGE as decimal(5,2),\n\t\tAPLICAR_CABAL_DECLARAT as string,\n\t\tCABAL_DECLARAT_DAM3 as float,\n\t\tO2_CORREGIT as string,\n\t\tO2REF as decimal(9,2),\n\t\tAPLICAR_O2SEC_DECLARAT as string,\n\t\tO2SEC_DECLARAT_PERCENTATGE as decimal(9,2),\n\t\tVLE_FINAL as decimal(10,3),\n\t\tIC_PERCENTATGE as decimal(6,0),\n\t\tID_FOCUS_BRUT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimIMPOSTemissions\nODSxeacCONTAMINANTminutal filter(COD_VALIDACIO == 'V'\r\n||\r\nCOD_VALIDACIO == 'E') ~> FilterVE\nCanviUnitatsHg derive(V1 = toDouble( ( VALOR * 100 ) / ( 100 - IC_PERCENTATGE ) ),\n\t\tV2 = toDouble( VALOR + VLE_FINAL * IC_PERCENTATGE / 100 )) ~> calculV1V2\nFilterVE, ODSdimIMPOSTemissions join(ID_CONTAMINANT == toString(ID_ELEMENT)\n\t&& ODSxeacCONTAMINANTminutal@ID_FOCUS == ODSdimIMPOSTemissions@ID_FOCUS\n\t&& year(DATA) == year(DATA_INICI),\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> IJimpostos\nIJimpostos filter(DATA >= DATA_INICI\r\n&&\r\nDATA < addDays( iifNull(DATA_FI, toTimestamp('99991230', 'yyyyMMdd')), 1)) ~> FilterDATAvalida\ncalculV1V2 select(mapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS = ODSxeacCONTAMINANTminutal@ID_FOCUS,\n\t\tDATA,\n\t\tVALOR,\n\t\tCOD_VALIDACIO,\n\t\tVLE_FINAL,\n\t\tV1,\n\t\tV2\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLUMNAS\nSelectCOLUMNAS derive(VALOR_AMB_INTERVAL = iif( V2 > VLE_FINAL, V2, V1 )) ~> DerivedColumn1\nDerivedColumn1 select(mapColumn(\n\t\tID_CONTAMINANT,\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tVALOR,\n\t\tVALOR_AMB_INTERVAL,\n\t\tCOD_VALIDACIO,\n\t\tVLE_FINAL,\n\t\tV1,\n\t\tV2\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLUMNASfinal\nFilterDATAvalida derive(VALOR = iif(ID_CONTAMINANT=='142', VALOR/1000, VALOR)) ~> CanviUnitatsHg\nSelectCOLUMNASfinal sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tVALOR as double,\n\t\tVALOR_AMB_INTERVAL as double,\n\t\tCOD_VALIDACIO as string,\n\t\tVLE_FINAL as decimal(10,3),\n\t\tV1 as double,\n\t\tV2 as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSxeacCONTnormINTERVAL"
+		}
+	}
+}

@@ -1,2 +1,1 @@
-# test-arnau
- 
+Initialized by Azure Data Factory!

@@ -1,0 +1,20 @@
+{
+	"name": "ODS_ASJ_DIM_SUBCLASSIFICACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ASJ_ODS",
+			"table": "ODS_ASJ_DIM_SUB_CLASSIFICACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

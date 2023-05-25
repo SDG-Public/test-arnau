@@ -1,0 +1,193 @@
+{
+	"name": "DF_GAF_ODS_PLA_ANYAL_INT_MIT_SEC",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtr5"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSeccio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDades"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_FACTORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalFactor"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_INT_MIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalIntMitSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_INT_MIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalIntMit"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "FiltraCampos3"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "AddAnyoMesDiaTipusDia"
+				},
+				{
+					"name": "SumaPrevia"
+				},
+				{
+					"name": "Sabado"
+				},
+				{
+					"name": "IMDIntMitSabado"
+				},
+				{
+					"name": "AddConcepte2"
+				},
+				{
+					"name": "Domingo"
+				},
+				{
+					"name": "IMDIntMitDomingo"
+				},
+				{
+					"name": "AddConcepte3"
+				},
+				{
+					"name": "Laborales"
+				},
+				{
+					"name": "IMDIntMitLaborales"
+				},
+				{
+					"name": "AddConcepte4"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "Round"
+				},
+				{
+					"name": "ReordenaCampos"
+				},
+				{
+					"name": "FilterData"
+				},
+				{
+					"name": "FilterTipusEstacio"
+				},
+				{
+					"name": "FilterFactorS"
+				},
+				{
+					"name": "CountMeses"
+				},
+				{
+					"name": "Join5"
+				},
+				{
+					"name": "Join6"
+				},
+				{
+					"name": "SumIND"
+				},
+				{
+					"name": "AddMesConcepteIND"
+				},
+				{
+					"name": "FiltraCampos1"
+				},
+				{
+					"name": "Union2"
+				},
+				{
+					"name": "Join7"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "PreCalculoIMDMensual"
+				},
+				{
+					"name": "IMDMensual"
+				},
+				{
+					"name": "Union3"
+				},
+				{
+					"name": "Distinct1"
+				},
+				{
+					"name": "DataTipusDia6"
+				},
+				{
+					"name": "DataTipusDia7"
+				},
+				{
+					"name": "union4"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "select2"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimEstacioSubtr5\nsource(output(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSeccio\nsource(output(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCOD_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimCarrils\nsource(output(\n\t\tID_DADES as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_ESTAT_DADES as decimal(1,0),\n\t\tID_TASCA as decimal(8,0),\n\t\tCOD_USUARI as string,\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tDATA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactDades\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tFACTOR as decimal(38,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalFactor\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tIND_INTENSITATS_MITJANES as decimal(38,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalIntMitSource\nFilterTipusEstacio select(mapColumn(\n\t\tID_ESTACIO = DMDimEstacioSubtr5@ID_ESTACIO,\n\t\tID_ESTACIO_AFIN\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos, DMDimSeccio join(FiltraCampos@ID_ESTACIO == DMDimSeccio@ID_ESTACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join2\nJoin2, DMDimCarrils join(DMDimSeccio@ID_SECCIO == DMDimCarrils@ID_SECCIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join3\nJoin4 select(mapColumn(\n\t\tID_ESTACIO = FiltraCampos@ID_ESTACIO,\n\t\tID_ESTACIO_AFIN,\n\t\tDATA,\n\t\tIND_IMD_DIARI,\n\t\tIND_PESANTS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos3\nJoin3, FilterData join(DMDimCarrils@ID_CARRIL == ODSFactDades@ID_CARRIL,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join4\nFiltraCampos3 derive(DATA_TIPUS_DIA = iif(dayOfWeek(DATA) == 1, 7, dayOfWeek(DATA)-1),\n\t\tDATA_ANYO = year(DATA),\n\t\tDATA_MES = month(DATA)) ~> AddAnyoMesDiaTipusDia\nunion4 aggregate(groupBy(DATA_TIPUS_DIA,\n\t\tDATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO,\n\t\tID_ESTACIO_AFIN),\n\tsuma = sum(IND_IMD_DIARI)) ~> SumaPrevia\nSumaPrevia filter(DATA_TIPUS_DIA == 6) ~> Sabado\nSabado aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO,\n\t\tID_ESTACIO_AFIN),\n\tIND_INTENSITATS_MITJANES = sum(suma)/count(DATA_TIPUS_DIA)) ~> IMDIntMitSabado\nIMDIntMitSabado derive(CONCEPTE = \"IMD dissabtes\") ~> AddConcepte2\nSumaPrevia filter(DATA_TIPUS_DIA == 7) ~> Domingo\nDomingo aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO,\n\t\tID_ESTACIO_AFIN),\n\tIND_INTENSITATS_MITJANES = sum(suma)/count(DATA_TIPUS_DIA)) ~> IMDIntMitDomingo\nIMDIntMitDomingo derive(CONCEPTE = \"IMD diumenges\") ~> AddConcepte3\nSumaPrevia filter(DATA_TIPUS_DIA != 6 && DATA_TIPUS_DIA != 7) ~> Laborales\nLaborales aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO,\n\t\tID_ESTACIO_AFIN),\n\tIND_INTENSITATS_MITJANES = sum(suma)/count(DATA_TIPUS_DIA)) ~> IMDIntMitLaborales\nIMDIntMitLaborales derive(CONCEPTE = \"IMD dl. a dv.\") ~> AddConcepte4\nAddConcepte2, AddConcepte3, AddConcepte4 union(byName: true)~> Union1\nUnion3 derive(IND_INTENSITATS_MITJANES = toDecimal(round(IND_INTENSITATS_MITJANES))) ~> Round\nRound select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tCONCEPTE,\n\t\tIND_INTENSITATS_MITJANES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos\nODSFactDades filter(year(DATA) >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nyear(DATA) < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterData\nJoin7 filter(ID_TIPUS_ESTACIO != 1 && ID_TIPUS_ESTACIO != 2 && isNull(Distinct@ID_ESTACIO)) ~> FilterTipusEstacio\nODSPlaAnyalFactor filter(CONCEPTE == 'Factor S' && DATA_MES == 13) ~> FilterFactorS\nRound aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO),\n\tNUM_MESES = countDistinct(DATA_MES)) ~> CountMeses\nRound, FilterFactorS join(ID_ESTACIO_AFIN == ODSPlaAnyalFactor@ID_ESTACIO\n\t&& Union3@DATA_ANYO == ODSPlaAnyalFactor@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join5\nJoin5, CountMeses join(Union3@ID_ESTACIO == CountMeses@ID_ESTACIO\n\t&& Union3@DATA_ANYO == CountMeses@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join6\nJoin6 aggregate(groupBy(Union3@DATA_ANYO,\n\t\tUnion3@ID_ESTACIO,\n\t\tUnion3@CONCEPTE,\n\t\tFACTOR,\n\t\tNUM_MESES),\n\tIND_INTENSITATS_MITJANES = sum(IND_INTENSITATS_MITJANES)) ~> SumIND\nSumIND derive(IND_INTENSITATS_MITJANES = (IND_INTENSITATS_MITJANES*FACTOR)/NUM_MESES,\n\t\tDATA_MES = 13) ~> AddMesConcepteIND\nAddMesConcepteIND select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tCONCEPTE,\n\t\tIND_INTENSITATS_MITJANES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos1\nReordenaCampos, FiltraCampos1 union(byName: true)~> Union2\nDMDimEstacioSubtr5, Distinct join(DMDimEstacioSubtr5@ID_ESTACIO == Distinct@ID_ESTACIO,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join7\nODSPlaAnyalFactor aggregate(groupBy(ID_ESTACIO),\n\tcont = count(ID_ESTACIO)) ~> Distinct\nUnion1 derive(IND_INTENSITATS_MITJANES = iif(CONCEPTE == 'IMD dl. a dv.', IND_INTENSITATS_MITJANES*5, IND_INTENSITATS_MITJANES),\n\t\tCONCEPTE = 'IMD') ~> PreCalculoIMDMensual\nPreCalculoIMDMensual aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO,\n\t\tCONCEPTE,\n\t\tID_ESTACIO_AFIN),\n\tIND_INTENSITATS_MITJANES = sum(IND_INTENSITATS_MITJANES)/7) ~> IMDMensual\nselect2, IMDMensual union(byName: true)~> Union3\nAddAnyoMesDiaTipusDia aggregate(groupBy(ID_ESTACIO,\n\t\tID_ESTACIO_AFIN,\n\t\tDATA_ANYO,\n\t\tDATA_MES),\n\tdistinct = max(1)) ~> Distinct1\nDistinct1 derive(DATA_TIPUS_DIA = 6,\n\t\tIND_IMD_DIARI = toDecimal(0)) ~> DataTipusDia6\nDistinct1 derive(DATA_TIPUS_DIA = 7,\n\t\tIND_IMD_DIARI = toDecimal(0)) ~> DataTipusDia7\nAddAnyoMesDiaTipusDia, DataTipusDia7, DataTipusDia6 union(byName: true)~> union4\nUnion1, ODSPlaAnyalIntMitSource join(Union1@DATA_MES == ODSPlaAnyalIntMitSource@DATA_MES\n\t&& Union1@DATA_ANYO == ODSPlaAnyalIntMitSource@DATA_ANYO\n\t&& ID_ESTACIO_AFIN == ODSPlaAnyalIntMitSource@ID_ESTACIO\n\t&& Union1@CONCEPTE == ODSPlaAnyalIntMitSource@CONCEPTE,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> join1\nselect1 derive(IND_INTENSITATS_MITJANES = iif(isNull(IND_INTENSITATS_MITJANES_AFIN), IND_INTENSITATS_MITJANES, IND_INTENSITATS_MITJANES_AFIN)) ~> derivedColumn1\njoin1 select(mapColumn(\n\t\tDATA_MES = Union1@DATA_MES,\n\t\tDATA_ANYO = Union1@DATA_ANYO,\n\t\tID_ESTACIO = Union1@ID_ESTACIO,\n\t\tID_ESTACIO_AFIN,\n\t\tIND_INTENSITATS_MITJANES = Union1@IND_INTENSITATS_MITJANES,\n\t\tCONCEPTE = Union1@CONCEPTE,\n\t\tIND_INTENSITATS_MITJANES_AFIN = ODSPlaAnyalIntMitSource@IND_INTENSITATS_MITJANES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> select1\nderivedColumn1 select(mapColumn(\n\t\tDATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO,\n\t\tID_ESTACIO_AFIN,\n\t\tIND_INTENSITATS_MITJANES,\n\t\tCONCEPTE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> select2\nUnion2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tIND_INTENSITATS_MITJANES as decimal(38,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSPlaAnyalIntMit"
+		}
+	}
+}

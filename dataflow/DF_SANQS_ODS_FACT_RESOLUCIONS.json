@@ -1,0 +1,160 @@
+{
+	"name": "DF_SANQS_ODS_FACT_RESOLUCIONS",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_RESOL_NOTIF_RECUR_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSResolNotifRecurTSA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_RESOLUCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSResolucions"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddCamps"
+				},
+				{
+					"name": "FilterResolucions"
+				},
+				{
+					"name": "WindowNumOrdre"
+				},
+				{
+					"name": "FilterNumOrdre"
+				},
+				{
+					"name": "FiltraReordenaCamps"
+				},
+				{
+					"name": "FfilterNotifCaducat"
+				},
+				{
+					"name": "RemapColum"
+				},
+				{
+					"name": "union1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Prop_0 as string,",
+				"          CODI_EXPEDIENT as string,",
+				"          DATA_PROPOSTA_RESOLUCIO as date,",
+				"          COD_PRECEPTE as string,",
+				"          DATA_RESOLUCIO as date,",
+				"          IND_IMPORT_RESOLUCIO as string,",
+				"          COD_GRAVETAT_RESOLUCIO as string,",
+				"          COD_TIPUS_RESOLUCIO as string,",
+				"          COD_TIPUS_NOTIFICACIO as string,",
+				"          DATA_REGISTRE_SORTIDA as date,",
+				"          DATA_NOTIFICACIO as date,",
+				"          DATA_ARRIBADA_NOTIFICACIO as date,",
+				"          COD_TANOT as string,",
+				"          COD_NOTIFICACIO as string,",
+				"          COD_TRAMNOT as string,",
+				"          DATA_PRESENTACIO as date,",
+				"          COD_TIPUS_RECURS as string,",
+				"          DATA_INF_RA as date,",
+				"          DESC_IMPRE_REC as string,",
+				"          COD_DEMARCACIO as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ODSResolNotifRecurTSA",
+				"union1 derive(COD_GRAVETAT_RESOLUCIO = iif(isNull(COD_GRAVETAT_RESOLUCIO), 'Desconegut', COD_GRAVETAT_RESOLUCIO),",
+				"          DESC_GRAVETAT_RESOLUCIO = iif(COD_GRAVETAT_RESOLUCIO == 'LL', 'Lleu', iif(COD_GRAVETAT_RESOLUCIO == 'GR', 'Greu', iif(COD_GRAVETAT_RESOLUCIO == 'MG', 'Molt greu',iif(COD_GRAVETAT_RESOLUCIO == 'SO', 'Sobreseguiment', iif(COD_GRAVETAT_RESOLUCIO == 'AP', 'Apercebiment', iif(COD_GRAVETAT_RESOLUCIO == 'CA', 'Caducat', 'Desconegut')))))),",
+				"          DESC_TIPUS_RESOLUCIO = iif(COD_TIPUS_RESOLUCIO == 'EX', 'Resolució sancionadora', iif(COD_TIPUS_RESOLUCIO == 'RA', \"Resolució recurs d'alçada\", iif(COD_TIPUS_RESOLUCIO == 'RE', 'Resolució recurs de revisió', iif(COD_TIPUS_RESOLUCIO == 'CA', 'Resolució Caducat', 'Desconegut')))),",
+				"          IND_IMPORT_RESOLUCIO_EUROS = toDecimal(toDecimal(IND_IMPORT_RESOLUCIO)/toDecimal(166.386))) ~> AddCamps",
+				"ODSResolNotifRecurTSA filter(COD_TIPUS_RESOLUCIO == 'EX') ~> FilterResolucions",
+				"AddCamps window(over(CODI_EXPEDIENT),",
+				"     desc(DATA_NOTIFICACIO, false),",
+				"     desc(DATA_PRESENTACIO, false),",
+				"     NUM_ORDRE = rowNumber()) ~> WindowNumOrdre",
+				"WindowNumOrdre filter(NUM_ORDRE == 1) ~> FilterNumOrdre",
+				"FilterNumOrdre select(mapColumn(",
+				"          CODI_EXPEDIENT,",
+				"          COD_DEMARCACIO,",
+				"          COD_TIPUS_RESOLUCIO,",
+				"          COD_TIPUS_RECURS,",
+				"          COD_TIPUS_NOTIFICACIO,",
+				"          COD_NOTIFICACIO,",
+				"          COD_GRAVETAT_RESOLUCIO,",
+				"          COD_PRECEPTE,",
+				"          COD_TRAMNOT,",
+				"          COD_TANOT,",
+				"          IND_IMPORT_RESOLUCIO,",
+				"          IND_IMPORT_RESOLUCIO_EUROS,",
+				"          NUM_ORDRE,",
+				"          DESC_TIPUS_RESOLUCIO,",
+				"          DESC_GRAVETAT_RESOLUCIO,",
+				"          DESC_IMPRE_REC,",
+				"          DATA_REGISTRE_SORTIDA,",
+				"          DATA_PRESENTACIO_RECUR = DATA_PRESENTACIO,",
+				"          DATA_RESOLUCIO,",
+				"          DATA_PROPOSTA_RESOLUCIO,",
+				"          DATA_NOTIFICACIO_RESOLUCIO = DATA_NOTIFICACIO,",
+				"          DATA_ARRIBADA_NOTIFICACIO,",
+				"          DATA_INF_RA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FiltraReordenaCamps",
+				"ODSResolNotifRecurTSA filter(COD_TIPUS_NOTIFICACIO == 'CADU') ~> FfilterNotifCaducat",
+				"FfilterNotifCaducat derive(COD_GRAVETAT_RESOLUCIO = 'CA',",
+				"          COD_TIPUS_RESOLUCIO = 'CA') ~> RemapColum",
+				"FilterResolucions, RemapColum union(byName: true)~> union1",
+				"FiltraReordenaCamps sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CODI_EXPEDIENT as string,",
+				"          COD_DEMARCACIO as string,",
+				"          COD_TIPUS_RESOLUCIO as string,",
+				"          COD_TIPUS_RECURS as string,",
+				"          COD_TIPUS_NOTIFICACIO as string,",
+				"          COD_NOTIFICACIO as string,",
+				"          COD_GRAVETAT_RESOLUCIO as string,",
+				"          COD_PRECEPTE as string,",
+				"          COD_TRAMNOT as string,",
+				"          COD_TANOT as string,",
+				"          IND_IMPORT_RESOLUCIO as string,",
+				"          IND_IMPORT_RESOLUCIO_EUROS as decimal(10,2),",
+				"          NUM_ORDRE as integer,",
+				"          DESC_TIPUS_RESOLUCIO as string,",
+				"          DESC_GRAVETAT_RESOLUCIO as string,",
+				"          DESC_IMPRE_REC as string,",
+				"          DATA_REGISTRE_SORTIDA as date,",
+				"          DATA_PRESENTACIO_RECUR as date,",
+				"          DATA_RESOLUCIO as date,",
+				"          DATA_PROPOSTA_RESOLUCIO as date,",
+				"          DATA_NOTIFICACIO_RESOLUCIO as date,",
+				"          DATA_ARRIBADA_NOTIFICACIO as date,",
+				"          DATA_INF_RA as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSResolucions"
+			]
+		}
+	}
+}

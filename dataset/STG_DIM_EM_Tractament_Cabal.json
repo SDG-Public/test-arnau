@@ -1,0 +1,83 @@
+{
+	"name": "STG_DIM_EM_Tractament_Cabal",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Codi_emis",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_focus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_Focus_BRUT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Codis",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "P_normal",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Aplicar_P_declarada",
+				"type": "nvarchar"
+			},
+			{
+				"name": "P_declarada_hPa",
+				"type": "nvarchar"
+			},
+			{
+				"name": "T_normal",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Aplicar_T_declarada",
+				"type": "nvarchar"
+			},
+			{
+				"name": "T_declarada_centigrads",
+				"type": "nvarchar"
+			},
+			{
+				"name": "H_sec",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Aplicar_H_declarada",
+				"type": "nvarchar"
+			},
+			{
+				"name": "H_declarada_percentatge",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Aplicar_cabal_declarat",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Cabal_declarat_dam3",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "STG_XEAC",
+			"table": "STG_DIM_EM_Tractament_Cabal"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

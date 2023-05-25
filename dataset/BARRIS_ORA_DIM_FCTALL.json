@@ -1,0 +1,20 @@
+{
+	"name": "BARRIS_ORA_DIM_FCTALL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "PFB_ADM",
+			"table": "FFBA_V_BA_EXP_PJT_CTE_FCT_ALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,41 @@
+{
+	"name": "DF_SKG_COMPLIMENT_MCT_1D_V3",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_COMPLIMENT_MCT_1D_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODScomplimentMCT1Dv2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SKG_COMPLIMENT_MCT_1D_V3",
+						"type": "DatasetReference"
+					},
+					"name": "SKGcomplimentMCT1Dv2FINAL"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectPK"
+				},
+				{
+					"name": "DISTINCT"
+				},
+				{
+					"name": "UPSERT"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as date,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT_VAL_PERC_COMP as decimal(5,2),\n\t\tMCT_VAL_PERIODE as string,\n\t\tMCTS_VALIDA as long,\n\t\tMCTS_TOTAL as long,\n\t\tPCT_COMPLIMENT as double,\n\t\tMCT_VAL_PERIODE_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODScomplimentMCT1Dv2\nODScomplimentMCT1Dv2 select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tDATA,\n\t\tVLE_MCT_TIPUS_MCT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nSelectPK aggregate(groupBy(ID_FOCUS,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tDATA = toTimestamp(DATA),\n\t\tVLE_MCT_TIPUS_MCT),\n\tTEMP = count(1)) ~> DISTINCT\nDISTINCT alterRow(upsertIf(true())) ~> UPSERT\nUPSERT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_COMPLIMENT_MCT_1D_V3 as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as decimal(3,0),\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as date,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0)\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ID_FOCUS','ID_CONTAMINANT','ID_LEGISLACIO','MODE_REPORTABLE_NUM','DATA','VLE_MCT_TIPUS_MCT'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tDATA,\n\t\tVLE_MCT_TIPUS_MCT\n\t)) ~> SKGcomplimentMCT1Dv2FINAL"
+		}
+	}
+}

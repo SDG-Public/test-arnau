@@ -1,0 +1,231 @@
+{
+	"name": "PL_EM_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_ODS_01_EM_IMPOSTOS_EMISSIONS_v3",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Set DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_ODS_01_EM_IMPOSTOS_EMISSIONS_v3",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_INI": {
+							"value": "@pipeline().parameters.P_DATA_INI",
+							"type": "Expression"
+						},
+						"P_DATA_FI": {
+							"value": "@pipeline().parameters.P_DATA_FI",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_ODS_01_EM_INVENTARI_v3",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Set DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_ODS_01_EM_INVENTARI_v3",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_INI": {
+							"value": "@pipeline().parameters.P_DATA_INI",
+							"type": "Expression"
+						},
+						"P_DATA_FI": {
+							"value": "@pipeline().parameters.P_DATA_FI",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_DM_01_EM_INVENTARI_v3",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_ODS_01_EM_INVENTARI_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_DM_01_EM_INVENTARI_v3",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_DM_01_EM_IMPOSTOS_EMISSIONS_v3",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_ODS_01_EM_IMPOSTOS_EMISSIONS_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_DM_01_EM_IMPOSTOS_EMISSIONS_v3",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "DATA_INI",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select convert(date, getdate(),112);",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set DATA_INI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_INI",
+					"value": {
+						"value": "@string(activity('DATA_INI').output)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DATA_FI",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "Set DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select convert(date, getdate(),112);\n",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "Set DATA_FI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_FI",
+					"value": {
+						"value": "@string(activity('DATA_FI').output)",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			}
+		},
+		"variables": {
+			"V_DATA_INI": {
+				"type": "String"
+			},
+			"V_DATA_FI": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v3/EM/Old"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

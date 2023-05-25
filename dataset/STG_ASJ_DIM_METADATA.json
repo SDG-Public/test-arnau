@@ -1,0 +1,95 @@
+{
+	"name": "STG_ASJ_DIM_METADATA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DADAID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DADA_TIPUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUSDADAID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "EXPEDIENTID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "TRAMITID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "OBJECTEAGRUPID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DADADESC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DADALITERAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DADADATA",
+				"type": "datetime2",
+				"scale": 6
+			},
+			{
+				"name": "DADAENUMERAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DADADECIMAL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DADANUMERIC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DADABOOL",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "POSICIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_STG",
+			"table": "STG_ASJ_DIM_METADATA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

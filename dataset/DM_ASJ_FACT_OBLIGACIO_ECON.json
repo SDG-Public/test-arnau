@@ -1,0 +1,19 @@
+{
+	"name": "DM_ASJ_FACT_OBLIGACIO_ECON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ASJ_DM",
+			"table": "DM_ASJ_FACT_OBLIGACIO_ECON"
+		}
+	}
+}

@@ -1,0 +1,54 @@
+{
+	"name": "DF_GEU_ODS_FACT_TRAMITACIO",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					},
+					"name": "STGfactTRAMITACIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GEU_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "DMdimTRAMIT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "GEU_ODS_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSfactTRAMITACIO"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JOINTRAMIT"
+				},
+				{
+					"name": "NormalitzarCamps1"
+				},
+				{
+					"name": "DesglosaCamps"
+				},
+				{
+					"name": "Desglosacamps2"
+				},
+				{
+					"name": "FiltraCampos"
+				}
+			],
+			"script": "source(output(\n\t\tCODINT_TRAMITACIO as decimal(9,0),\n\t\tCODINT_EXP as decimal(7,0),\n\t\tNUMINT_TRAMIT as decimal(4,0),\n\t\tDATA_TRAMIT as timestamp,\n\t\tNUM_ORDRE_TRA as decimal(4,0),\n\t\tCODI_CIRCUIT as string,\n\t\tCOMENTARIS as string,\n\t\tCODI_UORG_TRAM as string,\n\t\tCODREG_E as string,\n\t\tANYREG_E as decimal(5,0),\n\t\tNUMREG_E as decimal(10,0),\n\t\tIMPORT_TAXA as decimal(12,2),\n\t\tNUM_LIQUIDACIO as string,\n\t\tINT_LIQUIDACIO as decimal(8,0),\n\t\tIND_ANULACIO as string,\n\t\tDATA_VENC_LIQ as timestamp,\n\t\tCODINT_SESSIO as decimal(7,0),\n\t\tNUM_DOGC as decimal(5,0),\n\t\tDATA_INI_TERMINI as timestamp,\n\t\tDATA_FI_TERMINI as timestamp,\n\t\tUSU_MODIF as string,\n\t\tIND_DOC_EXTERNA as string,\n\t\tIMPORT_COBRAT as decimal(12,2),\n\t\tCODI_INGRES as string,\n\t\tCODI_TARIFA as string,\n\t\tDATA_COBRAMENT as timestamp,\n\t\tDATA_ALTA_RE as timestamp,\n\t\tIND_PROTEGIT as string,\n\t\tDATA_VENCIMENT as timestamp,\n\t\tCODINT_TRAMITACIO_REL as decimal(9,0),\n\t\tIND_TRAMIT_REC_COPIAT as string,\n\t\tDESC_DOCUMENTACIO as string,\n\t\tORIGEN_DOCUMENTACIO as string,\n\t\tPUB_IND_PUBLICAR_LINK as string,\n\t\tPUB_DATA_PUBLICACIO_LINK as timestamp,\n\t\tPUB_USUARI_PUBLICACIO_LINK as string,\n\t\tNUM_CONTROL as string,\n\t\tRPUC_IND_PUBLICAR as string,\n\t\tRPUC_DATA_PUBLICACIO as timestamp,\n\t\tRPUC_USUARI_PUBLICACIO as string,\n\t\tIND_DOGC_CARREGAT as string,\n\t\tIND_DOGC_TRACTAT as string,\n\t\tIND_DOCS_EE as string,\n\t\tID_DOCUMENT_DOGC as decimal(9,0),\n\t\tNUM_SOLICITUD as string,\n\t\tURL_PUB_DOGC as string,\n\t\tIND_LLIURAMENT_TEUA as string,\n\t\tIND_TAXA_SANCIO as decimal(4,0),\n\t\tID_ESTAT_GIDECAT as decimal(4,0),\n\t\tMOTIU_ANULACIO as string,\n\t\tCONCEPTE_INGRES_GIDECAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGfactTRAMITACIO\nsource(output(\n\t\tNUM_TRAMIT as decimal(4,0),\n\t\tCOD_TRAMIT as string,\n\t\tCOD_SUBTRAMIT as string,\n\t\tCOD_RANG_TRAMIT as string,\n\t\tID_ACORD as string,\n\t\tDESC_TRAMIT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMdimTRAMIT\nSTGfactTRAMITACIO, DMdimTRAMIT join(NUMINT_TRAMIT == NUM_TRAMIT,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JOINTRAMIT\nJOINTRAMIT select(mapColumn(\n\t\tCOD_EXPEDIENT = CODINT_EXP,\n\t\tCOD_TRAMITACIO = CODINT_TRAMITACIO,\n\t\tNUM_TRAMIT = NUMINT_TRAMIT,\n\t\tCOD_CIRCUIT = CODI_CIRCUIT,\n\t\tCOD_UORG_TRAM = CODI_UORG_TRAM,\n\t\tCOD_INGRES = CODI_INGRES,\n\t\tCOD_TARIFA = CODI_TARIFA,\n\t\tCOD_REG_E = CODREG_E,\n\t\tCOD_TRAMIT,\n\t\tID_PROTEGIT = IND_PROTEGIT,\n\t\tID_ANULACIO = IND_ANULACIO,\n\t\tID_DOC_EXTERNA = IND_DOC_EXTERNA,\n\t\tID_LIQUIDACIO = INT_LIQUIDACIO,\n\t\tID_ACORD,\n\t\tID_RPUC_PUBLICAR = RPUC_IND_PUBLICAR,\n\t\tNUM_LIQUIDACIO,\n\t\tNUM_ORDRE_TRAMITACIO = NUM_ORDRE_TRA,\n\t\tNUM_DOGC,\n\t\tNUM_REG_E = NUMREG_E,\n\t\tIMP_COBRAT = IMPORT_COBRAT,\n\t\tIMP_TAXA = IMPORT_TAXA,\n\t\tDESC_COMENTARIS = COMENTARIS,\n\t\tDESC_RPUC_USUARI_PUBLICACIO = RPUC_USUARI_PUBLICACIO,\n\t\tDATA_TRAMIT,\n\t\tDATA_ANYREG_E = ANYREG_E,\n\t\tDATA_COBRAMENT,\n\t\tDATA_FI_TERMINI,\n\t\tDATA_INI_TERMINI,\n\t\tDATA_VENC_LIQ,\n\t\tDATA_ALTA_RE,\n\t\tDATA_RPUC_PUBLICACIO = RPUC_DATA_PUBLICACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps1\nNormalitzarCamps1 derive(COD_UORG_TRAM = iif(isNull(COD_UORG_TRAM), 'SES', COD_UORG_TRAM),\n\t\tNUM_LIQUIDACIO = iif(isNull(NUM_LIQUIDACIO), 'SES', NUM_LIQUIDACIO),\n\t\tCOD_INGRES = iif(isNull(COD_INGRES), 'SE', COD_INGRES),\n\t\tCOD_TARIFA = iif(isNull(COD_TARIFA), 'SE', COD_TARIFA),\n\t\tNUM_ORDRE_TRAMITACIO = iifNull(toInteger(NUM_ORDRE_TRAMITACIO), 9999),\n\t\tNUM_TRAMITACIO = 1) ~> DesglosaCamps\nDesglosaCamps derive(COD_INGRES_TARIFA = iif(concat(COD_INGRES, COD_TARIFA) == \"SESE\",  'SES', concat(COD_INGRES, COD_TARIFA)),\n\t\tCOD_RESOLUCIO_TRAMITACIO = iif((COD_TRAMIT == \"CPT\" || COD_TRAMIT == \"GG\" || COD_TRAMIT == \"DGU\" || COD_TRAMIT == \"CS\") && (ID_ACORD == \"S\"), COD_TRAMIT, \"SES\")) ~> Desglosacamps2\nDesglosacamps2 select(mapColumn(\n\t\tCOD_EXPEDIENT,\n\t\tCOD_TRAMITACIO,\n\t\tNUM_TRAMIT,\n\t\tCOD_TRAMIT,\n\t\tCOD_RESOLUCIO_TRAMITACIO,\n\t\tNUM_ORDRE_TRAMITACIO,\n\t\tNUM_TRAMITACIO,\n\t\tDESC_COMENTARIS,\n\t\tDATA_TRAMIT,\n\t\tDATA_COBRAMENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tCOD_TRAMITACIO as decimal(9,0),\n\t\tNUM_TRAMIT as decimal(4,0),\n\t\tCOD_TRAMIT as string,\n\t\tCOD_RESOLUCIO_TRAMITACIO as string,\n\t\tNUM_ORDRE_TRAMITACIO as integer,\n\t\tNUM_TRAMITACIO as integer,\n\t\tDESC_COMENTARIS as string,\n\t\tDATA_TRAMIT as timestamp,\n\t\tDATA_COBRAMENT as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSfactTRAMITACIO"
+		}
+	}
+}

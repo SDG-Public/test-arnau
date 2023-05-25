@@ -1,0 +1,105 @@
+{
+	"name": "DF_ODS_MLT_COMPLIMENT_v3",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/MLT-MLT_COMPLIMENT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_MLT_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSmltV2"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSvaloracioMLEMCT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_MLT_COMPLIMENT_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODScomplimentMCT1Dv3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectCOL8H1D"
+				},
+				{
+					"name": "JoinVALORACIO8H1D"
+				},
+				{
+					"name": "FilterPERIODE8H1D"
+				},
+				{
+					"name": "FilterDATAvaloracio"
+				},
+				{
+					"name": "DCcontadorMCT"
+				},
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "FilterVALIDAdisponible"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "SelectCOL2D"
+				},
+				{
+					"name": "SelectCOL1M"
+				},
+				{
+					"name": "Filter1M"
+				},
+				{
+					"name": "Filter2D"
+				},
+				{
+					"name": "FilterPERIODE1M"
+				},
+				{
+					"name": "FilterPERIODE2D"
+				},
+				{
+					"name": "JoinVALORACIO1M"
+				},
+				{
+					"name": "JoinVALORACIO2D"
+				},
+				{
+					"name": "FilterDATAvaloracio2"
+				},
+				{
+					"name": "FilterDATAvaloracio3"
+				},
+				{
+					"name": "SelectFINAL8H1D"
+				},
+				{
+					"name": "SelectFINAL1M"
+				},
+				{
+					"name": "SelectFINAL2D"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tID_CONTAMINANT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVAL_MLT as double,\n\t\tCOUNT_MCT as long,\n\t\tCOMPLIMENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSmltV2\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSvaloracioMLEMCT\nODSmltV2 select(mapColumn(\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tV_VLE = VAL_MLT,\n\t\tVLE_MLT_MITJANA_TIPUS\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: true) ~> SelectCOL8H1D\nFilterVALIDAdisponible, FilterPERIODE8H1D join(SelectCOL8H1D@ID_FOCUS == ODSvaloracioMLEMCT@ID_FOCUS\n\t&& SelectCOL8H1D@ID_LEGISLACIO == ODSvaloracioMLEMCT@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& ID_CONTAMINANT == ID_ELEMENT\n\t&& SelectCOL8H1D@VLE_MLT_MITJANA_TIPUS == ODSvaloracioMLEMCT@VLE_MLT_MITJANA_TIPUS,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinVALORACIO8H1D\nODSvaloracioMLEMCT filter((VLE_MLT_PERIODE_VALORACIO_TIP == 'D' || VLE_MLT_PERIODE_VALORACIO_TIP == 'A')\r\n&&\r\n((VLE_MLT_MITJANA_TIPUS == 'D' && VLE_MLT_MITJANA_TIPUS_NOMBRE == 1)\r\n||\r\n(VLE_MLT_MITJANA_TIPUS == 'H' && VLE_MLT_MITJANA_TIPUS_NOMBRE == 8))) ~> FilterPERIODE8H1D\nJoinVALORACIO8H1D filter(DATA >= DATA_INICI\r\n&&\r\nDATA < DATA_FI) ~> FilterDATAvaloracio\nUnion1 derive(COUNTER_CUMPLIMENT = iif( toFloat(V_VLE) <= toFloat(VLE_MLT), 1, 0 ),\n\t\tDATA = toDate(DATA)) ~> DCcontadorMCT\nDCcontadorMCT aggregate(groupBy(ID_FOCUS,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tDATA,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MITJANA_TIPUS,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN,\n\t\tVLE_MLT_VAL_PERC_COMP),\n\tMLTS_VALIDA = sum(toInteger(COUNTER_CUMPLIMENT)),\n\t\tMLTS_TOTAL = count(COUNTER_CUMPLIMENT)) ~> Aggregate1\nSelectCOL8H1D filter(toDate(DATA) >= toDate($P_DATA_INI,'yyyyMMdd') &&\r\ntoDate(DATA) < addDays(toDate($P_DATA_FI,'yyyyMMdd'),1)) ~> FilterVALIDAdisponible\nAggregate1 derive(PCT_COMPLIMENT = MLTS_VALIDA * 100 / MLTS_TOTAL,\n\t\tMLT_PERIODE_VALORACIO_PERC_COMP = concat(VLE_MLT_PERIODE_VALORACIO_TIP, VLE_MLT_VAL_PERC_COMP)) ~> DerivedColumn1\nODSmltV2 select(mapColumn(\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tV_VLE = VAL_MLT,\n\t\tVLE_MLT_MITJANA_TIPUS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOL2D\nODSmltV2 select(mapColumn(\n\t\tID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tV_VLE = VAL_MLT,\n\t\tVLE_MLT_MITJANA_TIPUS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOL1M\nSelectCOL1M filter(toDate(DATA) >=  toDate($P_DATA_INI,\"yyyyMMdd\")\n&&\ntoDate(DATA) < addMonths(toDate($P_DATA_FI,\"yyyyMMdd\"),1)) ~> Filter1M\nSelectCOL2D filter(toDate(DATA) >= iif( mod( dayOfYear(toDate($P_DATA_INI,\"yyyyMMdd\")), 2) == 0, addDays(toDate($P_DATA_INI,\"yyyyMMdd\"), -1), toDate($P_DATA_INI,\"yyyyMMdd\"))\n&&\ntoDate(DATA) < iif( mod( dayOfYear(toDate($P_DATA_FI,\"yyyyMMdd\")), 2) == 0, addDays(toDate($P_DATA_FI,\"yyyyMMdd\"), 1), addDays(toDate($P_DATA_FI,\"yyyyMMdd\"), 2) )) ~> Filter2D\nODSvaloracioMLEMCT filter((VLE_MLT_PERIODE_VALORACIO_TIP == 'A')\r\n&&\r\n(VLE_MLT_MITJANA_TIPUS == 'M' && VLE_MLT_MITJANA_TIPUS_NOMBRE == 1)) ~> FilterPERIODE1M\nODSvaloracioMLEMCT filter((VLE_MLT_PERIODE_VALORACIO_TIP == 'D' || VLE_MLT_PERIODE_VALORACIO_TIP == 'A')\r\n&&\r\n(VLE_MLT_MITJANA_TIPUS == 'H' && VLE_MLT_MITJANA_TIPUS_NOMBRE == 48)) ~> FilterPERIODE2D\nFilter1M, FilterPERIODE1M join(SelectCOL1M@ID_FOCUS == ODSvaloracioMLEMCT@ID_FOCUS\n\t&& SelectCOL1M@ID_LEGISLACIO == ODSvaloracioMLEMCT@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& ID_CONTAMINANT == ID_ELEMENT\n\t&& SelectCOL1M@VLE_MLT_MITJANA_TIPUS == ODSvaloracioMLEMCT@VLE_MLT_MITJANA_TIPUS,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinVALORACIO1M\nFilter2D, FilterPERIODE2D join(SelectCOL2D@ID_FOCUS == ODSvaloracioMLEMCT@ID_FOCUS\n\t&& SelectCOL2D@ID_LEGISLACIO == ODSvaloracioMLEMCT@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& ID_CONTAMINANT == ID_ELEMENT\n\t&& SelectCOL2D@VLE_MLT_MITJANA_TIPUS == ODSvaloracioMLEMCT@VLE_MLT_MITJANA_TIPUS,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinVALORACIO2D\nJoinVALORACIO1M filter(DATA >= DATA_INICI\n&&\nDATA < DATA_FI) ~> FilterDATAvaloracio2\nJoinVALORACIO2D filter(DATA >= DATA_INICI\n&&\nDATA < DATA_FI) ~> FilterDATAvaloracio3\nFilterDATAvaloracio select(mapColumn(\n\t\tID_FOCUS = SelectCOL8H1D@ID_FOCUS,\n\t\tDATA,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO = SelectCOL8H1D@ID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tV_VLE,\n\t\tVLE_MLT,\n\t\tVLE_MLT_MITJANA_TIPUS = ODSvaloracioMLEMCT@VLE_MLT_MITJANA_TIPUS,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP,\n\t\tVLE_MLT_VAL_PERC_COMP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectFINAL8H1D\nFilterDATAvaloracio2 select(mapColumn(\n\t\tID_FOCUS = SelectCOL1M@ID_FOCUS,\n\t\tDATA,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO = SelectCOL1M@ID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tV_VLE,\n\t\tVLE_MLT,\n\t\tVLE_MLT_MITJANA_TIPUS = ODSvaloracioMLEMCT@VLE_MLT_MITJANA_TIPUS,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP,\n\t\tVLE_MLT_VAL_PERC_COMP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectFINAL1M\nFilterDATAvaloracio3 select(mapColumn(\n\t\tID_FOCUS = SelectCOL2D@ID_FOCUS,\n\t\tDATA,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO = SelectCOL2D@ID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tV_VLE,\n\t\tVLE_MLT,\n\t\tVLE_MLT_MITJANA_TIPUS = ODSvaloracioMLEMCT@VLE_MLT_MITJANA_TIPUS,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP,\n\t\tVLE_MLT_VAL_PERC_COMP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectFINAL2D\nSelectFINAL8H1D, SelectFINAL1M, SelectFINAL2D union(byName: true)~> Union1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as date,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_VAL_PERC_COMP as string,\n\t\tMLTS_VALIDA as long,\n\t\tMLTS_TOTAL as long,\n\t\tPCT_COMPLIMENT as double,\n\t\tMLT_PERIODE_VALORACIO_PERC_COMP as string,\n\t\tTIPUS_MCT as long\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODScomplimentMCT1Dv3"
+		}
+	}
+}

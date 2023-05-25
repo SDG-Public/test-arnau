@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANQS_DM_FACT_DEVOLUCIO",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_DEVOLUCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDevolucio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANQS_FACT_DEVOLUCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDevolucio"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_EXPEDIENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDevolucio\nODSDevolucio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_EXPEDIENT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDevolucio"
+		}
+	}
+}

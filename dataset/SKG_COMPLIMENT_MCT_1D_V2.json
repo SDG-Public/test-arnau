@@ -1,0 +1,54 @@
+{
+	"name": "SKG_COMPLIMENT_MCT_1D_V2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/SKG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_COMPLIMENT_MCT_1D_V2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "VLE_MCT_TIPUS_MCT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SKG_XEAC",
+			"table": "SKG_COMPLIMENT_MCT_1D_V2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

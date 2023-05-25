@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANQS_ODS_FACT_BUTLLETINS_TMB",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANQS_FACT_BUTLLETINS_TMB",
+						"type": "DatasetReference"
+					},
+					"name": "STGButlletinsTMB"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_BUTLLETINS_TMB",
+						"type": "DatasetReference"
+					},
+					"name": "ODSButlletinsTMB"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Colums"
+				},
+				{
+					"name": "AddDemarcacio"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGButlletinsTMB\nSTGButlletinsTMB derive(ID_EXPEDIENT = substring(Prop_0, 1, 10),\n\t\tID_DENUNCIA = substring(Prop_0, 10, 8),\n\t\tDATA_DENUNCIA = toDate(substring(Prop_0, 18, 8),'yyyyMMdd'),\n\t\tNUM_HBUT = substring(Prop_0, 26, 4),\n\t\tDESC_VBUT = substring(Prop_0, 30, 25),\n\t\tNUM_PKBUT = substring(Prop_0, 55, 6),\n\t\tDESC_ADBUT = substring(Prop_0, 61, 25)) ~> Colums\nColums derive(COD_DEMARCACIO = iif(substring(ID_EXPEDIENT, 1, 2) == 'FB' || substring(ID_EXPEDIENT, 1, 2) == 'MB' || substring(ID_EXPEDIENT, 1, 2) == '17' || substring(ID_EXPEDIENT, 1, 2) == '08' || substring(ID_EXPEDIENT, 1, 2) == '25'|| substring(ID_EXPEDIENT, 1, 2) == '43', substring(ID_EXPEDIENT, 1, 2),'-1')) ~> AddDemarcacio\nAddDemarcacio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tID_DENUNCIA as string,\n\t\tDATA_DENUNCIA as date,\n\t\tNUM_HBUT as string,\n\t\tDESC_VBUT as string,\n\t\tNUM_PKBUT as string,\n\t\tDESC_ADBUT as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSButlletinsTMB"
+		}
+	}
+}

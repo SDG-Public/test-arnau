@@ -1,0 +1,80 @@
+{
+	"name": "DM_DIM_ESTABLIMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_EMIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CIF_EMPRESA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_ESTABLIMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PERSONA_CONTACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TELEFON_CONTACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EMAIL_CONTACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFTP_IP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFTP_USUARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFTP_PASS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SFTP_PATH",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ID_ESTABLIMENT",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_DIM_ESTABLIMENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

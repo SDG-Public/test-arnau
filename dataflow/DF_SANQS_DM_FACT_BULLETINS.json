@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANQS_DM_FACT_BULLETINS",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_BUTLLETINS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactBulletins"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANQS_FACT_BUTLLETINS",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactBulletins"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_EXPEDIENT as string,\n\t\tCODI_DENUNCIA as string,\n\t\tDATA_DENUNCIA as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactBulletins\nODSFactBulletins sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactBulletins"
+		}
+	}
+}

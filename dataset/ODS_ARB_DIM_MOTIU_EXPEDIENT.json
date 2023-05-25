@@ -1,0 +1,29 @@
+{
+	"name": "ODS_ARB_DIM_MOTIU_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_MOTIU_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MOTIU_EXPEDIENT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_ODS",
+			"table": "ODS_ARB_DIM_MOTIU_EXPEDIENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

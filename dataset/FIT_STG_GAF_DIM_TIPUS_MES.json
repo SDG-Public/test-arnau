@@ -1,0 +1,34 @@
+{
+	"name": "FIT_STG_GAF_DIM_TIPUS_MES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "TIPUS_MES",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "DM_GAF_DIM_TIPUS_MES_DIA.xlsx",
+				"container": "contenedortesgaf"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "IP_TIPUS_MES",
+				"type": "String"
+			},
+			{
+				"name": "DESC_TIPUS_MES",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

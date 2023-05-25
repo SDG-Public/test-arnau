@@ -1,0 +1,20 @@
+{
+	"name": "BARRIS_DM_DIM_DESGLOSFINANCER",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "BARRIS_DM",
+			"table": "DM_BARRIS_DIM_DESGLOSFINANCER"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

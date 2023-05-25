@@ -1,0 +1,57 @@
+{
+	"name": "DM_ASJ_DIM_INFOLOG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_INFORMACIO_LOG",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_USUARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CODI_EVENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_INFO_OBJECTE_CANVIAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_EVENT",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_INSTANT_EVENT",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_DM",
+			"table": "DM_ASJ_DIM_INFOLOG"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

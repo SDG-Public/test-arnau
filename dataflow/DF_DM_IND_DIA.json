@@ -1,0 +1,78 @@
+{
+	"name": "DF_DM_IND_DIA",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v3/INDISPONIBLES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_IND_DIA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSindDIA"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_IND_DIA_v3",
+						"type": "DatasetReference"
+					},
+					"name": "SKGindDIAv3"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimFOCUS"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALORACIOlegislacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_IND_HORA_v3",
+						"type": "DatasetReference"
+					},
+					"name": "SKGindHORAv3"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_IND_DIA",
+						"type": "DatasetReference"
+					},
+					"name": "DMindDIA"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DISTINCT"
+				},
+				{
+					"name": "joinSKGindDIAv3"
+				},
+				{
+					"name": "joinSKGdimFOCUS"
+				},
+				{
+					"name": "joinSKGdimVALORACIOlegislacio"
+				},
+				{
+					"name": "joinSKGindHORAv3"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDIA as date,\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tNUMERO_CASOS as long,\n\t\tIND_N_MCT_DIA_IND as string,\n\t\tCOMPLIMENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSindDIA\nsource(output(\n\t\tID_IND_DIA_v3 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tDIA as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGindDIAv3\nsource(output(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimFOCUS\nsource(output(\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOlegislacio\nsource(output(\n\t\tID_IND_HORA_v3 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tDATE as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGindHORAv3\nODSindDIA aggregate(groupBy(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tDIA,\n\t\tNUMERO_CASOS,\n\t\tIND_N_MCT_DIA_IND,\n\t\tCOMPLIMENT,\n\t\tMINUTOS_MCT),\n\tcont = count(ID_FOCUS)) ~> DISTINCT\nderivedColumn1, SKGindDIAv3 join(DISTINCT@ID_FOCUS == SKGindDIAv3@ID_FOCUS\n\t&& DISTINCT@ID_LEGISLACIO == SKGindDIAv3@ID_LEGISLACIO\n\t&& DISTINCT@ID_ELEMENT == SKGindDIAv3@ID_ELEMENT\n\t&& DISTINCT@DIA == SKGindDIAv3@DIA\n\t&& DISTINCT@MINUTOS_MCT == SKGindDIAv3@MINUTOS_MCT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> joinSKGindDIAv3\njoinSKGindDIAv3, SKGdimFOCUS join(DISTINCT@ID_FOCUS == SKGdimFOCUS@ID_FOCUS,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> joinSKGdimFOCUS\njoinSKGdimFOCUS, SKGdimVALORACIOlegislacio join(DISTINCT@ID_FOCUS == SKGdimVALORACIOlegislacio@ID_FOCUS\n\t&& DISTINCT@ID_LEGISLACIO == SKGdimVALORACIOlegislacio@ID_LEGISLACIO,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> joinSKGdimVALORACIOlegislacio\njoinSKGdimVALORACIOlegislacio, SKGindHORAv3 join(DISTINCT@ID_FOCUS == SKGindHORAv3@ID_FOCUS\n\t&& DISTINCT@ID_LEGISLACIO == SKGindHORAv3@ID_LEGISLACIO\n\t&& DISTINCT@ID_ELEMENT == SKGindHORAv3@ID_ELEMENT\n\t&& DISTINCT@DIA == DATE\n\t&& DISTINCT@MINUTOS_MCT == SKGindHORAv3@MINUTOS_MCT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> joinSKGindHORAv3\nDISTINCT derive(TIPUS_MCT = toString(MINUTOS_MCT)) ~> derivedColumn1\njoinSKGindHORAv3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDIA as date,\n\t\tNUMERO_CASOS as long,\n\t\tIND_N_MCT_DIA_IND as string,\n\t\tCOMPLIMENT as string,\n\t\tTIPUS_MCT as string,\n\t\tID_IND_DIA_v3 as integer,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_IND_HORA_v3 as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS = DISTINCT@ID_FOCUS,\n\t\tID_LEGISLACIO = DISTINCT@ID_LEGISLACIO,\n\t\tID_ELEMENT = DISTINCT@ID_ELEMENT,\n\t\tDIA = DISTINCT@DIA,\n\t\tNUMERO_CASOS,\n\t\tIND_N_MCT_DIA_IND,\n\t\tCOMPLIMENT,\n\t\tTIPUS_MCT,\n\t\tID_IND_DIA_v3,\n\t\tID_DIM_FOCUS,\n\t\tID_VALORACIO_LEGISLACIO,\n\t\tID_IND_HORA_v3\n\t)) ~> DMindDIA"
+		}
+	}
+}

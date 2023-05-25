@@ -1,0 +1,31 @@
+{
+	"name": "DF_ARB_DM_FACT_EXPEDIENTS",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_FACT_EXPEDIENTS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedients"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ARB_FACT_EXPEDIENTS",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactExpedients"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_EXPEDIENT as string,\n\t\tID_ESTAT as string,\n\t\tCODI_TIPUS_TRANSPORT as string,\n\t\tCODI_DEMARCACIO as string,\n\t\tIMP_EXPEDIENT_IMPORT as decimal(9,2),\n\t\tDATA_REGISTRO as timestamp,\n\t\tDATA_ENTRADA as timestamp,\n\t\tDATA_VISTA as timestamp,\n\t\tDATA_LAUDE as timestamp,\n\t\tDATA_DECISIO as timestamp,\n\t\tID_MOTIU_EXPEDIENT as string,\n\t\tID_MOTIU_LAUDE as string,\n\t\tID_TIPUS_LAUDE as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactExpedients\nODSFactExpedients sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactExpedients"
+		}
+	}
+}

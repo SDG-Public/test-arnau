@@ -1,0 +1,31 @@
+{
+	"name": "DF_MAPBI_REGISTRE_APP_STG_ODS",
+	"properties": {
+		"folder": {
+			"name": "MAPBI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MAPBI_STG_REGISTRE_APP",
+						"type": "DatasetReference"
+					},
+					"name": "STGREGISTREAPP"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "MAPBI_ODS_REGISTRE_APP",
+						"type": "DatasetReference"
+					},
+					"name": "ODSREGISTREAPP"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tDATA as timestamp,\n\t\tUSUARI as string,\n\t\tAPLICACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGREGISTREAPP\nSTGREGISTREAPP sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tDATA as timestamp,\n\t\tID_USUARI as string,\n\t\tAPLICACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tDATA,\n\t\tID_USUARI = USUARI,\n\t\tAPLICACIO\n\t)) ~> ODSREGISTREAPP"
+		}
+	}
+}

@@ -1,0 +1,121 @@
+{
+	"name": "BARRIS_STG_DIM_INDICADORS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODIMUNICIPI",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODICOMARCA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIDELEGACIO",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "DELEGACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANYCONV",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "ESTAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CODIUNIC",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDENTGRUP",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "GRUP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDENTINDICADOR",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VALBOOLEA",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VALREAL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VALREFERENCIA",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "PUNTUACIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COMENTARI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_STG",
+			"table": "STG_BARRIS_DIM_INDICADORS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

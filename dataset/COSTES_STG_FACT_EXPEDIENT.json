@@ -1,0 +1,174 @@
+{
+	"name": "COSTES_STG_FACT_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "NUM_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REFEXT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REFINT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INI_TERMINI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_FI_TERMINI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA_SISTEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_DARRERA_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_DARRERA_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MOTIU_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VERSION",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CODI_FRANJA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CAPSA_ARXIVAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_X",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_Y",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_EXP_REL",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "CONTADOR",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "DEMARCACIO",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_TECNIC",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI_AUTORITZACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_FI_AUTORITZACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_ARXIVADOR_INI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_ARXIVADOR_FI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRORROGABLE",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FORMAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SUPERFICIE_OCUPADA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_FACT_EXPEDIENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

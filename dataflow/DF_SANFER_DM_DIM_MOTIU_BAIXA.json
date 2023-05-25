@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANFER_DM_DIM_MOTIU_BAIXA",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_MOTIU_BAIXA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimMotiuBaixa"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANFER_DIM_MOTIU_BAIXA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimMotiuBaixa"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_MOTIU_BAIXA as decimal(10,0),\n\t\tID_ESTAT_ENTITAT as string,\n\t\tDESC_MOTIU_BAIXA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimMotiuBaixa\nODSDimMotiuBaixa sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimMotiuBaixa"
+		}
+	}
+}

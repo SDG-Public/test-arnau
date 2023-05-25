@@ -1,0 +1,58 @@
+{
+	"name": "STG_GEU_DIM_PLANTILLA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_PLANTILLA",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "DESC_PLANTILLA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_TIPUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_RS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_COS",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "IND_LU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_DOCUMENT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_PLANTILLA"
+		}
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"name": "PL_SANQS_DIM",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_SANQS_DIM_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANQS_DIM_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "SAN QS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,46 @@
+{
+	"name": "PL_ESPERA",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_DM_03_TAULES_PARAMETRES",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_03_TAULES_PARAMETRES",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20210228"
+			},
+			"P_ID_MIN": {
+				"type": "string",
+				"defaultValue": "-18208"
+			}
+		},
+		"annotations": []
+	}
+}

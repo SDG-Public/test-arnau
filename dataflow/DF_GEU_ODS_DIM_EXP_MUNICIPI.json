@@ -1,0 +1,38 @@
+{
+	"name": "DF_GEU_ODS_DIM_EXP_MUNICIPI",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_EXP_MUNICIPI",
+						"type": "DatasetReference"
+					},
+					"name": "STGExpMunicipi"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_EXP_MUNICIPI",
+						"type": "DatasetReference"
+					},
+					"name": "ODSExpMunicipi"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraRenombraCampos"
+				},
+				{
+					"name": "FlagPrincipal"
+				}
+			],
+			"script": "source(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tCODI_INE as string,\n\t\tCODI_LLOGARET as string,\n\t\tIND_PRINCIPAL as string,\n\t\tIND_VIGENT_ARXIU as string,\n\t\tIND_VIGENCIA as string,\n\t\tDATA_INI_VIGENCIA as timestamp,\n\t\tDATA_FI_VIGENCIA as timestamp,\n\t\tDATA_DENEGACIO as timestamp,\n\t\tIND_PRINCIPAL_COMISSIO as string,\n\t\tGEU_CODI_INE_NUCLI as string,\n\t\tGEU_CODI_LLOGARET_NUCLI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGExpMunicipi\nSTGExpMunicipi select(mapColumn(\n\t\tCOD_EXPEDIENT = CODINT_EXP,\n\t\tCODI_INE,\n\t\tCODI_LLOGARET,\n\t\tFLAG_PRINCIPAL = IND_PRINCIPAL\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraRenombraCampos\nFiltraRenombraCampos derive(FLAG_PRINCIPAL = iif(FLAG_PRINCIPAL == 'S', 1, 0)) ~> FlagPrincipal\nFlagPrincipal sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tCODI_INE as string,\n\t\tCODI_LLOGARET as string,\n\t\tFLAG_PRINCIPAL as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSExpMunicipi"
+		}
+	}
+}

@@ -1,0 +1,97 @@
+{
+	"name": "DF_GAF_DM_FIX_ESTACIO_SUBTRAM5",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtram5"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_PLA_ANYAL",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactPlaAnyal"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_PLA_ANYAL_IFA_VELOC",
+						"type": "DatasetReference"
+					},
+					"name": "DMPlaAnyalIFaVeloc"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtram5SINK"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterPorcentajePesado"
+				},
+				{
+					"name": "FilterIMD"
+				},
+				{
+					"name": "FiltraCamposIMD"
+				},
+				{
+					"name": "FiltraCamposPes"
+				},
+				{
+					"name": "FiltraCamposIFAVeloc"
+				},
+				{
+					"name": "JoinIMD"
+				},
+				{
+					"name": "FixIMD"
+				},
+				{
+					"name": "JoinPes"
+				},
+				{
+					"name": "FixPes"
+				},
+				{
+					"name": "JoinIFAVeloc"
+				},
+				{
+					"name": "FixIFAVeloc"
+				},
+				{
+					"name": "UPDATE"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "SelectDistinct"
+				},
+				{
+					"name": "FixValueIMD"
+				},
+				{
+					"name": "FixValuePes"
+				},
+				{
+					"name": "FixValueIFAVeloc"
+				}
+			],
+			"script": "source(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimEstacioSubtram5\nsource(output(\n\t\tPK_CONCAT as string,\n\t\tID_ESTACIO as integer,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tGRUP as string,\n\t\tCONCEPTE as string,\n\t\tIND as decimal(38,4),\n\t\tPOSICIO as integer,\n\t\tPOSICIO2 as integer,\n\t\tCONCAT_GRUP_CONCEPTE as string,\n\t\tCONCAT_POSICIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactPlaAnyal\nsource(output(\n\t\tPK_CONCAT as string,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDESC_SECCIO as string,\n\t\tDATA_ANYO as integer,\n\t\tIND_IFA as decimal(10,2),\n\t\tIND_VELOC_MITJA as decimal(7,2),\n\t\tIND_VELOCITAT_MITJA_SENTIT as decimal(38,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMPlaAnyalIFaVeloc\nDMFactPlaAnyal filter(DATA_MES == 13 && GRUP =='VOLUM PER LONGITUD' && CONCEPTE == '6-X m') ~> FilterPorcentajePesado\nDMFactPlaAnyal filter(DATA_MES == 13 && GRUP =='INTENSITATS MITJANES' && CONCEPTE == 'IMD') ~> FilterIMD\nFilterIMD select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCamposIMD\nFilterPorcentajePesado select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCamposPes\nDMPlaAnyalIFaVeloc select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tIND_IFA,\n\t\tIND_VELOC_MITJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCamposIFAVeloc\nDMDimEstacioSubtram5, FiltraCamposIMD join(DMDimEstacioSubtram5@ID_ESTACIO == FiltraCamposIMD@ID_ESTACIO\n\t&& DMDimEstacioSubtram5@DATA_ANYO == FiltraCamposIMD@DATA_ANYO,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinIMD\nFixValueIMD select(mapColumn(\n\t\tID_ESTACIO = DMDimEstacioSubtram5@ID_ESTACIO,\n\t\tID_PLA,\n\t\tDATA_ANYO = DMDimEstacioSubtram5@DATA_ANYO,\n\t\tID_ESTAT,\n\t\tID_ESTACIO_AFIN,\n\t\tID_DETECTOR,\n\t\tID_EQUIP,\n\t\tID_ALIMENTACIO,\n\t\tID_TIPUS_ESTACIO,\n\t\tID_FACTOR,\n\t\tID_PLANOL,\n\t\tID_ESTACIO_REF_1,\n\t\tID_ESTACIO_REF_2,\n\t\tID_LLOGARET,\n\t\tCOD_INE,\n\t\tCOD_ESTACIO,\n\t\tCOD_ORGTRAM,\n\t\tCOD_CARRETERA,\n\t\tCOD_MOD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM,\n\t\tDESC_CARRILS,\n\t\tNUM_TELEFON,\n\t\tDESC_ESTACIO,\n\t\tDESC_OBSERVACIONS,\n\t\tPK,\n\t\tMETRES_PK,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tPK_INI,\n\t\tMETRES_PK_INI,\n\t\tDESC_PK_INI,\n\t\tPK_FI,\n\t\tMETRES_PK_FI,\n\t\tDESC_PK_FI,\n\t\tIND_IMD = IND,\n\t\tIND_PESANTS,\n\t\tIND_IFA,\n\t\tIND_VELOC_MITJA,\n\t\tID_ESTACIO = FiltraCamposIMD@ID_ESTACIO,\n\t\tDATA_ANYO = FiltraCamposIMD@DATA_ANYO,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FixIMD\nFixIMD, FiltraCamposPes join(FixIMD@ID_ESTACIO == FiltraCamposPes@ID_ESTACIO\n\t&& FixIMD@DATA_ANYO == FiltraCamposPes@DATA_ANYO,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinPes\nFixValuePes select(mapColumn(\n\t\tID_ESTACIO = FixIMD@ID_ESTACIO,\n\t\tID_PLA,\n\t\tDATA_ANYO = FixIMD@DATA_ANYO,\n\t\tID_ESTAT,\n\t\tID_ESTACIO_AFIN,\n\t\tID_DETECTOR,\n\t\tID_EQUIP,\n\t\tID_ALIMENTACIO,\n\t\tID_TIPUS_ESTACIO,\n\t\tID_FACTOR,\n\t\tID_PLANOL,\n\t\tID_ESTACIO_REF_1,\n\t\tID_ESTACIO_REF_2,\n\t\tID_LLOGARET,\n\t\tCOD_INE,\n\t\tCOD_ESTACIO,\n\t\tCOD_ORGTRAM,\n\t\tCOD_CARRETERA,\n\t\tCOD_MOD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM,\n\t\tDESC_CARRILS,\n\t\tNUM_TELEFON,\n\t\tDESC_ESTACIO,\n\t\tDESC_OBSERVACIONS,\n\t\tPK,\n\t\tMETRES_PK,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tPK_INI,\n\t\tMETRES_PK_INI,\n\t\tDESC_PK_INI,\n\t\tPK_FI,\n\t\tMETRES_PK_FI,\n\t\tDESC_PK_FI,\n\t\tIND_IMD,\n\t\tIND_PESANTS = IND,\n\t\tIND_IFA,\n\t\tIND_VELOC_MITJA,\n\t\tID_ESTACIO = FiltraCamposPes@ID_ESTACIO,\n\t\tDATA_ANYO = FiltraCamposPes@DATA_ANYO,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FixPes\nFixPes, FiltraCamposIFAVeloc join(FixPes@ID_ESTACIO == FiltraCamposIFAVeloc@ID_ESTACIO\n\t&& FixPes@DATA_ANYO == FiltraCamposIFAVeloc@DATA_ANYO,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinIFAVeloc\nFixValueIFAVeloc select(mapColumn(\n\t\tID_ESTACIO = FixPes@ID_ESTACIO,\n\t\tID_PLA,\n\t\tDATA_ANYO = FixPes@DATA_ANYO,\n\t\tID_ESTAT,\n\t\tID_ESTACIO_AFIN,\n\t\tID_DETECTOR,\n\t\tID_EQUIP,\n\t\tID_ALIMENTACIO,\n\t\tID_TIPUS_ESTACIO,\n\t\tID_FACTOR,\n\t\tID_PLANOL,\n\t\tID_ESTACIO_REF_1,\n\t\tID_ESTACIO_REF_2,\n\t\tID_LLOGARET,\n\t\tCOD_INE,\n\t\tCOD_ESTACIO,\n\t\tCOD_ORGTRAM,\n\t\tCOD_CARRETERA,\n\t\tCOD_MOD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM,\n\t\tDESC_CARRILS,\n\t\tNUM_TELEFON,\n\t\tDESC_ESTACIO,\n\t\tDESC_OBSERVACIONS,\n\t\tPK,\n\t\tMETRES_PK,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tPK_INI,\n\t\tMETRES_PK_INI,\n\t\tDESC_PK_INI,\n\t\tPK_FI,\n\t\tMETRES_PK_FI,\n\t\tDESC_PK_FI,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_IFA = IND_IFA_new,\n\t\tIND_VELOC_MITJA = IND_VELOC_MITJA_new\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FixIFAVeloc\nSelectDistinct alterRow(updateIf(ID_ESTACIO==ID_ESTACIO&&DATA_ANYO==DATA_ANYO)) ~> UPDATE\nFixIFAVeloc aggregate(groupBy(ID_ESTACIO,\n\t\tID_PLA,\n\t\tDATA_ANYO,\n\t\tID_ESTAT,\n\t\tID_ESTACIO_AFIN,\n\t\tID_DETECTOR,\n\t\tID_EQUIP,\n\t\tID_ALIMENTACIO,\n\t\tID_TIPUS_ESTACIO,\n\t\tID_FACTOR,\n\t\tID_PLANOL,\n\t\tID_ESTACIO_REF_1,\n\t\tID_ESTACIO_REF_2,\n\t\tID_LLOGARET,\n\t\tCOD_INE,\n\t\tCOD_ESTACIO,\n\t\tCOD_ORGTRAM,\n\t\tCOD_CARRETERA,\n\t\tCOD_MOD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM,\n\t\tDESC_CARRILS,\n\t\tNUM_TELEFON,\n\t\tDESC_ESTACIO,\n\t\tDESC_OBSERVACIONS,\n\t\tPK,\n\t\tMETRES_PK,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tPK_INI,\n\t\tMETRES_PK_INI,\n\t\tDESC_PK_INI,\n\t\tPK_FI,\n\t\tMETRES_PK_FI,\n\t\tDESC_PK_FI,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_IFA,\n\t\tIND_VELOC_MITJA),\n\tcount = count(ID_ESTACIO)) ~> Distinct\nDistinct select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_PLA,\n\t\tDATA_ANYO,\n\t\tID_ESTAT,\n\t\tID_ESTACIO_AFIN,\n\t\tID_DETECTOR,\n\t\tID_EQUIP,\n\t\tID_ALIMENTACIO,\n\t\tID_TIPUS_ESTACIO,\n\t\tID_FACTOR,\n\t\tID_PLANOL,\n\t\tID_ESTACIO_REF_1,\n\t\tID_ESTACIO_REF_2,\n\t\tID_LLOGARET,\n\t\tCOD_INE,\n\t\tCOD_ESTACIO,\n\t\tCOD_ORGTRAM,\n\t\tCOD_CARRETERA,\n\t\tCOD_MOD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM,\n\t\tDESC_CARRILS,\n\t\tNUM_TELEFON,\n\t\tDESC_ESTACIO,\n\t\tDESC_OBSERVACIONS,\n\t\tPK,\n\t\tMETRES_PK,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tPK_INI,\n\t\tMETRES_PK_INI,\n\t\tDESC_PK_INI,\n\t\tPK_FI,\n\t\tMETRES_PK_FI,\n\t\tDESC_PK_FI,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_IFA,\n\t\tIND_VELOC_MITJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectDistinct\nJoinIMD derive(IND = iif(isNull(IND), IND_IMD, IND)) ~> FixValueIMD\nJoinPes derive(IND = iif(isNull(IND), IND_PESANTS, IND)) ~> FixValuePes\nJoinIFAVeloc derive(IND_IFA_new = iif(isNull(FiltraCamposIFAVeloc@IND_IFA), FixPes@IND_IFA, FiltraCamposIFAVeloc@IND_IFA),\n\t\tIND_VELOC_MITJA_new = iif(isNull(FiltraCamposIFAVeloc@IND_VELOC_MITJA), FixPes@IND_VELOC_MITJA, FiltraCamposIFAVeloc@IND_VELOC_MITJA)) ~> FixValueIFAVeloc\nUPDATE sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['ID_ESTACIO','DATA_ANYO'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimEstacioSubtram5SINK"
+		}
+	}
+}

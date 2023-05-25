@@ -1,0 +1,20 @@
+{
+	"name": "MAP_BI_ORIGEN_REGISTRE_APP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MAPBI/STG"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "FWK_ADM",
+			"table": "REGISTRE_ACCES_APLICACIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANFER_DM_DIM_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANFER_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimPersona"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_PERSONA as decimal(10,0),\n\t\tID_NACIONALITAT as decimal(10,0),\n\t\tID_TIPUS_DOCUMENT as decimal(10,0),\n\t\tCOD_PERSONA_TST as decimal(10,0),\n\t\tCOD_DOCUMENT as string,\n\t\tDESC_NOM as string,\n\t\tDESC_COGNOM_1 as string,\n\t\tDESC_COGNOM_2 as string,\n\t\tDESC_GENERE as string,\n\t\tFLAG_MIGRAT as decimal(1,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimPersona\nODSDimPersona sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimPersona"
+		}
+	}
+}

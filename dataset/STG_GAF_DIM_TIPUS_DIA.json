@@ -1,0 +1,30 @@
+{
+	"name": "STG_GAF_DIM_TIPUS_DIA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_TIPUS_DIA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_TIPUS_DIA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "STG_GAF_DIM_TIPUS_DIA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

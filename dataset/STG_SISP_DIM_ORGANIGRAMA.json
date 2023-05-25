@@ -1,0 +1,37 @@
+{
+	"name": "STG_SISP_DIM_ORGANIGRAMA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_STG",
+			"table": "STG_SISP_DIM_ORGANIGRAMA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

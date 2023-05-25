@@ -1,0 +1,78 @@
+{
+	"name": "DF_ASJ_DIM_ODS_SENTENCIES2",
+	"properties": {
+		"description": "Sirve para hacer la join entre las tablas DimSentencies y AuxSentencies.",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_AUX_SENTENCIES",
+						"type": "DatasetReference"
+					},
+					"name": "AuxSentenciesSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_SENTENCIES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSentenciesSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "AlterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_EXPEDIENT as decimal(10,0),",
+				"          METADATA_NUMERIC as decimal(10,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> AuxSentenciesSource",
+				"AuxSentenciesSource select(mapColumn(",
+				"          ID_EXPEDIENT,",
+				"          DATA_ANY_RCA = METADATA_NUMERIC",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 alterRow(upsertIf(true())) ~> AlterRow1",
+				"AlterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_EXPEDIENT as decimal(10,0),",
+				"          NUM_EXPEDIENT_INTERN as string,",
+				"          CODI_SENTENCIA as string,",
+				"          CODI_RECURS_SENTENCIA as string,",
+				"          DESC_TIPUS_SENTENCIA as string,",
+				"          DESC_TRIBUNAL as string,",
+				"          DESC_RESUM_SENTENCIA as string,",
+				"          DATA_ANY_GC as decimal(10,0),",
+				"          DATA_SENTENCIA as timestamp,",
+				"          DESC_TIPUS_CONTENCIOS as string,",
+				"          DESC_TIPUS_RECURS_SENTENCIA as string,",
+				"          DATA_FERMESA as timestamp,",
+				"          DATA_ANY_RCA as decimal(10,0)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['ID_EXPEDIENT'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimSentenciesSink"
+			]
+		}
+	}
+}

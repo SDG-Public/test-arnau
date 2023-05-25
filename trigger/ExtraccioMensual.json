@@ -1,0 +1,33 @@
+{
+	"name": "ExtraccioMensual",
+	"properties": {
+		"description": "Cada día 24 se realiza este trigger",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_GAF_EXTRACIO_MENSUAL",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Month",
+				"interval": 1,
+				"startTime": "2023-01-01T06:00:00Z",
+				"timeZone": "UTC",
+				"schedule": {
+					"hours": [
+						6
+					],
+					"monthDays": [
+						24
+					]
+				}
+			}
+		}
+	}
+}

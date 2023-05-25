@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANFER_DM_DIM_ESTAT_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_ESTAT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEstatPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANFER_DIM_ESTAT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstatPersona"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_PERSONA as decimal(10,0),\n\t\tID_TIPUS_PERSONA as decimal(10,0),\n\t\tID_ESTAT as string,\n\t\tDATA_CREACIO as timestamp,\n\t\tFLAG_CATALA as string,\n\t\tFLAG_MIGRAT as decimal(1,0),\n\t\tFLAG_NOTIFICACIO_ELECTRONICA as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimEstatPersona\nODSDimEstatPersona sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimEstatPersona"
+		}
+	}
+}

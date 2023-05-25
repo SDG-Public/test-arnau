@@ -1,0 +1,28 @@
+{
+	"name": "ODS_ARB_DIM_QUALITATDE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_QUALITATDE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_QUALITATDE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_ODS",
+			"table": "ODS_ARB_DIM_QUALITATDE"
+		}
+	}
+}

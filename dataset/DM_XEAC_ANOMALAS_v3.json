@@ -1,0 +1,77 @@
+{
+	"name": "DM_XEAC_ANOMALAS_v3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v3/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_MCT",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "ANOMALAS_SEGUIDES",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "COMPLIMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_TRUNC",
+				"type": "date"
+			},
+			{
+				"name": "ID_DIM_FOCUS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_VALORACIO_LEGISLACIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_XEAC_ANOMALAS_v3",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_XEAC_ANOMALAS_v3"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

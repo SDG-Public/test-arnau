@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANQS_DM_FACT_EST_ENTRADA",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EST_ENTRADA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSEstEntrada"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANQS_FACT_EST_ENTRADA",
+						"type": "DatasetReference"
+					},
+					"name": "DMEstEntrada"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_EXPEDIENT as string,\n\t\tCOD_DEMARCACIO as string,\n\t\tCOD_GRA_RES as string,\n\t\tIND_IMPORT_RES as string,\n\t\tDATA_DENUNCIA as date,\n\t\tDATA_QUA as date,\n\t\tDATA_PLEC as date,\n\t\tDATA_INI_FAUDE as date,\n\t\tDATA_RES as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSEstEntrada\nODSEstEntrada sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMEstEntrada"
+		}
+	}
+}

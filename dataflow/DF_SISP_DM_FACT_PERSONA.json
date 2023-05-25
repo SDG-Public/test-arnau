@@ -1,0 +1,31 @@
+{
+	"name": "DF_SISP_DM_FACT_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_FACT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSfactPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_FACT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "DMfactPersona"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_PERSONA as decimal(12,0),\n\t\tID_TIPUS_PERSONAL as integer,\n\t\tID_ESTAT as integer,\n\t\tID_ORG as decimal(4,0),\n\t\tID_UNITAT as decimal(4,0),\n\t\tID_SECTOR as decimal(4,0),\n\t\tID_EDIFICI as decimal(4,0),\n\t\tID_PLANTA as decimal(4,0),\n\t\tID_TAULA as decimal(4,0),\n\t\tID_NIVELL as integer,\n\t\tID_TIPUS_HORARI as decimal(4,0),\n\t\tCOD_IDENTIFICADOR as string,\n\t\tCOD_DIRECTORI_CORPORATIU as string,\n\t\tCOD_USUARI_MODIF as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_USUARI_BAIXA as string,\n\t\tNUM_TIPUS_IDENTIFICADOR as decimal(4,0),\n\t\tNUM_EXT_TELEFONICA_EXTERNA as string,\n\t\tNUM_COS_ESPECIALITAT as decimal(4,0),\n\t\tNUM_EXT_TELEFONICA as decimal(5,0),\n\t\tNUM_GRUP_CATEGORIA as decimal(4,0),\n\t\tNUM_RESP_PERSONA as decimal(12,0),\n\t\tNUM_TELEFON_MOBIL as decimal(12,0),\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tNUM_FAX as decimal(12,0),\n\t\tDESC_NOM as string,\n\t\tDESC_COGNOM1 as string,\n\t\tDESC_COGNOM2 as string,\n\t\tDESC_ALIES as string,\n\t\tDESC_VINCULACIO as decimal(4,0),\n\t\tDESC_LLOC_SINGULAR as string,\n\t\tDESC_TITOL_FORM_ACADEMICA as string,\n\t\tDESC_ENTITAT_EXTERNA as string,\n\t\tDESC_MAIL as string,\n\t\tDESC_TORN as decimal(4,0),\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_INF_PERSONA_INTRANET as string,\n\t\tDATA_ALTA_PERS as timestamp,\n\t\tDATA_BAIXA_PERS as timestamp,\n\t\tDATA_BAIXA_EFECT as timestamp,\n\t\tDATA_INI_HORARI as timestamp,\n\t\tDATA_FI_HORARI as timestamp,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp,\n\t\tDATA_MODIF as timestamp,\n\t\tFLAG_PREVENCIO as decimal(1,0),\n\t\tFLAG_MOBILITAT_REDUIDA as decimal(1,0),\n\t\tFLAG_SECRETARIA_UNITAT as decimal(1,0),\n\t\tFLAG_CAP_UNITAT as decimal(1,0),\n\t\tFLAG_VISIBLE_PERSONA_INTRANET as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSfactPersona\nODSfactPersona sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PERSONA as decimal(12,0),\n\t\tID_TIPUS_PERSONAL as integer,\n\t\tID_ESTAT as integer,\n\t\tID_ORG as decimal(4,0),\n\t\tID_UNITAT as decimal(4,0),\n\t\tID_SECTOR as decimal(4,0),\n\t\tID_EDIFICI as decimal(4,0),\n\t\tID_PLANTA as decimal(4,0),\n\t\tID_TAULA as decimal(4,0),\n\t\tID_NIVELL as integer,\n\t\tID_TIPUS_HORARI as decimal(4,0),\n\t\tCOD_IDENTIFICADOR as string,\n\t\tCOD_DIRECTORI_CORPORATIU as string,\n\t\tCOD_USUARI_MODIF as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_USUARI_BAIXA as string,\n\t\tNUM_TIPUS_IDENTIFICADOR as decimal(4,0),\n\t\tNUM_EXT_TELEFONICA_EXTERNA as string,\n\t\tNUM_COS_ESPECIALITAT as decimal(4,0),\n\t\tNUM_EXT_TELEFONICA as decimal(5,0),\n\t\tNUM_GRUP_CATEGORIA as decimal(4,0),\n\t\tNUM_RESP_PERSONA as decimal(12,0),\n\t\tNUM_TELEFON_MOBIL as decimal(12,0),\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tNUM_FAX as decimal(12,0),\n\t\tDESC_NOM as string,\n\t\tDESC_COGNOM1 as string,\n\t\tDESC_COGNOM2 as string,\n\t\tDESC_ALIES as string,\n\t\tDESC_VINCULACIO as decimal(4,0),\n\t\tDESC_LLOC_SINGULAR as string,\n\t\tDESC_TITOL_FORM_ACADEMICA as string,\n\t\tDESC_ENTITAT_EXTERNA as string,\n\t\tDESC_MAIL as string,\n\t\tDESC_TORN as decimal(4,0),\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_INF_PERSONA_INTRANET as string,\n\t\tDATA_ALTA_PERS as timestamp,\n\t\tDATA_BAIXA_PERS as timestamp,\n\t\tDATA_BAIXA_EFECT as timestamp,\n\t\tDATA_INI_HORARI as timestamp,\n\t\tDATA_FI_HORARI as timestamp,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp,\n\t\tDATA_MODIF as timestamp,\n\t\tFLAG_PREVENCIO as decimal(1,0),\n\t\tFLAG_MOBILITAT_REDUIDA as decimal(1,0),\n\t\tFLAG_SECRETARIA_UNITAT as decimal(1,0),\n\t\tFLAG_CAP_UNITAT as decimal(1,0),\n\t\tFLAG_VISIBLE_PERSONA_INTRANET as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMfactPersona"
+		}
+	}
+}

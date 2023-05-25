@@ -1,0 +1,88 @@
+{
+	"name": "PL_EXEC_VALIDACIO_EXCEL",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_ASJ_DIM_ODS_SENTENCIES",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ASJ_ODS_SENTENCIES",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "AUX_SENTENCIES",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DF_ASJ_DIM_ODS_SENTENCIES",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT DISTINCT s.ID_EXPEDIENT, t.METADATA_NUMERIC  FROM [ASJ_ODS].[ODS_ASJ_DIM_SENTENCIES] s\nJOIN (\nSELECT * FROM(\nSELECT *, ROW_NUMBER() OVER(PARTITION BY ID_EXPEDIENT ORDER BY ID_EXPEDIENT, POSICIO DESC) AS NUMERO_FILA FROM\n(select c.ID_EXPEDIENT, d.METADATA_NUMERIC, d.POSICIO from [ASJ_DM].[DM_ASJ_DIM_METADATA] c \n            INNER join (\n            select b.ID_METADATA,B.POSICIO,A.METADATA_NUMERIC,b.ID_OBJECTE_AGRUPAT FROM [ASJ_DM].[DM_ASJ_DIM_METADATA] a\n            inner join [ASJ_DM].[DM_ASJ_DIM_OBJECTE_AGRUPAT] b\n            on a.ID_OBJECTE_AGRUP=b.ID_OBJECTE_AGRUPAT\n            WHERE A.ID_TIPUS_METADATA =102 AND b.ID_METADATA IS NOT NULL\n            ) d\n        on c.ID_METADATA = d.ID_METADATA) f) H\n        WHERE NUMERO_FILA = 1) t\n        on t.ID_EXPEDIENT=s.ID_EXPEDIENT\nORDER BY 1",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "TRUNCATE TABLE [ASJ_ODS].[ODS_ASJ_AUX_SENTENCIES]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ODS_ASJ_DIM_SENTENCIES",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ODS_ASJ_AUX_SENTENCIES",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

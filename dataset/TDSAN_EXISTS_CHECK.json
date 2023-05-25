@@ -1,0 +1,22 @@
+{
+	"name": "TDSAN_EXISTS_CHECK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SFTP_TES_PRO_TDSAN",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "SftpLocation",
+				"fileName": "*.csv",
+				"folderPath": "/pro/out"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

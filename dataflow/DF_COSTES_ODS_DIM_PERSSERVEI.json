@@ -1,0 +1,45 @@
+{
+	"name": "DF_COSTES_ODS_DIM_PERSSERVEI",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PERS_SERVEI",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPERSSERVEI"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_TIPUS_PERS_SERVEI",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTIPUSPERSSERVEI"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_PERS_SERVEI",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPERSSERVEI"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JOINPERSSERVEI"
+				},
+				{
+					"name": "NormalitzarCamps5"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tNOM as string,\n\t\tCOGNOM1 as string,\n\t\tCOGNOM2 as string,\n\t\tCARREC as string,\n\t\tNOM_FITXER_SIGNATURA as string,\n\t\tSIGNATURA as binary,\n\t\tID_TIPUS_PERS as decimal(4,0),\n\t\tIND_VIGENT as string,\n\t\tINICIALS as string,\n\t\tNIF as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPERSSERVEI\nsource(output(\n\t\tID_TIPUS_PERS as decimal(4,0),\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTIPUSPERSSERVEI\nSTGdimPERSSERVEI, STGdimTIPUSPERSSERVEI join(STGdimPERSSERVEI@ID_TIPUS_PERS == STGdimTIPUSPERSSERVEI@ID_TIPUS_PERS,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JOINPERSSERVEI\nJOINPERSSERVEI select(mapColumn(\n\t\tID_TECNIC = ID,\n\t\tID_VIGENT = IND_VIGENT,\n\t\tDESC_NOM = NOM,\n\t\tDESC_COGNOM1 = COGNOM1,\n\t\tDESC_COGNOM2 = COGNOM2,\n\t\tDESC_CARREC = CARREC,\n\t\tDESC_NOM_FITXER_SIGNATURA = NOM_FITXER_SIGNATURA,\n\t\tDESC_TIPUS_PERS_SERVEI = DESCRIPCIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps5\nNormalitzarCamps5 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TECNIC as decimal(4,0),\n\t\tID_VIGENT as string,\n\t\tDESC_NOM as string,\n\t\tDESC_COGNOM1 as string,\n\t\tDESC_COGNOM2 as string,\n\t\tDESC_CARREC as string,\n\t\tDESC_NOM_FITXER_SIGNATURA as string,\n\t\tDESC_TIPUS_PERS_SERVEI as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_TECNIC,\n\t\tID_VIGENT,\n\t\tDESC_NOM,\n\t\tDESC_COGNOM1,\n\t\tDESC_COGNOM2,\n\t\tDESC_CARREC,\n\t\tDESC_NOM_FITXER_SIGNATURA,\n\t\tDESC_TIPUS_PERS_SERVEI\n\t)) ~> ODSdimPERSSERVEI"
+		}
+	}
+}

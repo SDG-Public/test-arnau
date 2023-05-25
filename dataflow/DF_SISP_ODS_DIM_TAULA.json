@@ -1,0 +1,47 @@
+{
+	"name": "DF_SISP_ODS_DIM_TAULA",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_TAULA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTaula"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_TAULA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTaula"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Rename"
+				},
+				{
+					"name": "addNoInformat"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "toUnion"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tCODI as string,\n\t\tID_SECTOR as decimal(4,0),\n\t\tVIGENT as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTaula\nSTGDimTaula select(mapColumn(\n\t\tID_TAULA = ID,\n\t\tID_SECTOR,\n\t\tNUM_TAULA = CODI,\n\t\tFLAG_VIGENT = VIGENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Rename\nRename derive(ID_TAULA = -1,\n\t\tID_SECTOR = -1,\n\t\tNUM_TAULA = 'No Informat',\n\t\tFLAG_VIGENT = 0) ~> addNoInformat\naddNoInformat aggregate(groupBy(ID_TAULA,\n\t\tID_SECTOR,\n\t\tFLAG_VIGENT,\n\t\tNUM_TAULA),\n\tcont = count(ID_SECTOR)) ~> Distinct\nDistinct select(mapColumn(\n\t\tID_TAULA,\n\t\tID_SECTOR,\n\t\tNUM_TAULA,\n\t\tFLAG_VIGENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> toUnion\nRename, toUnion union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TAULA as decimal(4,0),\n\t\tID_SECTOR as decimal(4,0),\n\t\tNUM_TAULA as string,\n\t\tFLAG_VIGENT as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTaula"
+		}
+	}
+}

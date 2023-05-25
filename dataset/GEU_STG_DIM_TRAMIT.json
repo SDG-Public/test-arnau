@@ -1,0 +1,99 @@
+{
+	"name": "GEU_STG_DIM_TRAMIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NUMINT_TRAMIT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CODI_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SUBTRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PROTEGIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_ACORD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_COMISSIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CARACTER_ACORD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_RANG_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_EE_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_SIGNAR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_NOTIF_ENS_LOCAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_RETORN_EACAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_UORG_DESTINATARI_RESPOSTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_RESPOSTA_ELECTRONICA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_TEU_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_TRAMIT_LLIURAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_AFECTA_MUC",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_TRAMIT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

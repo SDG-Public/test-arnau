@@ -1,0 +1,343 @@
+{
+	"name": "PL_STG_01_MCT",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_MCT",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT CODI_EMIS\n      ,ID_FOCUS\n      ,MARCA_TEMPS_TZ\n      ,MARCA_TEMPS_UTC\n      ,MARCA_TEMPS_LOCAL\n      ,MINUTOS_MCT\n      ,ID_ELEMENT\n      ,ID_LEGISLACIO\n      ,ID_SUBMODE\n      ,V_VLE\n      ,F_VLE\n      ,V_IMP\n      ,F_IMP\n      ,V_INV\n      ,F_INV\n      ,V_PRT\n      ,F_PRT\n      ,V_GEH\n      ,F_GEH\n  FROM XEAC_ADMIN.XEAC_MCT\n WHERE to_number(to_char(MARCA_TEMPS_UTC, 'YYYYMMDD')) >= to_number('@{pipeline().parameters.DATA_INI}') \nand to_number(to_char(MARCA_TEMPS_UTC, 'YYYYMMDD')) < to_number('@{pipeline().parameters.DATA_FI}')+1;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"convertDecimalToInteger": false,
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "CODI_EMIS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "CODI_EMIS",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_FOCUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_FOCUS",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "MARCA_TEMPS_TZ",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "MARCA_TEMPS_TZ",
+									"type": "DateTime",
+									"physicalType": "datetime2"
+								}
+							},
+							{
+								"source": {
+									"name": "MARCA_TEMPS_UTC",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "MARCA_TEMPS_UTC",
+									"type": "DateTime",
+									"physicalType": "datetime2"
+								}
+							},
+							{
+								"source": {
+									"name": "MARCA_TEMPS_LOCAL",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "MARCA_TEMPS_LOCAL",
+									"type": "DateTime",
+									"physicalType": "datetime2"
+								}
+							},
+							{
+								"source": {
+									"name": "MINUTOS_MCT",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "MINUTOS_MCT",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 3
+								}
+							},
+							{
+								"source": {
+									"name": "ID_ELEMENT",
+									"type": "Decimal"
+								},
+								"sink": {
+									"name": "ID_ELEMENT",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 0,
+									"precision": 6
+								}
+							},
+							{
+								"source": {
+									"name": "ID_LEGISLACIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_LEGISLACIO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_SUBMODE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "ID_SUBMODE",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_VLE",
+									"type": "Single"
+								},
+								"sink": {
+									"name": "V_VLE",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "F_VLE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "F_VLE",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_IMP",
+									"type": "Single"
+								},
+								"sink": {
+									"name": "V_IMP",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "F_IMP",
+									"type": "String"
+								},
+								"sink": {
+									"name": "F_IMP",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_INV",
+									"type": "Single"
+								},
+								"sink": {
+									"name": "V_INV",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "F_INV",
+									"type": "String"
+								},
+								"sink": {
+									"name": "F_INV",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_PRT",
+									"type": "Single"
+								},
+								"sink": {
+									"name": "V_PRT",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "F_PRT",
+									"type": "String"
+								},
+								"sink": {
+									"name": "F_PRT",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "V_GEH",
+									"type": "Single"
+								},
+								"sink": {
+									"name": "V_GEH",
+									"type": "Single",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "F_GEH",
+									"type": "String"
+								},
+								"sink": {
+									"name": "F_GEH",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ORA_STG_MCT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "DELETE_ROWS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "MARCA_TEMPS_UTC",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "STG_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "STG_XEAC_MCT",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"DATA_INI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			},
+			"DATA_FI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v3/STG_MCT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:05:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

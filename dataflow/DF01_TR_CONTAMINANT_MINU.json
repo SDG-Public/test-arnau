@@ -1,0 +1,130 @@
+{
+	"name": "DF01_TR_CONTAMINANT_MINU",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_AGE_MINUTALS",
+						"type": "DatasetReference"
+					},
+					"name": "ageminutals"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_VLE_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOvleMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOvleMLT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "TR_CONTAMINANT_MINU",
+						"type": "DatasetReference"
+					},
+					"name": "odsTRCONTAMINANTMINU"
+				}
+			],
+			"transformations": [
+				{
+					"name": "addVALOR"
+				},
+				{
+					"name": "transponerVALOR"
+				},
+				{
+					"name": "addCODVALIDACIO"
+				},
+				{
+					"name": "transponerCODVALIDACIO"
+				},
+				{
+					"name": "unimosTRANS"
+				},
+				{
+					"name": "addHORAminut"
+				},
+				{
+					"name": "deleteColDuplicades"
+				},
+				{
+					"name": "addPERIODE"
+				},
+				{
+					"name": "treiem99999"
+				},
+				{
+					"name": "FilterMODEreportable"
+				},
+				{
+					"name": "SelectMODEreportable"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "dcMODEreportableNUM"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "UnionSUBMODES"
+				},
+				{
+					"name": "SelectCOLSmodeREP"
+				},
+				{
+					"name": "SelectCOLSmodeREPno"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "IJvalracioMCTno"
+				},
+				{
+					"name": "IJvalracioMCT"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "DISTINCT"
+				},
+				{
+					"name": "DISTINCT2"
+				},
+				{
+					"name": "CONVERSIONipusMCT"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "Select3"
+				},
+				{
+					"name": "DISTINCT3"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tIDCONTAMINANT as string,\n\t\tIDFOCUS as string,\n\t\tDATA as timestamp,\n\t\tVALORS as string,\n\t\tVALIDACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ageminutals\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT as integer,\n\t\tVLE_MCT_UNITATS as string,\n\t\tVLE_MCT_VAL_PERC_COMP as integer,\n\t\tMCT_VAL_PERIODE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOvleMCT\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOvleMLT\ntreiem99999 derive(valor0 = toDouble(translate(substring(VALORS, 1,4),',','.')),\n\t\tvalor1 = toDouble(translate(substring(VALORS, 5,4),',','.')),\n\t\tvalor2 = toDouble(translate(substring(VALORS, 9,4),',','.')),\n\t\tvalor3 = toDouble(translate(substring(VALORS, 13,4),',','.')),\n\t\tvalor4 = toDouble(translate(substring(VALORS, 17,4),',','.')),\n\t\tvalor5 = toDouble(translate(substring(VALORS, 21,4),',','.')),\n\t\tvalor6 = toDouble(translate(substring(VALORS, 25,4),',','.')),\n\t\tvalor7 = toDouble(translate(substring(VALORS, 29,4),',','.')),\n\t\tvalor8 = toDouble(translate(substring(VALORS, 33,4),',','.')),\n\t\tvalor9 = toDouble(translate(substring(VALORS, 37,4),',','.')),\n\t\tvalor10 = toDouble(translate(substring(VALORS, 41,4),',','.')),\n\t\tvalor11 = toDouble(translate(substring(VALORS, 45,4),',','.')),\n\t\tvalor12 = toDouble(translate(substring(VALORS, 49,4),',','.')),\n\t\tvalor13 = toDouble(translate(substring(VALORS, 53,4),',','.')),\n\t\tvalor14 = toDouble(translate(substring(VALORS, 57,4),',','.')),\n\t\tvalor15 = toDouble(translate(substring(VALORS, 61,4),',','.')),\n\t\tvalor16 = toDouble(translate(substring(VALORS, 65,4),',','.')),\n\t\tvalor17 = toDouble(translate(substring(VALORS, 69,4),',','.')),\n\t\tvalor18 = toDouble(translate(substring(VALORS, 73,4),',','.')),\n\t\tvalor19 = toDouble(translate(substring(VALORS, 77,4),',','.')),\n\t\tvalor20 = toDouble(translate(substring(VALORS, 81,4),',','.')),\n\t\tvalor21 = toDouble(translate(substring(VALORS, 85,4),',','.')),\n\t\tvalor22 = toDouble(translate(substring(VALORS, 89,4),',','.')),\n\t\tvalor23 = toDouble(translate(substring(VALORS, 93,4),',','.')),\n\t\tvalor24 = toDouble(translate(substring(VALORS, 97,4),',','.')),\n\t\tvalor25 = toDouble(translate(substring(VALORS, 101,4),',','.')),\n\t\tvalor26 = toDouble(translate(substring(VALORS, 105,4),',','.')),\n\t\tvalor27 = toDouble(translate(substring(VALORS, 109,4),',','.')),\n\t\tvalor28 = toDouble(translate(substring(VALORS, 113,4),',','.')),\n\t\tvalor29 = toDouble(translate(substring(VALORS, 117,4),',','.')),\n\t\tvalor30 = toDouble(translate(substring(VALORS, 121,4),',','.')),\n\t\tvalor31 = toDouble(translate(substring(VALORS, 125,4),',','.')),\n\t\tvalor32 = toDouble(translate(substring(VALORS, 129,4),',','.')),\n\t\tvalor33 = toDouble(translate(substring(VALORS, 133,4),',','.')),\n\t\tvalor34 = toDouble(translate(substring(VALORS, 137,4),',','.')),\n\t\tvalor35 = toDouble(translate(substring(VALORS, 141,4),',','.')),\n\t\tvalor36 = toDouble(translate(substring(VALORS, 145,4),',','.')),\n\t\tvalor37 = toDouble(translate(substring(VALORS, 149,4),',','.')),\n\t\tvalor38 = toDouble(translate(substring(VALORS, 153,4),',','.')),\n\t\tvalor39 = toDouble(translate(substring(VALORS, 157,4),',','.')),\n\t\tvalor40 = toDouble(translate(substring(VALORS, 161,4),',','.')),\n\t\tvalor41 = toDouble(translate(substring(VALORS, 165,4),',','.')),\n\t\tvalor42 = toDouble(translate(substring(VALORS, 169,4),',','.')),\n\t\tvalor43 = toDouble(translate(substring(VALORS, 173,4),',','.')),\n\t\tvalor44 = toDouble(translate(substring(VALORS, 177,4),',','.')),\n\t\tvalor45 = toDouble(translate(substring(VALORS, 181,4),',','.')),\n\t\tvalor46 = toDouble(translate(substring(VALORS, 185,4),',','.')),\n\t\tvalor47 = toDouble(translate(substring(VALORS, 189,4),',','.')),\n\t\tvalor48 = toDouble(translate(substring(VALORS, 193,4),',','.')),\n\t\tvalor49 = toDouble(translate(substring(VALORS, 197,4),',','.')),\n\t\tvalor50 = toDouble(translate(substring(VALORS, 201,4),',','.')),\n\t\tvalor51 = toDouble(translate(substring(VALORS, 205,4),',','.')),\n\t\tvalor52 = toDouble(translate(substring(VALORS, 209,4),',','.')),\n\t\tvalor53 = toDouble(translate(substring(VALORS, 213,4),',','.')),\n\t\tvalor54 = toDouble(translate(substring(VALORS, 217,4),',','.')),\n\t\tvalor55 = toDouble(translate(substring(VALORS, 221,4),',','.')),\n\t\tvalor56 = toDouble(translate(substring(VALORS, 225,4),',','.')),\n\t\tvalor57 = toDouble(translate(substring(VALORS, 229,4),',','.')),\n\t\tvalor58 = toDouble(translate(substring(VALORS, 233,4),',','.')),\n\t\tvalor59 = toDouble(translate(substring(VALORS, 237,4),',','.'))) ~> addVALOR\naddVALOR unpivot(output(\n\t\tpetar_nombre_valor as string,\n\t\tVALOR as double\n\t),\n\tungroupBy(IDCONTAMINANT,\n\t\tIDFOCUS,\n\t\tVALORS,\n\t\tVALIDACIO,\n\t\tDATA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> transponerVALOR\ntreiem99999 derive(valor0 = substring(VALIDACIO, 1, 1),\n\t\tvalor1 = substring(VALIDACIO, 2, 1),\n\t\tvalor2 = substring(VALIDACIO, 3, 1),\n\t\tvalor3 = substring(VALIDACIO, 4, 1),\n\t\tvalor4 = substring(VALIDACIO, 5, 1),\n\t\tvalor5 = substring(VALIDACIO, 6, 1),\n\t\tvalor6 = substring(VALIDACIO, 7, 1),\n\t\tvalor7 = substring(VALIDACIO, 8, 1),\n\t\tvalor8 = substring(VALIDACIO, 9, 1),\n\t\tvalor9 = substring(VALIDACIO, 10, 1),\n\t\tvalor10 = substring(VALIDACIO, 11, 1),\n\t\tvalor11 = substring(VALIDACIO, 12, 1),\n\t\tvalor12 = substring(VALIDACIO, 13, 1),\n\t\tvalor13 = substring(VALIDACIO, 14, 1),\n\t\tvalor14 = substring(VALIDACIO, 15, 1),\n\t\tvalor15 = substring(VALIDACIO, 16, 1),\n\t\tvalor16 = substring(VALIDACIO, 17, 1),\n\t\tvalor17 = substring(VALIDACIO, 18, 1),\n\t\tvalor18 = substring(VALIDACIO, 19, 1),\n\t\tvalor19 = substring(VALIDACIO, 20, 1),\n\t\tvalor20 = substring(VALIDACIO, 21, 1),\n\t\tvalor21 = substring(VALIDACIO, 22, 1),\n\t\tvalor22 = substring(VALIDACIO, 23, 1),\n\t\tvalor23 = substring(VALIDACIO, 24, 1),\n\t\tvalor24 = substring(VALIDACIO, 25, 1),\n\t\tvalor25 = substring(VALIDACIO, 26, 1),\n\t\tvalor26 = substring(VALIDACIO, 27, 1),\n\t\tvalor27 = substring(VALIDACIO, 28, 1),\n\t\tvalor28 = substring(VALIDACIO, 29, 1),\n\t\tvalor29 = substring(VALIDACIO, 30, 1),\n\t\tvalor30 = substring(VALIDACIO, 31, 1),\n\t\tvalor31 = substring(VALIDACIO, 32, 1),\n\t\tvalor32 = substring(VALIDACIO, 33, 1),\n\t\tvalor33 = substring(VALIDACIO, 34, 1),\n\t\tvalor34 = substring(VALIDACIO, 35, 1),\n\t\tvalor35 = substring(VALIDACIO, 36, 1),\n\t\tvalor36 = substring(VALIDACIO, 37, 1),\n\t\tvalor37 = substring(VALIDACIO, 38, 1),\n\t\tvalor38 = substring(VALIDACIO, 39, 1),\n\t\tvalor39 = substring(VALIDACIO, 40, 1),\n\t\tvalor40 = substring(VALIDACIO, 41, 1),\n\t\tvalor41 = substring(VALIDACIO, 42, 1),\n\t\tvalor42 = substring(VALIDACIO, 43, 1),\n\t\tvalor43 = substring(VALIDACIO, 44, 1),\n\t\tvalor44 = substring(VALIDACIO, 45, 1),\n\t\tvalor45 = substring(VALIDACIO, 46, 1),\n\t\tvalor46 = substring(VALIDACIO, 47, 1),\n\t\tvalor47 = substring(VALIDACIO, 48, 1),\n\t\tvalor48 = substring(VALIDACIO, 49, 1),\n\t\tvalor49 = substring(VALIDACIO, 50, 1),\n\t\tvalor50 = substring(VALIDACIO, 51, 1),\n\t\tvalor51 = substring(VALIDACIO, 52, 1),\n\t\tvalor52 = substring(VALIDACIO, 53, 1),\n\t\tvalor53 = substring(VALIDACIO, 54, 1),\n\t\tvalor54 = substring(VALIDACIO, 55, 1),\n\t\tvalor55 = substring(VALIDACIO, 56, 1),\n\t\tvalor56 = substring(VALIDACIO, 57, 1),\n\t\tvalor57 = substring(VALIDACIO, 58, 1),\n\t\tvalor58 = substring(VALIDACIO, 59, 1),\n\t\tvalor59 = substring(VALIDACIO, 60, 1)) ~> addCODVALIDACIO\naddCODVALIDACIO unpivot(output(\n\t\tpetar_nombre_codis as string,\n\t\tCOD_VALIDACIO as string\n\t),\n\tungroupBy(IDCONTAMINANT,\n\t\tIDFOCUS,\n\t\tVALORS,\n\t\tVALIDACIO,\n\t\tDATA),\n\tlateral: true,\n\tignoreNullPivots: false) ~> transponerCODVALIDACIO\ntransponerVALOR, transponerCODVALIDACIO join(transponerVALOR@IDCONTAMINANT == transponerCODVALIDACIO@IDCONTAMINANT\n\t&& transponerVALOR@IDFOCUS == transponerCODVALIDACIO@IDFOCUS\n\t&& petar_nombre_valor == petar_nombre_codis\n\t&& transponerVALOR@DATA == transponerCODVALIDACIO@DATA\n\t&& transponerVALOR@VALORS == transponerCODVALIDACIO@VALORS\n\t&& transponerVALOR@VALIDACIO == transponerCODVALIDACIO@VALIDACIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> unimosTRANS\nUnionSUBMODES derive(HORA = hour(DATA),\n\t\tMINUT = toInteger(substring(petar_nombre_valor, 6, 2))) ~> addHORAminut\nunimosTRANS select(mapColumn(\n\t\tIDCONTAMINANT = transponerVALOR@IDCONTAMINANT,\n\t\tIDFOCUS = transponerVALOR@IDFOCUS,\n\t\tVALORS = transponerVALOR@VALORS,\n\t\tVALIDACIO = transponerVALOR@VALIDACIO,\n\t\tDATA = transponerVALOR@DATA,\n\t\tpetar_nombre_valor,\n\t\tVALOR,\n\t\tpetar_nombre_codis,\n\t\tCOD_VALIDACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> deleteColDuplicades\naddHORAminut derive(DATA = case(\r\nMCT_BASE == 10 && MINUT<=9, toTimestamp(concat(toString(toDate(DATA),'yyyy-MM-dd'), ' ',lpad(toString(HORA),2,'0') ,':00:00') ), \r\nMCT_BASE == 10 && MINUT<=19, toTimestamp(concat(toString(toDate(DATA),'yyyy-MM-dd'), ' ',lpad(toString(HORA),2,'0') ,':10:00') ), \r\nMCT_BASE == 10 && MINUT<=29, toTimestamp(concat(toString(toDate(DATA),'yyyy-MM-dd'), ' ',lpad(toString(HORA),2,'0') ,':20:00') ), \r\nMCT_BASE == 10 && MINUT<=39, toTimestamp(concat(toString(toDate(DATA),'yyyy-MM-dd'), ' ',lpad(toString(HORA),2,'0') ,':30:00') ), \r\nMCT_BASE == 10 && MINUT<=49, toTimestamp(concat(toString(toDate(DATA),'yyyy-MM-dd'), ' ',lpad(toString(HORA),2,'0') ,':40:00') ), \r\nMCT_BASE == 10 && MINUT<=59, toTimestamp(concat(toString(toDate(DATA),'yyyy-MM-dd'), ' ',lpad(toString(HORA),2,'0') ,':50:00') ), \r\nMCT_BASE == 30 && MINUT<=29, toTimestamp(concat(toString(toDate(DATA),'yyyy-MM-dd'), ' ',lpad(toString(HORA),2,'0') ,':00:00') ), \r\nMCT_BASE == 30 && MINUT>=30, toTimestamp(concat(toString(toDate(DATA),'yyyy-MM-dd'), ' ',lpad(toString(HORA),2,'0') ,':30:00') ),  \r\nMCT_BASE == 60, toTimestamp(concat(toString(toDate(DATA),'yyyy-MM-dd'), ' ',lpad(toString(HORA),2,'0') ,':00:00') )\r\n)) ~> addPERIODE\nageminutals filter('9999999999' != substring(VALIDACIO, 1, 10)\r\n&&\r\ntoDate(DATA) >= toDate($P_DATA_INI,'yyyyMMdd')\r\n&&\r\ntoDate(DATA) < addDays(toDate($P_DATA_FI,'yyyyMMdd'),1)) ~> treiem99999\ndeleteColDuplicades filter(IDCONTAMINANT == '353') ~> FilterMODEreportable\nFilterMODEreportable select(mapColumn(\n\t\tIDFOCUS,\n\t\tDATA,\n\t\tpetar_nombre_valor,\n\t\tMODE_REPORTABLE_NUM = VALOR\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectMODEreportable\ndeleteColDuplicades, SelectMODEreportable join(deleteColDuplicades@IDFOCUS == SelectMODEreportable@IDFOCUS\n\t&& deleteColDuplicades@DATA == SelectMODEreportable@DATA\n\t&& deleteColDuplicades@petar_nombre_valor == SelectMODEreportable@petar_nombre_valor,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join1\nConditionalSplit1@AmbModeReportable derive(MODE_REPORTABLE_NUM_DC = lpad(toString(floor(MODE_REPORTABLE_NUM)),2,'0')) ~> dcMODEreportableNUM\nSelect1 split(isNull(MODE_REPORTABLE_NUM),\n\tdisjoint: false) ~> ConditionalSplit1@(SenseModeReportable, AmbModeReportable)\nSelectCOLSmodeREP, SelectCOLSmodeREPno union(byName: true)~> UnionSUBMODES\nIJvalracioMCT select(mapColumn(\n\t\tIDCONTAMINANT,\n\t\tIDFOCUS,\n\t\tVALORS,\n\t\tVALIDACIO,\n\t\tDATA,\n\t\tpetar_nombre_valor,\n\t\tVALOR,\n\t\tpetar_nombre_codis,\n\t\tCOD_VALIDACIO,\n\t\tID_LEGISLACIO,\n\t\tMCT_BASE = VLE_MCT_TIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM = MODE_REPORTABLE_NUM_DC\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLSmodeREP\nIJvalracioMCTno select(mapColumn(\n\t\tIDCONTAMINANT,\n\t\tIDFOCUS,\n\t\tVALORS,\n\t\tVALIDACIO,\n\t\tDATA,\n\t\tpetar_nombre_valor,\n\t\tVALOR,\n\t\tpetar_nombre_codis,\n\t\tCOD_VALIDACIO,\n\t\tID_LEGISLACIO,\n\t\tMCT_BASE = VLE_MCT_TIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLSmodeREPno\nJoin1 select(mapColumn(\n\t\tIDCONTAMINANT,\n\t\tIDFOCUS = deleteColDuplicades@IDFOCUS,\n\t\tVALORS,\n\t\tVALIDACIO,\n\t\tDATA = deleteColDuplicades@DATA,\n\t\tpetar_nombre_valor = deleteColDuplicades@petar_nombre_valor,\n\t\tVALOR,\n\t\tpetar_nombre_codis,\n\t\tCOD_VALIDACIO,\n\t\tMODE_REPORTABLE_NUM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nDerivedColumn1, DISTINCT3 join(IDFOCUS == ID_FOCUS\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& IDCONTAMINANT == toString(ID_ELEMENT),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> IJvalracioMCTno\ndcMODEreportableNUM, DISTINCT3 join(IDFOCUS == ID_FOCUS\n\t&& MODE_REPORTABLE_NUM_DC == ID_SUBMODE\n\t&& IDCONTAMINANT == toString(ID_ELEMENT),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> IJvalracioMCT\nConditionalSplit1@SenseModeReportable derive(MODE_REPORTABLE_NUM = '01') ~> DerivedColumn1\nODSdimVALORACIOvleMCT aggregate(groupBy(ID_FOCUS,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tID_LEGISLACIO,\n\t\tVLE_MCT_TIPUS_MCT),\n\tTEMP = count(ID_FOCUS)) ~> DISTINCT\nCONVERSIONipusMCT aggregate(groupBy(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tVLE_MCT_TIPUS_MCT = VLE_MLT_MCT_MLT_BASE_MLT),\n\tTEMP2 = count(ID_FOCUS)) ~> DISTINCT2\nODSdimVALORACIOvleMLT derive(VLE_MLT_MCT_MLT_BASE_MLT = iif(VLE_MLT_MCT_MLT_BASE_MLT == 'SH', 30,\r\n    iif(VLE_MLT_MCT_MLT_BASE_MLT == 'H', 60,\r\n        iif(VLE_MLT_MCT_MLT_BASE_MLT == 'D', 10, \r\n        99)\r\n    )\r\n)) ~> CONVERSIONipusMCT\nSelect2, Select3 union(byName: true)~> Union1\nDISTINCT select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tID_LEGISLACIO,\n\t\tVLE_MCT_TIPUS_MCT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nDISTINCT2 select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tVLE_MCT_TIPUS_MCT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select3\nUnion1 aggregate(groupBy(ID_FOCUS,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tID_LEGISLACIO,\n\t\tVLE_MCT_TIPUS_MCT),\n\tTEMP = count(ID_FOCUS)) ~> DISTINCT3\naddPERIODE sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tID_LEGISLACIO as string,\n\t\tTIPUS_MCT as string,\n\t\tCOD_VALIDACIO as string,\n\t\tVALOR as double,\n\t\tMODE_REPORTABLE_NUM as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_CONTAMINANT = IDCONTAMINANT,\n\t\tID_FOCUS = IDFOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT = MCT_BASE,\n\t\tCOD_VALIDACIO,\n\t\tVALOR,\n\t\tMODE_REPORTABLE_NUM,\n\t\tID_LEGISLACIO\n\t)) ~> odsTRCONTAMINANTMINU"
+		}
+	}
+}

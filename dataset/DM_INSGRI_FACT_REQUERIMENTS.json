@@ -1,0 +1,106 @@
+{
+	"name": "DM_INSGRI_FACT_REQUERIMENTS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_REQUERIMENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_INSPECCIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_MOTIU_DEVOLUCIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "COD_CONTRASENYA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INICI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ENVIAMENT",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_SEGON_ENVIAMENT",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_JUSTIFICANT_RECEPCIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_RECEPCIO_INFO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_DEVOLUCIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_TE_FITXERS_NOUS",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_DM",
+			"table": "DM_INSGRI_FACT_REQUERIMENTS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,78 @@
+{
+	"name": "COSTES_STG_DIM_PERSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PARTY_ID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "FIRST_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MIDDLE_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LAST_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PERSONAL_TITLE",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "BIRTH_DATE",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CODI_NACIONALITAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "GENDER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MARITAL_STATUS_TYPE_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_DOCUMENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DOCUMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CARREC",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_PERSON"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

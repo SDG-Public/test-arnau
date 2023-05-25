@@ -1,0 +1,166 @@
+{
+	"name": "PL_XEAC_EM_HIST",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_XEAC_EM_01_ODS_INICI",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_EM_01_ODS_INICI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_INI": {
+							"value": "@pipeline().parameters.P_DATA_INI",
+							"type": "Expression"
+						},
+						"P_DATA_FI": {
+							"value": "@pipeline().parameters.P_DATA_FI",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "PL_XEAC_EM_02_ODS_CABAL",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_EM_01_ODS_INICI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_EM_02_ODS_CABAL",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_EM_02_ODS_CONTAMINANT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_EM_01_ODS_INICI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_EM_02_ODS_CONTAMINANT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_EM_02_ODS_TEMPS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_EM_01_ODS_INICI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_EM_02_ODS_TEMPS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_EM_03_ODS_EM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_EM_02_ODS_CABAL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "PL_XEAC_EM_02_ODS_CONTAMINANT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "PL_XEAC_EM_02_ODS_TEMPS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_EM_03_ODS_EM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_EM_DM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_EM_03_ODS_EM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_EM_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_INI": {
+							"value": "@pipeline().parameters.P_DATA_INI",
+							"type": "Expression"
+						},
+						"P_DATA_FI": {
+							"value": "@pipeline().parameters.P_DATA_FI",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string"
+			},
+			"P_DATA_FI": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v2/EM"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,35 @@
+{
+	"name": "DF_SANQS_ODS_FACT_CERTIFICAT_DESCOBERT",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_CERTIFICAT_DESCOBERT_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSCertificatDescobertTSA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_CERTIFICAT_DESCOBERT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSCertificatDescobert"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelecCampos"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tID_EXPEDIENT as string,\n\t\tDATA_TRAMITADOR as string,\n\t\tDATA_RGA as string,\n\t\tIND_IMPORT_DESCOBERT as string,\n\t\tDATA_PAGAMENT as string,\n\t\tDATA_RETENCIO as string,\n\t\tDATA_SOLLICITUD_ANULACIO as string,\n\t\tDATA_ANULACIO as string,\n\t\tCOD_ANULACIO as string,\n\t\tDATA_SOLLICITUD_DOC_JURIDIC as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSCertificatDescobertTSA\nODSCertificatDescobertTSA select(mapColumn(\n\t\tCODI_EXPEDIENT = ID_EXPEDIENT,\n\t\tDATA_TRAMITADOR\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelecCampos\nSelecCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_EXPEDIENT as string,\n\t\tDATA_TRAMITADOR as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSCertificatDescobert"
+		}
+	}
+}

@@ -1,0 +1,33 @@
+{
+	"name": "STG_ARB_FACT_EXPEDIENT_VOCAL_TGN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ARB_VEX_REF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VEX_VOC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VEX_TIPUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VEX_COMP",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_STG",
+			"table": "STG_ARB_FACT_EXPEDIENT_VOCAL_TGN"
+		}
+	}
+}

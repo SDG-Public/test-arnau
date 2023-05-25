@@ -1,0 +1,33 @@
+{
+	"name": "MESTRES_STG_PROVINCIES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MESTRES/TERRITORIAL/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_CAT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "MESTRES_STG",
+			"table": "STG_GEU_PROVINCIES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

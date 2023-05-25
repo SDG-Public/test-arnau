@@ -1,0 +1,51 @@
+{
+	"name": "DF_SISP_ODS_FACT_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_FACT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactPersona"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMEstat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_FACT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactPersona"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Rename"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "TratamientoNull"
+				},
+				{
+					"name": "FixEstat"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(12,0),\n\t\tTIPUS_IDENTIFICADOR as decimal(4,0),\n\t\tNUMERO_IDENTIFICADOR as string,\n\t\tNOM as string,\n\t\tCOGNOM1 as string,\n\t\tCOGNOM2 as string,\n\t\tALIES as string,\n\t\tID_UNITAT as decimal(4,0),\n\t\tID_ORG as decimal(4,0),\n\t\tCODI_DIRECTORI_CORPORATIU as string,\n\t\tPERSONAL as decimal(4,0),\n\t\tVINCULACIO as decimal(4,0),\n\t\tGRUP_CATEGORIA as decimal(4,0),\n\t\tCOS_ESPECIALITAT as decimal(4,0),\n\t\tLLOC_SINGULAR as string,\n\t\tCAP_UNITAT as decimal(1,0),\n\t\tSECRETARIA_UNITAT as decimal(1,0),\n\t\tENTITAT_EXTERNA as string,\n\t\tTITOL_FORM_ACADEMICA as string,\n\t\tRESP_PERSONA as decimal(12,0),\n\t\tDATA_ALTA_PERS as timestamp,\n\t\tDATA_BAIXA_PERS as timestamp,\n\t\tTELEFON as decimal(12,0),\n\t\tEXT_TELEFONICA as decimal(5,0),\n\t\tMAIL as string,\n\t\tFOTOGRAFIA as binary,\n\t\tMOBILITAT_REDUIDA as decimal(1,0),\n\t\tEDIFICI as decimal(4,0),\n\t\tPLANTA as decimal(4,0),\n\t\tSECTOR as decimal(4,0),\n\t\tTAULA as decimal(4,0),\n\t\tTORN as decimal(4,0),\n\t\tTIPUS_HORARI as decimal(4,0),\n\t\tDATA_INI_HORARI as timestamp,\n\t\tDATA_FI_HORARI as timestamp,\n\t\tPREVENCIO as decimal(1,0),\n\t\tOBSERVACIONS as string,\n\t\tMOTIU_BAIXA as decimal(4,0),\n\t\tNIVELL as decimal(4,0),\n\t\tDATA_BAIXA_EFECT as timestamp,\n\t\tUSUARI_ALTA as string,\n\t\tDATA_ALTA as timestamp,\n\t\tUSUARI_BAIXA as string,\n\t\tDATA_BAIXA as timestamp,\n\t\tUSUARI_MODIF as string,\n\t\tDATA_MODIF as timestamp,\n\t\tESTAT as string,\n\t\tEXT_TELEFONICA_EXTERNA as string,\n\t\tTELEFON_MOBIL as decimal(12,0),\n\t\tFAX as decimal(12,0),\n\t\tINF_PERSONA_INTRANET as string,\n\t\tVISIBLE_PERSONA_INTRANET as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactPersona\nsource(output(\n\t\tID_ESTAT as long,\n\t\tDESC_ESTAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMEstat\nJoin1 select(mapColumn(\n\t\tID_PERSONA = ID,\n\t\tID_TIPUS_PERSONAL = PERSONAL,\n\t\tID_ESTAT,\n\t\tID_ORG,\n\t\tID_UNITAT,\n\t\tID_SECTOR = SECTOR,\n\t\tID_EDIFICI = EDIFICI,\n\t\tID_PLANTA = PLANTA,\n\t\tID_TAULA = TAULA,\n\t\tID_NIVELL = NIVELL,\n\t\tID_TIPUS_HORARI = TIPUS_HORARI,\n\t\tCOD_IDENTIFICADOR = NUMERO_IDENTIFICADOR,\n\t\tCOD_DIRECTORI_CORPORATIU = CODI_DIRECTORI_CORPORATIU,\n\t\tCOD_USUARI_MODIF = USUARI_MODIF,\n\t\tCOD_USUARI_ALTA = USUARI_ALTA,\n\t\tCOD_USUARI_BAIXA = USUARI_BAIXA,\n\t\tCOD_TORN = TORN,\n\t\tNUM_TIPUS_IDENTIFICADOR = TIPUS_IDENTIFICADOR,\n\t\tNUM_EXT_TELEFONICA_EXTERNA = EXT_TELEFONICA_EXTERNA,\n\t\tNUM_COS_ESPECIALITAT = COS_ESPECIALITAT,\n\t\tNUM_EXT_TELEFONICA = EXT_TELEFONICA,\n\t\tNUM_GRUP_CATEGORIA = GRUP_CATEGORIA,\n\t\tNUM_RESP_PERSONA = RESP_PERSONA,\n\t\tNUM_TELEFON_MOBIL = TELEFON_MOBIL,\n\t\tNUM_TELEFON = TELEFON,\n\t\tNUM_FAX = FAX,\n\t\tDESC_NOM = NOM,\n\t\tDESC_COGNOM1 = COGNOM1,\n\t\tDESC_COGNOM2 = COGNOM2,\n\t\tDESC_ALIES = ALIES,\n\t\tDESC_VINCULACIO = VINCULACIO,\n\t\tDESC_LLOC_SINGULAR = LLOC_SINGULAR,\n\t\tDESC_TITOL_FORM_ACADEMICA = TITOL_FORM_ACADEMICA,\n\t\tDESC_ENTITAT_EXTERNA = ENTITAT_EXTERNA,\n\t\tDESC_MAIL = MAIL,\n\t\tDESC_OBSERVACIONS = OBSERVACIONS,\n\t\tDESC_INF_PERSONA_INTRANET = INF_PERSONA_INTRANET,\n\t\tDATA_ALTA_PERS,\n\t\tDATA_BAIXA_PERS,\n\t\tDATA_BAIXA_EFECT,\n\t\tDATA_INI_HORARI,\n\t\tDATA_FI_HORARI,\n\t\tDATA_ALTA,\n\t\tDATA_BAIXA,\n\t\tDATA_MODIF,\n\t\tFLAG_PREVENCIO = PREVENCIO,\n\t\tFLAG_MOBILITAT_REDUIDA = MOBILITAT_REDUIDA,\n\t\tFLAG_SECRETARIA_UNITAT = SECRETARIA_UNITAT,\n\t\tFLAG_CAP_UNITAT = CAP_UNITAT,\n\t\tFLAG_VISIBLE_PERSONA_INTRANET = VISIBLE_PERSONA_INTRANET\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Rename\nFixEstat, DMEstat join(ESTAT == DESC_ESTAT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join1\nRename derive(ID_NIVELL = iif(isNull(ID_NIVELL), -1, toInteger(ID_NIVELL)),\n\t\tID_PERSONA = iif(isNull(ID_PERSONA), -1, toInteger(ID_PERSONA)),\n\t\tID_TIPUS_PERSONAL = iif(isNull(ID_TIPUS_PERSONAL), -1, toInteger(ID_TIPUS_PERSONAL)),\n\t\tID_ESTAT = iif(isNull(ID_ESTAT), -1, toInteger(ID_ESTAT)),\n\t\tID_ORG = iif(isNull(ID_ORG), -1, toInteger(ID_ORG)),\n\t\tID_UNITAT = iif(isNull(ID_UNITAT), -1, toInteger(ID_UNITAT)),\n\t\tID_SECTOR = iif(isNull(ID_SECTOR), -1, toInteger(ID_SECTOR)),\n\t\tID_EDIFICI = iif(isNull(ID_EDIFICI), -1, toInteger(ID_EDIFICI)),\n\t\tID_PLANTA = iif(isNull(ID_PLANTA), -1, toInteger(ID_PLANTA)),\n\t\tID_TAULA = iif(isNull(ID_TAULA), -1, toInteger(ID_TAULA)),\n\t\tID_TIPUS_HORARI = iif(isNull(ID_TIPUS_HORARI), -1, toInteger(ID_TIPUS_HORARI)),\n\t\tCOD_TORN = iif(isNull(COD_TORN), -1, toInteger(COD_TORN))) ~> TratamientoNull\nSTGFactPersona derive(ESTAT = iif(ESTAT=='PendentAlta', \"Pendent d'alta\", iif(ESTAT=='PendentBaixa', \"Pendent de baixa\", ESTAT))) ~> FixEstat\nTratamientoNull sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PERSONA as decimal(12,0),\n\t\tID_TIPUS_PERSONAL as integer,\n\t\tID_ESTAT as integer,\n\t\tID_ORG as decimal(4,0),\n\t\tID_UNITAT as decimal(4,0),\n\t\tID_SECTOR as decimal(4,0),\n\t\tID_EDIFICI as decimal(4,0),\n\t\tID_PLANTA as decimal(4,0),\n\t\tID_TAULA as decimal(4,0),\n\t\tID_NIVELL as integer,\n\t\tID_TIPUS_HORARI as decimal(4,0),\n\t\tCOD_IDENTIFICADOR as string,\n\t\tCOD_DIRECTORI_CORPORATIU as string,\n\t\tCOD_USUARI_MODIF as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_USUARI_BAIXA as string,\n\t\tNUM_TIPUS_IDENTIFICADOR as decimal(4,0),\n\t\tNUM_EXT_TELEFONICA_EXTERNA as string,\n\t\tNUM_COS_ESPECIALITAT as decimal(4,0),\n\t\tNUM_EXT_TELEFONICA as decimal(5,0),\n\t\tNUM_GRUP_CATEGORIA as decimal(4,0),\n\t\tNUM_RESP_PERSONA as decimal(12,0),\n\t\tNUM_TELEFON_MOBIL as decimal(12,0),\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tNUM_FAX as decimal(12,0),\n\t\tDESC_NOM as string,\n\t\tDESC_COGNOM1 as string,\n\t\tDESC_COGNOM2 as string,\n\t\tDESC_ALIES as string,\n\t\tDESC_VINCULACIO as decimal(4,0),\n\t\tDESC_LLOC_SINGULAR as string,\n\t\tDESC_TITOL_FORM_ACADEMICA as string,\n\t\tDESC_ENTITAT_EXTERNA as string,\n\t\tDESC_MAIL as string,\n\t\tDESC_TORN as decimal(4,0),\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_INF_PERSONA_INTRANET as string,\n\t\tDATA_ALTA_PERS as timestamp,\n\t\tDATA_BAIXA_PERS as timestamp,\n\t\tDATA_BAIXA_EFECT as timestamp,\n\t\tDATA_INI_HORARI as timestamp,\n\t\tDATA_FI_HORARI as timestamp,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp,\n\t\tDATA_MODIF as timestamp,\n\t\tFLAG_PREVENCIO as decimal(1,0),\n\t\tFLAG_MOBILITAT_REDUIDA as decimal(1,0),\n\t\tFLAG_SECRETARIA_UNITAT as decimal(1,0),\n\t\tFLAG_CAP_UNITAT as decimal(1,0),\n\t\tFLAG_VISIBLE_PERSONA_INTRANET as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactPersona"
+		}
+	}
+}

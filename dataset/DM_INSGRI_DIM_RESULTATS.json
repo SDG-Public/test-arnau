@@ -1,0 +1,20 @@
+{
+	"name": "DM_INSGRI_DIM_RESULTATS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "INSGRI_DM",
+			"table": "DM_INSGRI_DIM_RESULTATS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

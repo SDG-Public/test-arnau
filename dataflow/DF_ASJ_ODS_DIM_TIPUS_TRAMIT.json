@@ -1,0 +1,35 @@
+{
+	"name": "DF_ASJ_ODS_DIM_TIPUS_TRAMIT",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_DIM_TIPUS_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTipusTramit"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_TIPUS_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusTramit"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalizaCampos"
+				}
+			],
+			"script": "source(output(\n\t\tTIPUSTRAMIT_ID as decimal(10,0),\n\t\tNOM as string,\n\t\tDESCRIPCIO as string,\n\t\tLLIURE as decimal(1,0),\n\t\tDONATDEBAIXA as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTipusTramit\nSTGDimTipusTramit select(mapColumn(\n\t\tID_TIPUS_TRAMIT = TIPUSTRAMIT_ID,\n\t\tDESC_NOM = NOM,\n\t\tDESC_DESCNOM = DESCRIPCIO,\n\t\tFLAG_LLIURE = LLIURE,\n\t\tFLAG_BAIXA = DONATDEBAIXA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizaCampos\nNormalizaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_TRAMIT as decimal(10,0),\n\t\tDESC_NOM as string,\n\t\tDESC_DESCNOM as string,\n\t\tFLAG_LLIURE as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTipusTramit"
+		}
+	}
+}

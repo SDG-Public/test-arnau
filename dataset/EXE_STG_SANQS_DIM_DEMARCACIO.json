@@ -1,0 +1,34 @@
+{
+	"name": "EXE_STG_SANQS_DIM_DEMARCACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/FITXERS"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Hoja1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "SANQS_DIM_DEMARCACIO.xlsx",
+				"container": "contenedorsanqs"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "COD_DEMARCACIO",
+				"type": "String"
+			},
+			{
+				"name": "DESC_DEMARCACIO",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

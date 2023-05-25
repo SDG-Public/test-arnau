@@ -1,0 +1,36 @@
+{
+	"name": "DM_GAF_AUX_XARXA_D_I_T",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESGLAON",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TERRITORI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_XARXA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_AUX_XARXA_D_I_T"
+		}
+	}
+}

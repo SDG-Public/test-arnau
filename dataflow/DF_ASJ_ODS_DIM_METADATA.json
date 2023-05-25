@@ -1,0 +1,35 @@
+{
+	"name": "DF_ASJ_ODS_DIM_METADATA",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_DIM_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimDada"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_METADA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimMetaData"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalizaCampos"
+				}
+			],
+			"script": "source(output(\n\t\tDADAID as decimal(10,0),\n\t\tDADA_TIPUS as string,\n\t\tTIPUSDADAID as decimal(10,0),\n\t\tEXPEDIENTID as decimal(10,0),\n\t\tTRAMITID as decimal(10,0),\n\t\tOBJECTEAGRUPID as decimal(10,0),\n\t\tDADADESC as string,\n\t\tDADALITERAL as string,\n\t\tDADADATA as timestamp,\n\t\tDADAENUMERAT as string,\n\t\tDADADECIMAL as double,\n\t\tDADANUMERIC as decimal(10,0),\n\t\tDADABOOL as decimal(1,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimDada\nSTGDimDada select(mapColumn(\n\t\tID_METADATA = DADAID,\n\t\tID_EXPEDIENT = EXPEDIENTID,\n\t\tID_TRAMIT = TRAMITID,\n\t\tID_OBJECTE_AGRUP = OBJECTEAGRUPID,\n\t\tID_TIPUS_METADATA = TIPUSDADAID,\n\t\tDESC_TIPUS_METADATA = DADA_TIPUS,\n\t\tDESC_METADATA = DADADESC,\n\t\tMETADATA_LITERAL = DADALITERAL,\n\t\tMETADATA_DATA = DADADATA,\n\t\tMETADATA_ENUMERAT = DADAENUMERAT,\n\t\tMETADATA_DECIMAL = DADADECIMAL,\n\t\tMETADATA_NUMERIC = DADANUMERIC,\n\t\tMETADATA_BOOL = DADABOOL,\n\t\tPOSICIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizaCampos\nNormalizaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_METADATA as decimal(10,0),\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TRAMIT as decimal(10,0),\n\t\tID_OBJECTE_AGRUP as decimal(10,0),\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tDESC_TIPUS_METADATA as string,\n\t\tDESC_METADATA as string,\n\t\tMETADATA_LITERAL as string,\n\t\tMETADATA_DATA as timestamp,\n\t\tMETADATA_ENUMERAT as string,\n\t\tMETADATA_DECIMAL as double,\n\t\tMETADATA_NUMERIC as decimal(10,0),\n\t\tMETADATA_BOOL as decimal(1,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimMetaData"
+		}
+	}
+}

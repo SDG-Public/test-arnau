@@ -1,0 +1,128 @@
+{
+	"name": "DM_DIM_IMPOST_EMISSIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ELEMENT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INICI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_FI",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "P_NORMAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "APLICAR_P_DECLARADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "P_DECLARADA_HPA",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "T_NORMAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "APLICAR_T_DECLARADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "T_DECLARADA_CENTIGRADS",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "H_SEC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "APLICAR_H_DECLARADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "H_DECLARADA_PERCENTATGE",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 2
+			},
+			{
+				"name": "APLICAR_CABAL_DECLARAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CABAL_DECLARAT_DAM3",
+				"type": "real",
+				"precision": 7
+			},
+			{
+				"name": "O2_CORREGIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "O2REF",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "APLICAR_O2SEC_DECLARAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "O2SEC_DECLARAT_PERCENTATGE",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "VLE_FINAL",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 3
+			},
+			{
+				"name": "IC_PERCENTATGE",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "ID_FOCUS_BRUT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_DIM_IMPOST_EMISSIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

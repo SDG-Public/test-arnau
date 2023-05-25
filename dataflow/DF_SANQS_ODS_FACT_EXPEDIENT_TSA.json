@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANQS_ODS_FACT_EXPEDIENT_TSA",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANQS_FACT_EXPEDIENT_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "STGExpedientTSA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EXPEDIENT_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSExpedientTSA"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Columns"
+				},
+				{
+					"name": "AddDemarcacio"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGExpedientTSA\nSTGExpedientTSA derive(CODI_EXPEDIENT = substring(Prop_0, 1, 9),\n\t\tDATA_EXPEDIENT_OBERT = toDate(substring(Prop_0, 10,8),'yyyyMMdd'),\n\t\tID_TIPUS_EXPEDIENT = substring(Prop_0, 18, 1),\n\t\tCOD_LLENGUA = substring(Prop_0, 19, 2),\n\t\tCOD_PROP_EXPE = substring(Prop_0, 21, 2),\n\t\tDATA_PRESCRIPCIO_EXPEDIENT = toDate(substring(Prop_0, 23, 8),'yyyyMMdd'),\n\t\tDATA_ARXIU = toDate(substring(Prop_0, 31, 8),'yyyyMMdd'),\n\t\tCOD_ARXIU = substring(Prop_0, 39, 4),\n\t\tDATA_SANCIO_FERME = toDate(substring(Prop_0, 43, 8),'yyyyMMdd'),\n\t\tIND_IMPORT_SANCIO = substring(Prop_0, 52, 9),\n\t\tCOD_P_SANCIO_FERME = substring(Prop_0, 62, 3),\n\t\tCOD_LOCALIZACIO_JURIDICA = substring(Prop_0, 65, 9),\n\t\tCOD_ESTAT = substring(Prop_0, 74, 4),\n\t\tDESC_ESTAT = substring(Prop_0, 78, 81),\n\t\tCOD_DNI_DENUNCIANT = substring(Prop_0, 159, 9),\n\t\tDESC_NOM_DENUNCIANT = substring(Prop_0, 169, 50)) ~> Columns\nColumns derive(COD_DEMARCACIO = iif(substring(CODI_EXPEDIENT, 1, 2) == '17' || substring(CODI_EXPEDIENT, 1, 2) == '08' || substring(CODI_EXPEDIENT, 1, 2) == '25'|| substring(CODI_EXPEDIENT, 1, 2) == '43', substring(CODI_EXPEDIENT, 1, 2),'-1')) ~> AddDemarcacio\nAddDemarcacio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tProp_0 as string,\n\t\tCODI_EXPEDIENT as string,\n\t\tDATA_EXPEDIENT_OBERT as date,\n\t\tID_TIPUS_EXPEDIENT as string,\n\t\tCOD_LLENGUA as string,\n\t\tCOD_PROP_EXPE as string,\n\t\tDATA_PRESCRIPCIO_EXPEDIENT as date,\n\t\tDATA_ARXIU as date,\n\t\tCOD_ARXIU as string,\n\t\tDATA_SANCIO_FERME as date,\n\t\tIND_IMPORT_SANCIO as string,\n\t\tCOD_P_SANCIO_FERME as string,\n\t\tCOD_LOCALIZACIO_JURIDICA as string,\n\t\tCOD_ESTAT as string,\n\t\tDESC_ESTAT as string,\n\t\tCOD_DNI_DENUNCIANT as string,\n\t\tDESC_NOM_DENUNCIANT as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSExpedientTSA"
+		}
+	}
+}

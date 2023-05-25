@@ -1,0 +1,30 @@
+{
+	"name": "SKG_DIM_ESTABLIMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/SKG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTABLIMENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CODI_EMIS",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SKG_XEAC",
+			"table": "SKG_DIM_ESTABLIMENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

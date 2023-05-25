@@ -1,0 +1,31 @@
+{
+	"name": "ODS_GAF_DIM_TIPUS_MES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IP_TIPUS_MES",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_TIPUS_MES",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_ODS",
+			"table": "ODS_GAF_DIM_TIPUS_MES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

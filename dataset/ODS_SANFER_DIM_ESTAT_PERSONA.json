@@ -1,0 +1,60 @@
+{
+	"name": "ODS_SANFER_DIM_ESTAT_PERSONA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_PERSONA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS_PERSONA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_CREACIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_CATALA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_MIGRAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_NOTIFICACIO_ELECTRONICA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_ODS",
+			"table": "ODS_SANFER_DIM_ESTAT_PERSONA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,207 @@
+{
+	"name": "DF_COSTES_DIM_ODS",
+	"properties": {
+		"folder": {
+			"name": "COSTES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTRAMIT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_TIPUS_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTIPUSTRAMIT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimESTAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimINTERESSAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PERS_SERVEI",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPERSSERVEI"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PLATGES",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPLATGES"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PLATGES_EXP",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPLATGESEXP"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_TIPUS_EXP",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTIPUSEXP"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_TIPUS_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTIPUSINTERESSAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_TIPUS_PERS_SERVEI",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTIPUSPERSSERVEI"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PARTY_PERS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPARTYPERS"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PARTY_TYPE",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPARTYTYPE"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PERSON",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPERSON"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_STG_DIM_PARTY_GROUP_PERS",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimGROUP"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimESTAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_TIPUS_EXP",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimTIPUSEXP"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_PARTY_PERS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPARTYPERS"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_PERS_SERVEI",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPERSSERVEI"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_PLATGES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPLATGES"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_INTERESSAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimINTERESSAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "COSTES_ODS_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimTRAMIT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalitzarCamps3"
+				},
+				{
+					"name": "NormalitzarCamps8"
+				},
+				{
+					"name": "JOINTYPE"
+				},
+				{
+					"name": "JOINPERSON"
+				},
+				{
+					"name": "JOINGROUP"
+				},
+				{
+					"name": "FiltrarCamps11"
+				},
+				{
+					"name": "JOINPERSSERVEI"
+				},
+				{
+					"name": "NormalitzarCamps5"
+				},
+				{
+					"name": "JOINPLATGES"
+				},
+				{
+					"name": "NormalitzarCamps6"
+				},
+				{
+					"name": "JOININTERESSAT"
+				},
+				{
+					"name": "NormalitzarCamps4"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "NormalitzarCamps1"
+				}
+			],
+			"script": "source(output(\n\t\tNUMINT_TRAMIT as decimal(7,0),\n\t\tCODI_TRAMIT as string,\n\t\tCODI_SUBTRAMIT as string,\n\t\tDESC_TRAMIT as string,\n\t\tIND_VIGENT as string,\n\t\tVERSION as double,\n\t\tTIPUS_TRAMIT as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTRAMIT\nsource(output(\n\t\tID as decimal(4,0),\n\t\tDESC_TIPUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTIPUSTRAMIT\nsource(output(\n\t\tCODI_ESTAT as string,\n\t\tDESC_ESTAT as string,\n\t\tIND_TRAMITACIO as string,\n\t\tIND_VIGENT as string,\n\t\tVERSION as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimESTAT\nsource(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tPARTY_ID as decimal(10,0),\n\t\tPOSTAL_ADDRESS_ID as decimal(10,0),\n\t\tIND_PRINCIPAL as string,\n\t\tCODI_TIPUS_INT as string,\n\t\tUSUARI_BAIXA as string,\n\t\tVERSION as double,\n\t\tID_REPRESENTANT as decimal(10,0),\n\t\tID_PADDRESS_REPRESENTANT as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimINTERESSAT\nsource(output(\n\t\tID as decimal(4,0),\n\t\tNOM as string,\n\t\tCOGNOM1 as string,\n\t\tCOGNOM2 as string,\n\t\tCARREC as string,\n\t\tNOM_FITXER_SIGNATURA as string,\n\t\tSIGNATURA as binary,\n\t\tID_TIPUS_PERS as decimal(4,0),\n\t\tIND_VIGENT as string,\n\t\tINICIALS as string,\n\t\tNIF as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPERSSERVEI\nsource(output(\n\t\tCODI_PLATJA as decimal(4,0),\n\t\tCODI_MUNICIPI as string,\n\t\tNOM_PLATJA as string,\n\t\tCODI_COMARCA as string,\n\t\tCODI_PROVINCIA as string,\n\t\tCODI_VEGUERIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPLATGES\nsource(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tCODI_PLATJA as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPLATGESEXP\nsource(output(\n\t\tCODI_TIPEX as string,\n\t\tDESC_TIPEX as string,\n\t\tCODI_CIRCUIT as string,\n\t\tIND_VIGENT as string,\n\t\tVERSION as double,\n\t\tCODI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTIPUSEXP\nsource(output(\n\t\tCODI_TIPUS_INT as string,\n\t\tDESC_TIPUS_INT as string,\n\t\tIND_VIGENT as string,\n\t\tVERSION as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTIPUSINTERESSAT\nsource(output(\n\t\tID_TIPUS_PERS as decimal(4,0),\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTIPUSPERSSERVEI\nsource(output(\n\t\tPARTY_ID as decimal(10,0),\n\t\tCREATED_DATE as timestamp,\n\t\tPARTY_TYPE_ID as decimal(10,0),\n\t\tPARLA_CATALA as string,\n\t\tCODI_MOTIU_BAIXA as decimal(10,0),\n\t\tESTAT as string,\n\t\tID_CENTRE_SARCAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPARTYPERS\nsource(output(\n\t\tPARTY_TYPE_ID as decimal(10,0),\n\t\tPARENT_TYPE_ID as string,\n\t\tDESCRIPTION as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPARTYTYPE\nsource(output(\n\t\tPARTY_ID as decimal(10,0),\n\t\tFIRST_NAME as string,\n\t\tMIDDLE_NAME as string,\n\t\tLAST_NAME as string,\n\t\tPERSONAL_TITLE as decimal(10,0),\n\t\tBIRTH_DATE as timestamp,\n\t\tCODI_NACIONALITAT as decimal(10,0),\n\t\tGENDER as string,\n\t\tMARITAL_STATUS_TYPE_ID as string,\n\t\tCODI_TIPUS_DOCUMENT as decimal(10,0),\n\t\tDOCUMENT as string,\n\t\tCARREC as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPERSON\nsource(output(\n\t\tPARTY_ID as decimal(10,0),\n\t\tGROUP_NAME as string,\n\t\tCOMMENTS as string,\n\t\tCIF as string,\n\t\tRAO_SOCIAL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimGROUP\nSTGdimESTAT select(mapColumn(\n\t\tCOD_ESTAT = CODI_ESTAT,\n\t\tID_TRAMITACIO = IND_TRAMITACIO,\n\t\tID_VIGENT = IND_VIGENT,\n\t\tDESC_ESTAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps3\nSTGdimTIPUSEXP select(mapColumn(\n\t\tCOD_TIPEX = CODI_TIPEX,\n\t\tCOD_TIPUS_EXP = CODI,\n\t\tID_VIGENT = IND_VIGENT,\n\t\tDESC_TIPEX\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps8\nSTGdimPARTYPERS, STGdimPARTYTYPE join(STGdimPARTYPERS@PARTY_TYPE_ID == STGdimPARTYTYPE@PARTY_TYPE_ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JOINTYPE\nJOINTYPE, STGdimPERSON join(STGdimPARTYPERS@PARTY_ID == STGdimPERSON@PARTY_ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JOINPERSON\nJOINPERSON, STGdimGROUP join(STGdimPARTYPERS@PARTY_ID == STGdimGROUP@PARTY_ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JOINGROUP\nJOINGROUP select(mapColumn(\n\t\tID_PARTY = STGdimPARTYPERS@PARTY_ID,\n\t\tDESC_FIRST_NAME = FIRST_NAME,\n\t\tDESC_MIDDLE_NAME = MIDDLE_NAME,\n\t\tDESC_LAST_NAME = LAST_NAME,\n\t\tDESC_GROUP_NAME = GROUP_NAME,\n\t\tDESC_RAO_SOCIAL = RAO_SOCIAL,\n\t\tDESC_PARTY_TYPE = DESCRIPTION,\n\t\tDESC_ESTAT = ESTAT,\n\t\tNUM_DOCUMENT = DOCUMENT,\n\t\tNUM_CIF = CIF\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltrarCamps11\nSTGdimPERSSERVEI, STGdimTIPUSPERSSERVEI join(STGdimPERSSERVEI@ID_TIPUS_PERS == STGdimTIPUSPERSSERVEI@ID_TIPUS_PERS,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JOINPERSSERVEI\nJOINPERSSERVEI select(mapColumn(\n\t\tID_TECNIC = ID,\n\t\tID_VIGENT = IND_VIGENT,\n\t\tDESC_NOM = NOM,\n\t\tDESC_COGNOM1 = COGNOM1,\n\t\tDESC_COGNOM2 = COGNOM2,\n\t\tDESC_CARREC = CARREC,\n\t\tDESC_NOM_FITXER_SIGNATURA = NOM_FITXER_SIGNATURA,\n\t\tDESC_TIPUS_PERS_SERVEI = DESCRIPCIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps5\nSTGdimPLATGESEXP, STGdimPLATGES join(STGdimPLATGESEXP@CODI_PLATJA == STGdimPLATGES@CODI_PLATJA,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JOINPLATGES\nJOINPLATGES select(mapColumn(\n\t\tCOD_EXPEDIENT = CODINT_EXP,\n\t\tDESC_NOM_PLATJA = NOM_PLATJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps6\nSTGdimINTERESSAT, STGdimTIPUSINTERESSAT join(STGdimINTERESSAT@CODI_TIPUS_INT == STGdimTIPUSINTERESSAT@CODI_TIPUS_INT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JOININTERESSAT\nJOININTERESSAT select(mapColumn(\n\t\tCOD_EXPEDIENT = CODINT_EXP,\n\t\tID_PARTY = PARTY_ID,\n\t\tID_POSTAL_ADDRESS = POSTAL_ADDRESS_ID,\n\t\tID_PRINCIPAL = IND_PRINCIPAL,\n\t\tDESC_USUARI_BAIXA = USUARI_BAIXA,\n\t\tDESC_TIPUS_INTERESSAT = DESC_TIPUS_INT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps4\nSTGdimTRAMIT, STGdimTIPUSTRAMIT join(TIPUS_TRAMIT == ID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 select(mapColumn(\n\t\tNUM_TRAMIT = NUMINT_TRAMIT,\n\t\tCOD_TRAMIT = CODI_TRAMIT,\n\t\tCOD_SUBTRAMIT = CODI_SUBTRAMIT,\n\t\tDESC_TRAMIT,\n\t\tDESC_TIPUS_TRAMIT = DESC_TIPUS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps1\nNormalitzarCamps3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_ESTAT as string,\n\t\tID_TRAMITACIO as string,\n\t\tID_VIGENT as string,\n\t\tDESC_ESTAT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_ESTAT,\n\t\tID_TRAMITACIO,\n\t\tID_VIGENT,\n\t\tDESC_ESTAT\n\t)) ~> ODSdimESTAT\nNormalitzarCamps8 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_TIPEX as string,\n\t\tCOD_TIPUS_EXP as string,\n\t\tID_VIGENT as string,\n\t\tDESC_TIPEX as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_TIPEX,\n\t\tCOD_TIPUS_EXP,\n\t\tID_VIGENT,\n\t\tDESC_TIPEX\n\t)) ~> ODSdimTIPUSEXP\nFiltrarCamps11 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PARTY as decimal(10,0),\n\t\tDESC_FIRST_NAME as string,\n\t\tDESC_MIDDLE_NAME as string,\n\t\tDESC_LAST_NAME as string,\n\t\tDESC_GROUP_NAME as string,\n\t\tDESC_RAO_SOCIAL as string,\n\t\tDESC_PARTY_TYPE as string,\n\t\tDESC_ESTAT as string,\n\t\tNUM_DOCUMENT as string,\n\t\tNUM_CIF as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_PARTY,\n\t\tDESC_FIRST_NAME,\n\t\tDESC_MIDDLE_NAME,\n\t\tDESC_LAST_NAME,\n\t\tDESC_GROUP_NAME,\n\t\tDESC_RAO_SOCIAL,\n\t\tDESC_PARTY_TYPE,\n\t\tDESC_ESTAT,\n\t\tNUM_DOCUMENT,\n\t\tNUM_CIF\n\t)) ~> ODSdimPARTYPERS\nNormalitzarCamps5 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TECNIC as decimal(4,0),\n\t\tID_VIGENT as string,\n\t\tDESC_NOM as string,\n\t\tDESC_COGNOM1 as string,\n\t\tDESC_COGNOM2 as string,\n\t\tDESC_CARREC as string,\n\t\tDESC_NOM_FITXER_SIGNATURA as string,\n\t\tDESC_TIPUS_PERS_SERVEI as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_TECNIC,\n\t\tID_VIGENT,\n\t\tDESC_NOM,\n\t\tDESC_COGNOM1,\n\t\tDESC_COGNOM2,\n\t\tDESC_CARREC,\n\t\tDESC_NOM_FITXER_SIGNATURA,\n\t\tDESC_TIPUS_PERS_SERVEI\n\t)) ~> ODSdimPERSSERVEI\nNormalitzarCamps6 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tDESC_NOM_PLATJA as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_EXPEDIENT,\n\t\tDESC_NOM_PLATJA\n\t)) ~> ODSdimPLATGES\nNormalitzarCamps4 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tID_PARTY as decimal(10,0),\n\t\tID_POSTAL_ADDRESS as decimal(10,0),\n\t\tID_PRINCIPAL as string,\n\t\tDESC_USUARI_BAIXA as string,\n\t\tDESC_TIPUS_INTERESSAT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCOD_EXPEDIENT,\n\t\tID_PARTY,\n\t\tID_POSTAL_ADDRESS,\n\t\tID_PRINCIPAL,\n\t\tDESC_USUARI_BAIXA,\n\t\tDESC_TIPUS_INTERESSAT\n\t)) ~> ODSdimINTERESSAT\nNormalitzarCamps1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tNUM_TRAMIT as decimal(7,0),\n\t\tCOD_TRAMIT as string,\n\t\tCOD_SUBTRAMIT as string,\n\t\tDESC_TRAMIT as string,\n\t\tDESC_TIPUS_TRAMIT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tNUM_TRAMIT,\n\t\tCOD_TRAMIT,\n\t\tCOD_SUBTRAMIT,\n\t\tDESC_TRAMIT,\n\t\tDESC_TIPUS_TRAMIT\n\t)) ~> ODSdimTRAMIT"
+		}
+	}
+}

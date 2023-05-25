@@ -1,0 +1,20 @@
+{
+	"name": "BARRIS_ORA_DIM_RESUMFACT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "PFB_ADM",
+			"table": "FFBA_V_BA_RESUMFACT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

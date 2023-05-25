@@ -1,0 +1,297 @@
+{
+	"name": "PL_ORQUESTRATOR_DIARI_TES",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_MESTRES_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_MESTRES_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_GEU_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_SISP_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GEU_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_COSTES_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_GEU_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_COSTES_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_GEUCOS_EXPEDIENT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_COSTES_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GEUCOS_EXPEDIENT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_BARRIS_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MESTRES_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_BARRIS_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_MAPBI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_XEAC_V3_CARREGA_DIARIA",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_MAPBI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_ARB_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_ASJ_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_ARB_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_ASJ_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_BARRIS_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_ASJ_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_SISP_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MESTRES_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SISP_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_INSGRI_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_ARB_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_INSGRI_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_GAF_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MAPBI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GAF_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_SANFER_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_GAF_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_SANFER_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_XEAC_V3_CARREGA_DIARIA",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_MESTRES_DIARI",
+						"dependencyConditions": [
+							"Failed",
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_XEAC_V3_CARREGA_DIARIA",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_TDSAN_DIARI",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_SANFER_DIARI",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_TDSAN_DIARI",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "01 - ORQUESTRATOR"
+		},
+		"annotations": []
+	}
+}

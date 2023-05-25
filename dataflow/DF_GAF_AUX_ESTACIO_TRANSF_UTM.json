@@ -1,0 +1,86 @@
+{
+	"name": "DF_GAF_AUX_ESTACIO_TRANSF_UTM",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS1_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEstacioSubtram5"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_AUX_LATITUD_LONGITUD",
+						"type": "DatasetReference"
+					},
+					"name": "AUXLatitudLongitud"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "CrearConstantes"
+				},
+				{
+					"name": "FiPrima"
+				},
+				{
+					"name": "Ni"
+				},
+				{
+					"name": "aA1"
+				},
+				{
+					"name": "A2J2"
+				},
+				{
+					"name": "J4"
+				},
+				{
+					"name": "J6Alfa"
+				},
+				{
+					"name": "BetaGamma"
+				},
+				{
+					"name": "Bfi"
+				},
+				{
+					"name": "bZeta"
+				},
+				{
+					"name": "XiEta"
+				},
+				{
+					"name": "SenhXi"
+				},
+				{
+					"name": "DeltaLambda"
+				},
+				{
+					"name": "TauMeridianoCentral"
+				},
+				{
+					"name": "Radianes"
+				},
+				{
+					"name": "LongitudLatitud"
+				},
+				{
+					"name": "SoloLongitudLatitudEstacio"
+				}
+			],
+			"script": "source(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimEstacioSubtram5\nODSDimEstacioSubtram5 select(mapColumn(\n\t\tUTMX,\n\t\tUTMY,\n\t\tID_ESTACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos derive({a(SemiejeMayor)} = toDouble(6378137),\n\t\t{b(SemiejeMenor)} = toDouble(6356752.31424518),\n\t\tUTMX = toDouble(UTMX),\n\t\tUTMY = toDouble(UTMY),\n\t\tExcentricidad = toDouble(0.0818191908426203),\n\t\tExcentricidad2 = toDouble(0.0820944379496945),\n\t\tExcentricidad2Cuadrado = toDouble(0.00673949674227624),\n\t\t{c(RadioPolarCurvatura)} = toDouble(6399593.62575849)) ~> CrearConstantes\nCrearConstantes derive(FiPrima = UTMY/(6366197.724*0.9996)) ~> FiPrima\nFiPrima derive(Ni = ({c(RadioPolarCurvatura)}/(power(1+Excentricidad2Cuadrado*power(cos(FiPrima),2),toDouble(0.5))))*toDouble(0.9996)) ~> Ni\nNi derive(a = (UTMX-500000)/Ni,\n\t\tA1 = sin(2*FiPrima)) ~> aA1\naA1 derive(A2 = A1*power(cos(FiPrima),2),\n\t\tJ2 = FiPrima+(A1/2)) ~> A2J2\nA2J2 derive(J4 = (3*J2+A2)/4) ~> J4\nJ4 derive(J6 = (5*J4+A2*power(cos(FiPrima),2))/3,\n\t\tAlfa = 0.75*Excentricidad2Cuadrado) ~> J6Alfa\nJ6Alfa derive(Beta = (5/3)*power(Alfa,2),\n\t\tGamma = (35/27)*power(Alfa,3)) ~> BetaGamma\nBetaGamma derive({B(fi)} = 0.9996*{c(RadioPolarCurvatura)}*(FiPrima-(Alfa*J2)+(Beta*J4)-(Gamma*J6))) ~> Bfi\nBfi derive(b = (UTMY-{B(fi)})/Ni,\n\t\tZeta = ((Excentricidad2Cuadrado*power(a,2))/2)*power(cos(FiPrima),2)) ~> bZeta\nbZeta derive(Xi = a*(1-(Zeta/2)),\n\t\tEta = b*(1-Zeta)+FiPrima) ~> XiEta\nXiEta derive(SenhXi = sinh(Xi)) ~> SenhXi\nSenhXi derive(DeltaLambda = atan(SenhXi/cos(Eta))) ~> DeltaLambda\nDeltaLambda derive(Tau = atan(cos(DeltaLambda)*tan(Eta)),\n\t\tMeridianoCentral = 6*31-183) ~> TauMeridianoCentral\nTauMeridianoCentral derive(Radianes = FiPrima+(1+Excentricidad2Cuadrado*power(cos(FiPrima),2)-1.5*Excentricidad2Cuadrado*sin(FiPrima)*cos(FiPrima)*(Tau-FiPrima))*(Tau-FiPrima)) ~> Radianes\nRadianes derive(Longitud = (DeltaLambda/3.141592)*180+MeridianoCentral,\n\t\tLatitud = (Radianes/3.141592)*180) ~> LongitudLatitud\nLongitudLatitud select(mapColumn(\n\t\tID_ESTACIO,\n\t\tNUM_LONGITUD = Longitud,\n\t\tNUM_LATITUD = Latitud\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SoloLongitudLatitudEstacio\nSoloLongitudLatitudEstacio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> AUXLatitudLongitud"
+		}
+	}
+}

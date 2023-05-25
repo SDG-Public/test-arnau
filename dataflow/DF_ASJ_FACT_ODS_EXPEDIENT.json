@@ -1,0 +1,295 @@
+{
+	"name": "DF_ASJ_FACT_ODS_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactExpedient"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimMetaData"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_TIPUS_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTipusMetaData"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_CLASSIFICACIO",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimClassificacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_SUB_CLASSIFICACIO",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSubClassificacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_TIPUS_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTipusExpedient"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_METADATA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimMetadata09Exp"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_FACT_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactTramit"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedientSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_OBJECTE_AGRUPAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMObjecteAgrupat"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_OBJECTE_REF_TERR",
+						"type": "DatasetReference"
+					},
+					"name": "DMObjecteRefTerr"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedient"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedientUpDate"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalizarCampos"
+				},
+				{
+					"name": "Filter02Expen"
+				},
+				{
+					"name": "FilterTipusMetaData04Ex"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "DerivedColumn02Exp"
+				},
+				{
+					"name": "SelectCamp02Exp"
+				},
+				{
+					"name": "Filter01Ambit"
+				},
+				{
+					"name": "SurrogateKey01Ambit"
+				},
+				{
+					"name": "AddID999901Ambit"
+				},
+				{
+					"name": "Union01Ambit"
+				},
+				{
+					"name": "RemoveDuplicateCamp01Ambit"
+				},
+				{
+					"name": "JoinCamp02y01Ambit"
+				},
+				{
+					"name": "Camp03Exp"
+				},
+				{
+					"name": "Camp02ExpMetaDataEnumerat"
+				},
+				{
+					"name": "DerivedColumn04Exp"
+				},
+				{
+					"name": "JoinCamp03ExpDerivedColumn04Exp"
+				},
+				{
+					"name": "Camp04Exp"
+				},
+				{
+					"name": "CampSelec02Classifi01"
+				},
+				{
+					"name": "SubStringCamp02Classifi01"
+				},
+				{
+					"name": "DistinctEnumerat01Ambit"
+				},
+				{
+					"name": "Sort1"
+				},
+				{
+					"name": "Join05Exp"
+				},
+				{
+					"name": "SelectCampClassificacio"
+				},
+				{
+					"name": "DerivedColumn05Exp"
+				},
+				{
+					"name": "Camp05Exp"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "DerivedColumnCamp06Exp"
+				},
+				{
+					"name": "Filter06Exp"
+				},
+				{
+					"name": "Join06Exp"
+				},
+				{
+					"name": "Camp06Exp"
+				},
+				{
+					"name": "SelectCampSubClassificacio"
+				},
+				{
+					"name": "DerivedColumn07Exp"
+				},
+				{
+					"name": "Join07Exp"
+				},
+				{
+					"name": "Select3"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "DerivedColumn2"
+				},
+				{
+					"name": "Camp07Exp"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "Camp08Exps"
+				},
+				{
+					"name": "Camp08Exp"
+				},
+				{
+					"name": "SelectCamp09Exp"
+				},
+				{
+					"name": "Filter09Exp"
+				},
+				{
+					"name": "Select4"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "Select5"
+				},
+				{
+					"name": "Select6"
+				},
+				{
+					"name": "Join5"
+				},
+				{
+					"name": "Select7"
+				},
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "SelectPre09Exp"
+				},
+				{
+					"name": "Join6"
+				},
+				{
+					"name": "Camp09Exp"
+				},
+				{
+					"name": "UpDate"
+				},
+				{
+					"name": "AlterRow1"
+				},
+				{
+					"name": "AddData2"
+				},
+				{
+					"name": "Insert"
+				},
+				{
+					"name": "AddData"
+				},
+				{
+					"name": "AddDESCONEGUT"
+				},
+				{
+					"name": "MaxProvisional"
+				},
+				{
+					"name": "add9999999"
+				},
+				{
+					"name": "FilterTipusMetaDataTipus96"
+				},
+				{
+					"name": "distinct"
+				}
+			],
+			"script": "source(output(\n\t\tEXPEDIENTID as decimal(10,0),\n\t\tNUMEROEXPEDIENTINTERN as string,\n\t\tNUMEROEXPEDIENTIMPORT as string,\n\t\tASSUMPTECURT as string,\n\t\tDESCRIPCIO as string,\n\t\tTANCAT as decimal(1,0),\n\t\tIDTIPUSEXPEDIENT as decimal(10,0),\n\t\tIDTRAMITACTUAL as decimal(10,0),\n\t\tIDTRAMITINICIAL as decimal(10,0),\n\t\tRESPONSABLE as string,\n\t\tASSIGNATINICIAL as string,\n\t\tASSIGNATESPECIAL as string,\n\t\tDATAALTA as timestamp,\n\t\tINFOREGENTRADA as decimal(10,0),\n\t\tULTIMINFOLOG as decimal(10,0),\n\t\tDATATERMINIMESPROPER as timestamp,\n\t\tURGENT as decimal(1,0),\n\t\tDONATDEBAIXA as decimal(1,0),\n\t\tDATAENTRADA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactExpedient\nsource(output(\n\t\tID_METADATA as decimal(10,0),\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TRAMIT as decimal(10,0),\n\t\tID_OBJECTE_AGRUP as decimal(10,0),\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tDESC_TIPUS_METADATA as string,\n\t\tDESC_METADATA as string,\n\t\tMETADATA_LITERAL as string,\n\t\tMETADATA_DATA as timestamp,\n\t\tMETADATA_ENUMERAT as string,\n\t\tMETADATA_DECIMAL as double,\n\t\tMETADATA_NUMERIC as decimal(10,0),\n\t\tMETADATA_BOOL as decimal(1,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimMetaData\nsource(output(\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tNUM_TIPUS_CAMP as decimal(10,0),\n\t\tDESC_NOM as string,\n\t\tFLAG_OBLIGATORIA as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimTipusMetaData\nsource(output(\n\t\tID as integer,\n\t\tID_SUBCLASSIFICACIO as decimal(10,0),\n\t\tDESC_SUBCLASSIFICACIO as string,\n\t\tMETADATA_ENUMERAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimClassificacio\nsource(output(\n\t\tID as integer,\n\t\tID_SUBCLASSIFICACIO as decimal(10,0),\n\t\tDESC_SUBCLASSIFICACIO as string,\n\t\tMETADATA_ENUMERAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSubClassificacio\nsource(output(\n\t\tID_TIPUS_EXPEDIENT as decimal(10,0),\n\t\tID_TRAMIT_INICIAL as decimal(10,0),\n\t\tDESC_NOM as string,\n\t\tDESC_TIPUS_EXPEDIENT as string,\n\t\tFLAG_BAIXA as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimTipusExpedient\nsource(output(\n\t\tID_METADATA as decimal(10,0),\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TRAMIT as decimal(10,0),\n\t\tID_OBJECTE_AGRUP as decimal(10,0),\n\t\tID_TIPUS_METADATA as decimal(10,0),\n\t\tDESC_TIPUS_METADATA as string,\n\t\tDESC_METADATA as string,\n\t\tMETADATA_LITERAL as string,\n\t\tMETADATA_DATA as timestamp,\n\t\tMETADATA_ENUMERAT as string,\n\t\tMETADATA_DECIMAL as double,\n\t\tMETADATA_NUMERIC as decimal(10,0),\n\t\tMETADATA_BOOL as decimal(1,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimMetadata09Exp\nsource(output(\n\t\tID_TRAMIT as decimal(10,0),\n\t\tID_TIPUS_TRAMIT as integer,\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_NOM_LLIURE as string,\n\t\tDATA_TRAMIT as timestamp,\n\t\tDATA_EVENT as timestamp,\n\t\tFLAG_ESTAT as decimal(10,0),\n\t\tFLAG_URGENT as decimal(1,0),\n\t\tDATA_INSERT as date,\n\t\tDATA_MODIFICACIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactTramit\nsource(output(\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TIPUS_EXPEDIENT as string,\n\t\tID_TRAMIT_ACTUAL as decimal(10,0),\n\t\tID_TRAMIT_INICIAL as decimal(10,0),\n\t\tID_AMBIT as long,\n\t\tID_CLASSIFICACIO_01 as integer,\n\t\tID_CLASSIFICACIO_02 as integer,\n\t\tNUM_EXPEDIENT_INTERN as string,\n\t\tNUM_EXPEDIENT_IMPORT as string,\n\t\tNUM_INFOREG_ENTRADA as decimal(10,0),\n\t\tNUM_ULTIM_INFOLOG as decimal(10,0),\n\t\tDESC_ASSUMPTE_CURT as string,\n\t\tDESC_ASSUMPTE as string,\n\t\tDESC__RESPONSABLE as string,\n\t\tDESC_AMBIT as string,\n\t\tDES_CLASSIFICACIO_01 as string,\n\t\tDESC_CLASSIFICACIO_02 as string,\n\t\tCODI_ASSIGNAT_INICIAL as string,\n\t\tCODI_ASSIGNAT_ESPECIAL as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_TERMINI_MES_PROPER as timestamp,\n\t\tDATA_ENTRADA as timestamp,\n\t\tDATA_RESOLUCIO as timestamp,\n\t\tFLAG_TANCAT as decimal(1,0),\n\t\tFLAG_URGENT as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0),\n\t\tDATA_INSERT as timestamp,\n\t\tDATA_MODIFICACIO as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactExpedientSource\nsource(output(\n\t\tID_OBJECTE_AGRUPAT as decimal(10,0),\n\t\tID_METADATA as decimal(10,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMObjecteAgrupat\nsource(output(\n\t\tID_OBJECTE_REFERENCIA as decimal(10,0),\n\t\tID_DADA as decimal(10,0),\n\t\tCODI_INE as string,\n\t\tCODI_LLOGARET as string,\n\t\tDESC_POBLACIO as string,\n\t\tDESC_PROVINCIA as string,\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMObjecteRefTerr\nSTGFactExpedient select(mapColumn(\n\t\tID_EXPEDIENT = EXPEDIENTID,\n\t\tID_TIPUS_EXPEDIENT = IDTIPUSEXPEDIENT,\n\t\tID_TRAMIT_ACTUAL = IDTRAMITACTUAL,\n\t\tID_TRAMIT_INICIAL = IDTRAMITINICIAL,\n\t\tCODI_ASSIGNAT_INICIAL = ASSIGNATINICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL = ASSIGNATESPECIAL,\n\t\tNUM_EXPEDIENT_INTERN = NUMEROEXPEDIENTINTERN,\n\t\tNUM_EXPEDIENT_IMPORT = NUMEROEXPEDIENTIMPORT,\n\t\tNUM_INFOREG_ENTRADA = INFOREGENTRADA,\n\t\tNUM_ULTIM_INFOLOG = ULTIMINFOLOG,\n\t\tDESC_ASSUMPTE_CURT = ASSUMPTECURT,\n\t\tDESC_ASSUMPTE = DESCRIPCIO,\n\t\tDESC__RESPONSABLE = RESPONSABLE,\n\t\tFLAG_TANCAT = TANCAT,\n\t\tFLAG_URGENT = URGENT,\n\t\tFLAG_BAIXA = DONATDEBAIXA,\n\t\tDATA_ALTA = DATAALTA,\n\t\tDATA_TERMINI_MES_PROPER = DATATERMINIMESPROPER,\n\t\tDATA_ENTRADA = DATAENTRADA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizarCampos\nDMDimMetaData filter(ID_TIPUS_METADATA==2) ~> Filter02Expen\nDMDimMetaData filter(ID_TIPUS_METADATA>= 3 && ID_TIPUS_METADATA<= 11) ~> FilterTipusMetaData04Ex\nNormalizarCampos, DerivedColumn02Exp join(NormalizarCampos@ID_EXPEDIENT == DMDimMetaData@ID_EXPEDIENT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join2\nFilter02Expen derive(METADATA_ENUMERAT = iifNull(toString(METADATA_ENUMERAT), toString('DESCONEGUT'))) ~> DerivedColumn02Exp\nJoin2 select(mapColumn(\n\t\tID_EXPEDIENT = NormalizarCampos@ID_EXPEDIENT,\n\t\tNUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tDESC_ASSUMPTE,\n\t\tFLAG_TANCAT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL,\n\t\tDESC__RESPONSABLE,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA,\n\t\tDATA_ENTRADA,\n\t\tDESC_METADATA_ENUMERAT = METADATA_ENUMERAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCamp02Exp\nDMDimMetaData filter(ID_TIPUS_METADATA==2  &&\n!isNull(METADATA_ENUMERAT)) ~> Filter01Ambit\nSort1 keyGenerate(output(ID as long),\n\tstartAt: 1L,\n\tstepValue: 1L) ~> SurrogateKey01Ambit\nDistinctEnumerat01Ambit derive(METADATA_ENUMERAT = 'DESCONEGUT',\n\t\tID = toInteger(9999)) ~> AddID999901Ambit\nAddID999901Ambit, SurrogateKey01Ambit union(byName: true)~> Union01Ambit\nUnion01Ambit aggregate(groupBy(METADATA_ENUMERAT),\n\teach(match(name!='METADATA_ENUMERAT'), $$ = first($$))) ~> RemoveDuplicateCamp01Ambit\nCamp02ExpMetaDataEnumerat, RemoveDuplicateCamp01Ambit join(DESC_METADATA_ENUMERAT == METADATA_ENUMERAT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinCamp02y01Ambit\nJoinCamp02y01Ambit select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tNUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tDESC_ASSUMPTE,\n\t\tFLAG_TANCAT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL,\n\t\tDESC__RESPONSABLE,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA,\n\t\tDATA_ENTRADA,\n\t\tAMBIT = METADATA_ENUMERAT,\n\t\tID_AMBIT = ID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Camp03Exp\nSelectCamp02Exp derive(DESC_METADATA_ENUMERAT = iifNull(toString(DESC_METADATA_ENUMERAT), toString('DESCONEGUT'))) ~> Camp02ExpMetaDataEnumerat\nFilterTipusMetaData04Ex derive(METADATA_ENUMERAT = iifNull(toString(METADATA_ENUMERAT), toString('DESCONEGUT'))) ~> DerivedColumn04Exp\nCamp03Exp, DerivedColumn04Exp join(Camp03Exp@ID_EXPEDIENT == DMDimMetaData@ID_EXPEDIENT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinCamp03ExpDerivedColumn04Exp\nadd9999999 select(mapColumn(\n\t\tID_EXPEDIENT = Camp03Exp@ID_EXPEDIENT,\n\t\tNUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tDESC_ASSUMPTE,\n\t\tFLAG_TANCAT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL,\n\t\tDESC__RESPONSABLE,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA,\n\t\tDATA_ENTRADA,\n\t\tAMBIT,\n\t\tID_AMBIT,\n\t\tCLASSIFICACIO_01 = METADATA_ENUMERAT,\n\t\tID_TIPUS_METADATA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Camp04Exp\nDMDimTipusMetaData select(mapColumn(\n\t\tID_TIPUS_METADATA,\n\t\tDESC_NOM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CampSelec02Classifi01\nCampSelec02Classifi01 derive(DESC_NOM = substring(iifNull(toString(DESC_NOM), toString('DESCONEGUT')), 18, 256)) ~> SubStringCamp02Classifi01\nFilter01Ambit aggregate(groupBy(METADATA_ENUMERAT),\n\tCOUNT = count(METADATA_ENUMERAT)) ~> DistinctEnumerat01Ambit\nDistinctEnumerat01Ambit sort(asc(METADATA_ENUMERAT, false)) ~> Sort1\nCamp04Exp, DerivedColumn05Exp join(ID_TIPUS_METADATA == ID_SUBCLASSIFICACIO\n\t&& CLASSIFICACIO_01 == METADATA_ENUMERAT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join05Exp\nDMDimClassificacio select(mapColumn(\n\t\tID_SUBCLASSIFICACIO,\n\t\tMETADATA_ENUMERAT,\n\t\tID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCampClassificacio\nMaxProvisional derive(METADATA_ENUMERAT = iifNull(toString(METADATA_ENUMERAT),toString('DESCONEGUT')),\n\t\tID = iifNull(toInteger(ID),9999)) ~> DerivedColumn05Exp\nJoin05Exp select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tNUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tDESC_ASSUMPTE,\n\t\tFLAG_TANCAT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL,\n\t\tDESC__RESPONSABLE,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA,\n\t\tDATA_ENTRADA,\n\t\tAMBIT,\n\t\tID_AMBIT,\n\t\tDES_CLASSIFICACIO_01 = METADATA_ENUMERAT,\n\t\tID_CLASSIFICACIO_01 = ID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Camp05Exp\nDMDimMetaData select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tID_TIPUS_METADATA,\n\t\tDESC_METADATA,\n\t\tMETADATA_ENUMERAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nSelect2 derive(METADATA_ENUMERAT = iifNull(METADATA_ENUMERAT, 'DESCONEGUT')) ~> DerivedColumnCamp06Exp\nDerivedColumnCamp06Exp filter(between(ID_TIPUS_METADATA, 12, 15)) ~> Filter06Exp\nCamp05Exp, Filter06Exp join(Camp05Exp@ID_EXPEDIENT == Select2@ID_EXPEDIENT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join06Exp\nJoin06Exp select(mapColumn(\n\t\tID_EXPEDIENT = Camp05Exp@ID_EXPEDIENT,\n\t\tNUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tDESC_ASSUMPTE,\n\t\tFLAG_TANCAT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL,\n\t\tDESC__RESPONSABLE,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA,\n\t\tDATA_ENTRADA,\n\t\tAMBIT,\n\t\tID_AMBIT,\n\t\tDES_CLASSIFICACIO_01,\n\t\tID_CLASSIFICACIO_01,\n\t\tID_TIPUS_METADATA,\n\t\tCLASSIFICACIO_02 = METADATA_ENUMERAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Camp06Exp\nDMDimSubClassificacio select(mapColumn(\n\t\tID_SUBCLASSIFICACIO,\n\t\tDESC_SUBCLASSIFICACIO,\n\t\tMETADATA_ENUMERAT,\n\t\tID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCampSubClassificacio\nSelectCampSubClassificacio derive(METADATA_ENUMERAT = iifNull(toString(METADATA_ENUMERAT),toString('DESCONEGUT')),\n\t\tID_SUBCLASSIFICACIO = iifNull(toInteger(ID_SUBCLASSIFICACIO),9999)) ~> DerivedColumn07Exp\nCamp06Exp, DerivedColumn07Exp join(toInteger(ID_TIPUS_METADATA) == ID_SUBCLASSIFICACIO\n\t&& CLASSIFICACIO_02 == METADATA_ENUMERAT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join07Exp\nJoin07Exp select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tNUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tDESC_ASSUMPTE,\n\t\tFLAG_TANCAT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL,\n\t\tDESC__RESPONSABLE,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA,\n\t\tDATA_ENTRADA,\n\t\tAMBIT,\n\t\tID_AMBIT,\n\t\tDES_CLASSIFICACIO_01,\n\t\tID_CLASSIFICACIO_01,\n\t\tID_SUBCLASSIFICACIO,\n\t\tMETADATA_ENUMERAT,\n\t\tID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select3\nSelect3 derive(METADATA_ENUMERAT = iif(METADATA_ENUMERAT==' ', 'DESCONEGUT', METADATA_ENUMERAT),\n\t\tID = iif(ID==46, 9999, ID)) ~> DerivedColumn1\nDerivedColumn1 derive(METADATA_ENUMERAT = iif(isNull(METADATA_ENUMERAT), 'DESCONEGUT', METADATA_ENUMERAT),\n\t\tID = iif(isNull(ID),9999,ID)) ~> DerivedColumn2\nDerivedColumn2 select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tNUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tDESC_ASSUMPTE,\n\t\tFLAG_TANCAT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL,\n\t\tDESC__RESPONSABLE,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA,\n\t\tDATA_ENTRADA,\n\t\tAMBIT,\n\t\tID_AMBIT,\n\t\tDES_CLASSIFICACIO_01,\n\t\tID_CLASSIFICACIO_01,\n\t\tCLASSIFICACIO_02 = METADATA_ENUMERAT,\n\t\tID_CLASSIFICACIO_02 = ID\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Camp07Exp\nCamp07Exp, DMDimTipusExpedient join(Camp07Exp@ID_TIPUS_EXPEDIENT == DMDimTipusExpedient@ID_TIPUS_EXPEDIENT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join3\nJoin3 select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tNUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tID_TIPUS_EXPEDIENT = DMDimTipusExpedient@ID_TIPUS_EXPEDIENT,\n\t\tDESC_ASSUMPTE,\n\t\tFLAG_TANCAT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL = Camp07Exp@ID_TRAMIT_INICIAL,\n\t\tDESC__RESPONSABLE,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA = Camp07Exp@FLAG_BAIXA,\n\t\tDATA_ENTRADA,\n\t\tAMBIT,\n\t\tID_AMBIT,\n\t\tDES_CLASSIFICACIO_01,\n\t\tID_CLASSIFICACIO_01,\n\t\tCLASSIFICACIO_02,\n\t\tID_CLASSIFICACIO_02\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Camp08Exps\nCamp08Exps derive(ID_TIPUS_EXPEDIENT = iif(isNull(ID_TIPUS_EXPEDIENT), '9999999999', toString(ID_TIPUS_EXPEDIENT))) ~> Camp08Exp\nDMDimMetadata09Exp select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tID_TRAMIT,\n\t\tMETADATA_DATA,\n\t\tID_TIPUS_METADATA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCamp09Exp\nSelectCamp09Exp filter(ID_TIPUS_METADATA==52) ~> Filter09Exp\nDMFactTramit select(mapColumn(\n\t\tID_TRAMIT,\n\t\tID_EXPEDIENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select4\nSelect4, Camp08Exp join(Select4@ID_EXPEDIENT == Camp08Exps@ID_EXPEDIENT,\n\tjoinType:'right',\n\tbroadcast: 'auto')~> Join4\nJoin4 select(mapColumn(\n\t\tID_TRAMIT,\n\t\tID_EXPEDIENT = Camp08Exps@ID_EXPEDIENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select5\nFilter09Exp select(mapColumn(\n\t\tID_TRAMIT,\n\t\tMETADATA_DATA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select6\nSelect6, Select5 join(Select6@ID_TRAMIT == Select5@ID_TRAMIT,\n\tjoinType:'right',\n\tbroadcast: 'auto')~> Join5\nJoin5 select(mapColumn(\n\t\tMETADATA_DATA,\n\t\tID_EXPEDIENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select7\nSelect7 aggregate(groupBy(ID_EXPEDIENT),\n\tMETADATA_DATA = max(METADATA_DATA)) ~> Aggregate1\nAggregate1 select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tMETADATA_DATA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPre09Exp\nCamp08Exp, SelectPre09Exp join(Camp08Exps@ID_EXPEDIENT == SelectPre09Exp@ID_EXPEDIENT,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join6\ndistinct select(mapColumn(\n\t\tID_EXPEDIENT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL,\n\t\tID_AMBIT,\n\t\tID_CLASSIFICACIO_01,\n\t\tID_CLASSIFICACIO_02,\n\t\tNUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tDESC_ASSUMPTE,\n\t\tDESC__RESPONSABLE,\n\t\tDESC_AMBIT = AMBIT,\n\t\tDES_CLASSIFICACIO_01,\n\t\tDESC_CLASSIFICACIO_02 = CLASSIFICACIO_02,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tDATA_ENTRADA,\n\t\tDATA_RESOLUCIO = METADATA_DATA,\n\t\tFLAG_TANCAT,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Camp09Exp\nCamp09Exp, ODSFactExpedientSource exists(Camp09Exp@NUM_EXPEDIENT_INTERN==ODSFactExpedientSource@NUM_EXPEDIENT_INTERN,\n\tnegate:false,\n\tbroadcast: 'auto')~> UpDate\nAddData2 alterRow(updateIf(NUM_EXPEDIENT_INTERN==NUM_EXPEDIENT_INTERN)) ~> AlterRow1\nUpDate derive(DATA_MODIFICACIO = currentTimestamp()) ~> AddData2\nCamp09Exp, ODSFactExpedientSource exists(Camp09Exp@NUM_EXPEDIENT_INTERN==ODSFactExpedientSource@NUM_EXPEDIENT_INTERN,\n\tnegate:true,\n\tbroadcast: 'auto')~> Insert\nInsert derive(DATA_INSERT = currentTimestamp(),\n\t\tDATA_MODIFICACIO = currentTimestamp()) ~> AddData\nJoinCamp03ExpDerivedColumn04Exp derive(METADATA_ENUMERAT = iif(isNull(METADATA_ENUMERAT), 'DESCONEGUT', METADATA_ENUMERAT)) ~> AddDESCONEGUT\nSelectCampClassificacio aggregate(groupBy(ID_SUBCLASSIFICACIO,\n\t\tMETADATA_ENUMERAT),\n\tID = max(ID)) ~> MaxProvisional\nAddDESCONEGUT derive(ID_TIPUS_METADATA = iif(METADATA_ENUMERAT == 'DESCONEGUT', toDecimal(9999999), ID_TIPUS_METADATA)) ~> add9999999\nDMDimMetaData filter(ID_TIPUS_METADATA == 96) ~> FilterTipusMetaDataTipus96\nJoin6 aggregate(groupBy(NUM_EXPEDIENT_INTERN,\n\t\tNUM_EXPEDIENT_IMPORT,\n\t\tCamp08Exps@ID_EXPEDIENT,\n\t\tDESC_ASSUMPTE_CURT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tDESC_ASSUMPTE,\n\t\tFLAG_TANCAT,\n\t\tID_TRAMIT_ACTUAL,\n\t\tID_TRAMIT_INICIAL,\n\t\tDESC__RESPONSABLE,\n\t\tCODI_ASSIGNAT_INICIAL,\n\t\tCODI_ASSIGNAT_ESPECIAL,\n\t\tDATA_ALTA,\n\t\tNUM_INFOREG_ENTRADA,\n\t\tNUM_ULTIM_INFOLOG,\n\t\tDATA_TERMINI_MES_PROPER,\n\t\tFLAG_URGENT,\n\t\tFLAG_BAIXA,\n\t\tDATA_ENTRADA,\n\t\tAMBIT,\n\t\tDES_CLASSIFICACIO_01,\n\t\tID_AMBIT,\n\t\tID_CLASSIFICACIO_01,\n\t\tCLASSIFICACIO_02,\n\t\tID_CLASSIFICACIO_02,\n\t\tMETADATA_DATA),\n\tcont = count(1)) ~> distinct\nAddData sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TIPUS_EXPEDIENT as string,\n\t\tID_TRAMIT_ACTUAL as decimal(10,0),\n\t\tID_TRAMIT_INICIAL as decimal(10,0),\n\t\tID_AMBIT as long,\n\t\tID_CLASSIFICACIO_01 as integer,\n\t\tID_CLASSIFICACIO_02 as integer,\n\t\tNUM_EXPEDIENT_INTERN as string,\n\t\tNUM_EXPEDIENT_IMPORT as string,\n\t\tNUM_INFOREG_ENTRADA as decimal(10,0),\n\t\tNUM_ULTIM_INFOLOG as decimal(10,0),\n\t\tDESC_ASSUMPTE_CURT as string,\n\t\tDESC_ASSUMPTE as string,\n\t\tDESC__RESPONSABLE as string,\n\t\tDESC_AMBIT as string,\n\t\tDES_CLASSIFICACIO_01 as string,\n\t\tDESC_CLASSIFICACIO_02 as string,\n\t\tCODI_ASSIGNAT_INICIAL as string,\n\t\tCODI_ASSIGNAT_ESPECIAL as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_TERMINI_MES_PROPER as timestamp,\n\t\tDATA_ENTRADA as timestamp,\n\t\tDATA_RESOLUCIO as timestamp,\n\t\tFLAG_TANCAT as decimal(1,0),\n\t\tFLAG_URGENT as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0),\n\t\tDATA_INSERT as timestamp,\n\t\tDATA_MODIFICACIO as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactExpedient\nAlterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tID_TIPUS_EXPEDIENT as string,\n\t\tID_TRAMIT_ACTUAL as decimal(10,0),\n\t\tID_TRAMIT_INICIAL as decimal(10,0),\n\t\tID_AMBIT as long,\n\t\tID_CLASSIFICACIO_01 as integer,\n\t\tID_CLASSIFICACIO_02 as integer,\n\t\tNUM_EXPEDIENT_INTERN as string,\n\t\tNUM_EXPEDIENT_IMPORT as string,\n\t\tNUM_INFOREG_ENTRADA as decimal(10,0),\n\t\tNUM_ULTIM_INFOLOG as decimal(10,0),\n\t\tDESC_ASSUMPTE_CURT as string,\n\t\tDESC_ASSUMPTE as string,\n\t\tDESC__RESPONSABLE as string,\n\t\tDESC_AMBIT as string,\n\t\tDES_CLASSIFICACIO_01 as string,\n\t\tDESC_CLASSIFICACIO_02 as string,\n\t\tCODI_ASSIGNAT_INICIAL as string,\n\t\tCODI_ASSIGNAT_ESPECIAL as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_TERMINI_MES_PROPER as timestamp,\n\t\tDATA_ENTRADA as timestamp,\n\t\tDATA_RESOLUCIO as timestamp,\n\t\tFLAG_TANCAT as decimal(1,0),\n\t\tFLAG_URGENT as decimal(1,0),\n\t\tFLAG_BAIXA as decimal(1,0),\n\t\tDATA_INSERT as timestamp,\n\t\tDATA_MODIFICACIO as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['NUM_EXPEDIENT_INTERN'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactExpedientUpDate"
+		}
+	}
+}

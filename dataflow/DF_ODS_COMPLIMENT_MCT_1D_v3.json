@@ -1,0 +1,63 @@
+{
+	"name": "DF_ODS_COMPLIMENT_MCT_1D_v3",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "STGxeacMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_VLE_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSvaloracioMLEMCT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_COMPLIMENT_MCT_1D_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODScomplimentMCT1Dv3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SelectCOLUMNESinteresades"
+				},
+				{
+					"name": "JoinVALORACIO"
+				},
+				{
+					"name": "FilterPERIODEdiari"
+				},
+				{
+					"name": "FilterDATAvaloracio"
+				},
+				{
+					"name": "DCcontadorMCT"
+				},
+				{
+					"name": "Aggregate1"
+				},
+				{
+					"name": "FilterVALIDAdisponible"
+				},
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tCODI_EMIS as string,\n\t\tID_FOCUS as string,\n\t\tMARCA_TEMPS_TZ as timestamp,\n\t\tMARCA_TEMPS_UTC as timestamp,\n\t\tMARCA_TEMPS_LOCAL as timestamp,\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tID_ELEMENT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tV_VLE as float,\n\t\tF_VLE as string,\n\t\tV_IMP as float,\n\t\tF_IMP as string,\n\t\tV_INV as float,\n\t\tF_INV as string,\n\t\tV_PRT as float,\n\t\tF_PRT as string,\n\t\tV_GEH as float,\n\t\tF_GEH as string,\n\t\tZONA_HORARIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGxeacMCT\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT as integer,\n\t\tVLE_MCT_UNITATS as string,\n\t\tVLE_MCT_VAL_PERC_COMP as integer,\n\t\tMCT_VAL_PERIODE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSvaloracioMLEMCT\nSTGxeacMCT select(mapColumn(\n\t\tID_FOCUS,\n\t\tDATA = MARCA_TEMPS_UTC,\n\t\tTIPUS_MCT = MINUTOS_MCT,\n\t\tID_CONTAMINANT = ID_ELEMENT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM = ID_SUBMODE,\n\t\tV_VLE,\n\t\tF_VLE\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLUMNESinteresades\nFilterVALIDAdisponible, FilterPERIODEdiari join(SelectCOLUMNESinteresades@ID_FOCUS == ODSvaloracioMLEMCT@ID_FOCUS\n\t&& SelectCOLUMNESinteresades@ID_LEGISLACIO == ODSvaloracioMLEMCT@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& ID_CONTAMINANT == ID_ELEMENT\n\t&& TIPUS_MCT == VLE_MCT_TIPUS_MCT,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinVALORACIO\nODSvaloracioMLEMCT filter(MCT_VAL_PERIODE == 'D'\r\n||\r\nMCT_VAL_PERIODE == 'A') ~> FilterPERIODEdiari\nJoinVALORACIO filter(DATA >= DATA_INICI\r\n&&\r\nDATA < DATA_FI) ~> FilterDATAvaloracio\nFilterDATAvaloracio derive(COUNTER_CUMPLIMENT = iif( toFloat(V_VLE) <= VLE_MCT, 1, 0 ),\n\t\tDATA = toDate(DATA)) ~> DCcontadorMCT\nDCcontadorMCT aggregate(groupBy(SelectCOLUMNESinteresades@ID_FOCUS,\n\t\tID_CONTAMINANT,\n\t\tSelectCOLUMNESinteresades@ID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tDATA,\n\t\tVLE_MCT_TIPUS_MCT,\n\t\tVLE_MCT_VAL_PERC_COMP,\n\t\tMCT_VAL_PERIODE),\n\tMCTS_VALIDA = sum(toInteger(COUNTER_CUMPLIMENT)),\n\t\tMCTS_TOTAL = count(COUNTER_CUMPLIMENT)) ~> Aggregate1\nSelectCOLUMNESinteresades filter(F_VLE == 'VD' &&\r\ntoDate(DATA) >= toDate($P_DATA_INI,'yyyyMMdd') &&\r\ntoDate(DATA) < addDays(toDate($P_DATA_FI,'yyyyMMdd'),1)) ~> FilterVALIDAdisponible\nAggregate1 derive(PCT_COMPLIMENT = MCTS_VALIDA * 100 / MCTS_TOTAL,\n\t\tMCT_VAL_PERIODE_COMP = concat(MCT_VAL_PERIODE,toString(VLE_MCT_VAL_PERC_COMP))) ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as date,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT_VAL_PERC_COMP as decimal(5,2),\n\t\tMCT_VAL_PERIODE as string,\n\t\tMCTS_VALIDA as long,\n\t\tMCTS_TOTAL as long,\n\t\tPCT_COMPLIMENT as double,\n\t\tMCT_VAL_PERIODE_COMP as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODScomplimentMCT1Dv3"
+		}
+	}
+}

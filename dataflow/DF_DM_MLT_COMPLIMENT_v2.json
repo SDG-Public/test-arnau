@@ -1,0 +1,55 @@
+{
+	"name": "DF_DM_MLT_COMPLIMENT_v2",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MLT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_MLT_COMPLIMENT_v2",
+						"type": "DatasetReference"
+					},
+					"name": "ODSmltCOMPLIMENTv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimFOCUS"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_MLT_COMPLIMENT_v2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGmltCOMPLIMENTv2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_MLT_COMPLIMENT_v2",
+						"type": "DatasetReference"
+					},
+					"name": "DMmltCOMPLIMENTv2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SKGfocus"
+				},
+				{
+					"name": "DUMMY"
+				},
+				{
+					"name": "JoinSKG"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_VAL_PERC_COMP as string,\n\t\tMLTS_VALIDA as long,\n\t\tMLTS_TOTAL as long,\n\t\tPCT_COMPLIMENT as double,\n\t\tMLT_PERIODE_VALORACIO_PERC_COMP as string,\n\t\tTIPUS_MCT as long\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSmltCOMPLIMENTv2\nsource(output(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimFOCUS\nsource(output(\n\t\tID_MLT_COMPLIMENT_v2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGmltCOMPLIMENTv2\nJoinSKG, SKGdimFOCUS join(ODSmltCOMPLIMENTv2@ID_FOCUS == SKGdimFOCUS@ID_FOCUS,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGfocus\nSKGfocus derive(ID_DIM_FOCUS = iifNull(ID_DIM_FOCUS,0)) ~> DUMMY\nODSmltCOMPLIMENTv2, SKGmltCOMPLIMENTv2 join(ODSmltCOMPLIMENTv2@ID_FOCUS == SKGmltCOMPLIMENTv2@ID_FOCUS\n\t&& ODSmltCOMPLIMENTv2@ID_LEGISLACIO == SKGmltCOMPLIMENTv2@ID_LEGISLACIO\n\t&& ODSmltCOMPLIMENTv2@ID_CONTAMINANT == SKGmltCOMPLIMENTv2@ID_CONTAMINANT\n\t&& ODSmltCOMPLIMENTv2@MODE_REPORTABLE_NUM == SKGmltCOMPLIMENTv2@MODE_REPORTABLE_NUM\n\t&& ODSmltCOMPLIMENTv2@DATA == SKGmltCOMPLIMENTv2@DATA\n\t&& ODSmltCOMPLIMENTv2@VLE_MLT_MITJANA_TIPUS_NOMBRE == SKGmltCOMPLIMENTv2@VLE_MLT_MITJANA_TIPUS_NOMBRE\n\t&& ODSmltCOMPLIMENTv2@VLE_MLT_MITJANA_TIPUS == SKGmltCOMPLIMENTv2@VLE_MLT_MITJANA_TIPUS,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinSKG\nDUMMY sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_VAL_PERC_COMP as string,\n\t\tMLTS_VALIDA as long,\n\t\tMLTS_TOTAL as long,\n\t\tPCT_COMPLIMENT as double,\n\t\tMLT_PERIODE_VALORACIO_PERC_COMP as string,\n\t\tID_MLT_COMPLIMENT_v2 as integer,\n\t\tID_DIM_FOCUS as integer,\n\t\tTIPUS_MCT as long\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMmltCOMPLIMENTv2"
+		}
+	}
+}

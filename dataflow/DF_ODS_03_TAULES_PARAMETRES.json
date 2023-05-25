@@ -1,0 +1,157 @@
+{
+	"name": "DF_ODS_03_TAULES_PARAMETRES",
+	"properties": {
+		"folder": {
+			"name": "XEAC_COMUN/PARAMETRES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_VALORACIO_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "STGvaloracioLEGISLACIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_VALORACIO_TRACTAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGvaloracioTRACTAMENT"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_ELEMENT_MESURABLE",
+						"type": "DatasetReference"
+					},
+					"name": "STGelementMESURABLE"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_VALORACIO_VLE_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "STGvaloracioVLEmct"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_XEAC_UNITAT",
+						"type": "DatasetReference"
+					},
+					"name": "STGxeacUNITAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_XEAC_PERIODE_VLE",
+						"type": "DatasetReference"
+					},
+					"name": "STGxeacPERIODEvle"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "STGvaloracioVLEmlt"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_IMPOST_EMISSIONS",
+						"type": "DatasetReference"
+					},
+					"name": "STGimpostEMISSIONS"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_VALORACIO_SUBMODE",
+						"type": "DatasetReference"
+					},
+					"name": "STGvaloracioSUBMODE"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_PARAM_VALORACIO_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimPARAMvaloracioMCT"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSvaloracioLEGISLACIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_TRACTAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSvaloracioTRACTAMENT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_ELEMENT_MESURABLE",
+						"type": "DatasetReference"
+					},
+					"name": "ODSelementMESURABLE"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_VLE_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSvaloracioVLEmct"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_XEAC_UNITAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacUNITAT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_XEAC_PERIODE_VLE",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacPERIODEvle"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_VLE_MLT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSvaloracioVLEmlt"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_IMPOST_EMISSIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSimpostEMISSIONS"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_SUBMODE",
+						"type": "DatasetReference"
+					},
+					"name": "ODSvaloracioSUBMODE"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_PARAM_VALORACIO_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimPARAMvaloracioMCT"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGvaloracioLEGISLACIO\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tANOMAL_LLINDAR as decimal(9,3)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGvaloracioTRACTAMENT\nsource(output(\n\t\tID_ELEMENT as decimal(6,0),\n\t\tNOM_ELEMENT as string,\n\t\tID_TIPUS_ELEM as decimal(6,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGelementMESURABLE\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT as decimal(9,2),\n\t\tVLE_MCT_UNITATS as string,\n\t\tVLE_MCT_VAL_PERC_COMP as decimal(5,2),\n\t\tMCT_VAL_PERIODE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGvaloracioVLEmct\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGxeacUNITAT\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGxeacPERIODEvle\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as decimal(9,2),\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as decimal(5,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGvaloracioVLEmlt\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tP_NORMAL as string,\n\t\tAPLICAR_P_DECLARADA as string,\n\t\tP_DECLARADA_HPA as decimal(9,2),\n\t\tT_NORMAL as string,\n\t\tAPLICAR_T_DECLARADA as string,\n\t\tT_DECLARADA_CENTIGRADS as decimal(9,2),\n\t\tH_SEC as string,\n\t\tAPLICAR_H_DECLARADA as string,\n\t\tH_DECLARADA_PERCENTATGE as decimal(5,2),\n\t\tAPLICAR_CABAL_DECLARAT as string,\n\t\tCABAL_DECLARAT_DAM3 as float,\n\t\tO2_CORREGIT as string,\n\t\tAPLICAR_O2SEC_DECLARAT as string,\n\t\tO2SEC_DECLARAT_PERCENTATGE as decimal(9,2),\n\t\tO2REF as decimal(9,2),\n\t\tVLE_FINAL as decimal(10,3),\n\t\tIC_PERCENTATGE as decimal(6,0),\n\t\tID_FOCUS_BRUT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGimpostEMISSIONS\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tDESCRIPCIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGvaloracioSUBMODE\nsource(output(\n\t\tVALORACIO_MCT as string,\n\t\tCOD_VALIDACIO as string,\n\t\tDESC as string,\n\t\tTIPUS_MCT as string,\n\t\tMINUTS_VALIDESA as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimPARAMvaloracioMCT\nSTGvaloracioLEGISLACIO sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSvaloracioLEGISLACIO\nSTGvaloracioTRACTAMENT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tANOMAL_LLINDAR as decimal(9,3)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSvaloracioTRACTAMENT\nSTGelementMESURABLE sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ELEMENT as decimal(6,0),\n\t\tNOM_ELEMENT as string,\n\t\tID_TIPUS_ELEM as decimal(6,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSelementMESURABLE\nSTGvaloracioVLEmct sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT as integer,\n\t\tVLE_MCT_UNITATS as string,\n\t\tVLE_MCT_VAL_PERC_COMP as integer,\n\t\tMCT_VAL_PERIODE as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSvaloracioVLEmct\nSTGxeacUNITAT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_UNITAT as string,\n\t\tID_UNITAT_NOM as string,\n\t\tDESCRIPCIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSxeacUNITAT\nSTGxeacPERIODEvle sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PERIODE as string,\n\t\tDESCRIPCIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSxeacPERIODEvle\nSTGvaloracioVLEmlt sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSvaloracioVLEmlt\nSTGimpostEMISSIONS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tP_NORMAL as string,\n\t\tAPLICAR_P_DECLARADA as string,\n\t\tP_DECLARADA_HPA as decimal(9,2),\n\t\tT_NORMAL as string,\n\t\tAPLICAR_T_DECLARADA as string,\n\t\tT_DECLARADA_CENTIGRADS as decimal(9,2),\n\t\tH_SEC as string,\n\t\tAPLICAR_H_DECLARADA as string,\n\t\tH_DECLARADA_PERCENTATGE as decimal(5,2),\n\t\tAPLICAR_CABAL_DECLARAT as string,\n\t\tCABAL_DECLARAT_DAM3 as float,\n\t\tO2_CORREGIT as string,\n\t\tO2REF as decimal(9,2),\n\t\tAPLICAR_O2SEC_DECLARAT as string,\n\t\tO2SEC_DECLARAT_PERCENTATGE as decimal(9,2),\n\t\tVLE_FINAL as decimal(10,3),\n\t\tIC_PERCENTATGE as decimal(6,0),\n\t\tID_FOCUS_BRUT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSimpostEMISSIONS\nSTGvaloracioSUBMODE sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tDESCRIPCIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSvaloracioSUBMODE\nSTGdimPARAMvaloracioMCT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tVALORACIO_MCT as string,\n\t\tCOD_VALIDACIO as string,\n\t\tDESC as string,\n\t\tTIPUS_MCT as string,\n\t\tMINUTS_VALIDESA as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSdimPARAMvaloracioMCT"
+		}
+	}
+}

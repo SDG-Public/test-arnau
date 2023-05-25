@@ -1,0 +1,31 @@
+{
+	"name": "DF_INSGRI_DM_FACT_FITXERS",
+	"properties": {
+		"folder": {
+			"name": "INSGRI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_INSGRI_FACT_FITXERS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactFitxers"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_INSGRI_FACT_FITXERS",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactFitxers"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_FITXER as decimal(11,0),\n\t\tID_REQUERIMENT as decimal(10,0),\n\t\tCOD_TIPUS as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_USUARI_MODIFICACIO as string,\n\t\tNUM_MIDA as decimal(9,0),\n\t\tNUM_TRANSACCIO as string,\n\t\tDESC_NOM as string,\n\t\tDESC_COMENTARIS as string,\n\t\tDATA_ENVIAMENT_WEB as timestamp,\n\t\tFLAG_TEMPORAL_WEB as decimal(1,0),\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactFitxers\nODSFactFitxers sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactFitxers"
+		}
+	}
+}

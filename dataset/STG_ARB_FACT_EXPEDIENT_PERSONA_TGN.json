@@ -1,0 +1,43 @@
+{
+	"name": "STG_ARB_FACT_EXPEDIENT_PERSONA_TGN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ARB_PEX_REF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PEX_PER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PEX_TIPUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PEX_QDE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_PEX_NPAD",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "ARB_PEX_COMP",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_STG",
+			"table": "STG_ARB_FACT_EXPEDIENT_PERSONA_TGN"
+		}
+	}
+}

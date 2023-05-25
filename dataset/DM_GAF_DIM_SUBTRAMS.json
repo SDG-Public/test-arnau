@@ -1,0 +1,124 @@
+{
+	"name": "DM_GAF_DIM_SUBTRAMS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_COMARCA",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "COD_CARRETERA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_SUBTRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_MODIFICACIO",
+				"type": "decimal",
+				"precision": 15,
+				"scale": 0
+			},
+			{
+				"name": "COD_ORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ORGTRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PK_INI",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRES_PK_INI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESC_PK_INI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PK_FI",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "METRES_FI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESC_PK_FI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_IMD",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "NUM_LONG_REAL",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 3
+			},
+			{
+				"name": "NUM_LONG_APARENT",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 3
+			},
+			{
+				"name": "DESC_NOM_CARRILS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_CALCUL_IMD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_VALIDACIO",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_DIM_SUBTRAMS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

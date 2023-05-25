@@ -1,0 +1,31 @@
+{
+	"name": "DF_INSGRI_DM_DIM_RESULTATS_INSPECCIO",
+	"properties": {
+		"folder": {
+			"name": "INSGRI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_INSGRI_DIM_RESULTATS_INSPECCIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimResultatsInspeccio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_INSGRI_DIM_RESULTATS_INSPECCIO",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimResultatsInspeccio"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_INSPECCIO as decimal(10,0),\n\t\tID_TIPUS_RESULTAT as decimal(8,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimResultatsInspeccio\nODSDimResultatsInspeccio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_INSPECCIO as decimal(10,0),\n\t\tID_TIPUS_RESULTAT as decimal(8,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimResultatsInspeccio"
+		}
+	}
+}

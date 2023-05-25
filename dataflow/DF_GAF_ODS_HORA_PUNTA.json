@@ -1,0 +1,41 @@
+{
+	"name": "DF_GAF_ODS_HORA_PUNTA",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_VOLUM_ORDENAT_MES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactVolumMes"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_HORA_PUNTA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactHoraPunta"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AGGMinSeq"
+				},
+				{
+					"name": "AutoJoin"
+				},
+				{
+					"name": "FiltraCampos"
+				}
+			],
+			"script": "source(output(\n\t\tID_SEQ as long,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tIND_VOLUM_TOTAL as decimal(19,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tDATA_DIA as integer,\n\t\tDATA_HORA as integer,\n\t\tDATAREGISTRE as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactVolumMes\nODSFactVolumMes aggregate(groupBy(DATA_ANYO,\n\t\tID_ESTACIO,\n\t\tDATA_MES),\n\tID_SEQ = min(ID_SEQ)) ~> AGGMinSeq\nAGGMinSeq, ODSFactVolumMes join(AGGMinSeq@DATA_ANYO == ODSFactVolumMes@DATA_ANYO\n\t&& AGGMinSeq@ID_ESTACIO == ODSFactVolumMes@ID_ESTACIO\n\t&& AGGMinSeq@DATA_MES == ODSFactVolumMes@DATA_MES\n\t&& AGGMinSeq@ID_SEQ == ODSFactVolumMes@ID_SEQ,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> AutoJoin\nAutoJoin select(mapColumn(\n\t\tDATA_ANYO = AGGMinSeq@DATA_ANYO,\n\t\tID_ESTACIO = AGGMinSeq@ID_ESTACIO,\n\t\tDATA_MES = ODSFactVolumMes@DATA_MES,\n\t\tDATA_DIA,\n\t\tDATA_HORA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tDATA_ANYO as integer,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_MES as integer,\n\t\tDATA_DIA as integer,\n\t\tDATA_HORA as integer,\n\t\tDATAREGISTRE as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactHoraPunta"
+		}
+	}
+}

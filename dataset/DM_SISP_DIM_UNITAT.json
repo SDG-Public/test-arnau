@@ -1,0 +1,120 @@
+{
+	"name": "DM_SISP_DIM_UNITAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_UNITAT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_AUDITORIA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_ORG",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_PARE",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_EDIFICI",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_PARE_FUNCIONAL",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COD_UNITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_USUARI_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_USUARI_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_UNITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_FUNCIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_MODIF",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_PLEGAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FLAG_AREA_FUNCIONAL",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_DM",
+			"table": "DM_SISP_DIM_UNITAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

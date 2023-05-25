@@ -1,0 +1,61 @@
+{
+	"name": "ODS_IND_HORA_v2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ELEMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MARCA_TEMPS_UTC",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "NUMERO_CASOS",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "IND_N_MCT_DIA_IND",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COMPLIMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COLOR",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_IND_HORA_v2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

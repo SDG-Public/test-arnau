@@ -1,0 +1,69 @@
+{
+	"name": "COSTES_STG_DIM_PERS_SERVEI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COGNOM2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CARREC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_FITXER_SIGNATURA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SIGNATURA",
+				"type": "varbinary"
+			},
+			{
+				"name": "ID_TIPUS_PERS",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "IND_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INICIALS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NIF",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_PERS_SERVEI"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

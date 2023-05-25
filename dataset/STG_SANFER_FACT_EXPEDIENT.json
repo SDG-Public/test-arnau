@@ -1,0 +1,473 @@
+{
+	"name": "STG_SANFER_FACT_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "NUM_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REFEXT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REFINT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INI_TERMINI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI_TERMINI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA_SISTEMA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_DARRERA_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_DARRERA_MODIF",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "IND_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MOTIU_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "VERSION",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CODI_FRANJA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CAPSA_ARXIVAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_X",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_Y",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_EXP_REL",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "CONTADOR",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "DEMARCACIO",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_TECNIC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI_AUTORITZACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI_AUTORITZACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "NUM_ARXIVADOR_INI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_ARXIVADOR_FI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRORROGABLE",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "FORMAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SUPERFICIE_OCUPADA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "TIPUS_DENUNCIA",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DATA_DENUNCIA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "HORA_DENUNCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INFRACCIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI_INFRACCIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CODI_DENUNCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LINIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TREN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ESTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TRAJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_DENUNCIANT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ID_PERSONA_DENUNCIANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_AI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_CADUCITAT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_NOTIFICACIO_AI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO_AI",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DATA_RESOLUCIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_NOTIFICACIO_RESOLUCIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_PRESCRIPCIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "IMPORT_SANCIO",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 2
+			},
+			{
+				"name": "ID_CAUSA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "BAREM_PRIMERA_QUALIFICACIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "BAREM_ULTIMA_QUALIFICACIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_ULTIMA_QUALIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ORGANITZACIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TOTAL_PAGAT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "FRACCIONAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DEVOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ESTAT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "ID_EXP_TST",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "IND_TE_ALEGACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_VAL_INSTRUCTOR",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DESC_ALEGACIO_PRESENTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ALEGACIO_RESPOSTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_MOTIU_ARXIU",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_CATALA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_INFORME_SJ",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_INFORME_ST",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_VAL_INSTRUCTOR_RECURS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ID_SENTIT_RECURS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMPORT_SANCIO_FERMA",
+				"type": "decimal",
+				"precision": 13,
+				"scale": 2
+			},
+			{
+				"name": "DATA_NOTIFICACIO_REC",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO_REC",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO_RESOLUCIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "ESTAT_CONSTRENYIMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_REINCIDENT_FGC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PAGAT_FGC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_DEVOLUCIO_TRAMITADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_REVISIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_NOTIFICACIO_REVOCACIO_RES",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_NOTIFICACIO_REVOCACIO_REC",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO_REVISIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO_REV_RES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO_REV_REC",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "OPCIO_DECLARACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_NOTIFICACIO_AU",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_NOTIFICACIO_PR",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_NOTIFICACIO_RDV",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO_AU",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO_PR",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "TIPUS_NOTIFICACIO_RDV",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_STG",
+			"table": "STG_SANFER_FACT_EXPEDIENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

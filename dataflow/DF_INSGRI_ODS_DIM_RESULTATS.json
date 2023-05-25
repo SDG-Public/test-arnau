@@ -1,0 +1,38 @@
+{
+	"name": "DF_INSGRI_ODS_DIM_RESULTATS",
+	"properties": {
+		"folder": {
+			"name": "INSGRI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_INSGRI_DIM_RESULTATS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimResultats"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_INSGRI_DIM_RESULTATS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimResultats"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenobraCampos"
+				},
+				{
+					"name": "Constantes"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(11,0),\n\t\tID_INSPECCIO as decimal(10,0),\n\t\tNOM as string,\n\t\tFITXER as binary,\n\t\tMIDA as decimal(9,0),\n\t\tCOMENTARIS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tUSUARI_ALTA as string,\n\t\tUSUARI_MODIFICACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimResultats\nSTGDimResultats select(mapColumn(\n\t\tID_RESULTAT = ID,\n\t\tID_INSPECCIO,\n\t\tNUM_MIDA = MIDA,\n\t\tDESC_NOM = NOM,\n\t\tDESC_FITXER = FITXER,\n\t\tDESC_COMENTARIS = COMENTARIS,\n\t\tDESC_USUARI_ALTA = USUARI_ALTA,\n\t\tDESC_USUARI_MODIFICACIO = USUARI_MODIFICACIO,\n\t\tDATA_ALTA,\n\t\tDATA_MODIFICACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenobraCampos\nRenobraCampos derive(DATA_INSERCIO = currentDate()) ~> Constantes\nConstantes sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_RESULTAT as decimal(11,0),\n\t\tID_INSPECCIO as decimal(10,0),\n\t\tNUM_MIDA as decimal(9,0),\n\t\tDESC_NOM as string,\n\t\tDESC_FITXER as binary,\n\t\tDESC_COMENTARIS as string,\n\t\tDESC_USUARI_ALTA as string,\n\t\tDESC_USUARI_MODIFICACIO as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimResultats"
+		}
+	}
+}

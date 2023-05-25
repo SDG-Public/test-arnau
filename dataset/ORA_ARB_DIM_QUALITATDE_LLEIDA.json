@@ -1,0 +1,16 @@
+{
+	"name": "ORA_ARB_DIM_QUALITATDE_LLEIDA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ARBL_ADM",
+			"table": "ARB_QUALITATDE"
+		}
+	}
+}

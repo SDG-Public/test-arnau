@@ -1,0 +1,113 @@
+{
+	"name": "ODS_INSGRI_DIM_SERVEIS_TERRITORIAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_SERVEI_TERRITORIAL",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "COD_SERVEI_TERRITORIAL",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "COD_ORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_POSTAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TELEFON",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_FAX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_LOCALITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_WEB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOM_RESPONSABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CARREC_RESPONSABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_USUARI_MODIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_BUSTIA_RECEPCIO_FITXERS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CARREC_SEGON_RESPONSABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOM_SEGON_RESPONSABLE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_MODIFICACIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_SERVEIS_CENTRALS",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_ODS",
+			"table": "ODS_INSGRI_DIM_SERVEIS_TERRITORIAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

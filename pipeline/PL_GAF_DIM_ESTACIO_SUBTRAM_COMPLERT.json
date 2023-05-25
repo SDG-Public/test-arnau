@@ -1,0 +1,250 @@
+{
+	"name": "PL_GAF_DIM_ESTACIO_SUBTRAM_COMPLERT",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_GAF_DM_ESTACIO_SUBTRAM5_COMPLERT",
+				"description": "Este proceso fusiona las tablas ESTACIO_SUBTRAM5, SUBTRAMS, PLA, TIPUS_ESTACIO y TERRITORIAL. La usamos para el cuadro del Informe de Santiago, pero realmente se pueden usar en más sitios.\n\nTambién usamos el IFA, %Pesant e IMD que se calcula en Pla Anyal y los sustituimos por los que trae la dimensión. Esto lo hacemos por petición de Santiago, que nos indica que los valores correctos son los calculados en la Pla Anyal",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_GAF_DM_ESTACIO_SUBTRAM5_COMPLERT",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Until1",
+				"description": "En este bucle se van a corregir todos los IMD, IFA, PESANTS y VELOC_MITAJANA que están a nulos. Acorde a las directrices del departamento, si alguno de estos campos viene en nulo se debe de tomar el valor que tuviera el año anterior. De ahí que sea un bucle que viaje por todos los años y afecte a estos 4 indicadores realizando un UPDATE solo de los campos nulos",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "DF_GAF_DM_ESTACIO_SUBTRAM5_COMPLERT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@variables('V_Until')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "DF_GAF_ODS2_ESTSUB5_UPDATE_IMD",
+							"description": "En este DTF se va a actualizar los IMD que",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "1.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "DF_GAF_ODS2_ESTSUB5_UPDATE_IMD",
+									"type": "DataFlowReference",
+									"parameters": {
+										"P_DATA_FI": {
+											"value": "'@{variables('V_DATA_FI')}'",
+											"type": "Expression"
+										}
+									}
+								},
+								"integrationRuntime": {
+									"referenceName": "AutoResolveIntegrationRuntime2",
+									"type": "IntegrationRuntimeReference"
+								},
+								"traceLevel": "Fine"
+							}
+						},
+						{
+							"name": "Concat Var",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Check Fin Bucle",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_DATA_FI",
+								"value": {
+									"value": "@concat(string(add(int(substring(variables('V_DATA_FI_2'),0,4)),1)),substring(variables('V_DATA_FI_2'),4,4))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set DATA_FI_2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Concat Var",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_DATA_FI_2",
+								"value": {
+									"value": "@variables('V_DATA_FI')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Check Fin Bucle",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "DF_GAF_ODS2_ESTSUB5_UPDATE_PESANT",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "V_Until",
+								"value": {
+									"value": "@bool(less(pipeline().parameters.P_DATA_FI,variables('V_DATA_FI')))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "DF_GAF_ODS2_ESTSUB5_UPDATE_IFA",
+							"description": "En este DTF se van a mirar ",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [
+								{
+									"activity": "DF_GAF_ODS2_ESTSUB5_UPDATE_IMD",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "1.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "DF_GAF_ODS2_ESTSUB5_UPDATE_IFA",
+									"type": "DataFlowReference",
+									"parameters": {
+										"P_DATA_FI": {
+											"value": "'@{variables('V_DATA_FI')}'",
+											"type": "Expression"
+										}
+									}
+								},
+								"integrationRuntime": {
+									"referenceName": "AutoResolveIntegrationRuntime2",
+									"type": "IntegrationRuntimeReference"
+								},
+								"traceLevel": "Fine"
+							}
+						},
+						{
+							"name": "DF_GAF_ODS2_ESTSUB5_UPDATE_PESANT",
+							"description": "En este DTF se van a mirar ",
+							"type": "ExecuteDataFlow",
+							"dependsOn": [
+								{
+									"activity": "DF_GAF_ODS2_ESTSUB5_UPDATE_IFA",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "1.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataflow": {
+									"referenceName": "DF_GAF_ODS2_ESTSUB5_UPDATE_PESANT",
+									"type": "DataFlowReference",
+									"parameters": {
+										"P_DATA_FI": {
+											"value": "'@{variables('V_DATA_FI')}'",
+											"type": "Expression"
+										}
+									}
+								},
+								"integrationRuntime": {
+									"referenceName": "AutoResolveIntegrationRuntime2",
+									"type": "IntegrationRuntimeReference"
+								},
+								"traceLevel": "Fine"
+							}
+						}
+					],
+					"timeout": "7.00:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20221231"
+			}
+		},
+		"variables": {
+			"V_Until": {
+				"type": "Boolean",
+				"defaultValue": false
+			},
+			"V_DATA_FI": {
+				"type": "String",
+				"defaultValue": "20051231"
+			},
+			"V_DATA_FI_2": {
+				"type": "String",
+				"defaultValue": "20051231"
+			}
+		},
+		"folder": {
+			"name": "GAF/GAF - ESTACIO SUBTRAM COMPLERT"
+		},
+		"annotations": []
+	}
+}

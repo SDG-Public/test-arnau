@@ -1,0 +1,345 @@
+{
+	"name": "PL_MAPBI_HIST",
+	"properties": {
+		"description": "USUARIS\nREGISTRES\nDATA_INI and DATA_FI format is YYYYMMDD",
+		"activities": [
+			{
+				"name": "DF_MAPBI_USUARIS_ODS_DM",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_MAPBI_USUARIS_STG_ODS_copy1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_MAPBI_USUARIS_ODS_DM",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_MAPBI_REGISTRE_APP_STG_ODS",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "MAPBIORIGENSTGREGISTREAPP",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_MAPBI_REGISTRE_APP_STG_ODS",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "DF_MAPBI_REGISTRE_APP_ODS_DM",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_MAPBI_REGISTRE_APP_STG_ODS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_MAPBI_REGISTRE_APP_ODS_DM",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "MAPBIORIGENSTGREGISTREAPP",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "FWK_ADM.USER_LOGIN"
+					},
+					{
+						"name": "Destination",
+						"value": "test.test_USER_LOGIN"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select * \nfrom FWK_ADM.REGISTRE_ACCES_APLICACIONS \nwhere to_number(to_char(data, 'YYYYMMDD')) >= to_number('@{pipeline().parameters.DATA_INI}') \nand to_number(to_char(data, 'YYYYMMDD')) < to_number('@{pipeline().parameters.DATA_FI}')+1;",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [MAPBISTG].[STG_REGISTRE_ACCESS_APLICACIONS]",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "DATA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DATA",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "USUARI",
+									"type": "String"
+								},
+								"sink": {
+									"name": "USUARI",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "APLICACIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "APLICACIO",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "MAP_BI_ORIGEN_REGISTRE_APP",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "MAPBI_STG_REGISTRE_APP",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "MAPBIORIGENSTGPERSONA",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "FWK_ADM.USER_LOGIN"
+					},
+					{
+						"name": "Destination",
+						"value": "test.test_USER_LOGIN"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table MAPBISTG.STG_SGTB_PERSONA",
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "NUMERO_IDENTIFICADOR",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NUMERO_IDENTIFICADOR",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "NOM",
+									"type": "String"
+								},
+								"sink": {
+									"name": "NOM",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "COGNOM1",
+									"type": "String"
+								},
+								"sink": {
+									"name": "COGNOM1",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "COGNOM2",
+									"type": "String"
+								},
+								"sink": {
+									"name": "COGNOM2",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "MAP_BI_ORIGEN_SGTB_PERSONA",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "MAPBI_STG_SGTB_PERSONA",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "DF_MAPBI_USUARIS_STG_ODS_copy1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "MAPBIORIGENSTGPERSONA",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_MAPBI_USUARIS_STG_ODS",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"DATA_INI": {
+				"type": "string",
+				"defaultValue": "20210101"
+			},
+			"DATA_FI": {
+				"type": "string",
+				"defaultValue": "20210131"
+			}
+		},
+		"folder": {
+			"name": "MAPBI"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

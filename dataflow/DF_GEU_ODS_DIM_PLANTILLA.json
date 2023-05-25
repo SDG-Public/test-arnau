@@ -1,0 +1,98 @@
+{
+	"name": "DF_GEU_ODS_DIM_PLANTILLA",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_PLANTILLA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimPlantilla"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_PLANTILLA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPlantilla"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "FixFlag"
+				},
+				{
+					"name": "MinCodiPlantilla"
+				},
+				{
+					"name": "AddRegistroNoInformat"
+				},
+				{
+					"name": "union1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CODI_PLANTILLA as decimal(5,0),",
+				"          DESC_PLANTILLA as string,",
+				"          IND_VIGENT as string,",
+				"          IND_TIPUS as string,",
+				"          IND_RS as string,",
+				"          CODI_COS as decimal(5,0),",
+				"          IND_LU as string,",
+				"          TIPUS_DOCUMENT as decimal(4,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimPlantilla",
+				"STGDimPlantilla select(mapColumn(",
+				"          ID_PLANTILLA = CODI_PLANTILLA,",
+				"          CODI_TIPUS = IND_TIPUS,",
+				"          CODI_COS,",
+				"          CODI_TIPUS_DOCUMENT = TIPUS_DOCUMENT,",
+				"          DESC_PLANTILLA,",
+				"          FLAG_VIGENT = IND_VIGENT,",
+				"          FLAG_RS = IND_RS,",
+				"          FLAG_LU = IND_LU",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraCampos",
+				"RenombraCampos derive(FLAG_VIGENT = iif(FLAG_VIGENT == 'N',0,iif(FLAG_VIGENT == 'S',1,-1)),",
+				"          FLAG_RS = iif(FLAG_RS== 'N',0,iif(FLAG_RS== 'S',1,-1)),",
+				"          FLAG_LU = iif(FLAG_LU== 'N',0,iif(FLAG_LU== 'S',1,-1))) ~> FixFlag",
+				"STGDimPlantilla aggregate(ID_PLANTILLA = min(CODI_PLANTILLA)) ~> MinCodiPlantilla",
+				"MinCodiPlantilla derive(ID_PLANTILLA = -1,",
+				"          CODI_TIPUS = toString(-1),",
+				"          CODI_COS = -1,",
+				"          CODI_TIPUS_DOCUMENT = -1,",
+				"          DESC_PLANTILLA = 'No Informat',",
+				"          FLAG_VIGENT = -1,",
+				"          FLAG_RS = -1,",
+				"          FLAG_LU = -1) ~> AddRegistroNoInformat",
+				"FixFlag, AddRegistroNoInformat union(byName: true)~> union1",
+				"union1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimPlantilla"
+			]
+		}
+	}
+}

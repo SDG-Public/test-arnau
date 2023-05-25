@@ -1,0 +1,47 @@
+{
+	"name": "COSTES_STG_DIM_PLATGES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_PLATJA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CODI_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_PLATJA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_VEGUERIA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_DIM_PLATGES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

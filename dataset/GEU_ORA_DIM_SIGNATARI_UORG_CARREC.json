@@ -1,0 +1,19 @@
+{
+	"name": "GEU_ORA_DIM_SIGNATARI_UORG_CARREC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/OPERACIONAL"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GEU_ADM",
+			"table": "GEU_SIGNATARI_UORG_CARREC"
+		}
+	}
+}

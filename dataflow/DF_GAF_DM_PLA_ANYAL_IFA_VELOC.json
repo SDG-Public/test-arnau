@@ -1,0 +1,111 @@
+{
+	"name": "DF_GAF_DM_PLA_ANYAL_IFA_VELOC",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtr5"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDades"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSeccio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_IFA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalIFA"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_PLA_ANYAL_IFA_VELOC",
+						"type": "DatasetReference"
+					},
+					"name": "DMPlaAnyalIFAVeloc"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "AddVelocitatSentit"
+				},
+				{
+					"name": "Join5"
+				},
+				{
+					"name": "FiltraCampos4"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "Round"
+				},
+				{
+					"name": "PKConcat"
+				},
+				{
+					"name": "Reordena"
+				},
+				{
+					"name": "Join6"
+				},
+				{
+					"name": "AddVelocitatMitja"
+				},
+				{
+					"name": "Join7"
+				},
+				{
+					"name": "FilterDataAnyoDades"
+				},
+				{
+					"name": "FilterDataAnyoIFA"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimEstacioSubtr5\nsource(output(\n\t\tID_DADES as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_ESTAT_DADES as decimal(1,0),\n\t\tID_TASCA as decimal(8,0),\n\t\tCOD_USUARI as string,\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tDATA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactDades\nsource(output(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSeccio\nsource(output(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCOD_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimCarrils\nsource(output(\n\t\tID_ESTACIO as integer,\n\t\tDATA_ANYO as integer,\n\t\tIND_IFA as decimal(10,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalIFA\nDMDimEstacioSubtr5 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tIND_VELOC_MITJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos, DMDimSeccio join(FiltraCampos@ID_ESTACIO == DMDimSeccio@ID_ESTACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join1\nJoin1, DMDimCarrils join(DMDimSeccio@ID_SECCIO == DMDimCarrils@ID_SECCIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join2\nJoin2, FilterDataAnyoDades join(DMDimCarrils@ID_CARRIL == ODSFactDades@ID_CARRIL,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join3\nJoin6 select(mapColumn(\n\t\tID_ESTACIO = FiltraCampos@ID_ESTACIO,\n\t\tID_SECCIO = DMDimSeccio@ID_SECCIO,\n\t\tDESC_SECCIO,\n\t\tDATA_ANYO = FiltraCampos@DATA_ANYO,\n\t\tIND_IFA,\n\t\tID_DADES,\n\t\tIND_VELOCITAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nFiltraCampos2 aggregate(groupBy(ID_ESTACIO,\n\t\tID_SECCIO,\n\t\tDATA_ANYO),\n\tIND_VELOCITAT_SENTIT = sum(IND_VELOCITAT) / countDistinct(ID_DADES)) ~> AddVelocitatSentit\nFiltraCampos2, AddVelocitatSentit join(FiltraCampos2@ID_ESTACIO == AddVelocitatSentit@ID_ESTACIO\n\t&& FiltraCampos2@ID_SECCIO == AddVelocitatSentit@ID_SECCIO\n\t&& FiltraCampos2@DATA_ANYO == AddVelocitatSentit@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join5\nRound select(mapColumn(\n\t\tID_ESTACIO = FiltraCampos2@ID_ESTACIO,\n\t\tID_SECCIO = FiltraCampos2@ID_SECCIO,\n\t\tDESC_SECCIO,\n\t\tDATA_ANYO = FiltraCampos2@DATA_ANYO,\n\t\tIND_IFA,\n\t\tIND_VELOC_MITJA,\n\t\tIND_VELOCITAT_MITJA_SENTIT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos4\nFiltraCampos4 aggregate(groupBy(ID_ESTACIO,\n\t\tID_SECCIO,\n\t\tDESC_SECCIO,\n\t\tDATA_ANYO,\n\t\tIND_IFA,\n\t\tIND_VELOC_MITJA,\n\t\tIND_VELOCITAT_MITJA_SENTIT),\n\tcount = count(ID_ESTACIO)) ~> Distinct\nJoin7 derive(IND_VELOCITAT_MITJA_SENTIT = round(IND_VELOCITAT_SENTIT,2),\n\t\tIND_VELOC_MITJA = round(IND_VELOCITAT_MITJA,2),\n\t\tIND_IFA = round(IND_IFA,2)) ~> Round\nDistinct derive(PK_CONCAT = concat(toString(ID_ESTACIO),toString(DATA_ANYO))) ~> PKConcat\nPKConcat select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tID_SECCIO,\n\t\tDESC_SECCIO,\n\t\tDATA_ANYO,\n\t\tIND_IFA,\n\t\tIND_VELOC_MITJA,\n\t\tIND_VELOCITAT_MITJA_SENTIT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Reordena\nJoin3, FilterDataAnyoIFA join(FiltraCampos@ID_ESTACIO == ODSPlaAnyalIFA@ID_ESTACIO\n\t&& FiltraCampos@DATA_ANYO == ODSPlaAnyalIFA@DATA_ANYO,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join6\nFiltraCampos2 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO),\n\tIND_VELOCITAT_MITJA = sum(IND_VELOCITAT) / countDistinct(ID_DADES)) ~> AddVelocitatMitja\nJoin5, AddVelocitatMitja join(FiltraCampos2@ID_ESTACIO == AddVelocitatMitja@ID_ESTACIO\n\t&& FiltraCampos2@DATA_ANYO == AddVelocitatMitja@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join7\nODSFactDades filter(year(DATA) >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nyear(DATA) < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyoDades\nODSPlaAnyalIFA filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyoIFA\nReordena sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tPK_CONCAT as string,\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDESC_SECCIO as string,\n\t\tDATA_ANYO as integer,\n\t\tIND_IFA as decimal(10,2),\n\t\tIND_VELOC_MITJA as decimal(7,2),\n\t\tIND_VELOCITAT_MITJA_SENTIT as decimal(38,2)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMPlaAnyalIFAVeloc"
+		}
+	}
+}

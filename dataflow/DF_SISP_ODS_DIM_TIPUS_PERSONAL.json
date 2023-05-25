@@ -1,0 +1,47 @@
+{
+	"name": "DF_SISP_ODS_DIM_TIPUS_PERSONAL",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_TIPUS_PERSONAL",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTipusPersonal"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_TIPUS_PERSONAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusPersonal"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "addNoInformat"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "toUnion"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tDESCRIPCIO as string,\n\t\tCODI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTipusPersonal\nSTGDimTipusPersonal select(mapColumn(\n\t\tID_TIPUS_PERSONAL = ID,\n\t\tDESC_TIPUS_PERSONAL = DESCRIPCIO,\n\t\tCODI_TIPUS_PERSONAL = CODI\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos derive(ID_TIPUS_PERSONAL = -1,\n\t\tDESC_TIPUS_PERSONAL = 'No Informat',\n\t\tCODI_TIPUS_PERSONAL = '-1') ~> addNoInformat\naddNoInformat aggregate(groupBy(ID_TIPUS_PERSONAL,\n\t\tDESC_TIPUS_PERSONAL,\n\t\tCODI_TIPUS_PERSONAL),\n\tcon = count(ID_TIPUS_PERSONAL)) ~> Distinct\nDistinct select(mapColumn(\n\t\tID_TIPUS_PERSONAL,\n\t\tDESC_TIPUS_PERSONAL,\n\t\tCODI_TIPUS_PERSONAL\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> toUnion\nRenombraCampos, toUnion union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_PERSONAL as decimal(4,0),\n\t\tDESC_TIPUS_PERSONAL as string,\n\t\tCODI_TIPUS_PERSONAL as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTipusPersonal"
+		}
+	}
+}

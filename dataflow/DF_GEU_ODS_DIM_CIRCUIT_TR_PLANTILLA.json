@@ -1,0 +1,65 @@
+{
+	"name": "DF_GEU_ODS_DIM_CIRCUIT_TR_PLANTILLA",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_CIRCUIT_TR_PLANTILLA",
+						"type": "DatasetReference"
+					},
+					"name": "STGCircuitTRPlantilla"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_CIRCUIT_TR_PLANTILLA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSCircuitTRPlantilla"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampo"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CODI_CIRCUIT as string,",
+				"          NUMINT_TRAMIT as decimal(4,0),",
+				"          NUM_ORDRE_TRA as decimal(4,0),",
+				"          CODI_PLANTILLA as decimal(5,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGCircuitTRPlantilla",
+				"STGCircuitTRPlantilla select(mapColumn(",
+				"          CODI_CIRCUIT,",
+				"          NUM_TRAMIT = NUMINT_TRAMIT,",
+				"          NUM_ORDRE_TRA,",
+				"          CODI_PLANTILLA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombraCampo",
+				"RenombraCampo sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSCircuitTRPlantilla"
+			]
+		}
+	}
+}

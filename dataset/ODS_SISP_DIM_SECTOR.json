@@ -1,0 +1,47 @@
+{
+	"name": "ODS_SISP_DIM_SECTOR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_SECTOR",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ID_PLANTA",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COD_SECTOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_SECTOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_VIGENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_ODS",
+			"table": "ODS_SISP_DIM_SECTOR"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,64 @@
+{
+	"name": "ODS_DIM_EM_TRACTAMENT_CONTAMINANT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_EMISSIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODIS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MODE_OPERACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_FINAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IC_PERCENTATGE",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "O2SEC_CORREGIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CORRECCIO_O2SEC_PERCENTATGE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "APLICAR_O2SEC_DECLARAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "O2SEC_DECLARAT_PERCENTATGE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_DIM_EM_TRACTAMENT_CONTAMINANT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

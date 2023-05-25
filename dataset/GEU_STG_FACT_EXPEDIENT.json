@@ -1,0 +1,571 @@
+{
+	"name": "GEU_STG_FACT_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "NUMERO_EXP",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "ANY_EXP",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_COMPLERT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CODI_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_CIRCUIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ESTAT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "UNITAT_GESTORA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UNITAT_AUTORITZADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_ARXIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SIGEDA_CLASSIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SIGEDA_SUBDIV_ESP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_SIGEDA_SUBDIV_UNIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REFEXT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REFEXT_ACUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REFINT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_RECURS",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI_TERMINI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI_TERMINI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "UTM_X_CENTRE",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "UTM_Y_CENTRE",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "UTM_X1",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "UTM_Y1",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "UTM_X2",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "UTM_Y2",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "IND_PDT_CU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PDT_CUC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_BLOC_OD",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "NOM_EXP_ARXIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_EXP_TECNIC",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "IND_EXP_ARXIVAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_EXP_COMPLET_ARX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TOTAL_DOCS",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "TOTAL_PLANOLS",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "OBSERVACIONS_ARXIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FULL_ICC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUMEXP_CMB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUMEXP_RECURS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_DOC_SCAN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PLANOL_SCAN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OBSERV_SCAN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SUPERF_SECTOR",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "AMBIT_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USU_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UORG_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FITXER_DGN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODINT_EXP_RELACIONAT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ACORD",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_ASSAB",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_PUBLICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "TERMINI",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "TERMINI_MESOS_DIES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TIPUS_SILENCI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT_REUC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "INFO_ADDICIONAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PAUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_COBERTURA_PAUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UBICACIO_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PRESELECCIO_TRANSF",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_TRANSF_ARXIU_CENTRAL",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "USUARI_PRESELECCIO_TRANSF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_TRANSF_ARXIU_CENTRAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANY_INICIAL",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ANY_FINAL",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COMPETENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ORIGEN_COMPETENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_TRANSF_ARXIU",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "CODI_CARACTER_ACORD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_NORMES_PUBLICADES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_INICIATIVA_PRIVADA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_INCLOU_PROJ_URBANITZACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PEND_CONSELLER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PEND_GOVERN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUB_IND_PUBLICAR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUB_DATA_PUBLICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "PUB_USUARI_PUBLICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_GENERACIO_AUT_UG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_INST_COMPETENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_IND_PUBLICAR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_DATA_PUBLICACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "RPUC_USUARI_PUBLICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RPUC_CODI_ORGAN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_DOCS_AFECTATS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMPORT_TOTAL_REDACCIO",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "IMPORT_SOLICITAT",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "IMPORT_ATORGAT",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "IMPORT_ATORGAT_ANUALITAT1",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "IMPORT_ATORGAT_ANUALITAT2",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "ANY_ANUALITAT1",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ANY_ANUALITAT2",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_PRO_TERM_JUST",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_RENUN_SUBVEN_ATORG",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_RENUN_PETICIO_SUBVEN",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "RPUC_IND_ACT_DOCS",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "RPUC_COMENTARI_ACT_DOCS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANY_ANUALITAT3",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "ANY_ANUALITAT4",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "IMPORT_ATORGAT_ANUALITAT3",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "IMPORT_ATORGAT_ANUALITAT4",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "DATA_ANUALITAT1",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_ANUALITAT2",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_ANUALITAT3",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_ANUALITAT4",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_AMPLIACIO_ANUALITAT1",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_AMPLIACIO_ANUALITAT2",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_AMPLIACIO_ANUALITAT3",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_AMPLIACIO_ANUALITAT4",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "MUC_AFECTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MUC_CODIS_NORMALITZATS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MUC_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MUC_TRAMIT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_FACT_EXPEDIENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

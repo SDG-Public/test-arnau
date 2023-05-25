@@ -1,0 +1,31 @@
+{
+	"name": "DF_INSGRI_DM_DIM_LOTS",
+	"properties": {
+		"folder": {
+			"name": "INSGRI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_INSGRI_DIM_LOTS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimLots"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_INSGRI_DIM_LOTS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimLots"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_LOT as decimal(5,0),\n\t\tID_SERVEI_TERRITORIAL as decimal(3,0),\n\t\tDESC_NOM as string,\n\t\tDESC_DESCRIPCIO as string,\n\t\tDESC_USUARI_ALTA as string,\n\t\tDESC_USUARI_MODIFICACIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tFLAG_VIGENT as decimal(1,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimLots\nODSDimLots sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_LOT as decimal(5,0),\n\t\tID_SERVEI_TERRITORIAL as decimal(3,0),\n\t\tDESC_NOM as string,\n\t\tDESC_DESCRIPCIO as string,\n\t\tDESC_USUARI_ALTA as string,\n\t\tDESC_USUARI_MODIFICACIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tFLAG_VIGENT as decimal(1,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimLots"
+		}
+	}
+}

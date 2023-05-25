@@ -1,0 +1,62 @@
+{
+	"name": "DF_ASJ_ODS_DIM_ORIGEN",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_DIM_ORIGEN",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimOrigen"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_DIM_ORIGEN",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimOrigen"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          EXPEDIENTID as decimal(10,0),",
+				"          EXPEDIENTORIGEN as string,",
+				"          POSICIO as decimal(10,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimOrigen",
+				"STGDimOrigen select(mapColumn(",
+				"          ID_EXPEDIENT = EXPEDIENTID,",
+				"          NUM_EXPEDIENT_ORIGEN = EXPEDIENTORIGEN",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombrarCampos",
+				"RenombrarCampos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimOrigen"
+			]
+		}
+	}
+}

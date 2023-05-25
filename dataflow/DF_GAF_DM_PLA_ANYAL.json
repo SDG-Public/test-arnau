@@ -1,0 +1,495 @@
+{
+	"name": "DF_GAF_DM_PLA_ANYAL",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_DIES_AFORATS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalDiesAforats"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_FACTORS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalFactors"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_FACTORS_PESANTS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalFactorsPes"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_HORA_PUNTA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalHoraPunta"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_INT_MIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalIntMit"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_INT_MIT_PES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalIntMitPes"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_VOL_PER_DIA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalVolPerDia"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_VOL_PER_DIA_PES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalVolPerDiaPes"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_VOL_PER_LONG",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalVolPerLong"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_VOL_PER_SENTIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalVolPerSentit"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_VOL_PER_SENTIT_PES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalPes"
+				},
+				{
+					"dataset": {
+						"referenceName": "FIT_STG_GAF_AUX_MODELO_PLA_ANYAL",
+						"type": "DatasetReference"
+					},
+					"name": "AuxModeloPlaAnyal"
+				},
+				{
+					"dataset": {
+						"referenceName": "FIT_STG_GAF_AUX_MODELO_VOL_PER_SENTIT",
+						"type": "DatasetReference"
+					},
+					"name": "AuxModeloVolPerSentit"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMEstacioSubTram5"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_PLA_ANYAL",
+						"type": "DatasetReference"
+					},
+					"name": "DMPlaAnyal"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddGrup"
+				},
+				{
+					"name": "AddGrup2"
+				},
+				{
+					"name": "RenameIND"
+				},
+				{
+					"name": "RenameIND2"
+				},
+				{
+					"name": "AddGrup3"
+				},
+				{
+					"name": "RenameIND3"
+				},
+				{
+					"name": "AddGrup4"
+				},
+				{
+					"name": "RenameIND4"
+				},
+				{
+					"name": "AddGrup5"
+				},
+				{
+					"name": "RenameIND5"
+				},
+				{
+					"name": "AddGrup6"
+				},
+				{
+					"name": "RenameIND6"
+				},
+				{
+					"name": "AddGrup7"
+				},
+				{
+					"name": "RenameIND7"
+				},
+				{
+					"name": "AddGrup8"
+				},
+				{
+					"name": "RenameIND8"
+				},
+				{
+					"name": "AddGrup9"
+				},
+				{
+					"name": "RenameIND9"
+				},
+				{
+					"name": "AddGrup10"
+				},
+				{
+					"name": "RenameIND10"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "AddGrup11"
+				},
+				{
+					"name": "RenameIND11"
+				},
+				{
+					"name": "PKConcat"
+				},
+				{
+					"name": "ReordenaCampos"
+				},
+				{
+					"name": "EstacioToInteger"
+				},
+				{
+					"name": "AddPosicio"
+				},
+				{
+					"name": "AddPosicio2"
+				},
+				{
+					"name": "AddPosicio3"
+				},
+				{
+					"name": "AddPosicio11"
+				},
+				{
+					"name": "AddPosicio4"
+				},
+				{
+					"name": "AddPosicio5"
+				},
+				{
+					"name": "AddPosicio6"
+				},
+				{
+					"name": "AddPosicio7"
+				},
+				{
+					"name": "AddPosicio8"
+				},
+				{
+					"name": "AddPosicio9"
+				},
+				{
+					"name": "AddPosicio10"
+				},
+				{
+					"name": "DataMes13"
+				},
+				{
+					"name": "MaxConcepte"
+				},
+				{
+					"name": "AddPosicioNum2"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "ModPosicioNum2"
+				},
+				{
+					"name": "DataMes132"
+				},
+				{
+					"name": "MaxConcepte2"
+				},
+				{
+					"name": "AddPosicioNum22"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "ModPosicioNum22"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "JoinArreglaDataMes"
+				},
+				{
+					"name": "AddNulls"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "FiltraCampos1"
+				},
+				{
+					"name": "MesNocoincide"
+				},
+				{
+					"name": "MesCoincide"
+				},
+				{
+					"name": "JoinArreglaConcepte"
+				},
+				{
+					"name": "Union2"
+				},
+				{
+					"name": "Join7"
+				},
+				{
+					"name": "RenombraCampos1"
+				},
+				{
+					"name": "MesCoincide1"
+				},
+				{
+					"name": "MesNoCoincide1"
+				},
+				{
+					"name": "INDtoNull"
+				},
+				{
+					"name": "Union3"
+				},
+				{
+					"name": "FiltraNulos"
+				},
+				{
+					"name": "VolumSentitTratado"
+				},
+				{
+					"name": "PKConcat2"
+				},
+				{
+					"name": "Union5"
+				},
+				{
+					"name": "FiltraCampos3"
+				},
+				{
+					"name": "CountIND"
+				},
+				{
+					"name": "Join8"
+				},
+				{
+					"name": "FilterINoNull"
+				},
+				{
+					"name": "cont0"
+				},
+				{
+					"name": "contNo0"
+				},
+				{
+					"name": "Union6"
+				},
+				{
+					"name": "FiltraCampos4"
+				},
+				{
+					"name": "RenombraCampos4"
+				},
+				{
+					"name": "Union7"
+				},
+				{
+					"name": "AddNull2"
+				},
+				{
+					"name": "ConcepteCoincide"
+				},
+				{
+					"name": "ConcepteNoCoincide"
+				},
+				{
+					"name": "FiltraCampos5"
+				},
+				{
+					"name": "Aggregate2"
+				},
+				{
+					"name": "FiltraCampos6"
+				},
+				{
+					"name": "Union8"
+				},
+				{
+					"name": "Join9"
+				},
+				{
+					"name": "CountIND2"
+				},
+				{
+					"name": "FiltraCampos7"
+				},
+				{
+					"name": "contNo01"
+				},
+				{
+					"name": "cont01"
+				},
+				{
+					"name": "Union9"
+				},
+				{
+					"name": "AddConcat"
+				},
+				{
+					"name": "Join10"
+				},
+				{
+					"name": "FiltraCampos8"
+				},
+				{
+					"name": "QuitamosLosNulos"
+				},
+				{
+					"name": "Distinct1"
+				},
+				{
+					"name": "Distinct2"
+				},
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "AddConcepteIND"
+				},
+				{
+					"name": "Union10"
+				},
+				{
+					"name": "Distinct3"
+				},
+				{
+					"name": "Filter2"
+				},
+				{
+					"name": "AddConcepteIND1"
+				},
+				{
+					"name": "FiltraCampos10"
+				},
+				{
+					"name": "Union11"
+				},
+				{
+					"name": "Join11"
+				},
+				{
+					"name": "FiltraCampos9"
+				},
+				{
+					"name": "ContConcepte"
+				},
+				{
+					"name": "ContConcepte1"
+				},
+				{
+					"name": "Join12"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Join13"
+				},
+				{
+					"name": "CamposFlujo"
+				},
+				{
+					"name": "FilterDataAnyo"
+				},
+				{
+					"name": "FilterDataAnyo2"
+				},
+				{
+					"name": "FilterDataAnyo3"
+				},
+				{
+					"name": "FilterDataAnyo4"
+				},
+				{
+					"name": "FilterDataAnyo5"
+				},
+				{
+					"name": "FilterDataAnyo6"
+				},
+				{
+					"name": "FilterDataAnyo7"
+				},
+				{
+					"name": "FilterDataAnyo8"
+				},
+				{
+					"name": "FilterDataAnyo9"
+				},
+				{
+					"name": "FilterDataAnyo10"
+				},
+				{
+					"name": "FilterDataAnyo11"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as string,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tNUM_DIES_AFORATS as long\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalDiesAforats\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tFACTOR as decimal(38,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalFactors\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tFACTOR as decimal(38,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalFactorsPes\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tIND as decimal(9,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalHoraPunta\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tIND_INTENSITATS_MITJANES as decimal(38,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalIntMit\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tIND_INTENSITATS_MITJANES as decimal(38,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalIntMitPes\nsource(output(\n\t\tID_ESTACIO as string,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tVOLUM_PER_DIA as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalVolPerDia\nsource(output(\n\t\tID_ESTACIO as string,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tVOLUM_PER_DIA as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalVolPerDiaPes\nsource(output(\n\t\tID_ESTACIO as string,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tVOLUM_PER_LONG as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalVolPerLong\nsource(output(\n\t\tID_ESTACIO as integer,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tVOLUM_PER_SENTIT as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalVolPerSentit\nsource(output(\n\t\tID_ESTACIO as integer,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tVOLUM_PER_SENTIT_PESANTS as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSPlaAnyalPes\nsource(output(\n\t\tDATA_MES as integer,\n\t\tGRUP as string,\n\t\tCONCEPTE as string,\n\t\tPOSICIO as integer,\n\t\tPOSICIO2 as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> AuxModeloPlaAnyal\nsource(output(\n\t\tDATA_MES as integer,\n\t\tGRUP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> AuxModeloVolPerSentit\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMEstacioSubTram5\nFilterDataAnyo derive(GRUP = 'DIES AFORATS',\n\t\tID_ESTACIO = toDecimal(ID_ESTACIO),\n\t\tNUM_DIES_AFORATS = toDecimal(NUM_DIES_AFORATS)) ~> AddGrup\nFilterDataAnyo2 derive(GRUP = 'FACTORS') ~> AddGrup2\nAddGrup select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = NUM_DIES_AFORATS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND\nAddGrup2 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = FACTOR\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND2\nFilterDataAnyo3 derive(GRUP = 'FACTORS PESANTS') ~> AddGrup3\nAddGrup3 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = FACTOR\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND3\nFilterDataAnyo5 derive(GRUP = 'INTENSITATS MITJANES') ~> AddGrup4\nAddGrup4 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = IND_INTENSITATS_MITJANES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND4\nFilterDataAnyo6 derive(GRUP = 'INTENSITATS MITJANES DE PESANTS') ~> AddGrup5\nAddGrup5 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = IND_INTENSITATS_MITJANES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND5\nFilterDataAnyo7 derive(GRUP = 'VOLUM PER DIA DE LA SETMANA',\n\t\tID_ESTACIO = toDecimal(ID_ESTACIO),\n\t\tVOLUM_PER_DIA = toDecimal(VOLUM_PER_DIA)) ~> AddGrup6\nAddGrup6 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = VOLUM_PER_DIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND6\nFilterDataAnyo8 derive(GRUP = 'VOLUM PESANTS PER DIA DE LA SETMANA',\n\t\tID_ESTACIO = toDecimal(ID_ESTACIO),\n\t\tVOLUM_PER_DIA = toDecimal(VOLUM_PER_DIA)) ~> AddGrup7\nAddGrup7 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = VOLUM_PER_DIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND7\nFilterDataAnyo9 derive(GRUP = 'VOLUM PER LONGITUD',\n\t\tID_ESTACIO = toDecimal(ID_ESTACIO),\n\t\tVOLUM_PER_LONG = toDecimal(VOLUM_PER_LONG)) ~> AddGrup8\nAddGrup8 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = VOLUM_PER_LONG\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND8\nFilterDataAnyo10 derive(GRUP = 'VOLUM PER SENTIT',\n\t\tID_ESTACIO = toDecimal(ID_ESTACIO),\n\t\tVOLUM_PER_SENTIT = toDecimal(VOLUM_PER_SENTIT)) ~> AddGrup9\nAddGrup9 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = VOLUM_PER_SENTIT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND9\nFilterDataAnyo11 derive(GRUP = 'VOLUM PESANTS PER SENTIT',\n\t\tID_ESTACIO = toDecimal(ID_ESTACIO),\n\t\tVOLUM_PER_SENTIT_PESANTS = toDecimal(VOLUM_PER_SENTIT_PESANTS)) ~> AddGrup10\nAddGrup10 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND = VOLUM_PER_SENTIT_PESANTS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND10\nAddPosicio, AddPosicio8, AddPosicio3, AddPosicio2, AddPosicio11, AddPosicio4, AddPosicio7, AddPosicio5, AddPosicio6 union(byName: true)~> Union1\nFilterDataAnyo4 derive(GRUP = 'HORA PUNTA') ~> AddGrup11\nAddGrup11 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tCONCEPTE,\n\t\tGRUP,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenameIND11\nEstacioToInteger derive(PK_CONCAT = concat(toString(ID_ESTACIO),toString(DATA_ANYO))) ~> PKConcat\nPKConcat select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ReordenaCampos\nUnion1 derive(ID_ESTACIO = toInteger(ID_ESTACIO)) ~> EstacioToInteger\nRenameIND derive(POSICIO = 0,\n\t\tPOSICIO2 = iif(CONCEPTE == 'dies totals', 1, \r\n    iif(CONCEPTE == 'dl. a dv.',2,\r\n        iif(CONCEPTE == 'dissabtes',3,4)))) ~> AddPosicio\nRenameIND2 derive(POSICIO = 3,\n\t\tPOSICIO2 = iif(CONCEPTE == 'Factor L',1,2)) ~> AddPosicio2\nRenameIND3 derive(POSICIO = 4,\n\t\tPOSICIO2 = iif(CONCEPTE == 'Factor L',1,2)) ~> AddPosicio3\nRenameIND11 derive(POSICIO = 10,\n\t\tPOSICIO2 = iif(CONCEPTE == 'Dia', 1, \r\n    iif(CONCEPTE == 'Hora',2,3))) ~> AddPosicio11\nRenameIND4 derive(POSICIO = 1,\n\t\tPOSICIO2 = iif(CONCEPTE == 'IMD', 1, \r\n    iif(CONCEPTE == 'IMD dl. a dv.',2,\r\n        iif(CONCEPTE == 'IMD dissabtes',3,4)))) ~> AddPosicio4\nRenameIND5 derive(POSICIO = 2,\n\t\tPOSICIO2 = iif(CONCEPTE == 'IMD', 1,     iif(CONCEPTE == 'IMD dl. a dv.',2,        iif(CONCEPTE == 'IMD dissabtes',3,4)))) ~> AddPosicio5\nRenameIND6 derive(POSICIO = 7,\n\t\tPOSICIO2 = iif(CONCEPTE == 'dilluns', 1, \r\n    iif(CONCEPTE == 'dimarts',2,\r\n        iif(CONCEPTE == 'dimecres',3,\r\n            iif(CONCEPTE == 'dijous',4,\r\n                iif(CONCEPTE == 'divendres',5,\r\n                    iif(CONCEPTE == 'dissabte',6,7))))))) ~> AddPosicio6\nRenameIND7 derive(POSICIO = 8,\n\t\tPOSICIO2 = iif(CONCEPTE == 'dilluns', 1,     iif(CONCEPTE == 'dimarts',2,        iif(CONCEPTE == 'dimecres',3,            iif(CONCEPTE == 'dijous',4,                iif(CONCEPTE == 'divendres',5,                    iif(CONCEPTE == 'dissabte',6,7))))))) ~> AddPosicio7\nRenameIND8 derive(POSICIO = 9,\n\t\tPOSICIO2 = iif(CONCEPTE == '2-6 m',1, \r\n    iif(CONCEPTE == '6-X m',2,3))) ~> AddPosicio8\nRenameIND9 derive(POSICIO = 5) ~> AddPosicio9\nRenameIND10 derive(POSICIO = 6) ~> AddPosicio10\nAddPosicio9 filter(DATA_MES == 13) ~> DataMes13\nDataMes13 aggregate(groupBy(ID_ESTACIO),\n\tMAX_CONCEPTE = max(CONCEPTE)) ~> MaxConcepte\nMaxConcepte derive(POSICIO2 = 1) ~> AddPosicioNum2\nAddPosicio9, AddPosicioNum2 join(RenameIND9@ID_ESTACIO == MaxConcepte@ID_ESTACIO\n\t&& CONCEPTE == MAX_CONCEPTE,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join1\nModPosicioNum2 select(mapColumn(\n\t\tID_ESTACIO = RenameIND9@ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND,\n\t\tPOSICIO,\n\t\tPOSICIO2\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nJoin1 derive(POSICIO2 = coalesce(POSICIO2,2)) ~> ModPosicioNum2\nAddPosicio10 filter(DATA_MES ==13) ~> DataMes132\nDataMes132 aggregate(groupBy(ID_ESTACIO),\n\tMAX_CONCEPTE = max(CONCEPTE)) ~> MaxConcepte2\nMaxConcepte2 derive(POSICIO2 = 1) ~> AddPosicioNum22\nAddPosicio10, AddPosicioNum22 join(RenameIND10@ID_ESTACIO == MaxConcepte2@ID_ESTACIO\n\t&& CONCEPTE == MAX_CONCEPTE,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join2\nJoin2 derive(POSICIO2 = coalesce(POSICIO2,2)) ~> ModPosicioNum22\nModPosicioNum22 select(mapColumn(\n\t\tID_ESTACIO = RenameIND10@ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND,\n\t\tPOSICIO,\n\t\tPOSICIO2\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nAuxModeloPlaAnyal, ReordenaCampos join(AuxModeloPlaAnyal@GRUP == ReordenaCampos@GRUP\n\t&& AuxModeloPlaAnyal@CONCEPTE == ReordenaCampos@CONCEPTE,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinArreglaDataMes\nRenombraCampos derive(IND = iif(DATA_MES_modelo == DATA_MES, IND, toDecimal(null()))) ~> AddNulls\nMesNocoincide aggregate(groupBy(DATA_ANYO,\n\t\tDATA_MES_modelo,\n\t\tGRUP_modelo,\n\t\tCONCEPTE_modelo,\n\t\tIND,\n\t\tPK_CONCAT,\n\t\tID_ESTACIO),\n\tcont = count(DATA_MES_modelo)) ~> Distinct\nJoinArreglaDataMes select(mapColumn(\n\t\tDATA_MES_modelo = AuxModeloPlaAnyal@DATA_MES,\n\t\tGRUP_modelo = AuxModeloPlaAnyal@GRUP,\n\t\tCONCEPTE_modelo = AuxModeloPlaAnyal@CONCEPTE,\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES = ReordenaCampos@DATA_MES,\n\t\tGRUP = ReordenaCampos@GRUP,\n\t\tCONCEPTE = ReordenaCampos@CONCEPTE,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nMesCoincide select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos1\nAddNulls filter(DATA_MES_modelo != DATA_MES) ~> MesNocoincide\nAddNulls filter(DATA_MES_modelo == DATA_MES) ~> MesCoincide\nUnion6, AuxModeloPlaAnyal join(Union6@GRUP == AuxModeloPlaAnyal@GRUP\n\t&& Union6@DATA_MES == AuxModeloPlaAnyal@DATA_MES,\n\tjoinType:'right',\n\tbroadcast: 'auto')~> JoinArreglaConcepte\nUnion11, Union10 union(byName: true)~> Union2\nUnion2, AuxModeloVolPerSentit join(Union2@GRUP == AuxModeloVolPerSentit@GRUP,\n\tjoinType:'right',\n\tbroadcast: 'auto')~> Join7\nDerivedColumn1 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES = Union2@DATA_MES,\n\t\tGRUP = Union2@GRUP,\n\t\tCONCEPTE,\n\t\tIND,\n\t\tPOSICIO,\n\t\tPOSICIO2,\n\t\tDATA_MES_modelo = AuxModeloVolPerSentit@DATA_MES,\n\t\tGRUP_modelo = AuxModeloVolPerSentit@GRUP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos1\nRenombraCampos1 filter(DATA_MES ==DATA_MES_modelo) ~> MesCoincide1\nRenombraCampos1 filter(DATA_MES != DATA_MES_modelo) ~> MesNoCoincide1\nMesNoCoincide1 derive(IND = toDecimal(null())) ~> INDtoNull\nMesCoincide1, INDtoNull union(byName: true)~> Union3\nUnion3 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES_modelo,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tPOSICIO,\n\t\tPOSICIO2),\n\tIND = max(IND)) ~> FiltraNulos\nPKConcat2 select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES = DATA_MES_modelo,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND,\n\t\tPOSICIO,\n\t\tPOSICIO2\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> VolumSentitTratado\nFiltraNulos derive(PK_CONCAT = concat(toString(ID_ESTACIO),toString(DATA_ANYO)),\n\t\tID_ESTACIO = toInteger(ID_ESTACIO)) ~> PKConcat2\nFiltraCampos3, FiltraCampos1 union(byName: true)~> Union5\nDistinct select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES = DATA_MES_modelo,\n\t\tGRUP = GRUP_modelo,\n\t\tCONCEPTE = CONCEPTE_modelo,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos3\nUnion5 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_MES,\n\t\tDATA_ANYO,\n\t\tGRUP),\n\tcont_ind = count(IND)) ~> CountIND\nUnion5, CountIND join(Union5@ID_ESTACIO == CountIND@ID_ESTACIO\n\t&& Union5@DATA_ANYO == CountIND@DATA_ANYO\n\t&& Union5@DATA_MES == CountIND@DATA_MES\n\t&& Union5@GRUP == CountIND@GRUP,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join8\ncontNo0 filter(!isNull(IND)) ~> FilterINoNull\nFiltraCampos4 filter(cont_ind==0) ~> cont0\nFiltraCampos4 filter(cont_ind>0) ~> contNo0\nFilterINoNull, cont0 union(byName: true)~> Union6\nJoin8 select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO = Union5@ID_ESTACIO,\n\t\tDATA_ANYO = Union5@DATA_ANYO,\n\t\tDATA_MES = Union5@DATA_MES,\n\t\tGRUP = Union5@GRUP,\n\t\tCONCEPTE,\n\t\tIND,\n\t\tcont_ind\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos4\nJoinArreglaConcepte select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES = Union6@DATA_MES,\n\t\tGRUP = Union6@GRUP,\n\t\tCONCEPTE = Union6@CONCEPTE,\n\t\tIND,\n\t\tDATA_MES_modelo = AuxModeloPlaAnyal@DATA_MES,\n\t\tGRUP_modelo = AuxModeloPlaAnyal@GRUP,\n\t\tCONCEPTE_modelo = AuxModeloPlaAnyal@CONCEPTE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos4\nFiltraCampos8, VolumSentitTratado union(byName: true)~> Union7\nRenombraCampos4 derive(IND = iif(CONCEPTE_modelo == CONCEPTE, IND, toDecimal(null()))) ~> AddNull2\nAddNull2 filter(CONCEPTE==CONCEPTE_modelo) ~> ConcepteCoincide\nAddNull2 filter(CONCEPTE!=CONCEPTE_modelo) ~> ConcepteNoCoincide\nConcepteCoincide select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos5\nConcepteNoCoincide aggregate(groupBy(DATA_ANYO,\n\t\tDATA_MES_modelo,\n\t\tGRUP_modelo,\n\t\tCONCEPTE_modelo,\n\t\tID_ESTACIO,\n\t\tPK_CONCAT,\n\t\tIND),\n\tcont = count(PK_CONCAT)) ~> Aggregate2\nAggregate2 select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES = DATA_MES_modelo,\n\t\tGRUP = GRUP_modelo,\n\t\tCONCEPTE = CONCEPTE_modelo,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos6\nFiltraCampos5, FiltraCampos6 union(byName: true)~> Union8\nUnion8, CountIND2 join(Union8@ID_ESTACIO == CountIND2@ID_ESTACIO\n\t&& Union8@DATA_ANYO == CountIND2@DATA_ANYO\n\t&& Union8@DATA_MES == CountIND2@DATA_MES\n\t&& Union8@GRUP == CountIND2@GRUP,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join9\nUnion8 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP),\n\tcont_ind = count(IND)) ~> CountIND2\nJoin9 select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO = Union8@ID_ESTACIO,\n\t\tDATA_ANYO = Union8@DATA_ANYO,\n\t\tDATA_MES = Union8@DATA_MES,\n\t\tGRUP = Union8@GRUP,\n\t\tCONCEPTE,\n\t\tIND,\n\t\tcont_ind\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos7\nFiltraCampos7 filter(cont_ind>0) ~> contNo01\nFiltraCampos7 filter(cont_ind==0) ~> cont01\nQuitamosLosNulos, Distinct1 union(byName: true)~> Union9\nUnion7 derive(CONCAT_GRUP_CONCEPTE = concat(GRUP, CONCEPTE),\n\t\tCONCAT_POSICIO = concat(toString(POSICIO), toString(POSICIO2))) ~> AddConcat\nUnion9, AuxModeloPlaAnyal join(Union9@DATA_MES == AuxModeloPlaAnyal@DATA_MES\n\t&& Union9@GRUP == AuxModeloPlaAnyal@GRUP\n\t&& Union9@CONCEPTE == AuxModeloPlaAnyal@CONCEPTE,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join10\nJoin10 select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES = Union9@DATA_MES,\n\t\tGRUP = Union9@GRUP,\n\t\tCONCEPTE = Union9@CONCEPTE,\n\t\tIND,\n\t\tPOSICIO,\n\t\tPOSICIO2\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos8\ncontNo01 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tPK_CONCAT),\n\tIND = max(IND)) ~> QuitamosLosNulos\ncont01 aggregate(groupBy(PK_CONCAT,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND),\n\tcont_ind = count(PK_CONCAT)) ~> Distinct1\nFiltraCampos2 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tGRUP,\n\t\tCONCEPTE),\n\tCONT_SENTIT = count(CONCEPTE)) ~> Distinct2\nContConcepte filter(CONT_SENTIT <2) ~> Filter1\nFilter1 derive(CONCEPTE = '.',\n\t\tIND = toDecimal(null())) ~> AddConcepteIND\nFiltraCampos9, FiltraCampos2 union(byName: true)~> Union10\nFiltraCampos aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tGRUP,\n\t\tCONCEPTE),\n\tCONT_SENTIT = count(CONCEPTE)) ~> Distinct3\nContConcepte1 filter(CONT_SENTIT <2) ~> Filter2\nFilter2 derive(CONCEPTE = '.',\n\t\tIND = toDecimal(null())) ~> AddConcepteIND1\nJoin12 select(mapColumn(\n\t\tID_ESTACIO = ContConcepte1@ID_ESTACIO,\n\t\tDATA_ANYO = ContConcepte1@DATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP = ContConcepte1@GRUP,\n\t\tCONCEPTE = AddConcepteIND1@CONCEPTE,\n\t\tPOSICIO,\n\t\tPOSICIO2,\n\t\tIND = AddConcepteIND1@IND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos10\nFiltraCampos10, FiltraCampos union(byName: true)~> Union11\nAddConcepteIND, FiltraCampos2 join(ContConcepte@ID_ESTACIO == FiltraCampos2@ID_ESTACIO\n\t&& ContConcepte@DATA_ANYO == FiltraCampos2@DATA_ANYO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join11\nJoin11 select(mapColumn(\n\t\tID_ESTACIO = ContConcepte@ID_ESTACIO,\n\t\tDATA_ANYO = ContConcepte@DATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP = ContConcepte@GRUP,\n\t\tCONCEPTE = AddConcepteIND@CONCEPTE,\n\t\tIND = AddConcepteIND@IND,\n\t\tPOSICIO,\n\t\tPOSICIO2\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos9\nDistinct2 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tGRUP),\n\tCONT_SENTIT = count(CONCEPTE)) ~> ContConcepte\nDistinct3 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tGRUP),\n\tCONT_SENTIT = count(CONCEPTE)) ~> ContConcepte1\nAddConcepteIND1, FiltraCampos join(ContConcepte1@ID_ESTACIO == FiltraCampos@ID_ESTACIO\n\t&& ContConcepte1@DATA_ANYO == FiltraCampos@DATA_ANYO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join12\nJoin7 derive(ID_ESTACIO = toInteger(ID_ESTACIO)) ~> DerivedColumn1\nAddConcat, DMEstacioSubTram5 join(Union7@ID_ESTACIO == DMEstacioSubTram5@ID_ESTACIO\n\t&& Union7@DATA_ANYO == DMEstacioSubTram5@DATA_ANYO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join13\nJoin13 select(mapColumn(\n\t\tPK_CONCAT,\n\t\tID_ESTACIO = Union7@ID_ESTACIO,\n\t\tDATA_ANYO = Union7@DATA_ANYO,\n\t\tDATA_MES,\n\t\tGRUP,\n\t\tCONCEPTE,\n\t\tIND,\n\t\tPOSICIO,\n\t\tPOSICIO2,\n\t\tCONCAT_GRUP_CONCEPTE,\n\t\tCONCAT_POSICIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CamposFlujo\nODSPlaAnyalDiesAforats filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo\nODSPlaAnyalFactors filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo2\nODSPlaAnyalFactorsPes filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo3\nODSPlaAnyalHoraPunta filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo4\nODSPlaAnyalIntMit filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo5\nODSPlaAnyalIntMitPes filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo6\nODSPlaAnyalVolPerDia filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo7\nODSPlaAnyalVolPerDiaPes filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo8\nODSPlaAnyalVolPerLong filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo9\nODSPlaAnyalVolPerSentit filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo10\nODSPlaAnyalPes filter(DATA_ANYO>= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO< year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterDataAnyo11\nCamposFlujo sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tPK_CONCAT as string,\n\t\tID_ESTACIO as integer,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tGRUP as string,\n\t\tCONCEPTE as string,\n\t\tIND as decimal(38,4),\n\t\tPOSICIO as integer,\n\t\tPOSICIO2 as integer,\n\t\tCONCAT_GRUP_CONCEPTE as string,\n\t\tCONCAT_POSICIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMPlaAnyal"
+		}
+	}
+}

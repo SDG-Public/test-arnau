@@ -1,0 +1,44 @@
+{
+	"name": "ODS_GAF_PLA_ANYAL_DIES_AFORATS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_MES",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CONCEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_DIES_AFORATS",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_ODS",
+			"table": "ODS_GAF_PLA_ANYAL_DIES_AFORATS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

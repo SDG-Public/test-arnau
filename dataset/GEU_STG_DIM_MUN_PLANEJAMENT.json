@@ -1,0 +1,20 @@
+{
+	"name": "GEU_STG_DIM_MUN_PLANEJAMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_MUN_PLANEJAMENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

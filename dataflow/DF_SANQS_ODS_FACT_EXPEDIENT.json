@@ -1,0 +1,161 @@
+{
+	"name": "DF_SANQS_ODS_FACT_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EXPEDIENT_TSA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSExpedientTSA"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_CERTIFICAT_DESCOBERT",
+						"type": "DatasetReference"
+					},
+					"name": "CertificatDescobert"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_PAGAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "Pagament"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_BUTLLETINS",
+						"type": "DatasetReference"
+					},
+					"name": "Bulletins"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_DEVOLUCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "Devolucions"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_RESOLUCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "Resolucions"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_NOTIFICACIO_CADUCAT",
+						"type": "DatasetReference"
+					},
+					"name": "Notificacions"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_QUALIF",
+						"type": "DatasetReference"
+					},
+					"name": "Qualif"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_DENUNCIES_VOLUNTARI",
+						"type": "DatasetReference"
+					},
+					"name": "DenunVolun"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_RECURS",
+						"type": "DatasetReference"
+					},
+					"name": "Recurs"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSExpedient"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddsColumns"
+				},
+				{
+					"name": "SelecColumnes"
+				},
+				{
+					"name": "JoinResol"
+				},
+				{
+					"name": "JoinDescobert"
+				},
+				{
+					"name": "JoinPagament"
+				},
+				{
+					"name": "DistinctCertificat"
+				},
+				{
+					"name": "DistinctPagament"
+				},
+				{
+					"name": "FiltroExpedErroneos"
+				},
+				{
+					"name": "ECB"
+				},
+				{
+					"name": "DistinctsBulletins"
+				},
+				{
+					"name": "DistinctsDevolucions"
+				},
+				{
+					"name": "joinBulletins"
+				},
+				{
+					"name": "JoinDevolucions"
+				},
+				{
+					"name": "DistinctsQualif"
+				},
+				{
+					"name": "DistinctsDenunVol"
+				},
+				{
+					"name": "DistinctsResol"
+				},
+				{
+					"name": "JoinQualif"
+				},
+				{
+					"name": "JoinDenunVol"
+				},
+				{
+					"name": "DistinctsNotifCaducat"
+				},
+				{
+					"name": "JoinNotifCaducat"
+				},
+				{
+					"name": "JoinRecur"
+				},
+				{
+					"name": "DistinctsRecurs"
+				}
+			],
+			"script": "source(output(\n\t\tProp_0 as string,\n\t\tCODI_EXPEDIENT as string,\n\t\tDATA_EXPEDIENT_OBERT as date,\n\t\tID_TIPUS_EXPEDIENT as string,\n\t\tCOD_LLENGUA as string,\n\t\tCOD_PROP_EXPE as string,\n\t\tDATA_PRESCRIPCIO_EXPEDIENT as date,\n\t\tDATA_ARXIU as date,\n\t\tCOD_ARXIU as string,\n\t\tDATA_SANCIO_FERME as date,\n\t\tIND_IMPORT_SANCIO as string,\n\t\tCOD_P_SANCIO_FERME as string,\n\t\tCOD_LOCALIZACIO_JURIDICA as string,\n\t\tCOD_ESTAT as string,\n\t\tDESC_ESTAT as string,\n\t\tCOD_DNI_DENUNCIANT as string,\n\t\tDESC_NOM_DENUNCIANT as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSExpedientTSA\nsource(output(\n\t\tCODI_EXPEDIENT as string,\n\t\tDATA_TRAMITADOR as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> CertificatDescobert\nsource(output(\n\t\tCODI_EXPEDIENT as string,\n\t\tCODI_TIPUS_PAGAMENT as string,\n\t\tDATA_PAGAMENT as date,\n\t\tIND_IMPORT_PAGAMENT as string,\n\t\tIND_IMPOST_DIPOSIT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Pagament\nsource(output(\n\t\tCODI_EXPEDIENT as string,\n\t\tCODI_DENUNCIA as string,\n\t\tDATA_DENUNCIA as date,\n\t\tNUM_H_BUTLLETI as string,\n\t\tNUM_PK_BUTLLETI as string,\n\t\tDESC_AD_BUTLLETI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Bulletins\nsource(output(\n\t\tCODI_EXPEDIENT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Devolucions\nsource(output(\n\t\tProp_0 as string,\n\t\tCODI_EXPEDIENT as string,\n\t\tDATA_PROPOSTA_RESOLUCIO as date,\n\t\tCOD_PRECEPTE as string,\n\t\tDATA_RESOLUCIO as date,\n\t\tIND_IMPORT_RESOLUCIO as string,\n\t\tCOD_GRAVETAT_RESOLUCIO as string,\n\t\tCOD_TIPUS_RESOLUCIO as string,\n\t\tCOD_TIPUS_NOTIFICACIO as string,\n\t\tDATA_REGISTRE_SORTIDA as date,\n\t\tDATA_NOTIFICACIO as date,\n\t\tDATA_ARRIBADA_NOTIFICACIO as date,\n\t\tCOD_TANOT as string,\n\t\tCOD_NOTIFICACIO as string,\n\t\tCOD_TRAMNOT as string,\n\t\tDATA_PRESENTACIO as date,\n\t\tCOD_TIPUS_RECURS as string,\n\t\tDATA_INF_RA as date,\n\t\tDESC_IMPRE_REC as string,\n\t\tCOD_DEMARCACIO as string,\n\t\tDESC_GRAVETAT_RESOLUCIO as string,\n\t\tDESC_TIPUS_RESOLUCIO as string,\n\t\tIND_IMPORT_RESOLUCIO_EUROS as decimal(10,2),\n\t\tNUM_ORDRE as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Resolucions\nsource(output(\n\t\tProp_0 as string,\n\t\tCODI_EXPEDIENT as string,\n\t\tDATA_PROPOSTA_RESOLUCIO as date,\n\t\tCOD_PRECEPTE as string,\n\t\tDATA_RESOLUCIO as date,\n\t\tIND_IMPORT_RESOLUCIO as string,\n\t\tCOD_GRAVETAT_RESOLUCIO as string,\n\t\tCOD_TIPUS_RESOLUCIO as string,\n\t\tCOD_TIPUS_NOTIFICACIO as string,\n\t\tDATA_REGISTRE_SORTIDA as date,\n\t\tDATA_NOTIFICACIO as date,\n\t\tDATA_ARRIBADA_NOTIFICACIO as date,\n\t\tCOD_TANOT as string,\n\t\tCOD_NOTIFICACIO as string,\n\t\tCOD_TRAMNOT as string,\n\t\tDATA_PRESENTACIO as date,\n\t\tCOD_TIPUS_RECURS as string,\n\t\tDATA_INF_RA as date,\n\t\tDESC_IMPRE_REC as string,\n\t\tCOD_DEMARCACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Notificacions\nsource(output(\n\t\tCODI_EXPEDIENT as string,\n\t\tCODI_BAREM as string,\n\t\tCODI_PRE_BAREM as string,\n\t\tCODI_NOTIFICACIO as string,\n\t\tCODI_PERCEPTE_SANCIONADOR as string,\n\t\tCODI_TIPUS_QUALIFICACIO as string,\n\t\tID_TIPUS_NOTIFICACIO as string,\n\t\tNUM_IMPORT_QUA as string,\n\t\tDESC_BAREM as string,\n\t\tDESC_GRAVETAT_BAREM as string,\n\t\tDESC_TANOT as string,\n\t\tDATA_QUALIFICACIO as date,\n\t\tDATA_NOTIFICACIO as date,\n\t\tDATA_PLEC_DESCARREC as date,\n\t\tDATA_REGISTRE_SORTIDA as date,\n\t\tDATA_CADUCITAT as date,\n\t\tNUM_IMPORT_EUROS as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Qualif\nsource(output(\n\t\tCODI_DENUNCIA as string,\n\t\tCODI_EXPEDIENT as string,\n\t\tCOD_TIPUS_DENUNCIA as string,\n\t\tDESC_EXTRACTE as string,\n\t\tDATA_DENUNCIA as date,\n\t\tDATA_INSPECCIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DenunVolun\nsource(output(\n\t\tCODI_EXPEDIENT as string,\n\t\tCOD_DEMARCACIO as string,\n\t\tCOD_TIPUS_RECURS as string,\n\t\tCOD_TIPUS_NOTIFICACIO as string,\n\t\tCOD_NOTIFICACIO as string,\n\t\tCOD_PRECEPTE as string,\n\t\tCOD_TRAMNOT as string,\n\t\tCOD_TANOT as string,\n\t\tIND_IMPORT_RECURS as string,\n\t\tIND_IMPORT_RECURS_EUROS as decimal(10,2),\n\t\tDESC_TIPUS_RECURS as string,\n\t\tDATA_RESOLUCIO as date,\n\t\tDATA_RECUR as date,\n\t\tDATA_PRESENTACIO as date,\n\t\tDATA_ARRIBADA_NOTIFICACIO as date,\n\t\tDATA_NOTIFICACIO_RECURS as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> Recurs\nECB derive(FLAG_RESOL = iif(isNull(DistinctsResol@CODI_EXPEDIENT), 0, 1),\n\t\tFLAG_RECURS = iif(isNull(DistinctsRecurs@CODI_EXPEDIENT), 0, 1),\n\t\tFLAG_NOTIF = iif(isNull(DistinctsNotifCaducat@CODI_EXPEDIENT), 0, 1),\n\t\tFLAG_DESCOBERT = iif(isNull(DistinctCertificat@CODI_EXPEDIENT), 0, 1),\n\t\tFLAG_PAGAMENT = iif(isNull(DistinctPagament@CODI_EXPEDIENT), 0, 1),\n\t\tFLAG_BULLETINS = iif(isNull(DistinctsBulletins@CODI_EXPEDIENT), 0, 1),\n\t\tFLAG_DEVOLUCIONS = iif(isNull(DistinctsDevolucions@CODI_EXPEDIENT), 0, 1),\n\t\tFLAG_QUALIF = iif(isNull(DistinctsQualif@CODI_EXPEDIENT), 0, 1),\n\t\tFLAG_DENUN_VOL = iif(isNull(DistinctsDenunVol@CODI_EXPEDIENT), 0, 1),\n\t\tNUM_IMPORT_EUROS = toInteger(IND_IMPORT_SANCIO)/166.386,\n\t\tRUTA = iif(COD_DEMARCACIO=='43', \n    '\\\\\\\\C.FTX.GENCAT.CAT\\\\315$\\\\' + ECB + '\\\\Sancions\\\\MB00255_Expedients Sancionadors\\\\MB00255_' + toString(year(DATA_EXPEDIENT_OBERT)) + '\\\\' + substring(ODSExpedientTSA@CODI_EXPEDIENT,1,2) + '-' + substring(ODSExpedientTSA@CODI_EXPEDIENT,3,5) + '-' + substring(ODSExpedientTSA@CODI_EXPEDIENT,8,2),\n   iif(COD_DEMARCACIO=='08',\n        '\\\\\\\\C.FTX.GENCAT.CAT\\\\315$\\\\T030350\\\\Seccio_Inspeccio_i_Sancions_STT_BCN\\\\Expedients_Digitals\\\\G0918_Expedients_sancionadors\\\\'+toString(year(DATA_EXPEDIENT_OBERT))+'\\\\'+substring(ODSExpedientTSA@CODI_EXPEDIENT,1,2) + '-' + substring(ODSExpedientTSA@CODI_EXPEDIENT,3,5) + '-' + substring(ODSExpedientTSA@CODI_EXPEDIENT,8,2), \n        iif(COD_DEMARCACIO=='17',\n        'X:\\\\T030440\\\\147_Seccio_Inspeccio_i_Regim_Sancionador\\\\G0831_Procediment_sancionador\\\\MB0254_Expedients_sancionadors\\\\'+toString(year(DATA_EXPEDIENT_OBERT))+'\\\\'+substring(ODSExpedientTSA@CODI_EXPEDIENT,1,2) + '-' + substring(ODSExpedientTSA@CODI_EXPEDIENT,3,5) + '-' + substring(ODSExpedientTSA@CODI_EXPEDIENT,8,2), \n            iif(COD_DEMARCACIO=='25',\n            '\\\\\\\\C.FTX.GENCAT.CAT\\\\315$\\\\T030840\\\\Sancions\\\\ADMINISTRACIO_ELECTRONICA\\\\G0918_EXPEDIENTS_SANCIONADORS\\\\G0918_'+toString(year(DATA_EXPEDIENT_OBERT))+'\\\\'+substring(ODSExpedientTSA@CODI_EXPEDIENT,1,2) + '-' + substring(ODSExpedientTSA@CODI_EXPEDIENT,3,5) + '-' + substring(ODSExpedientTSA@CODI_EXPEDIENT,8,2), \n            'Demarcació desconeguda')))\n    ),\n\t\tDATA_PRESCRIPCIO = addDays(DATA_EXPEDIENT_OBERT,365),\n\t\tDATA_ANY_CODI_EXPEDIENT = substring(ODSExpedientTSA@CODI_EXPEDIENT,-2,2)) ~> AddsColumns\nAddsColumns select(mapColumn(\n\t\tCODI_EXPEDIENT = ODSExpedientTSA@CODI_EXPEDIENT,\n\t\tDATA_EXPEDIENT_OBERT,\n\t\tID_TIPUS_EXPEDIENT,\n\t\tCOD_PROP_EXPE,\n\t\tDATA_ARXIU,\n\t\tCOD_ARXIU,\n\t\tDATA_SANCIO_FERME,\n\t\tNUM_IMPORT_EUROS,\n\t\tIND_IMPORT_SANCIO,\n\t\tCOD_P_SANCIO_FERME,\n\t\tCOD_LOCALIZACIO_JURIDICA,\n\t\tCOD_ESTAT,\n\t\tDESC_ESTAT,\n\t\tCOD_DNI_DENUNCIANT,\n\t\tDESC_NOM_DENUNCIANT,\n\t\tCOD_DEMARCACIO,\n\t\tFLAG_NOTIF,\n\t\tFLAG_RESOL,\n\t\tFLAG_RECURS,\n\t\tFLAG_PAGAMENT,\n\t\tFLAG_DESCOBERT,\n\t\tFLAG_BULLETINS,\n\t\tFLAG_DEVOLUCIONS,\n\t\tFLAG_DENUN_VOL,\n\t\tFLAG_QUALIF,\n\t\tRUTA,\n\t\tCODI_DENUNCIA,\n\t\tDATA_PRESCRIPCIO,\n\t\tDATA_ANY_CODI_EXPEDIENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelecColumnes\nJoinRecur, DistinctsResol join(ODSExpedientTSA@CODI_EXPEDIENT == DistinctsResol@CODI_EXPEDIENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinResol\nJoinResol, DistinctCertificat join(ODSExpedientTSA@CODI_EXPEDIENT == DistinctCertificat@CODI_EXPEDIENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDescobert\nJoinDescobert, DistinctPagament join(ODSExpedientTSA@CODI_EXPEDIENT == DistinctPagament@CODI_EXPEDIENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinPagament\nCertificatDescobert aggregate(groupBy(CODI_EXPEDIENT),\n\tCOUNT = count(CODI_EXPEDIENT)) ~> DistinctCertificat\nPagament aggregate(groupBy(CODI_EXPEDIENT),\n\tCOUNT = count(CODI_EXPEDIENT)) ~> DistinctPagament\nODSExpedientTSA filter(toInteger(substring(CODI_EXPEDIENT,3,1)) != 9 && year(DATA_EXPEDIENT_OBERT)<2200) ~> FiltroExpedErroneos\nJoinDenunVol derive(ECB = iif(COD_DEMARCACIO == '08', 'T030350', iif(COD_DEMARCACIO == '43', 'T030940', iif(COD_DEMARCACIO == '17', 'T030440', iif(COD_DEMARCACIO == '25', 'T030840',''))))) ~> ECB\nBulletins aggregate(groupBy(CODI_EXPEDIENT,\n\t\tCODI_DENUNCIA),\n\tcount = count(CODI_EXPEDIENT)) ~> DistinctsBulletins\nDevolucions aggregate(groupBy(CODI_EXPEDIENT),\n\tcount = count(CODI_EXPEDIENT)) ~> DistinctsDevolucions\nJoinPagament, DistinctsBulletins join(ODSExpedientTSA@CODI_EXPEDIENT == DistinctsBulletins@CODI_EXPEDIENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> joinBulletins\njoinBulletins, DistinctsDevolucions join(ODSExpedientTSA@CODI_EXPEDIENT == DistinctsDevolucions@CODI_EXPEDIENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDevolucions\nQualif aggregate(groupBy(CODI_EXPEDIENT),\n\tcount = count(CODI_EXPEDIENT)) ~> DistinctsQualif\nDenunVolun aggregate(groupBy(CODI_EXPEDIENT),\n\tcount = count(CODI_EXPEDIENT)) ~> DistinctsDenunVol\nResolucions aggregate(groupBy(CODI_EXPEDIENT),\n\tcount = count(CODI_EXPEDIENT)) ~> DistinctsResol\nJoinDevolucions, DistinctsQualif join(ODSExpedientTSA@CODI_EXPEDIENT == DistinctsQualif@CODI_EXPEDIENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinQualif\nJoinQualif, DistinctsDenunVol join(ODSExpedientTSA@CODI_EXPEDIENT == DistinctsDenunVol@CODI_EXPEDIENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinDenunVol\nNotificacions aggregate(groupBy(CODI_EXPEDIENT),\n\tcount = count(CODI_EXPEDIENT)) ~> DistinctsNotifCaducat\nFiltroExpedErroneos, DistinctsNotifCaducat join(ODSExpedientTSA@CODI_EXPEDIENT == DistinctsNotifCaducat@CODI_EXPEDIENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinNotifCaducat\nJoinNotifCaducat, DistinctsRecurs join(ODSExpedientTSA@CODI_EXPEDIENT == DistinctsRecurs@CODI_EXPEDIENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinRecur\nRecurs aggregate(groupBy(CODI_EXPEDIENT),\n\tcount = count(CODI_EXPEDIENT)) ~> DistinctsRecurs\nSelecColumnes sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_EXPEDIENT as string,\n\t\tDATA_EXPEDIENT_OBERT as date,\n\t\tID_TIPUS_EXPEDIENT as string,\n\t\tCOD_PROP_EXPE as string,\n\t\tDATA_ARXIU as date,\n\t\tCOD_ARXIU as string,\n\t\tDATA_SANCIO_FERME as date,\n\t\tNUM_IMPORT_EUROS as double,\n\t\tIND_IMPORT_SANCIO as string,\n\t\tCOD_P_SANCIO_FERME as string,\n\t\tCOD_LOCALIZACIO_JURIDICA as string,\n\t\tCOD_ESTAT as string,\n\t\tDESC_ESTAT as string,\n\t\tCOD_DNI_DENUNCIANT as string,\n\t\tDESC_NOM_DENUNCIANT as string,\n\t\tCOD_DEMARCACIO as string,\n\t\tFLAG_RESOL as integer,\n\t\tFLAG_NOTIF as integer,\n\t\tFLAG_PAGAMENT as integer,\n\t\tFLAG_DESCOBERT as integer,\n\t\tFLAG_BULLETINS as integer,\n\t\tFLAG_DEVOLUCIONS as integer,\n\t\tFLAG_DENUN_VOL as integer,\n\t\tFLAG_QUALIF as integer,\n\t\tRUTA as string,\n\t\tCODI_DENUNCIA as string,\n\t\tDATA_PRESCRIPCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSExpedient"
+		}
+	}
+}

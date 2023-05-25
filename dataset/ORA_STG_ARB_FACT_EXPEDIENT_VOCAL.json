@@ -1,0 +1,20 @@
+{
+	"name": "ORA_STG_ARB_FACT_EXPEDIENT_VOCAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/ORA"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ARBB_ADM",
+			"table": "ARB_EXP_VOCAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

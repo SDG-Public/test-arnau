@@ -1,0 +1,147 @@
+{
+	"name": "COSTES_ODS_FACT_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_EXPEDIENT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "COD_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_REFEXT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_REFINT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_EXP_REL",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "ID_CONTADOR",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_PRORROGABLE",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "ID_TECNIC",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DESC_TEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ADRECA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MOTIU_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_CAPSA_ARXIVAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_FORMAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_ARXIVADOR_INI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_ARXIVADOR_FI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_X",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_Y",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INI_TERMINI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_FI_TERMINI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA_SISTEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INI_AUTORITZACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_FI_AUTORITZACIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_ODS",
+			"table": "ODS_COSTES_FACT_EXPEDIENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

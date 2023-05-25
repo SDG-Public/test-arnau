@@ -1,0 +1,16 @@
+{
+	"name": "ODS_XEAC_SINK_3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_XEAC_SINK_3"
+		}
+	}
+}

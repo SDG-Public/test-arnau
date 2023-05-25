@@ -1,0 +1,45 @@
+{
+	"name": "DF_SKG_COMPLIMENT_MLT_V2",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MLT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_MLT_COMPLIMENT_v2",
+						"type": "DatasetReference"
+					},
+					"name": "ODScomplimentMLTv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_MLT_COMPLIMENT_v2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGcomplimentMLTv2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SKG_MLT_COMPLIMENT_v2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGcomplimentMLTv2FINAL"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NotExists"
+				},
+				{
+					"name": "SelectPK"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_VAL_PERC_COMP as string,\n\t\tMLTS_VALIDA as long,\n\t\tMLTS_TOTAL as long,\n\t\tPCT_COMPLIMENT as double,\n\t\tMLT_PERIODE_VALORACIO_PERC_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODScomplimentMLTv2\nsource(output(\n\t\tID_MLT_COMPLIMENT_v2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGcomplimentMLTv2\nSelectPK, SKGcomplimentMLTv2 exists(SelectPK@ID_FOCUS == SKGcomplimentMLTv2@ID_FOCUS\n\t&& SelectPK@ID_CONTAMINANT == SKGcomplimentMLTv2@ID_CONTAMINANT\n\t&& SelectPK@ID_LEGISLACIO == SKGcomplimentMLTv2@ID_LEGISLACIO\n\t&& SelectPK@MODE_REPORTABLE_NUM == SKGcomplimentMLTv2@MODE_REPORTABLE_NUM\n\t&& SelectPK@DATA == SKGcomplimentMLTv2@DATA\n\t&& SelectPK@VLE_MLT_MITJANA_TIPUS_NOMBRE == SKGcomplimentMLTv2@VLE_MLT_MITJANA_TIPUS_NOMBRE\n\t&& SelectPK@VLE_MLT_MITJANA_TIPUS == SKGcomplimentMLTv2@VLE_MLT_MITJANA_TIPUS,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nODScomplimentMLTv2 select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tDATA,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MITJANA_TIPUS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_MLT_COMPLIMENT_v2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MITJANA_TIPUS as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_CONTAMINANT,\n\t\tID_LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tDATA,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE,\n\t\tVLE_MLT_MITJANA_TIPUS\n\t)) ~> SKGcomplimentMLTv2FINAL"
+		}
+	}
+}

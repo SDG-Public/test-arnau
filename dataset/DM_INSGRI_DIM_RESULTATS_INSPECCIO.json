@@ -1,0 +1,37 @@
+{
+	"name": "DM_INSGRI_DIM_RESULTATS_INSPECCIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "INSGRI/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_INSPECCIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS_RESULTAT",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "INSGRI_DM",
+			"table": "DM_INSGRI_DIM_RESULTATS_INSPECCIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

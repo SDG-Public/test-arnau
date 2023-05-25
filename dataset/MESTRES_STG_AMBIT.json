@@ -1,0 +1,41 @@
+{
+	"name": "MESTRES_STG_AMBIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "MESTRES/TERRITORIAL/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_JERARQUIC_CLASSIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MEMBRET_TARJA_CORREUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VEGUERIA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "MESTRES_STG",
+			"table": "STG_GEU_AMBIT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

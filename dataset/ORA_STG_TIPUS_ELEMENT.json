@@ -1,0 +1,20 @@
+{
+	"name": "ORA_STG_TIPUS_ELEMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_XEAC",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ORIGEN"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "XEAC_ADMIN",
+			"table": "XEAC_TIPUS_ELEMENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

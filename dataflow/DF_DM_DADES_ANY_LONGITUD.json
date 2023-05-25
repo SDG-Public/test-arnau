@@ -1,0 +1,38 @@
+{
+	"name": "DF_DM_DADES_ANY_LONGITUD",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_SENTIT",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesSentit"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_LONGITUD",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesLong"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AGGLong"
+				},
+				{
+					"name": "Rename"
+				}
+			],
+			"script": "source(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_TIPUS_VEHICLE as integer,\n\t\tID_SECCIO as decimal(8,0),\n\t\tIND_VOLUM_SENTIT as decimal(26,0),\n\t\tIND_VOLUM_TOTAL as decimal(29,0),\n\t\tIND_VELOCITAT_MITJA as decimal(15,12),\n\t\tDATA_ANYO as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactDadesSentit\nDMFactDadesSentit aggregate(groupBy(DATA_ANYO,\n\t\tID_ESTACIO,\n\t\tID_TIPUS_VEHICLE),\n\tIND_VOLUM_TOTAL = sum(IND_VOLUM_TOTAL),\n\t\tIND_VOLUM_SENTIT = sum(IND_VOLUM_SENTIT)) ~> AGGLong\nAGGLong select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_TIPUS_VEHICLE,\n\t\tIND_VOLUM_TOTAL,\n\t\tIND_VOLUM_LONGITUD = IND_VOLUM_SENTIT,\n\t\tDATA_ANYO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Rename\nRename sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactDadesLong"
+		}
+	}
+}

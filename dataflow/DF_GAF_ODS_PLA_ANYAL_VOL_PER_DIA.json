@@ -1,0 +1,212 @@
+{
+	"name": "DF_GAF_ODS_PLA_ANYAL_VOL_PER_DIA",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtr5"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSeccio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDades"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_VOL_PER_DIA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalVolPerDia"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "Join8"
+				},
+				{
+					"name": "Join9"
+				},
+				{
+					"name": "Join10"
+				},
+				{
+					"name": "AddMesAnyo"
+				},
+				{
+					"name": "AddSumaIMD"
+				},
+				{
+					"name": "CountTipusDia"
+				},
+				{
+					"name": "Join11"
+				},
+				{
+					"name": "SumaIMD"
+				},
+				{
+					"name": "VolumMes"
+				},
+				{
+					"name": "Join12"
+				},
+				{
+					"name": "AddVolumPerDia"
+				},
+				{
+					"name": "FiltraCampos23"
+				},
+				{
+					"name": "AddTipusDiaFristnLast"
+				},
+				{
+					"name": "RoundVolumMes"
+				},
+				{
+					"name": "AddCountTipusDiaMes"
+				},
+				{
+					"name": "ConditionalSplit1"
+				},
+				{
+					"name": "RecalculaIMDMult1"
+				},
+				{
+					"name": "RecalculaIMDMult7"
+				},
+				{
+					"name": "RecalculaIMDMult6"
+				},
+				{
+					"name": "RecalculaIMDMult5"
+				},
+				{
+					"name": "RecalculaIMDMult4"
+				},
+				{
+					"name": "RecalculaIMDMult3"
+				},
+				{
+					"name": "RecalculaIMDMult2"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "VolumPerDiaTotal"
+				},
+				{
+					"name": "AddCountTipusDiaMesTotal"
+				},
+				{
+					"name": "AddCountTipusDiaMesTotal7"
+				},
+				{
+					"name": "VolumPerDiaTotal2"
+				},
+				{
+					"name": "AddCountTipusDiaMesTotal6"
+				},
+				{
+					"name": "AddCountTipusDiaMesTotal5"
+				},
+				{
+					"name": "AddCountTipusDiaMesTotal4"
+				},
+				{
+					"name": "AddCountTipusDiaMesTotal3"
+				},
+				{
+					"name": "AddCountTipusDiaMesTotal2"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "AddMesTotal"
+				},
+				{
+					"name": "Join7"
+				},
+				{
+					"name": "FiltraCampos1"
+				},
+				{
+					"name": "FiltraCampos7"
+				},
+				{
+					"name": "Join6"
+				},
+				{
+					"name": "FiltraCampos6"
+				},
+				{
+					"name": "Join5"
+				},
+				{
+					"name": "FiltraCampos5"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "FiltraCampos4"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "FiltraCampos3"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "Union2"
+				},
+				{
+					"name": "FiltraReordenaCampos"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "FilterData"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimEstacioSubtr5\nsource(output(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSeccio\nsource(output(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCOD_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimCarrils\nsource(output(\n\t\tID_DADES as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_ESTAT_DADES as decimal(1,0),\n\t\tID_TASCA as decimal(8,0),\n\t\tCOD_USUARI as string,\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tDATA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactDades\nDMDimEstacioSubtr5 select(mapColumn(\n\t\tID_ESTACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos, DMDimSeccio join(FiltraCampos@ID_ESTACIO == DMDimSeccio@ID_ESTACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join8\nJoin8, DMDimCarrils join(DMDimSeccio@ID_SECCIO == DMDimCarrils@ID_SECCIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join9\nJoin9, FilterData join(DMDimCarrils@ID_CARRIL == ODSFactDades@ID_CARRIL,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join10\nJoin10 derive(DATA_MES = month(DATA),\n\t\tDATA_ANYO = year(DATA),\n\t\tID_TIPUS_DIA = iif(dayOfWeek(DATA) == 1,7,dayOfWeek(DATA)-1)) ~> AddMesAnyo\nAddMesAnyo aggregate(groupBy(DATA,\n\t\tDATA_MES,\n\t\tDATA_ANYO,\n\t\tFiltraCampos@ID_ESTACIO,\n\t\tID_TIPUS_DIA),\n\tSumaIMD = sum(IND_IMD_DIARI)) ~> AddSumaIMD\nAddSumaIMD aggregate(groupBy(DATA_MES,\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tID_TIPUS_DIA),\n\tcont_tipus_dia = count(ID_TIPUS_DIA)) ~> CountTipusDia\nCountTipusDia, AddSumaIMD join(CountTipusDia@DATA_MES == AddSumaIMD@DATA_MES\n\t&& CountTipusDia@ID_TIPUS_DIA == AddSumaIMD@ID_TIPUS_DIA\n\t&& CountTipusDia@ID_ESTACIO == AddSumaIMD@ID_ESTACIO\n\t&& CountTipusDia@DATA_ANYO == AddSumaIMD@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join11\nJoin11 aggregate(groupBy(CountTipusDia@DATA_MES,\n\t\tCountTipusDia@ID_ESTACIO,\n\t\tCountTipusDia@DATA_ANYO,\n\t\tCountTipusDia@ID_TIPUS_DIA),\n\tSumaIMD = sum(SumaIMD/cont_tipus_dia)) ~> SumaIMD\nSumaIMD aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO),\n\tVOLUM_MES = sum(SumaIMD)) ~> VolumMes\nSumaIMD, VolumMes join(SumaIMD@DATA_MES == VolumMes@DATA_MES\n\t&& SumaIMD@ID_ESTACIO == VolumMes@ID_ESTACIO\n\t&& SumaIMD@DATA_ANYO == VolumMes@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join12\nJoin12 derive(VOLUM_PER_DIA = 100*(1/VOLUM_MES)*SumaIMD) ~> AddVolumPerDia\nAddVolumPerDia select(mapColumn(\n\t\tID_ESTACIO = VolumMes@ID_ESTACIO,\n\t\tDATA_ANYO = SumaIMD@DATA_ANYO,\n\t\tDATA_MES = SumaIMD@DATA_MES,\n\t\tID_TIPUS_DIA,\n\t\tVOLUM_PER_DIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos23\nFiltraCampos23 derive(tipus_dia_first = iif(dayOfWeek(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy'))-1 == 0,7,dayOfWeek(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy'))-1),\n\t\ttipus_dia_last = iif(dayOfWeek(lastDayOfMonth(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy'))) -1 == 0,7,dayOfWeek(lastDayOfMonth(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy'))) -1),\n\t\tLast_day_month = dayOfMonth(lastDayOfMonth(toDate(concat(concat('01',iif(length(toString(DATA_MES)) == 1, concat('0',toString(DATA_MES)),toString(DATA_MES))),toString(DATA_ANYO)),'ddMMyyyy')))) ~> AddTipusDiaFristnLast\nUnion2 derive(VOLUM_PER_DIA = round(VOLUM_PER_DIA,2)) ~> RoundVolumMes\nAddTipusDiaFristnLast derive(Count_Tipus_dia_1 = iif(Last_day_month == 28,    4,\tiif(tipus_dia_first\t<= \ttipus_dia_last,\t\t\tiif(\t\t\t\ttipus_dia_first\t<= 1\t&& \t1 <=\ttipus_dia_last,\t\t\t\t5,\t\t\t\t4)\t\t\t,iif(\t\t\t\ttipus_dia_last < 1 && 1 < tipus_dia_first,\t\t\t\t4,\t\t\t\t5) \t\t)\t),\n\t\tCount_Tipus_dia_2 = iif(Last_day_month == 28,    4,\tiif(tipus_dia_first\t<= \ttipus_dia_last,\t\t\tiif(\t\t\t\ttipus_dia_first\t<= 2\t&& \t2 <=\ttipus_dia_last,\t\t\t\t5,\t\t\t\t4)\t\t\t,iif(\t\t\t\ttipus_dia_last < 2 && 2 < tipus_dia_first,\t\t\t\t4,\t\t\t\t5) \t\t)\t),\n\t\tCount_Tipus_dia_3 = iif(Last_day_month == 28,    4,\tiif(tipus_dia_first\t<= \ttipus_dia_last,\t\t\tiif(\t\t\t\ttipus_dia_first\t<= 3\t&& \t3 <=\ttipus_dia_last,\t\t\t\t5,\t\t\t\t4)\t\t\t,iif(\t\t\t\ttipus_dia_last < 3 && 3 < tipus_dia_first,\t\t\t\t4,\t\t\t\t5) \t\t)\t),\n\t\tCount_Tipus_dia_4 = iif(Last_day_month == 28,    4,\tiif(tipus_dia_first\t<= \ttipus_dia_last,\t\t\tiif(\t\t\t\ttipus_dia_first\t<= 4\t&& \t4 <=\ttipus_dia_last,\t\t\t\t5,\t\t\t\t4)\t\t\t,iif(\t\t\t\ttipus_dia_last < 4 && 4 < tipus_dia_first,\t\t\t\t4,\t\t\t\t5) \t\t)\t),\n\t\tCount_Tipus_dia_5 = iif(Last_day_month == 28,    4,\tiif(tipus_dia_first\t<= \ttipus_dia_last,\t\t\tiif(\t\t\t\ttipus_dia_first\t<= 5\t&& \t5 <=\ttipus_dia_last,\t\t\t\t5,\t\t\t\t4)\t\t\t,iif(\t\t\t\ttipus_dia_last < 5 && 5 < tipus_dia_first,\t\t\t\t4,\t\t\t\t5) \t\t)\t),\n\t\tCount_Tipus_dia_6 = iif(Last_day_month == 28,    4,\tiif(tipus_dia_first\t<= \ttipus_dia_last,\t\t\tiif(\t\t\t\ttipus_dia_first\t<= 6\t&& \t6 <=\ttipus_dia_last,\t\t\t\t5,\t\t\t\t4)\t\t\t,iif(\t\t\t\ttipus_dia_last < 6 && 6 < tipus_dia_first,\t\t\t\t4,\t\t\t\t5) \t\t)\t),\n\t\tCount_Tipus_dia_7 = iif(Last_day_month == 28,    4,\tiif(tipus_dia_first\t<= \ttipus_dia_last,\t\t\tiif(\t\t\t\ttipus_dia_first\t<=7\t&& \t7 <=\ttipus_dia_last,\t\t\t\t5,\t\t\t\t4)\t\t\t,iif(\t\t\t\ttipus_dia_last < 7 && 7 < tipus_dia_first,\t\t\t\t4,\t\t\t\t5) \t\t)\t)) ~> AddCountTipusDiaMes\nAddCountTipusDiaMes split(ID_TIPUS_DIA==1,\n\tID_TIPUS_DIA==2,\n\tID_TIPUS_DIA==3,\n\tID_TIPUS_DIA==4,\n\tID_TIPUS_DIA==5,\n\tID_TIPUS_DIA==6,\n\tID_TIPUS_DIA==7,\n\tdisjoint: false) ~> ConditionalSplit1@(TipusDia1, TipusDia2, TipusDia3, TipusDia4, TipusDia5, TipusDia6, TipusDia7, Default)\nConditionalSplit1@TipusDia1 derive(VOLUM_PER_DIA = VOLUM_PER_DIA* Count_Tipus_dia_1) ~> RecalculaIMDMult1\nConditionalSplit1@TipusDia7 derive(VOLUM_PER_DIA = VOLUM_PER_DIA* Count_Tipus_dia_7) ~> RecalculaIMDMult7\nConditionalSplit1@TipusDia6 derive(VOLUM_PER_DIA = VOLUM_PER_DIA* Count_Tipus_dia_6) ~> RecalculaIMDMult6\nConditionalSplit1@TipusDia5 derive(VOLUM_PER_DIA = VOLUM_PER_DIA* Count_Tipus_dia_5) ~> RecalculaIMDMult5\nConditionalSplit1@TipusDia4 derive(VOLUM_PER_DIA = VOLUM_PER_DIA* Count_Tipus_dia_4) ~> RecalculaIMDMult4\nConditionalSplit1@TipusDia3 derive(VOLUM_PER_DIA = VOLUM_PER_DIA* Count_Tipus_dia_3) ~> RecalculaIMDMult3\nConditionalSplit1@TipusDia2 derive(VOLUM_PER_DIA = VOLUM_PER_DIA* Count_Tipus_dia_2) ~> RecalculaIMDMult2\nFiltraCampos1, FiltraCampos7, FiltraCampos6, FiltraCampos2, FiltraCampos3, FiltraCampos5, FiltraCampos4 union(byName: true)~> Union1\nUnion1 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tCount_Tipus_dia_Total,\n\t\tID_TIPUS_DIA),\n\tVOLUM_PER_DIA = sum(VOLUM_PER_DIA)) ~> VolumPerDiaTotal\nRecalculaIMDMult1 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO),\n\tCount_Tipus_dia_Total = sum(Count_Tipus_dia_1)) ~> AddCountTipusDiaMesTotal\nRecalculaIMDMult7 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO),\n\tCount_Tipus_dia_Total = sum(Count_Tipus_dia_7)) ~> AddCountTipusDiaMesTotal7\nVolumPerDiaTotal derive(VOLUM_PER_DIA = VOLUM_PER_DIA/Count_Tipus_dia_Total) ~> VolumPerDiaTotal2\nRecalculaIMDMult6 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO),\n\tCount_Tipus_dia_Total = sum(Count_Tipus_dia_6)) ~> AddCountTipusDiaMesTotal6\nRecalculaIMDMult5 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO),\n\tCount_Tipus_dia_Total = sum(Count_Tipus_dia_5)) ~> AddCountTipusDiaMesTotal5\nRecalculaIMDMult4 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO),\n\tCount_Tipus_dia_Total = sum(Count_Tipus_dia_4)) ~> AddCountTipusDiaMesTotal4\nRecalculaIMDMult3 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO),\n\tCount_Tipus_dia_Total = sum(Count_Tipus_dia_3)) ~> AddCountTipusDiaMesTotal3\nRecalculaIMDMult2 aggregate(groupBy(ID_ESTACIO,\n\t\tDATA_ANYO),\n\tCount_Tipus_dia_Total = sum(Count_Tipus_dia_2)) ~> AddCountTipusDiaMesTotal2\nRecalculaIMDMult1, AddCountTipusDiaMesTotal join(ConditionalSplit1@TipusDia1@ID_ESTACIO == AddCountTipusDiaMesTotal@ID_ESTACIO\n\t&& ConditionalSplit1@TipusDia1@DATA_ANYO == AddCountTipusDiaMesTotal@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join1\nVolumPerDiaTotal2 derive(DATA_MES = 13) ~> AddMesTotal\nRecalculaIMDMult7, AddCountTipusDiaMesTotal7 join(ConditionalSplit1@TipusDia7@ID_ESTACIO == AddCountTipusDiaMesTotal7@ID_ESTACIO\n\t&& ConditionalSplit1@TipusDia7@DATA_ANYO == AddCountTipusDiaMesTotal7@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join7\nJoin1 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@TipusDia1@ID_ESTACIO,\n\t\tDATA_ANYO = ConditionalSplit1@TipusDia1@DATA_ANYO,\n\t\tVOLUM_PER_DIA,\n\t\tCount_Tipus_dia_Total,\n\t\tID_TIPUS_DIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos1\nJoin7 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@TipusDia7@ID_ESTACIO,\n\t\tDATA_ANYO = ConditionalSplit1@TipusDia7@DATA_ANYO,\n\t\tVOLUM_PER_DIA,\n\t\tCount_Tipus_dia_Total,\n\t\tID_TIPUS_DIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos7\nRecalculaIMDMult6, AddCountTipusDiaMesTotal6 join(ConditionalSplit1@TipusDia6@ID_ESTACIO == AddCountTipusDiaMesTotal6@ID_ESTACIO\n\t&& ConditionalSplit1@TipusDia6@DATA_ANYO == AddCountTipusDiaMesTotal6@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join6\nJoin6 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@TipusDia6@ID_ESTACIO,\n\t\tDATA_ANYO = ConditionalSplit1@TipusDia6@DATA_ANYO,\n\t\tID_TIPUS_DIA,\n\t\tVOLUM_PER_DIA,\n\t\tCount_Tipus_dia_Total\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos6\nRecalculaIMDMult5, AddCountTipusDiaMesTotal5 join(ConditionalSplit1@TipusDia5@ID_ESTACIO == AddCountTipusDiaMesTotal5@ID_ESTACIO\n\t&& ConditionalSplit1@TipusDia5@DATA_ANYO == AddCountTipusDiaMesTotal5@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join5\nJoin5 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@TipusDia5@ID_ESTACIO,\n\t\tDATA_ANYO = ConditionalSplit1@TipusDia5@DATA_ANYO,\n\t\tID_TIPUS_DIA,\n\t\tVOLUM_PER_DIA,\n\t\tCount_Tipus_dia_Total\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos5\nRecalculaIMDMult4, AddCountTipusDiaMesTotal4 join(ConditionalSplit1@TipusDia4@ID_ESTACIO == AddCountTipusDiaMesTotal4@ID_ESTACIO\n\t&& ConditionalSplit1@TipusDia4@DATA_ANYO == AddCountTipusDiaMesTotal4@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join4\nJoin4 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@TipusDia4@ID_ESTACIO,\n\t\tDATA_ANYO = ConditionalSplit1@TipusDia4@DATA_ANYO,\n\t\tID_TIPUS_DIA,\n\t\tVOLUM_PER_DIA,\n\t\tCount_Tipus_dia_Total\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos4\nRecalculaIMDMult3, AddCountTipusDiaMesTotal3 join(ConditionalSplit1@TipusDia3@ID_ESTACIO == AddCountTipusDiaMesTotal3@ID_ESTACIO\n\t&& ConditionalSplit1@TipusDia3@DATA_ANYO == AddCountTipusDiaMesTotal3@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join3\nJoin3 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@TipusDia3@ID_ESTACIO,\n\t\tDATA_ANYO = ConditionalSplit1@TipusDia3@DATA_ANYO,\n\t\tID_TIPUS_DIA,\n\t\tVOLUM_PER_DIA,\n\t\tCount_Tipus_dia_Total\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos3\nRecalculaIMDMult2, AddCountTipusDiaMesTotal2 join(ConditionalSplit1@TipusDia2@ID_ESTACIO == AddCountTipusDiaMesTotal2@ID_ESTACIO\n\t&& ConditionalSplit1@TipusDia2@DATA_ANYO == AddCountTipusDiaMesTotal2@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join2\nJoin2 select(mapColumn(\n\t\tID_ESTACIO = ConditionalSplit1@TipusDia2@ID_ESTACIO,\n\t\tDATA_ANYO = ConditionalSplit1@TipusDia2@DATA_ANYO,\n\t\tID_TIPUS_DIA,\n\t\tVOLUM_PER_DIA,\n\t\tCount_Tipus_dia_Total\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nFiltraCampos23, AddMesTotal union(byName: true)~> Union2\nDerivedColumn1 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tCONCEPTE,\n\t\tVOLUM_PER_DIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraReordenaCampos\nRoundVolumMes derive(CONCEPTE = iif(ID_TIPUS_DIA==1, 'dilluns',\r\n    iif(ID_TIPUS_DIA==2, 'dimarts',\r\n        iif(ID_TIPUS_DIA==3, 'dimecres',\r\n            iif(ID_TIPUS_DIA==4, 'dijous',\r\n                iif(ID_TIPUS_DIA==5, 'divendres',\r\n                    iif(ID_TIPUS_DIA==6, 'dissabte','diumenge'))))))) ~> DerivedColumn1\nODSFactDades filter(year(DATA) >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nyear(DATA) < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterData\nFiltraReordenaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as string,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tVOLUM_PER_DIA as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSPlaAnyalVolPerDia"
+		}
+	}
+}

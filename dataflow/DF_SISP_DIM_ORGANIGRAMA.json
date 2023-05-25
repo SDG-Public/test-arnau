@@ -1,0 +1,47 @@
+{
+	"name": "DF_SISP_DIM_ORGANIGRAMA",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_ORGANIGRAMA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimOrganigrama"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_ORGANIGRAMA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimOrganigrama"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Rename"
+				},
+				{
+					"name": "addNoInformat"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "toUnion"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tDATA_INI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimOrganigrama\nSTGDimOrganigrama select(mapColumn(\n\t\tID_ORG = ID,\n\t\tDATA_INI,\n\t\tDATA_FI\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Rename\nRename derive(ID_ORG = -1,\n\t\tDATA_INI = toTimestamp('1900-01-01'),\n\t\tDATA_FI = toTimestamp('1900-01-01')) ~> addNoInformat\naddNoInformat aggregate(groupBy(ID_ORG,\n\t\tDATA_INI,\n\t\tDATA_FI),\n\tcont = count(ID_ORG)) ~> Distinct\nDistinct select(mapColumn(\n\t\tID_ORG,\n\t\tDATA_INI,\n\t\tDATA_FI\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> toUnion\nRename, toUnion union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ORG as decimal(4,0),\n\t\tDATA_INI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimOrganigrama"
+		}
+	}
+}

@@ -1,0 +1,38 @@
+{
+	"name": "DF_INSGRI_ODS_FACT_INSPECCIONS",
+	"properties": {
+		"folder": {
+			"name": "INSGRI"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_INSGRI_FACT_INSPECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactInspeccions"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_INSGRI_FACT_INSPECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactInspeccions"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "AddDataInsercio"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(10,0),\n\t\tID_TIPUS_INSPECCIO as decimal(8,0),\n\t\tID_EMPRESA as decimal(10,0),\n\t\tID_ESTAT_INSPECCIO as decimal(8,0),\n\t\tID_LOT as decimal(5,0),\n\t\tCODI_TIPUS_DOC_DENUNCIANT as decimal(2,0),\n\t\tCODI as string,\n\t\tNUMERO_EXP_SANCIONADOR as string,\n\t\tCOMENTARIS as string,\n\t\tRES_ANA_COMENTARIS as string,\n\t\tCARREGA_MASSIVA as decimal(1,0),\n\t\tCODI_INSPECCIO_FOMENT as string,\n\t\tCODI_REQUERIMENT_FOMENT as string,\n\t\tIDENTIFICACIO_DENUNCIANT as string,\n\t\tNOM_DENUNCIANT as string,\n\t\tCOGNOM1_DENUNCIANT as string,\n\t\tCOGNOM2_DENUNCIANT as string,\n\t\tADRECA_DENUNCIANT as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tUSUARI_ALTA as string,\n\t\tUSUARI_MODIFICACIO as string,\n\t\tID_ADRECA_DENUNCIANT as decimal(10,0),\n\t\tID_SERVEI_TERRITORIAL as decimal(3,0),\n\t\tDATA_DENUNCIA as timestamp,\n\t\tDATA_REGISTRE_ENTRADA as timestamp,\n\t\tLLIBRE as string,\n\t\tLLETRA as string,\n\t\tFULL_DV as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGFactInspeccions\nSTGFactInspeccions select(mapColumn(\n\t\tID_INSPECCIO = ID,\n\t\tID_TIPUS_INSPECCIO,\n\t\tID_EMPRESA,\n\t\tID_ESTAT_INSPECCIO,\n\t\tID_LOT,\n\t\tID_IDENTIFICACIO_DENUNCIANT = IDENTIFICACIO_DENUNCIANT,\n\t\tID_ADRECA_DENUNCIANT,\n\t\tID_SERVEI_TERRITORIAL,\n\t\tCOD_TIPUS_DOC_DENUNCIANT = CODI_TIPUS_DOC_DENUNCIANT,\n\t\tCOD_INSPECCIO = CODI,\n\t\tCOD_INSPECCIO_FOMENT = CODI_INSPECCIO_FOMENT,\n\t\tCOD_REQUERIMENT_FOMENT = CODI_REQUERIMENT_FOMENT,\n\t\tCOD_USUARI_ALTA = USUARI_ALTA,\n\t\tCOD_LLIBRE = LLIBRE,\n\t\tCOD_LLETRA = LLETRA,\n\t\tCOD_FULL_DV = FULL_DV,\n\t\tCOD_USUARI_MODIFICACIO = USUARI_MODIFICACIO,\n\t\tNUM_EXP_SANCIONADOR = NUMERO_EXP_SANCIONADOR,\n\t\tDESC_COMENTARIS = COMENTARIS,\n\t\tDESC_ANALISIS_RESULTAT = RES_ANA_COMENTARIS,\n\t\tDESC_NOM_DENUNCIANT = NOM_DENUNCIANT,\n\t\tDESC_CONGNOM1_DENUNCIANT = COGNOM1_DENUNCIANT,\n\t\tDESC_COGNOM2_DENUNCIANT = COGNOM2_DENUNCIANT,\n\t\tDESC_ADRECA_DENUNCIANT = ADRECA_DENUNCIANT,\n\t\tDATA_ALTA,\n\t\tDATA_MODIFICACIO,\n\t\tDATA_DENUNCIA,\n\t\tDATA_REGISTRE_ENTRADA,\n\t\tFLAG_CARREGA_MASSIVA = CARREGA_MASSIVA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(DATA_INSERCIO = currentDate()) ~> AddDataInsercio\nAddDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_INSPECCIO as decimal(10,0),\n\t\tID_TIPUS_INSPECCIO as decimal(8,0),\n\t\tID_EMPRESA as decimal(10,0),\n\t\tID_ESTAT_INSPECCIO as decimal(8,0),\n\t\tID_LOT as decimal(5,0),\n\t\tID_IDENTIFICACIO_DENUNCIANT as string,\n\t\tID_ADRECA_DENUNCIANT as decimal(10,0),\n\t\tID_SERVEI_TERRITORIAL as decimal(3,0),\n\t\tCOD_TIPUS_DOC_DENUNCIANT as decimal(2,0),\n\t\tCOD_INSPECCIO as string,\n\t\tCOD_INSPECCIO_FOMENT as string,\n\t\tCOD_REQUERIMENT_FOMENT as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_LLIBRE as string,\n\t\tCOD_LLETRA as string,\n\t\tCOD_FULL_DV as string,\n\t\tCOD_USUARI_MODIFICACIO as string,\n\t\tNUM_EXP_SANCIONADOR as string,\n\t\tDESC_COMENTARIS as string,\n\t\tDESC_ANALISIS_RESULTAT as string,\n\t\tDESC_NOM_DENUNCIANT as string,\n\t\tDESC_CONGNOM1_DENUNCIANT as string,\n\t\tDESC_COGNOM2_DENUNCIANT as string,\n\t\tDESC_ADRECA_DENUNCIANT as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tDATA_DENUNCIA as timestamp,\n\t\tDATA_REGISTRE_ENTRADA as timestamp,\n\t\tFLAG_CARREGA_MASSIVA as decimal(1,0),\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSFactInspeccions"
+		}
+	}
+}

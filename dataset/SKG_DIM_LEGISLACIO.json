@@ -1,0 +1,30 @@
+{
+	"name": "SKG_DIM_LEGISLACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/SKG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_DIM_LEGISLACIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_LEGISLACIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SKG_XEAC",
+			"table": "SKG_DIM_LEGISLACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

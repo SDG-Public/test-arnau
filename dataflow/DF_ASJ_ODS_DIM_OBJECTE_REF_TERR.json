@@ -1,0 +1,35 @@
+{
+	"name": "DF_ASJ_ODS_DIM_OBJECTE_REF_TERR",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ASJ_DIM_OBJECTE_REF_TERR",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimObjecteRefTerr"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_DIM_OBJECTE_REF_TERR",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimObjecteRefTerr"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalizaCampos"
+				}
+			],
+			"script": "source(output(\n\t\tOBJECTEREFERENCIAID as decimal(10,0),\n\t\tDESCRIPCIOPOBLACIO as string,\n\t\tDESCRIPCIOPROVINCIA as string,\n\t\tCODIINE as string,\n\t\tCODILLOGARET as string,\n\t\tDADAID as decimal(10,0),\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimObjecteRefTerr\nSTGDimObjecteRefTerr select(mapColumn(\n\t\tID_OBJECTE_REFERENCIA = OBJECTEREFERENCIAID,\n\t\tID_DADA = DADAID,\n\t\tCODI_INE = CODIINE,\n\t\tCODI_LLOGARET = CODILLOGARET,\n\t\tDESC_POBLACIO = DESCRIPCIOPOBLACIO,\n\t\tDESC_PROVINCIA = DESCRIPCIOPROVINCIA,\n\t\tPOSICIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizaCampos\nNormalizaCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_OBJECTE_REFERENCIA as decimal(10,0),\n\t\tID_DADA as decimal(10,0),\n\t\tCODI_INE as string,\n\t\tCODI_LLOGARET as string,\n\t\tDESC_POBLACIO as string,\n\t\tDESC_PROVINCIA as string,\n\t\tPOSICIO as decimal(10,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimObjecteRefTerr"
+		}
+	}
+}

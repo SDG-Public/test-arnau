@@ -1,0 +1,31 @@
+{
+	"name": "DF_ARB_ODS_POWERBI_DETALL",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_FACT_EXPEDIENT_VOCAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSExepedientVocal"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_POWERBI_DETALL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPwerBIDetall"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_EXPEDIENT as string,\n\t\tNOM_VOCALES as string,\n\t\tNUM_DNI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: ' SELECT ID_EXPEDIENT,\\n\t\tSTRING_AGG(B.DESC_VOCAL_NOM + \\' \\' + B.DESC_VOCAL_COGNOM, \\'; \\') AS NOM_VOCALES,\\n\t\tSTRING_AGG(isNull(COD_DNI_VOCAL,\\'No Informat\\'), \\'; \\') AS NUM_DNI\\nFROM [ARB_DM].[DM_ARB_FACT_EXPEDIENT_VOCAL] A \\njoin [ARB_DM].[DM_ARB_DIM_VOCAL] B on A.ID_VOCAL = B.ID_VOCAL\\n--where ID_EXPEDIENT in( 199300001)\\ngroup by ID_EXPEDIENT',\n\tformat: 'query') ~> ODSExepedientVocal\nODSExepedientVocal sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_EXPEDIENT as string,\n\t\tNOM_VOCALES as string,\n\t\tNUM_DNI as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSPwerBIDetall"
+		}
+	}
+}

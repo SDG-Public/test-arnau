@@ -1,0 +1,16 @@
+{
+	"name": "DM_GAF_EXTRACCIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_EXTRACCIO"
+		}
+	}
+}

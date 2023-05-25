@@ -1,0 +1,175 @@
+{
+	"name": "STG_GEUCOS_FACT_EXP_GEU_COS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEUCOS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_EXPEDIENT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "COD_TIPEX",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_MUC_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_MUC_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_UNITAT_GESTORA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_BLOC_OD",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "COD_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_VIGENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_EXPEDIENT",
+				"type": "decimal",
+				"precision": 6,
+				"scale": 0
+			},
+			{
+				"name": "NUM_COMPLERT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_OBSERVACIONS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_REFINT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANY_EXPEDIENT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ESTAT",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ANY_ANUALITAT1",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ANY_ANUALITAT2",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ANY_FINAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_ES_RPUC",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_RPUC_REGISTRAT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_RPUC_VIGENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_URL_RPUC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_RPUC_APROVACIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_RPUC_PUBLICACIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_RPUC_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "FLAG_ES_MUC",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_MUC_CARREGA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "NUM_MUC_VERSIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_URL_MUC",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEUCOS_STG",
+			"table": "STG_GEUCOS_FACT_EXP_GEU_COS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

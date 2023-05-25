@@ -1,0 +1,101 @@
+{
+	"name": "ODS_SANQS_FACT_RESOL_NOTIF_RECUR_TS2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PROPOSTA_RESOLUCIO",
+				"type": "date"
+			},
+			{
+				"name": "COD_PRECEPTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_RESOLUCIO",
+				"type": "date"
+			},
+			{
+				"name": "IND_IMPORT_RESOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_GRAVETAT_RESOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TIPUS_RESOLUCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TIPUS_NOTIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_REGISTRE_SORTIDA",
+				"type": "date"
+			},
+			{
+				"name": "DATA_NOTIFICACIO",
+				"type": "date"
+			},
+			{
+				"name": "DATA_ARRIBADA_NOTIFICACIO",
+				"type": "date"
+			},
+			{
+				"name": "COD_TANOT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_NOTIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TRAMNOT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PRESENTACIO",
+				"type": "date"
+			},
+			{
+				"name": "COD_TIPUS_RECURS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INF_RA",
+				"type": "date"
+			},
+			{
+				"name": "DESC_IMPRE_REC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_DEMARCACIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_RESOL_NOTIF_RECUR_TS2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,20 @@
+{
+	"name": "ORA_STG_DIM_ELEMENT_MESURABLE",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_XEAC",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ORIGEN"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "XEAC_ADMIN",
+			"table": "XEAC_ELEMENT_MESURABLE"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

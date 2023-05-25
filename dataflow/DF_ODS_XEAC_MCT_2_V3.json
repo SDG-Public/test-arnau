@@ -1,0 +1,131 @@
+{
+	"name": "DF_ODS_XEAC_MCT_2_V3",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_MCT_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "SKGfocus"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALlegislacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_TRACTAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALtractament"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_VLE_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALvleMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_COMPLIMENT_MCT_1D_V3",
+						"type": "DatasetReference"
+					},
+					"name": "SKGcomplimentMCT1Dv3"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_IND_DIA_v3",
+						"type": "DatasetReference"
+					},
+					"name": "SKGindDIAv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_XEAC_ANOMALAS_v3",
+						"type": "DatasetReference"
+					},
+					"name": "SKGxeacANOMALASv2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_MCT_2_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacMCT2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "jSKGfocus"
+				},
+				{
+					"name": "SKGvaloLEGISALCIO"
+				},
+				{
+					"name": "SKGvaloTRACTAMENT"
+				},
+				{
+					"name": "SKGvaloVLEmct"
+				},
+				{
+					"name": "SKGcompliment"
+				},
+				{
+					"name": "SKGindDIA"
+				},
+				{
+					"name": "SKGanomalas"
+				},
+				{
+					"name": "DUMMY"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "FTvigenciaVALORACIOtractament",
+					"description": "Filtering rows using expressions on columns 'DATA_FI, DATA, DATA_INICI'"
+				},
+				{
+					"name": "complNULL",
+					"description": "Se hace un filtro para calcular un ID_COMPLIMENT negativo a los que son null para que no pete el PBI"
+				},
+				{
+					"name": "CampoSurrogado",
+					"description": "Adding new key Key starting from 1 with step 1"
+				},
+				{
+					"name": "RecalculoIDCompliment",
+					"description": "Se calcula el ID_COMPLIMENT artificialmente restando el ID_MIN a la Key que se le ha asignado."
+				},
+				{
+					"name": "complNOTNULL"
+				},
+				{
+					"name": "Union",
+					"description": "Une los registros que se le han calculado el ID_COMPLIMENT negativo"
+				}
+			],
+			"script": "parameters{\n\tID_MIN as string\n}\nsource(output(\n\t\tID_CONTAMINANT as decimal(6,0),\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as decimal(3,0),\n\t\tVALOR_MCT as float,\n\t\tVALORACION_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tID_LEGISLACIO as string,\n\t\tDATA_TRUNC as date,\n\t\tZONA_HORARIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacMCT\nsource(output(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGfocus\nsource(output(\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALlegislacio\nsource(output(\n\t\tID_VALORACIO_TRACTAMENT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALtractament\nsource(output(\n\t\tID_VALORACIO_VLE_MCT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALvleMCT\nsource(output(\n\t\tID_COMPLIMENT_MCT_1D_V3 as integer,\n\t\tID_FOCUS as string,\n\t\tID_CONTAMINANT as decimal(3,0),\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as date,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGcomplimentMCT1Dv3\nsource(output(\n\t\tID_IND_DIA_v3 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tDIA as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGindDIAv2\nsource(output(\n\t\tID_XEAC_ANOMALAS_v3 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGxeacANOMALASv2\nODSxeacMCT, SKGfocus join(ODSxeacMCT@ID_FOCUS == SKGfocus@ID_FOCUS,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> jSKGfocus\njSKGfocus, SKGdimVALlegislacio join(ODSxeacMCT@ID_FOCUS == SKGdimVALlegislacio@ID_FOCUS\n\t&& ODSxeacMCT@ID_LEGISLACIO == SKGdimVALlegislacio@ID_LEGISLACIO,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGvaloLEGISALCIO\nSKGvaloLEGISALCIO, SKGdimVALtractament join(ODSxeacMCT@ID_FOCUS == SKGdimVALtractament@ID_FOCUS\n\t&& ODSxeacMCT@ID_LEGISLACIO == SKGdimVALtractament@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& ID_CONTAMINANT == ID_ELEMENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGvaloTRACTAMENT\nFTvigenciaVALORACIOtractament, SKGdimVALvleMCT join(ODSxeacMCT@ID_FOCUS == SKGdimVALvleMCT@ID_FOCUS\n\t&& ODSxeacMCT@ID_LEGISLACIO == SKGdimVALvleMCT@ID_LEGISLACIO\n\t&& MODE_REPORTABLE_NUM == SKGdimVALvleMCT@ID_SUBMODE\n\t&& ID_CONTAMINANT == SKGdimVALvleMCT@ID_ELEMENT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGvaloVLEmct\nSKGvaloVLEmct, SKGcomplimentMCT1Dv3 join(ODSxeacMCT@ID_FOCUS == SKGcomplimentMCT1Dv3@ID_FOCUS\n\t&& ODSxeacMCT@ID_CONTAMINANT == SKGcomplimentMCT1Dv3@ID_CONTAMINANT\n\t&& ODSxeacMCT@ID_LEGISLACIO == SKGcomplimentMCT1Dv3@ID_LEGISLACIO\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == SKGcomplimentMCT1Dv3@MODE_REPORTABLE_NUM\n\t&& DATA_TRUNC == SKGcomplimentMCT1Dv3@DATA\n\t&& TIPUS_MCT == VLE_MCT_TIPUS_MCT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGcompliment\nSKGcompliment, SKGindDIAv2 join(ODSxeacMCT@ID_FOCUS == SKGindDIAv2@ID_FOCUS\n\t&& ODSxeacMCT@ID_LEGISLACIO == SKGindDIAv2@ID_LEGISLACIO\n\t&& ODSxeacMCT@ID_CONTAMINANT == SKGindDIAv2@ID_ELEMENT\n\t&& toDate(ODSxeacMCT@DATA) == DIA\n\t&& TIPUS_MCT == MINUTOS_MCT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGindDIA\nSKGindDIA, SKGxeacANOMALASv2 join(ODSxeacMCT@ID_FOCUS == SKGxeacANOMALASv2@ID_FOCUS\n\t&& ODSxeacMCT@ID_LEGISLACIO == SKGxeacANOMALASv2@ID_LEGISLACIO\n\t&& ODSxeacMCT@MODE_REPORTABLE_NUM == SKGxeacANOMALASv2@MODE_REPORTABLE_NUM\n\t&& ODSxeacMCT@DATA == SKGxeacANOMALASv2@DATA,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> SKGanomalas\nSKGanomalas derive(ID_DIM_FOCUS = iifNull(ID_DIM_FOCUS,0),\n\t\tID_VALORACIO_LEGISLACIO = iifNull(ID_VALORACIO_LEGISLACIO,0),\n\t\tID_VALORACIO_TRACTAMENT = iifNull(ID_VALORACIO_TRACTAMENT,0),\n\t\tID_VALORACIO_VLE_MCT = iifNull(ID_VALORACIO_VLE_MCT,0)) ~> DUMMY\nDUMMY select(mapColumn(\n\t\tID_CONTAMINANT = ODSxeacMCT@ID_CONTAMINANT,\n\t\tID_FOCUS = ODSxeacMCT@ID_FOCUS,\n\t\tDATA = ODSxeacMCT@DATA,\n\t\tTIPUS_MCT,\n\t\tVALOR_MCT,\n\t\tVALORACION_MCT,\n\t\tMODE_REPORTABLE_NUM = ODSxeacMCT@MODE_REPORTABLE_NUM,\n\t\tID_LEGISLACIO = ODSxeacMCT@ID_LEGISLACIO,\n\t\tID_DIM_FOCUS,\n\t\tID_FOCUS = SKGfocus@ID_FOCUS,\n\t\tID_VALORACIO_LEGISLACIO,\n\t\tDATA_TRUNC,\n\t\tID_DIM_FOCUS,\n\t\tMODE_REPORTABLE_NUM = ID_VALORACIO_LEGISLACIO,\n\t\tID_VALORACIO_TRACTAMENT,\n\t\tID_VALORACIO_VLE_MCT,\n\t\tID_COMPLIMENT_MCT_1D_V3,\n\t\tID_IND_DIA_v3,\n\t\tID_XEAC_ANOMALAS_v3,\n\t\tZONA_HORARIA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nSKGvaloTRACTAMENT filter(!isNull(DATA_FI)\n&&\nDATA >= DATA_INICI\n&&\nDATA <= DATA_FI) ~> FTvigenciaVALORACIOtractament\nFiltraCampos filter(isNull(ID_COMPLIMENT_MCT_1D_V3)) ~> complNULL\ncomplNULL keyGenerate(output(Key as long),\n\tstartAt: 1L,\n\tstepValue: 1L) ~> CampoSurrogado\nCampoSurrogado derive(ID_COMPLIMENT_MCT_1D_V3 = toInteger($ID_MIN)-toInteger(Key)) ~> RecalculoIDCompliment\nFiltraCampos filter(!isNull(ID_COMPLIMENT_MCT_1D_V3)) ~> complNOTNULL\ncomplNOTNULL, RecalculoIDCompliment union(byName: true)~> Union\nUnion sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CONTAMINANT as decimal(6,0),\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as decimal(3,0),\n\t\tVALOR_MCT as float,\n\t\tVALORACION_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tDATA_TRUNC as date,\n\t\tID_VALORACIO_TRACTAMENT as integer,\n\t\tID_VALORACIO_VLE_MCT as integer,\n\t\tID_COMPLIMENT_MCT_1D_V3 as integer,\n\t\tID_IND_DIA_v3 as integer,\n\t\tID_XEAC_ANOMALAS_v3 as integer,\n\t\tZONA_HORARIA as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSxeacMCT2"
+		}
+	}
+}

@@ -1,0 +1,34 @@
+{
+	"name": "FIT_STG_GAF_DIM_TIPUS_ESTACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet 1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "STG_GAF_DIM_TIPUS_ESTACIO.xlsx",
+				"container": "contenedortesgaf"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "ID",
+				"type": "String"
+			},
+			{
+				"name": "DESCRIPCIO",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

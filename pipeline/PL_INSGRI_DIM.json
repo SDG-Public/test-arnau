@@ -1,0 +1,66 @@
+{
+	"name": "PL_INSGRI_DIM",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_INSGRI_STG_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_INSGRI_DIM_STG",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_INSGRI_ODS_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_INSGRI_STG_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_INSGRI_DIM_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_INSGRI_DM_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_INSGRI_ODS_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_INSGRI_DIM_DM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "INSGRI"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

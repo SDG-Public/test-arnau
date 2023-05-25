@@ -1,0 +1,19 @@
+{
+	"name": "ORA_STG_SNFER_DIM_TIPUS_ACUSAMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/ORA"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SANR_ADM",
+			"table": "SANTB_TIPUS_ACUSAMENT"
+		}
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "DF_ODS_02_TEMPS_NORM",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/EM"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_CONTAMINANT_MINUTAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacCONTAMINANTminutal"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_CONT_NORM_TEMPS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacCONTnormTEMPS"
+				}
+			],
+			"transformations": [
+				{
+					"name": "CALCULtemps"
+				}
+			],
+			"script": "source(output(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tVALOR as double,\n\t\tCOD_VALIDACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacCONTAMINANTminutal\nODSxeacCONTAMINANTminutal derive(IND_TEMPS = iif( COD_VALIDACIO == 'P' || COD_VALIDACIO == 'A', 0, 1 )) ~> CALCULtemps\nCALCULtemps sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tVALOR as double,\n\t\tCOD_VALIDACIO as string,\n\t\tIND_TEMPS as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSxeacCONTnormTEMPS"
+		}
+	}
+}

@@ -1,0 +1,177 @@
+{
+	"name": "PL_GEU_DIARI",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_GEU_DIM",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "SET_DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GEU_DIM",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_GEU_FACT",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_GEU_DIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GEU_FACT",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"P_DATA_INI": {
+							"value": "@variables('V_DATA_INI')",
+							"type": "Expression"
+						},
+						"P_DATA_FI": {
+							"value": "@variables('V_DATA_FI')",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "SET_DATA_INI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_INI",
+					"value": {
+						"value": "@string(activity('DATA_INI').output.value[0].DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "SET_DATA_FI",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "DATA_FI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_DATA_FI",
+					"value": {
+						"value": "@string(activity('DATA_FI').output.value[0].DATA)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "DATA_INI",
+				"description": "Para calcular DATA_INI, tomamos el máximo valor de DATA_ALTA de la tabla STG_GEU_FACT_EXPEDIENT y le restamos un mes. Esto lo hacemos porque puede ser que introduzcan registros con DATA_ALTA ya pasada",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select convert(varchar, (DATEADD(day,1,DATA)), 112) as DATA\nfrom (\nSELECT dateadd(month,-1,max([DATA_ALTA])) as DATA\nFROM [GEU_STG].[STG_GEU_FACT_EXPEDIENT]\n) a;",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GEU_STG_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "DATA_FI",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "SET_DATA_INI",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select convert(varchar, DATEADD(day,-1,MAX(getdate())),112) as DATA;",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "GEU_STG_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"variables": {
+			"V_DATA_FI": {
+				"type": "String"
+			},
+			"V_DATA_INI": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "GEU"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

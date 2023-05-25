@@ -1,0 +1,39 @@
+{
+	"name": "Trigger_TES_Diari",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "PL_ORQUESTRATOR_DIARI_TES",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Week",
+				"interval": 1,
+				"startTime": "2022-08-29T07:11:00",
+				"timeZone": "Romance Standard Time",
+				"schedule": {
+					"minutes": [
+						5
+					],
+					"hours": [
+						0
+					],
+					"weekDays": [
+						"Monday",
+						"Tuesday",
+						"Wednesday",
+						"Thursday",
+						"Friday"
+					]
+				}
+			}
+		}
+	}
+}

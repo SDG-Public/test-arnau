@@ -1,0 +1,31 @@
+{
+	"name": "DF_DM_FACT_TRAMIT",
+	"properties": {
+		"folder": {
+			"name": "ASJ"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ASJ_FACT_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactTramit"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ASJ_FACT_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactTramit"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_TRAMIT as decimal(10,0),\n\t\tID_TIPUS_TRAMIT as integer,\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_NOM_LLIURE as string,\n\t\tDATA_TRAMIT as timestamp,\n\t\tDATA_EVENT as timestamp,\n\t\tFLAG_ESTAT as decimal(10,0),\n\t\tFLAG_URGENT as decimal(1,0),\n\t\tDATA_INSERT as date,\n\t\tDATA_MODIFICACIO as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactTramit\nODSFactTramit sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TRAMIT as decimal(10,0),\n\t\tID_TIPUS_TRAMIT as integer,\n\t\tID_EXPEDIENT as decimal(10,0),\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_NOM_LLIURE as string,\n\t\tDATA_TRAMIT as timestamp,\n\t\tDATA_EVENT as timestamp,\n\t\tFLAG_ESTAT as decimal(10,0),\n\t\tFLAG_URGENT as decimal(1,0),\n\t\tDATA_INSERT as date,\n\t\tDATA_MODIFICACIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactTramit"
+		}
+	}
+}

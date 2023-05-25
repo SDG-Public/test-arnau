@@ -1,0 +1,35 @@
+{
+	"name": "DF_SANFER_ODS_DIM_TIPUS_ACUSAMENT",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANFER_DIM_TIPUS_ACUSAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTipusAcusament"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_TIPUS_ACUSAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusAcusament"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombraCampos"
+				}
+			],
+			"script": "source(output(\n\t\tID as double,\n\t\tCODI_TIPUS_ACUSAMENT as string,\n\t\tDESC_TIPUS_ACUSAMENT as string,\n\t\tINICIA_EDICTE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTipusAcusament\nSTGDimTipusAcusament select(mapColumn(\n\t\tID_ACUSAMENT = ID,\n\t\tCODI_TIPUS_ACUSAMENT,\n\t\tDESC_TIPUS_ACUSAMENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ACUSAMENT as double,\n\t\tCODI_TIPUS_ACUSAMENT as string,\n\t\tDESC_TIPUS_ACUSAMENT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTipusAcusament"
+		}
+	}
+}

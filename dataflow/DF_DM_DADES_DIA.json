@@ -1,0 +1,44 @@
+{
+	"name": "DF_DM_DADES_DIA",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_HORES",
+						"type": "DatasetReference"
+					},
+					"name": "DMDadesHores"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_DIA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDadesDia"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AGGDia"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Rename"
+				},
+				{
+					"name": "Round"
+				}
+			],
+			"script": "source(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDATA as timestamp,\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tVELOCITAT01 as decimal(6,0),\n\t\tVELOCITAT02 as decimal(6,0),\n\t\tVELOCITAT03 as decimal(6,0),\n\t\tVELOCITAT04 as decimal(6,0),\n\t\tVELOCITAT05 as decimal(6,0),\n\t\tVELOCITAT06 as decimal(6,0),\n\t\tVELOCITAT07 as decimal(6,0),\n\t\tVELOCITAT08 as decimal(6,0),\n\t\tVELOCITAT09 as decimal(6,0),\n\t\tVELOCITAT10 as decimal(6,0),\n\t\tLONGITUD01 as decimal(6,0),\n\t\tLONGITUD02 as decimal(6,0),\n\t\tLONGITUD03 as decimal(6,0),\n\t\tLONGITUD04 as decimal(6,0),\n\t\tERRORSLONG01 as decimal(6,0),\n\t\tERRORSLONG02 as decimal(6,0),\n\t\tERRORSLONG03 as decimal(6,0),\n\t\tERRORSLONG04 as decimal(6,0),\n\t\tFLAG_HORA_PUNTA as integer,\n\t\tFLAG_HORA_30 as integer,\n\t\tFLAG_HORA_50 as integer,\n\t\tFLAG_HORA_100 as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDadesHores\nDerivedColumn1 aggregate(groupBy(ID_ESTACIO,\n\t\tID_CARRIL,\n\t\tID_SECCIO,\n\t\tDATA),\n\tIND_PESANTS = avg(IND_PESANTS),\n\t\tIND_IMD_DIARI = avg(IND_IMD_DIARI),\n\t\tIND_VELOCITAT = avg(IND_VELOCITAT),\n\t\tVELOCITAT01 = sum(VELOCITAT01),\n\t\tVELOCITAT02 = sum(VELOCITAT02),\n\t\tVELOCITAT03 = sum(VELOCITAT03),\n\t\tVELOCITAT04 = sum(VELOCITAT04),\n\t\tVELOCITAT05 = sum(VELOCITAT05),\n\t\tVELOCITAT06 = sum(VELOCITAT06),\n\t\tVELOCITAT07 = sum(VELOCITAT07),\n\t\tVELOCITAT08 = sum(VELOCITAT08),\n\t\tVELOCITAT09 = sum(VELOCITAT08),\n\t\tVELOCITAT10 = sum(VELOCITAT10),\n\t\tLONGITUD01 = sum(LONGITUD01),\n\t\tLONGITUD02 = sum(LONGITUD02),\n\t\tLONGITUD03 = sum(LONGITUD03),\n\t\tLONGITUD04 = sum(LONGITUD04)) ~> AGGDia\nDMDadesHores derive(DATA = toDate(DATA)) ~> DerivedColumn1\nAGGDia select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_CARRIL,\n\t\tID_SECCIO,\n\t\tDATA,\n\t\tIND_PESANTS,\n\t\tIND_IMD_DIARI,\n\t\tIND_VELOCITAT_MITJA = IND_VELOCITAT,\n\t\tVELOCITAT01,\n\t\tVELOCITAT02,\n\t\tVELOCITAT03,\n\t\tVELOCITAT04,\n\t\tVELOCITAT05,\n\t\tVELOCITAT06,\n\t\tVELOCITAT07,\n\t\tVELOCITAT08,\n\t\tVELOCITAT09,\n\t\tVELOCITAT10,\n\t\tLONGITUD01,\n\t\tLONGITUD02,\n\t\tLONGITUD03,\n\t\tLONGITUD04\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Rename\nRename derive(IND_VELOCITAT_MITJA = round(IND_VELOCITAT_MITJA,4)) ~> Round\nRound sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDATA as date,\n\t\tIND_PESANTS as decimal(17,4),\n\t\tIND_IMD_DIARI as decimal(18,0),\n\t\tIND_VELOCITAT_MITJA as decimal(11,8),\n\t\tVELOCITAT01 as decimal(16,0),\n\t\tVELOCITAT02 as decimal(16,0),\n\t\tVELOCITAT03 as decimal(16,0),\n\t\tVELOCITAT04 as decimal(16,0),\n\t\tVELOCITAT05 as decimal(16,0),\n\t\tVELOCITAT06 as decimal(16,0),\n\t\tVELOCITAT07 as decimal(16,0),\n\t\tVELOCITAT08 as decimal(16,0),\n\t\tVELOCITAT09 as decimal(16,0),\n\t\tVELOCITAT10 as decimal(16,0),\n\t\tLONGITUD01 as decimal(16,0),\n\t\tLONGITUD02 as decimal(16,0),\n\t\tLONGITUD03 as decimal(16,0),\n\t\tLONGITUD04 as decimal(16,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDadesDia"
+		}
+	}
+}

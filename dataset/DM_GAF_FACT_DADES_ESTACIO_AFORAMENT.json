@@ -1,0 +1,73 @@
+{
+	"name": "DM_GAF_FACT_DADES_ESTACIO_AFORAMENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESGLAON",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NUM_SUM_LONG",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_SUM_IMD_LONG",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_SUM_IMD_PESANT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NUM_SUM_IMD",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_IMD_MITJANA",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_VEHICLES_KM_RECORREGUTS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_PERCENTATGE_VEH_PESANT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "CODI_TERRITORI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_XARXA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_FACT_DADES_ESTACIO_AFORAMENT"
+		}
+	}
+}

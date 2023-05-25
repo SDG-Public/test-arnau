@@ -1,0 +1,99 @@
+{
+	"name": "PL_VALIDACIO_AFOR_EXCEL",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_GAF_ESTACIO_AFOR_ODS",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "PL_GAF_ESTACIO_AFOR_STG_EXCEL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GAF_ESTACIO_AFOR_ODS",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "PL_GAF_ESTACIO_AFOR_STG_EXCEL",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "PL_GAF_ESTACIO_AFOR_STG_EXCEL",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "CD_GAF_FACT_DADES_ESTA_AFOR",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "PL_GAF_ESTACIO_AFOR_ODS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [GAF_DM].[DM_GAF_FACT_DADES_ESTACIO_AFORAMENT_EXCEL]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ODS_GAF_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DM_GAF_FACT_DADES_ESTACIO_AFORAMENT_EXCEL",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "GAF/OLD"
+		},
+		"annotations": []
+	}
+}

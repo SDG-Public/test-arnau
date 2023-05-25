@@ -1,0 +1,29 @@
+{
+	"name": "ODS_SANFER_DIM_ESTAT_ENTITAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTAT_ENTITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ESTAT_ENTITAT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_ODS",
+			"table": "ODS_SANFER_DIM_ESTAT_ENTITAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,183 @@
+{
+	"name": "DF_GAF_DM_DIM_SUBTRAMS_AGR_AMBIT",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SUBTRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSubtrams"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SUBTRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSubtrams2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SUBTRAMS_AGR_AMBIT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSubtramsAgrAmbit"
+				}
+			],
+			"transformations": [
+				{
+					"name": "MaxModificacioCat"
+				},
+				{
+					"name": "FilterData"
+				},
+				{
+					"name": "FilterCatalunya"
+				},
+				{
+					"name": "AddAmbit"
+				},
+				{
+					"name": "addQmPublicats"
+				},
+				{
+					"name": "FilterBarcelona"
+				},
+				{
+					"name": "FilterGirona"
+				},
+				{
+					"name": "FilterLleida"
+				},
+				{
+					"name": "FilterTarragona"
+				},
+				{
+					"name": "FilterTerresdelEbre"
+				},
+				{
+					"name": "FilterConcesio"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "FilterMaxModificacio"
+				},
+				{
+					"name": "MaxModificacioBar"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "FilterMaxModificacio2"
+				},
+				{
+					"name": "AddAmbit2"
+				},
+				{
+					"name": "addQmPublicats2"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "MaxModificacioGir"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "FilterMaxModificacio3"
+				},
+				{
+					"name": "AddAmbit3"
+				},
+				{
+					"name": "addQmPublicats3"
+				},
+				{
+					"name": "MaxModificacioLle"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "FilterMaxModificacio4"
+				},
+				{
+					"name": "AddAmbit4"
+				},
+				{
+					"name": "addQmPublicats4"
+				},
+				{
+					"name": "MaxModificacioTar"
+				},
+				{
+					"name": "Join5"
+				},
+				{
+					"name": "FilterMaxModificacio5"
+				},
+				{
+					"name": "AddAmbit5"
+				},
+				{
+					"name": "addQmPublicats5"
+				},
+				{
+					"name": "MaxModificacioElb"
+				},
+				{
+					"name": "Join6"
+				},
+				{
+					"name": "FilterMaxModificacio6"
+				},
+				{
+					"name": "AddAmbit6"
+				},
+				{
+					"name": "addQmPublicats6"
+				},
+				{
+					"name": "MaxModificacioCon"
+				},
+				{
+					"name": "Join7"
+				},
+				{
+					"name": "FilterMaxModificacio7"
+				},
+				{
+					"name": "AddAmbit7"
+				},
+				{
+					"name": "addQmPublicats7"
+				},
+				{
+					"name": "toInt"
+				},
+				{
+					"name": "Join8"
+				},
+				{
+					"name": "DMDimSubtramsMODMAX"
+				},
+				{
+					"name": "Filter1"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_COMARCA as decimal(2,0),\n\t\tCOD_CARRETERA as string,\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tCOD_MODIFICACIO as decimal(15,0),\n\t\tCOD_ORGANISME as string,\n\t\tCOD_ORGTRAM as string,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(2,0),\n\t\tNUM_LONG_REAL as decimal(9,3),\n\t\tNUM_LONG_APARENT as decimal(9,3),\n\t\tDESC_NOM_CARRILS as string,\n\t\tDATA_CALCUL_IMD as string,\n\t\tDATA_ALTA as string,\n\t\tDATA_BAIXA as string,\n\t\tDATA_VALIDACIO as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSubtrams\nsource(output(\n\t\tID_COMARCA as decimal(2,0),\n\t\tCOD_CARRETERA as string,\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tCOD_MODIFICACIO as decimal(15,0),\n\t\tCOD_ORGANISME as string,\n\t\tCOD_ORGTRAM as string,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(2,0),\n\t\tNUM_LONG_REAL as decimal(9,3),\n\t\tNUM_LONG_APARENT as decimal(9,3),\n\t\tDESC_NOM_CARRILS as string,\n\t\tDATA_CALCUL_IMD as string,\n\t\tDATA_ALTA as string,\n\t\tDATA_BAIXA as string,\n\t\tDATA_VALIDACIO as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSubtrams2\nFilterCatalunya aggregate(groupBy(DMDimSubtrams@COD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM),\n\tCOD_MOD_MAX = max(DMDimSubtrams@COD_MODIFICACIO)) ~> MaxModificacioCat\nJoin8 filter(isNull(DATA_BAIXA)) ~> FilterData\nFilterData filter(like(COD_ORGANISME,'ST%') && COD_ORGTRAM != 'DES') ~> FilterCatalunya\nFilterMaxModificacio derive(AMBIT = 'Catalunya',\n\t\tDATA_ANYO = substring($P_DATA_FI,1,4)) ~> AddAmbit\nAddAmbit aggregate(groupBy(AMBIT,\n\t\tDATA_ANYO),\n\tqmPublicats = sum(NUM_LONG_REAL)) ~> addQmPublicats\nFilterData filter(like(COD_ORGANISME,'STCB') && COD_ORGTRAM != 'DES') ~> FilterBarcelona\nFilterData filter(like(COD_ORGANISME,'STCG') && COD_ORGTRAM != 'DES') ~> FilterGirona\nFilterData filter(like(COD_ORGANISME,'STCL') && COD_ORGTRAM != 'DES') ~> FilterLleida\nFilterData filter(like(COD_ORGANISME,'STCT') && COD_ORGTRAM != 'DES') ~> FilterTarragona\nFilterData filter(like(COD_ORGANISME,'STME') && COD_ORGTRAM != 'DES') ~> FilterTerresdelEbre\nFilterData filter(like(COD_ORGANISME,'ST%') && COD_ORGTRAM != 'DES' && COD_ORGTRAM != 'DIR') ~> FilterConcesio\nFilterCatalunya, MaxModificacioCat join(DMDimSubtrams@COD_CARRETERA == MaxModificacioCat@COD_CARRETERA\n\t&& DMDimSubtrams@COD_TRAM == MaxModificacioCat@COD_TRAM\n\t&& DMDimSubtrams@COD_SUBTRAM == MaxModificacioCat@COD_SUBTRAM,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 filter(DMDimSubtrams@COD_MODIFICACIO == COD_MOD_MAX) ~> FilterMaxModificacio\nFilterBarcelona aggregate(groupBy(DMDimSubtrams@COD_CARRETERA,\n\t\tCOD_SUBTRAM,\n\t\tCOD_TRAM),\n\tCOD_MOD_MAX = max(DMDimSubtrams@COD_MODIFICACIO)) ~> MaxModificacioBar\nFilterBarcelona, MaxModificacioBar join(DMDimSubtrams@COD_CARRETERA == MaxModificacioBar@COD_CARRETERA\n\t&& DMDimSubtrams@COD_SUBTRAM == MaxModificacioBar@COD_SUBTRAM\n\t&& DMDimSubtrams@COD_TRAM == MaxModificacioBar@COD_TRAM,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join2\nJoin2 filter(DMDimSubtrams@COD_MODIFICACIO == COD_MOD_MAX) ~> FilterMaxModificacio2\nFilterMaxModificacio2 derive(AMBIT = 'Barcelona',\n\t\tDATA_ANYO = substring($P_DATA_FI,1,4)) ~> AddAmbit2\nAddAmbit2 aggregate(groupBy(AMBIT,\n\t\tDATA_ANYO),\n\tqmPublicats = sum(NUM_LONG_REAL)) ~> addQmPublicats2\naddQmPublicats, addQmPublicats2, addQmPublicats7, addQmPublicats6, addQmPublicats5, addQmPublicats4, addQmPublicats3 union(byName: true)~> Union1\nFilterGirona aggregate(groupBy(DMDimSubtrams@COD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM),\n\tCOD_MOD_MAX = max(DMDimSubtrams@COD_MODIFICACIO)) ~> MaxModificacioGir\nFilterGirona, MaxModificacioGir join(DMDimSubtrams@COD_CARRETERA == MaxModificacioGir@COD_CARRETERA\n\t&& DMDimSubtrams@COD_TRAM == MaxModificacioGir@COD_TRAM\n\t&& DMDimSubtrams@COD_SUBTRAM == MaxModificacioGir@COD_SUBTRAM,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join3\nJoin3 filter(DMDimSubtrams@COD_MODIFICACIO == COD_MOD_MAX) ~> FilterMaxModificacio3\nFilterMaxModificacio3 derive(AMBIT = 'Girona',\n\t\tDATA_ANYO = substring($P_DATA_FI,1,4)) ~> AddAmbit3\nAddAmbit3 aggregate(groupBy(AMBIT,\n\t\tDATA_ANYO),\n\tqmPublicats = sum(NUM_LONG_REAL)) ~> addQmPublicats3\nFilterLleida aggregate(groupBy(DMDimSubtrams@COD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM),\n\tCOD_MOD_MAX = max(DMDimSubtrams@COD_MODIFICACIO)) ~> MaxModificacioLle\nFilterLleida, MaxModificacioLle join(DMDimSubtrams@COD_CARRETERA == MaxModificacioLle@COD_CARRETERA\n\t&& DMDimSubtrams@COD_TRAM == MaxModificacioLle@COD_TRAM\n\t&& DMDimSubtrams@COD_SUBTRAM == MaxModificacioLle@COD_SUBTRAM,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join4\nJoin4 filter(DMDimSubtrams@COD_MODIFICACIO == COD_MOD_MAX) ~> FilterMaxModificacio4\nFilterMaxModificacio4 derive(AMBIT = 'Lleida',\n\t\tDATA_ANYO = substring($P_DATA_FI,1,4)) ~> AddAmbit4\nAddAmbit4 aggregate(groupBy(AMBIT,\n\t\tDATA_ANYO),\n\tqmPublicats = sum(NUM_LONG_REAL)) ~> addQmPublicats4\nFilterTarragona aggregate(groupBy(DMDimSubtrams@COD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM),\n\tCOD_MOD_MAX = max(DMDimSubtrams@COD_MODIFICACIO)) ~> MaxModificacioTar\nFilterTarragona, MaxModificacioTar join(DMDimSubtrams@COD_CARRETERA == MaxModificacioTar@COD_CARRETERA\n\t&& DMDimSubtrams@COD_TRAM == MaxModificacioTar@COD_TRAM\n\t&& DMDimSubtrams@COD_SUBTRAM == MaxModificacioTar@COD_SUBTRAM,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join5\nJoin5 filter(DMDimSubtrams@COD_MODIFICACIO == COD_MOD_MAX) ~> FilterMaxModificacio5\nFilterMaxModificacio5 derive(AMBIT = 'Tarragona',\n\t\tDATA_ANYO = substring($P_DATA_FI,1,4)) ~> AddAmbit5\nAddAmbit5 aggregate(groupBy(AMBIT,\n\t\tDATA_ANYO),\n\tqmPublicats = sum(NUM_LONG_REAL)) ~> addQmPublicats5\nFilterTerresdelEbre aggregate(groupBy(DMDimSubtrams@COD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM),\n\tCOD_MOD_MAX = max(DMDimSubtrams@COD_MODIFICACIO)) ~> MaxModificacioElb\nFilterTerresdelEbre, MaxModificacioElb join(DMDimSubtrams@COD_CARRETERA == MaxModificacioElb@COD_CARRETERA\n\t&& DMDimSubtrams@COD_TRAM == MaxModificacioElb@COD_TRAM\n\t&& DMDimSubtrams@COD_SUBTRAM == MaxModificacioElb@COD_SUBTRAM,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join6\nJoin6 filter(DMDimSubtrams@COD_MODIFICACIO == COD_MOD_MAX) ~> FilterMaxModificacio6\nFilterMaxModificacio6 derive(AMBIT = \"Terres de l'Ebre\",\n\t\tDATA_ANYO = substring($P_DATA_FI,1,4)) ~> AddAmbit6\nAddAmbit6 aggregate(groupBy(AMBIT,\n\t\tDATA_ANYO),\n\tqmPublicats = sum(NUM_LONG_REAL)) ~> addQmPublicats6\nFilterConcesio aggregate(groupBy(DMDimSubtrams@COD_CARRETERA,\n\t\tCOD_SUBTRAM,\n\t\tCOD_TRAM),\n\tCOD_MOD_MAX = max(DMDimSubtrams@COD_MODIFICACIO)) ~> MaxModificacioCon\nFilterConcesio, MaxModificacioCon join(DMDimSubtrams@COD_CARRETERA == MaxModificacioCon@COD_CARRETERA\n\t&& DMDimSubtrams@COD_TRAM == MaxModificacioCon@COD_TRAM\n\t&& DMDimSubtrams@COD_SUBTRAM == MaxModificacioCon@COD_SUBTRAM,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join7\nJoin7 filter(DMDimSubtrams@COD_MODIFICACIO == COD_MOD_MAX) ~> FilterMaxModificacio7\nFilterMaxModificacio7 derive(AMBIT = 'Carreteres en concessió',\n\t\tDATA_ANYO = substring($P_DATA_FI,1,4)) ~> AddAmbit7\nAddAmbit7 aggregate(groupBy(AMBIT,\n\t\tDATA_ANYO),\n\tqmPublicats = sum(NUM_LONG_REAL)) ~> addQmPublicats7\nUnion1 derive(DATA_ANYO = toInteger(DATA_ANYO)) ~> toInt\nDMDimSubtrams, DMDimSubtramsMODMAX join(DMDimSubtrams@COD_CARRETERA == DMDimSubtramsMODMAX@COD_CARRETERA\n\t&& DMDimSubtrams@COD_MODIFICACIO == DMDimSubtramsMODMAX@COD_MODIFICACIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join8\nFilter1 aggregate(groupBy(COD_CARRETERA),\n\tCOD_MODIFICACIO = max(COD_MODIFICACIO)) ~> DMDimSubtramsMODMAX\nDMDimSubtrams2 filter(year(DATA_VALIDACIO) <= year(toDate($P_DATA_FI, 'yyyyMMdd'))) ~> Filter1\ntoInt sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tAmbit as string,\n\t\tqmPublicats as decimal(38,3)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimSubtramsAgrAmbit"
+		}
+	}
+}

@@ -1,0 +1,40 @@
+{
+	"name": "DM_GAF_DIM_CATALEG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "DATA_ANYO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DEMARCACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VALOR_TOTAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VALOR_INDIRECTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VALOR_DIRECTA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_DIM_CATALEG"
+		}
+	}
+}

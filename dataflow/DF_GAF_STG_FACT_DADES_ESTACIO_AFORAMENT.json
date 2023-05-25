@@ -1,0 +1,216 @@
+{
+	"name": "DF_GAF_STG_FACT_DADES_ESTACIO_AFORAMENT",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtram5"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SUBTRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSubtrams"
+				},
+				{
+					"dataset": {
+						"referenceName": "MESTRES_DM_TERRITORIAL_MUN",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTerritorial"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_FACT_DADES_ESTACIO_AFORAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGFactEstacioAforament"
+				}
+			],
+			"transformations": [
+				{
+					"name": "XarxaDirectaIndirecta"
+				},
+				{
+					"name": "AddPKIniPKFi"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "AddDemarcacio"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "FiltroDataAnyo"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_ESTACIO as decimal(8,0),",
+				"          ID_PLA as decimal(8,0),",
+				"          DATA_ANYO as integer,",
+				"          ID_ESTAT as decimal(1,0),",
+				"          ID_ESTACIO_AFIN as decimal(8,0),",
+				"          ID_DETECTOR as decimal(3,0),",
+				"          ID_EQUIP as decimal(3,0),",
+				"          ID_ALIMENTACIO as decimal(3,0),",
+				"          ID_TIPUS_ESTACIO as decimal(2,0),",
+				"          ID_FACTOR as decimal(8,0),",
+				"          ID_PLANOL as decimal(8,0),",
+				"          ID_ESTACIO_REF_1 as decimal(8,0),",
+				"          ID_ESTACIO_REF_2 as decimal(8,0),",
+				"          ID_LLOGARET as string,",
+				"          COD_INE as string,",
+				"          COD_ESTACIO as string,",
+				"          COD_ORGTRAM as string,",
+				"          COD_CARRETERA as string,",
+				"          COD_MOD_CARRETERA as decimal(15,0),",
+				"          COD_TRAM as string,",
+				"          COD_SUBTRAM as string,",
+				"          DESC_CARRILS as string,",
+				"          NUM_TELEFON as decimal(12,0),",
+				"          DESC_ESTACIO as string,",
+				"          DESC_OBSERVACIONS as string,",
+				"          PK as decimal(9,0),",
+				"          METRES_PK as decimal(4,0),",
+				"          UTMX as decimal(10,2),",
+				"          UTMY as decimal(10,2),",
+				"          NUM_LONGITUD as double,",
+				"          NUM_LATITUD as double,",
+				"          PK_INI as decimal(9,0),",
+				"          METRES_PK_INI as decimal(4,0),",
+				"          DESC_PK_INI as string,",
+				"          PK_FI as decimal(9,0),",
+				"          METRES_PK_FI as decimal(4,0),",
+				"          DESC_PK_FI as string,",
+				"          IND_IMD as decimal(8,0),",
+				"          IND_PESANTS as decimal(7,4),",
+				"          IND_IFA as decimal(7,4),",
+				"          IND_VELOC_MITJA as decimal(7,4)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimEstacioSubtram5",
+				"source(output(",
+				"          ID_COMARCA as decimal(2,0),",
+				"          COD_CARRETERA as string,",
+				"          COD_TRAM as string,",
+				"          COD_SUBTRAM as string,",
+				"          COD_MODIFICACIO as decimal(15,0),",
+				"          COD_ORGANISME as string,",
+				"          COD_ORGTRAM as string,",
+				"          PK_INI as decimal(9,0),",
+				"          METRES_PK_INI as decimal(4,0),",
+				"          DESC_PK_INI as string,",
+				"          PK_FI as decimal(9,0),",
+				"          METRES_FI as decimal(4,0),",
+				"          DESC_PK_FI as string,",
+				"          IND_IMD as decimal(2,0),",
+				"          NUM_LONG_REAL as decimal(9,3),",
+				"          NUM_LONG_APARENT as decimal(9,3),",
+				"          DESC_NOM_CARRILS as string,",
+				"          DATA_CALCUL_IMD as string,",
+				"          DATA_ALTA as string,",
+				"          DATA_BAIXA as string,",
+				"          DATA_VALIDACIO as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimSubtrams",
+				"source(output(",
+				"          CODI_INE as string,",
+				"          COD_MUNICIPI as string,",
+				"          DESC_MUNICIPI as string,",
+				"          CODI_LLOGARET as string,",
+				"          DESC_POBLACIO as string,",
+				"          CODI_COMARCA as string,",
+				"          DESC_COMARCA as string,",
+				"          CODI_PROVINCIA as string,",
+				"          DESC_PROVINCIA as string,",
+				"          CODI_AMBIT as string,",
+				"          DESC_AMBIT as string,",
+				"          CODI_VEGUERIA as string,",
+				"          DESC_VEGUERIA as string,",
+				"          PK_CONCAT_INE as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimTerritorial",
+				"join2 derive(CODI_TIPUS_XARXA = iif(ID_TIPUS_ESTACIO == 5, 'I', 'D')) ~> XarxaDirectaIndirecta",
+				"XarxaDirectaIndirecta derive(NUM_PK_INI = toDouble(PK_INI) + (toDouble(METRES_PK_INI)/toDouble(1000)),",
+				"          NUM_PK_FI = toDouble(PK_FI) + (toDouble(METRES_PK_FI)/toDouble(1000))) ~> AddPKIniPKFi",
+				"FiltroDataAnyo, DMDimTerritorial join(COD_INE == CODI_INE,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> join2",
+				"AddPKIniPKFi derive(DESC_DEMARCACIO = iif(CODI_PROVINCIA == '43', iif(CODI_VEGUERIA  == 'E', \"Terres\",'Tarragona') ,iif(CODI_PROVINCIA == '08','Barcelona',iif(CODI_PROVINCIA == '17','Girona',iif(CODI_PROVINCIA == '25','Lleida','-1'))))) ~> AddDemarcacio",
+				"AddDemarcacio select(mapColumn(",
+				"          ID_ESTACIO,",
+				"          COD_ESTACIO,",
+				"          DATA_ANYO,",
+				"          ID_TIPUS_ESTACIO,",
+				"          CODI_TIPUS_XARXA,",
+				"          COD_INE,",
+				"          DESC_DEMARCACIO,",
+				"          IND_IMD,",
+				"          IND_PESANTS,",
+				"          NUM_PK_INI,",
+				"          NUM_PK_FI,",
+				"          COD_ORGTRAM,",
+				"          COD_CARRETERA,",
+				"          COD_MOD_CARRETERA,",
+				"          COD_TRAM,",
+				"          COD_SUBTRAM",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FiltraCampos",
+				"DMDimEstacioSubtram5 filter(DATA_ANYO >= 2014) ~> FiltroDataAnyo",
+				"FiltraCampos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_ESTACIO as decimal(8,0),",
+				"          COD_ESTACIO as string,",
+				"          DATA_ANYO as integer,",
+				"          ID_TIPUS_ESTACIO as decimal(2,0),",
+				"          CODI_TIPUS_XARXA as string,",
+				"          COD_INE as string,",
+				"          DESC_DEMARCACIO as string,",
+				"          IND_IMD as double,",
+				"          IND_PESANTS as double,",
+				"          NUM_PK_INI as double,",
+				"          NUM_PK_FI as double,",
+				"          COD_ORGTRAM as string,",
+				"          COD_CARRETERA as string,",
+				"          COD_MOD_CARRETERA as decimal(15,0),",
+				"          COD_TRAM as string,",
+				"          COD_SUBTRAM as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> STGFactEstacioAforament"
+			]
+		}
+	}
+}

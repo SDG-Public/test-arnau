@@ -1,0 +1,113 @@
+{
+	"name": "PL_COSTES_FACT_STG",
+	"properties": {
+		"activities": [
+			{
+				"name": "COSTES_STG_FACT_EXPEDIENT",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT CODINT_EXP\n      ,NUM_EXPEDIENT\n      ,CODI_TIPEX\n      ,CODI_ESTAT\n      ,TEMA\n      ,ADRECA\n      ,OBSERVACIONS\n      ,REFEXT\n      ,REFINT\n      ,to_char(DATA_INI_TERMINI) as DATA_INI_TERMINI\n      ,to_char(DATA_FI_TERMINI) as DATA_FI_TERMINI\n      ,USUARI_ALTA\n      ,to_char(DATA_ALTA_SISTEMA) as DATA_ALTA_SISTEMA\n      ,USUARI_DARRERA_MODIF\n      ,to_char(DATA_DARRERA_MODIF) as DATA_DARRERA_MODIF\n      ,IND_BAIXA\n      ,MOTIU_BAIXA\n      ,to_char(DATA_BAIXA) as DATA_BAIXA\n      ,VERSION\n      ,CODI_FRANJA\n      ,CAPSA_ARXIVAT\n      ,UTM_X\n      ,UTM_Y\n      ,ID_EXP_REL\n      ,CONTADOR\n      ,DEMARCACIO\n      ,ID_TECNIC\n      ,to_char(DATA_INI_AUTORITZACIO) as DATA_INI_AUTORITZACIO\n      ,to_char(DATA_FI_AUTORITZACIO) as DATA_FI_AUTORITZACIO\n      ,NUM_ARXIVADOR_INI\n      ,NUM_ARXIVADOR_FI\n      ,PRORROGABLE\n      ,FORMAT\n      ,SUPERFICIE_OCUPADA\n  FROM COS_ADM.CTRTB_EXPEDIENT",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [COSTES_STG].[STG_COSTES_FACT_EXPEDIENT];",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "COSTES_ORA_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "COSTES_STG_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "COSTES_STG_FACT_TRAMITACIO",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT NUMINT_TRAMIT\n      ,to_char(DATA_TRAMIT) as DATA_TRAMIT\n      ,CODINT_EXP\n      ,to_char(DATA_TRAMITACIO) as DATA_TRAMITACIO\n      ,to_char(DATA_FI_TRAMITACIO) as DATA_FI_TRAMITACIO\n      ,to_char(DATA_CADUCITAT) as DATA_CADUCITAT\n      ,to_char(DATA_PAGAMENT) as DATA_PAGAMENT\n      ,COMENTARIS\n      ,CODREG_E\n      ,ANYREG_E\n      ,NUMREG_E\n      ,to_char(DATA_RE) as DATA_RE\n      ,USUARI_ALTA\n      ,to_char(DATA_ALTA_SISTEMA) as DATA_ALTA_SISTEMA\n      ,USUARI_DARRERA_MODIF\n      ,to_char(DATA_DARRERA_MODIF) as DATA_DARRERA_MODIF\n      ,VERSION\n      ,IMPORT_PAGAMENT\n      ,PARTY_ID_SUBJECTE_PASSIU\n      ,PAGAMENT_GENERAT\n      ,ID_RESPONSABLE\n      ,CODI_CONCEPTE\n      FROM COS_ADM.CTRTB_TRAMITACIO",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [COSTES_STG].[STG_COSTES_FACT_TRAMITACIO];",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "COSTES_ORA_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "COSTES_STG_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "COSTES"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:05:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

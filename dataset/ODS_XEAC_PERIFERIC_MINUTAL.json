@@ -1,0 +1,57 @@
+{
+	"name": "ODS_XEAC_PERIFERIC_MINUTAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "VALOR_PRESS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COD_VALIDACIO_PRESS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VALOR_TEMP",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COD_VALIDACIO_TEMP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VALOR_HUM",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COD_VALIDACIO_HUM",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_XEAC_PERIFERIC_MINUTAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

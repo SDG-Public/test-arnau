@@ -1,0 +1,119 @@
+{
+	"name": "GEU_STG_DIM_POBLACIONS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_POBLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_POSTAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_CAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_AMBIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_UORG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_X_CENTRE",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "UTM_Y_CENTRE",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "IND_CAPITAL_COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOMBRE_HABITANTS",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IND_COSTANER",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_MUNTANYA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_MES_DEUMIL_HAB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_MES_CENTMIL_HAB",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUBLICAT_PG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PUBLICAT_PD",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SUPERFICIE_DGAL",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "CODI_UORG_AA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_POBLACIONS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

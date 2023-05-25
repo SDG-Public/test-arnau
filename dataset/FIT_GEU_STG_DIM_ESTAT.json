@@ -1,0 +1,34 @@
+{
+	"name": "FIT_GEU_STG_DIM_ESTAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Hoja1",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "STG_DIM_ESTAT.xlsx",
+				"container": "contenedortesgeu"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "COD_ESTAT",
+				"type": "String"
+			},
+			{
+				"name": "DESC_ESTAT",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

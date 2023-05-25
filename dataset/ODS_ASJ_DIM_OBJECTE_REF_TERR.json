@@ -1,0 +1,55 @@
+{
+	"name": "ODS_ASJ_DIM_OBJECTE_REF_TERR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_OBJECTE_REFERENCIA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_DADA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CODI_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_POBLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "POSICIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_ODS",
+			"table": "ODS_ASJ_DIM_OBJECTE_REF_TERR"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,74 @@
+{
+	"name": "GEU_STG_DIM_EXP_MUNICIPI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "CODI_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_LLOGARET",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_PRINCIPAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENT_ARXIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_VIGENCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INI_VIGENCIA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI_VIGENCIA",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_DENEGACIO",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "IND_PRINCIPAL_COMISSIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GEU_CODI_INE_NUCLI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GEU_CODI_LLOGARET_NUCLI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_EXP_MUNICIPI"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

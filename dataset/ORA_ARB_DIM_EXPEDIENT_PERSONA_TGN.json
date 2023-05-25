@@ -1,0 +1,16 @@
+{
+	"name": "ORA_ARB_DIM_EXPEDIENT_PERSONA_TGN",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TES_OPERACIONAL_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "ARBT_ADM",
+			"table": "ARB_EXP_PER"
+		}
+	}
+}

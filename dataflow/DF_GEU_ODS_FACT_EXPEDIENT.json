@@ -1,0 +1,89 @@
+{
+	"name": "DF_GEU_ODS_FACT_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGfactEXPEDIENT"
+				},
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_EXP_MUNICIPI",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimEXPMUN"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_FACT_RPUC_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGfactRPUCExpedient"
+				},
+				{
+					"dataset": {
+						"referenceName": "GEU_FACT_MUC_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "STGfactMUCExpedient"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "GEU_ODS_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSfactEXPEDIENT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalitzarCamps"
+				},
+				{
+					"name": "TratamientoNull"
+				},
+				{
+					"name": "JoinTERRITORIAL"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "AddFlagRPUC"
+				},
+				{
+					"name": "AddEnlace"
+				},
+				{
+					"name": "AddEnlace2"
+				},
+				{
+					"name": "AddNumExpedientConCeros"
+				},
+				{
+					"name": "TratNuloNumRecur"
+				},
+				{
+					"name": "TratNuloNumRecur2"
+				},
+				{
+					"name": "join2"
+				}
+			],
+			"script": "source(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tNUMERO_EXP as decimal(6,0),\n\t\tANY_EXP as decimal(4,0),\n\t\tAMBIT as string,\n\t\tNUM_COMPLERT as string,\n\t\tDATA_ALTA as timestamp,\n\t\tCODI_TIPEX as string,\n\t\tCODI_CIRCUIT as string,\n\t\tCODI_ESTAT as string,\n\t\tDATA_ESTAT as timestamp,\n\t\tUNITAT_GESTORA as string,\n\t\tUNITAT_AUTORITZADA as string,\n\t\tTEMA as string,\n\t\tOBSERVACIONS as string,\n\t\tCODI_ARXIU as string,\n\t\tCODI_SIGEDA_CLASSIF as string,\n\t\tCODI_SIGEDA_SUBDIV_ESP as string,\n\t\tCODI_SIGEDA_SUBDIV_UNIF as string,\n\t\tREFEXT as string,\n\t\tREFEXT_ACUM as string,\n\t\tREFINT as string,\n\t\tNUM_RECURS as decimal(5,0),\n\t\tDATA_INI_TERMINI as timestamp,\n\t\tDATA_FI_TERMINI as timestamp,\n\t\tUTM_X_CENTRE as decimal(8,2),\n\t\tUTM_Y_CENTRE as decimal(9,2),\n\t\tUTM_X1 as decimal(8,2),\n\t\tUTM_Y1 as decimal(9,2),\n\t\tUTM_X2 as decimal(8,2),\n\t\tUTM_Y2 as decimal(9,2),\n\t\tIND_PDT_CU as string,\n\t\tIND_PDT_CUC as string,\n\t\tCODI_BLOC_OD as decimal(2,0),\n\t\tNOM_EXP_ARXIU as string,\n\t\tNUM_EXP_TECNIC as decimal(1,0),\n\t\tIND_EXP_ARXIVAT as string,\n\t\tIND_EXP_COMPLET_ARX as string,\n\t\tTOTAL_DOCS as decimal(3,0),\n\t\tTOTAL_PLANOLS as decimal(3,0),\n\t\tOBSERVACIONS_ARXIU as string,\n\t\tFULL_ICC as string,\n\t\tNUMEXP_CMB as string,\n\t\tNUMEXP_RECURS as string,\n\t\tIND_DOC_SCAN as string,\n\t\tIND_PLANOL_SCAN as string,\n\t\tOBSERV_SCAN as string,\n\t\tSUPERF_SECTOR as decimal(9,2),\n\t\tAMBIT_ALTA as string,\n\t\tUSU_MODIF as string,\n\t\tUORG_ALTA as string,\n\t\tFITXER_DGN as string,\n\t\tCODINT_EXP_RELACIONAT as decimal(7,0),\n\t\tDATA_ACORD as timestamp,\n\t\tDATA_ASSAB as timestamp,\n\t\tDATA_PUBLICACIO as timestamp,\n\t\tTERMINI as decimal(3,0),\n\t\tTERMINI_MESOS_DIES as string,\n\t\tTIPUS_SILENCI as string,\n\t\tIND_VIGENT_REUC as string,\n\t\tINFO_ADDICIONAL as string,\n\t\tIND_PAUM as string,\n\t\tIND_COBERTURA_PAUM as string,\n\t\tUBICACIO_EXPEDIENT as string,\n\t\tDATA_PRESELECCIO_TRANSF as timestamp,\n\t\tDATA_TRANSF_ARXIU_CENTRAL as timestamp,\n\t\tUSUARI_PRESELECCIO_TRANSF as string,\n\t\tUSUARI_TRANSF_ARXIU_CENTRAL as string,\n\t\tANY_INICIAL as decimal(4,0),\n\t\tANY_FINAL as decimal(4,0),\n\t\tCOMPETENCIA as string,\n\t\tORIGEN_COMPETENCIA as string,\n\t\tNUM_TRANSF_ARXIU as decimal(7,0),\n\t\tCODI_CARACTER_ACORD as string,\n\t\tIND_NORMES_PUBLICADES as string,\n\t\tIND_INICIATIVA_PRIVADA as string,\n\t\tIND_INCLOU_PROJ_URBANITZACIO as string,\n\t\tIND_PEND_CONSELLER as string,\n\t\tIND_PEND_GOVERN as string,\n\t\tPUB_IND_PUBLICAR as string,\n\t\tPUB_DATA_PUBLICACIO as timestamp,\n\t\tPUB_USUARI_PUBLICACIO as string,\n\t\tIND_GENERACIO_AUT_UG as string,\n\t\tIND_INST_COMPETENCIA as string,\n\t\tRPUC_IND_PUBLICAR as string,\n\t\tRPUC_DATA_PUBLICACIO as timestamp,\n\t\tRPUC_USUARI_PUBLICACIO as string,\n\t\tRPUC_CODI_ORGAN as string,\n\t\tDESC_DOCS_AFECTATS as string,\n\t\tIMPORT_TOTAL_REDACCIO as decimal(12,2),\n\t\tIMPORT_SOLICITAT as decimal(12,2),\n\t\tIMPORT_ATORGAT as decimal(12,2),\n\t\tIMPORT_ATORGAT_ANUALITAT1 as decimal(12,2),\n\t\tIMPORT_ATORGAT_ANUALITAT2 as decimal(12,2),\n\t\tANY_ANUALITAT1 as decimal(4,0),\n\t\tANY_ANUALITAT2 as decimal(4,0),\n\t\tDATA_PRO_TERM_JUST as timestamp,\n\t\tDATA_RENUN_SUBVEN_ATORG as timestamp,\n\t\tDATA_RENUN_PETICIO_SUBVEN as timestamp,\n\t\tRPUC_IND_ACT_DOCS as decimal(1,0),\n\t\tRPUC_COMENTARI_ACT_DOCS as string,\n\t\tANY_ANUALITAT3 as decimal(4,0),\n\t\tANY_ANUALITAT4 as decimal(4,0),\n\t\tIMPORT_ATORGAT_ANUALITAT3 as decimal(12,2),\n\t\tIMPORT_ATORGAT_ANUALITAT4 as decimal(12,2),\n\t\tDATA_ANUALITAT1 as timestamp,\n\t\tDATA_ANUALITAT2 as timestamp,\n\t\tDATA_ANUALITAT3 as timestamp,\n\t\tDATA_ANUALITAT4 as timestamp,\n\t\tDATA_AMPLIACIO_ANUALITAT1 as timestamp,\n\t\tDATA_AMPLIACIO_ANUALITAT2 as timestamp,\n\t\tDATA_AMPLIACIO_ANUALITAT3 as timestamp,\n\t\tDATA_AMPLIACIO_ANUALITAT4 as timestamp,\n\t\tMUC_AFECTA as string,\n\t\tMUC_CODIS_NORMALITZATS as string,\n\t\tMUC_ESTAT as string,\n\t\tMUC_TRAMIT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGfactEXPEDIENT\nsource(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tCODI_INE as string,\n\t\tCODI_LLOGARET as string,\n\t\tIND_PRINCIPAL as string,\n\t\tIND_VIGENT_ARXIU as string,\n\t\tIND_VIGENCIA as string,\n\t\tDATA_INI_VIGENCIA as timestamp,\n\t\tDATA_FI_VIGENCIA as timestamp,\n\t\tDATA_DENEGACIO as timestamp,\n\t\tIND_PRINCIPAL_COMISSIO as string,\n\t\tGEU_CODI_INE_NUCLI as string,\n\t\tGEU_CODI_LLOGARET_NUCLI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimEXPMUN\nsource(output(\n\t\tCODINT_EXP as decimal(7,0),\n\t\tANY_EXP as decimal(4,0),\n\t\tNUMERO_EXP as decimal(6,0),\n\t\tAMBIT as string,\n\t\tNUM_RECURS as decimal(5,0),\n\t\tNUM_COMPLERT as string,\n\t\tDATA_ALTA as timestamp,\n\t\tTEMA as string,\n\t\tCODI_TIPEX as string,\n\t\tRPUC_CODI_ORGAN as decimal(8,0),\n\t\tID_ESTAT_EXPEDIENT as decimal(8,0),\n\t\tDATA_ASSENTAMENT_ALTA as timestamp,\n\t\tDATA_BAIXA_VIGENCIA as timestamp,\n\t\tCOMPETENCIA as string,\n\t\tIND_REGISTRAT as decimal(1,0),\n\t\tIND_VIGENT as decimal(1,0),\n\t\tDESC_DOCS_AFECTATS as string,\n\t\tIND_MIGRACIO as decimal(1,0),\n\t\tDATA_APROVACIO as timestamp,\n\t\tDATA_PUBLICACIO as timestamp,\n\t\tDATA_CREACIO as timestamp,\n\t\tUSUARI_CREACIO as string,\n\t\tUSUARI_MODIFICACIO as string,\n\t\tDATA_MODIFICACIO as timestamp,\n\t\tVERSION as decimal(8,0),\n\t\tACTIVAT as decimal(1,0),\n\t\tRPUC_IND_ACT_DOCS as decimal(1,0),\n\t\tRPUC_COMENTARI_ACT_DOCS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGfactRPUCExpedient\nsource(output(\n\t\tID_EXPEDIENT as string,\n\t\tESTAT_EXPEDIENT_ID as string,\n\t\tTIPUS_LLIURAMENT_ID as string,\n\t\tAMBITO_ID as string,\n\t\tANY as decimal(4,0),\n\t\tNUMERO as decimal(6,0),\n\t\tDEMARCACIO as string,\n\t\tNUMERO_RECURS as decimal(5,0),\n\t\tDATA_INI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_CARREGA as timestamp,\n\t\tNUM_LLIURAMENT as string,\n\t\tEN_REFOS as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGfactMUCExpedient\nAddFlagRPUC select(mapColumn(\n\t\tCOD_EXPEDIENT = STGfactEXPEDIENT@CODINT_EXP,\n\t\tCOD_TIPEX = STGfactEXPEDIENT@CODI_TIPEX,\n\t\tCOD_AMBIT = STGfactEXPEDIENT@AMBIT,\n\t\tCOD_CIRCUIT = CODI_CIRCUIT,\n\t\tCOD_SIGEDA_CLASSIF = CODI_SIGEDA_CLASSIF,\n\t\tCOD_SIGEDA_SUBDIV_ESP = CODI_SIGEDA_SUBDIV_ESP,\n\t\tCOD_SIGEDA_SUBDIV_UNIF = CODI_SIGEDA_SUBDIV_UNIF,\n\t\tCOD_UNITAT_AUTORITZADA = UNITAT_AUTORITZADA,\n\t\tCOD_AMBIT_ALTA = AMBIT_ALTA,\n\t\tCOD_MUC_ESTAT = MUC_ESTAT,\n\t\tCOD_MUC_TRAMIT = MUC_TRAMIT,\n\t\tCOD_UBICACIO_EXPEDIENT = UBICACIO_EXPEDIENT,\n\t\tCOD_COMPETENCIA = STGfactEXPEDIENT@COMPETENCIA,\n\t\tCOD_REFEXT = REFEXT,\n\t\tCOD_REFEXT_ACUM = REFEXT_ACUM,\n\t\tCOD_TERMINI = TERMINI,\n\t\tCOD_CARACTER_ACORD = CODI_CARACTER_ACORD,\n\t\tCOD_INCLOU_PROJ_URBANITZACIO = IND_INCLOU_PROJ_URBANITZACIO,\n\t\tCOD_INICIATIVA_PRIVADA = IND_INICIATIVA_PRIVADA,\n\t\tCOD_NORMES_PUBLICADES = IND_NORMES_PUBLICADES,\n\t\tCOD_PEND_CONSELLER = IND_PEND_CONSELLER,\n\t\tCOD_PEND_GOVERN = IND_PEND_GOVERN,\n\t\tCOD_INE = CODI_INE,\n\t\tCOD_LLOGARET = CODI_LLOGARET,\n\t\tCOD_TERMINI_MESOS_DIES = TERMINI_MESOS_DIES,\n\t\tCOD_TIPUS_SILENCI = TIPUS_SILENCI,\n\t\tCOD_UORG_ALTA = UORG_ALTA,\n\t\tCOD_EXPEDIENT_ARXIVAT = IND_EXP_ARXIVAT,\n\t\tCOD_UNITAT_GESTORA = UNITAT_GESTORA,\n\t\tCOD_ARXIU = CODI_ARXIU,\n\t\tCOD_BLOC_OD = CODI_BLOC_OD,\n\t\tCOD_ESTAT = CODI_ESTAT,\n\t\tCOD_EXPEDIENT_RELACIONAT = CODINT_EXP_RELACIONAT,\n\t\tCOD_COBERTURA_PAUM = IND_COBERTURA_PAUM,\n\t\tCOD_PAUM = IND_PAUM,\n\t\tCOD_PDT_CU = IND_PDT_CU,\n\t\tCOD_PDT_CUC = IND_PDT_CUC,\n\t\tCOD_VIGENT_REUC = IND_VIGENT_REUC,\n\t\tID_DOC_SCAN = IND_DOC_SCAN,\n\t\tID_EXP_COMPLET_ARX = IND_EXP_COMPLET_ARX,\n\t\tID_PLANOL_SCAN = IND_PLANOL_SCAN,\n\t\tID_RPUC_PUBLICAR = RPUC_IND_PUBLICAR,\n\t\tID_RPUC_ORGAN = STGfactEXPEDIENT@RPUC_CODI_ORGAN,\n\t\tID_VIGENT = IND_VIGENT_ARXIU,\n\t\tNUM_EXPEDIENT = STGfactEXPEDIENT@NUMERO_EXP,\n\t\tNUM_COMPLERT = STGfactEXPEDIENT@NUM_COMPLERT,\n\t\tNUM_RECURS = STGfactRPUCExpedient@NUM_RECURS,\n\t\tNUM_EXP_TECNIC,\n\t\tNUM_EXP_CMB = NUMEXP_CMB,\n\t\tNUM_EXP_RECURS = NUMEXP_RECURS,\n\t\tNUM_TOTAL_DOCS = TOTAL_DOCS,\n\t\tNUM_TOTAL_PLANOLS = TOTAL_PLANOLS,\n\t\tNUM_SUPERF_SECTOR = SUPERF_SECTOR,\n\t\tIMP_ATORGAT = IMPORT_ATORGAT,\n\t\tIMP_SOLICITAT = IMPORT_SOLICITAT,\n\t\tIMP_TOTAL_REDACCIO = IMPORT_TOTAL_REDACCIO,\n\t\tIMP_ATORGAT_ANUALITAT1 = IMPORT_ATORGAT_ANUALITAT1,\n\t\tIMP_ATORGAT_ANUALITAT2 = IMPORT_ATORGAT_ANUALITAT2,\n\t\tUTM_X_CENTRE,\n\t\tUTM_Y_CENTRE,\n\t\tUTM_X1,\n\t\tUTM_Y1,\n\t\tUTM_X2,\n\t\tUTM_Y2,\n\t\tDESC_TEMA = STGfactEXPEDIENT@TEMA,\n\t\tDESC_NOM_EXP_ARXIU = NOM_EXP_ARXIU,\n\t\tDESC_FITXER_DGN = FITXER_DGN,\n\t\tDESC_OBSERVACIONS_ARXIU = OBSERVACIONS_ARXIU,\n\t\tDESC_OBSERV_SCAN = OBSERV_SCAN,\n\t\tDESC_ORIGEN_COMPETENCIA = ORIGEN_COMPETENCIA,\n\t\tDESC_RPUC_USUARI_PUBLICACIO = RPUC_USUARI_PUBLICACIO,\n\t\tDESC_USUARI_PRESELECCIO_TRANSF = USUARI_PRESELECCIO_TRANSF,\n\t\tDESC_USUARI_TRANSF_ARXIU_CENTRAL = USUARI_TRANSF_ARXIU_CENTRAL,\n\t\tDESC_FULL_ICC = FULL_ICC,\n\t\tDESC_OBSERVACIONS = OBSERVACIONS,\n\t\tDESC_REFINT = REFINT,\n\t\tDESC_INFO_ADDICIONAL = INFO_ADDICIONAL,\n\t\tDATA_ANY_EXPEDIENT = STGfactEXPEDIENT@ANY_EXP,\n\t\tDATA_ALTA = STGfactEXPEDIENT@DATA_ALTA,\n\t\tDATA_ACORD,\n\t\tDATA_INI_TERMINI,\n\t\tDATA_FI_TERMINI,\n\t\tDATA_ESTAT,\n\t\tDATA_PUBLICACIO = STGfactEXPEDIENT@DATA_PUBLICACIO,\n\t\tDATA_RPUC_PUBLICACIO = RPUC_DATA_PUBLICACIO,\n\t\tDATA_ANY_ANUALITAT1 = ANY_ANUALITAT1,\n\t\tDATA_ANY_ANUALITAT2 = ANY_ANUALITAT2,\n\t\tDATA_ANY_FINAL = ANY_FINAL,\n\t\tDATA_TRANSF_ARXIU_CENTRAL,\n\t\tDATA_PRESELECCIO_TRANSF,\n\t\tFLAG_ES_RPUC,\n\t\tFLAG_RPUC_REGISTRAT = IND_REGISTRAT,\n\t\tFLAG_RPUC_VIGENT = IND_VIGENT,\n\t\tDATA_RPUC_APROVACIO = DATA_APROVACIO,\n\t\tDATA_RPUC_PUBLICACIO = STGfactRPUCExpedient@DATA_PUBLICACIO,\n\t\tDATA_RPUC_ALTA = DATA_CREACIO,\n\t\tDESC_URL_RPUC,\n\t\tFLAG_ES_MUC,\n\t\tDATA_MUC_CARREGA = DATA_CARREGA,\n\t\tNUM_MUC_VERSIO = NUM_LLIURAMENT,\n\t\tDESC_URL_MUC\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalitzarCamps\nNormalitzarCamps derive(COD_EXPEDIENT_ARXIVAT = iif(isNull(COD_EXPEDIENT_ARXIVAT), 'Y', COD_EXPEDIENT_ARXIVAT),\n\t\tCOD_TERMINI_MESOS_DIES = iif(isNull(COD_TERMINI_MESOS_DIES), 'Y', COD_TERMINI_MESOS_DIES),\n\t\tCOD_UORG_ALTA = iif(isNull(COD_UORG_ALTA), 'SES', COD_UORG_ALTA),\n\t\tCOD_UNITAT_GESTORA = iif(isNull(COD_UNITAT_GESTORA), 'SES', COD_UNITAT_GESTORA),\n\t\tCOD_ARXIU = iif(isNull(COD_ARXIU), 'SES', COD_ARXIU),\n\t\tCOD_BLOC_OD = iifNull(toInteger(COD_BLOC_OD), 99),\n\t\tDATA_ANY_FINAL = iifNull(toInteger(DATA_ANY_FINAL), 9999),\n\t\tCOD_ESTAT = iif(isNull(COD_ESTAT), 'SES', COD_ESTAT),\n\t\tCOD_EXPEDIENT_RELACIONAT = iifNull(toInteger(COD_EXPEDIENT_RELACIONAT), 9999999),\n\t\tCOD_COBERTURA_PAUM = iif(isNull(COD_COBERTURA_PAUM), 'Y', COD_COBERTURA_PAUM),\n\t\tCOD_PAUM = iif(isNull(COD_PAUM), 'Y', COD_PAUM),\n\t\tCOD_PDT_CU = iif(isNull(COD_PDT_CU), 'Y', COD_PDT_CU),\n\t\tCOD_PDT_CUC = iif(isNull(COD_PDT_CUC), 'Y', COD_PDT_CUC),\n\t\tCOD_TIPUS_SILENCI = iif(isNull(COD_TIPUS_SILENCI) || COD_TIPUS_SILENCI == ' ', 'Y', COD_TIPUS_SILENCI),\n\t\tCOD_VIGENT_REUC = iif(isNull(COD_VIGENT_REUC) || COD_VIGENT_REUC == ' ', 'Y', COD_VIGENT_REUC),\n\t\tCOD_TIPEX = iif(isNull(COD_TIPEX), '-1', COD_TIPEX),\n\t\tFLAG_RPUC_REGISTRAT = iif(isNull(FLAG_RPUC_REGISTRAT), -1, toInteger(FLAG_RPUC_REGISTRAT)),\n\t\tFLAG_RPUC_VIGENT = iif(isNull(FLAG_RPUC_VIGENT), -1, toInteger(FLAG_RPUC_VIGENT)),\n\t\tNUM_MUC_VERSIO = iif(isNull(NUM_MUC_VERSIO), '-1', NUM_MUC_VERSIO)) ~> TratamientoNull\nTratNuloNumRecur, STGdimEXPMUN join(STGfactEXPEDIENT@CODINT_EXP == STGdimEXPMUN@CODINT_EXP,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinTERRITORIAL\nTratamientoNull select(mapColumn(\n\t\tCOD_EXPEDIENT,\n\t\tCOD_TIPEX,\n\t\tCOD_AMBIT,\n\t\tCOD_MUC_ESTAT,\n\t\tCOD_MUC_TRAMIT,\n\t\tCOD_INE,\n\t\tCOD_LLOGARET,\n\t\tCOD_UNITAT_GESTORA,\n\t\tCOD_BLOC_OD,\n\t\tCOD_ESTAT,\n\t\tID_VIGENT,\n\t\tNUM_EXPEDIENT,\n\t\tNUM_COMPLERT,\n\t\tDESC_TEMA,\n\t\tDESC_OBSERVACIONS,\n\t\tDESC_REFINT,\n\t\tDATA_ANY_EXPEDIENT,\n\t\tDATA_ALTA,\n\t\tDATA_ESTAT,\n\t\tDATA_ANY_ANUALITAT1,\n\t\tDATA_ANY_ANUALITAT2,\n\t\tDATA_ANY_FINAL,\n\t\tFLAG_ES_RPUC,\n\t\tFLAG_RPUC_REGISTRAT,\n\t\tFLAG_RPUC_VIGENT,\n\t\tDESC_URL_RPUC,\n\t\tDATA_RPUC_APROVACIO,\n\t\tDATA_RPUC_PUBLICACIO,\n\t\tDATA_RPUC_ALTA,\n\t\tFLAG_ES_MUC,\n\t\tDATA_MUC_CARREGA,\n\t\tNUM_MUC_VERSIO,\n\t\tDESC_URL_MUC\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nJoinTERRITORIAL, AddEnlace join(STGfactEXPEDIENT@CODINT_EXP == STGfactRPUCExpedient@CODINT_EXP,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> join1\njoin2 derive(FLAG_ES_RPUC = iif(isNull(STGfactRPUCExpedient@CODINT_EXP), 0, 1),\n\t\tFLAG_ES_MUC = iif(isNull(NUMERO), 0, 1)) ~> AddFlagRPUC\nSTGfactRPUCExpedient derive(DESC_URL_RPUC = 'http://dtes.gencat.cat/rpucconsulta/AppJava/cercaExpedient.do?reqCode=veure&set-locale=ca&codintExp='+toString(CODINT_EXP)) ~> AddEnlace\nAddNumExpedientConCeros derive(DESC_URL_MUC = 'http://dtes.gencat.cat/muc-visor/AppJava/intern.do?any='+toString(ANY)+'&numero='+NUMERO_CON_CEROS+'&demarcacio='+AMBITO_ID+'&set-locale=ca') ~> AddEnlace2\nTratNuloNumRecur2 derive(NUMERO_CON_CEROS = lpad(toString(NUMERO),5,'0')) ~> AddNumExpedientConCeros\nSTGfactEXPEDIENT derive(NUM_RECURS = iif(isNull(NUM_RECURS), toDecimal(-1), NUM_RECURS)) ~> TratNuloNumRecur\nSTGfactMUCExpedient derive(NUMERO_RECURS = iif(isNull(NUMERO_RECURS), toDecimal(-1), NUMERO_RECURS)) ~> TratNuloNumRecur2\njoin1, AddEnlace2 join(STGfactEXPEDIENT@ANY_EXP == ANY\n\t&& STGfactEXPEDIENT@NUMERO_EXP == NUMERO\n\t&& STGfactEXPEDIENT@AMBIT == DEMARCACIO\n\t&& STGfactRPUCExpedient@NUM_RECURS == NUMERO_RECURS,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> join2\nFiltraCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tCOD_TIPEX as string,\n\t\tCOD_AMBIT as string,\n\t\tCOD_MUC_ESTAT as string,\n\t\tCOD_MUC_TRAMIT as string,\n\t\tCOD_INE as string,\n\t\tCOD_LLOGARET as string,\n\t\tCOD_UNITAT_GESTORA as string,\n\t\tCOD_BLOC_OD as integer,\n\t\tCOD_ESTAT as string,\n\t\tID_VIGENT as string,\n\t\tNUM_EXPEDIENT as decimal(6,0),\n\t\tNUM_COMPLERT as string,\n\t\tDESC_TEMA as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_REFINT as string,\n\t\tDATA_ANY_EXPEDIENT as decimal(4,0),\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_ESTAT as timestamp,\n\t\tDATA_ANY_ANUALITAT1 as decimal(4,0),\n\t\tDATA_ANY_ANUALITAT2 as decimal(4,0),\n\t\tDATA_ANY_FINAL as integer,\n\t\tFLAG_ES_RPUC as integer,\n\t\tFLAG_RPUC_REGISTRAT as integer,\n\t\tFLAG_RPUC_VIGENT as integer,\n\t\tDESC_URL_RPUC as string,\n\t\tDATA_RPUC_APROVACIO as timestamp,\n\t\tDATA_RPUC_PUBLICACIO as timestamp,\n\t\tDATA_RPUC_ALTA as timestamp,\n\t\tFLAG_ES_MUC as integer,\n\t\tDATA_MUC_CARREGA as timestamp,\n\t\tNUM_MUC_VERSIO as string,\n\t\tDESC_URL_MUC as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSfactEXPEDIENT"
+		}
+	}
+}

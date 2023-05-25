@@ -1,0 +1,64 @@
+{
+	"name": "ODS_XEAC_CONT_NORM_INTERVAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "VALOR",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VALOR_AMB_INTERVAL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COD_VALIDACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_FINAL",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 3
+			},
+			{
+				"name": "V1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "V2",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_XEAC_CONT_NORM_INTERVAL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

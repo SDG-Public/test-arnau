@@ -1,0 +1,50 @@
+{
+	"name": "DF_SISP_ODS_DIM_NIVELLS",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_TAULES_MESTRES",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTaulesMestres"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_NIVELLS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimNivells"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltroEntitat"
+				},
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "AddNoInformat"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "ToUnion"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tDESCRIPCIO as string,\n\t\tENTITAT as string,\n\t\tPLEGAT as decimal(1,0),\n\t\tTORN as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTaulesMestres\nSTGDimTaulesMestres filter(ENTITAT == 'NIVELL ORGANIGRAMA') ~> FiltroEntitat\nFiltroEntitat select(mapColumn(\n\t\tID_NIVELL = ID,\n\t\tDESC_NIVELL = DESCRIPCIO,\n\t\tDESC_ENTITAT_NIVELL = ENTITAT,\n\t\tFLAG_PLEGAT = PLEGAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos derive(ID_NIVELLS = -1,\n\t\tDESC_NIVELLS = 'No Informat',\n\t\tDESC_ENTITAT_NIVELLS = 'No Informat',\n\t\tFLAG_PLEGAT = 0) ~> AddNoInformat\nAddNoInformat aggregate(groupBy(ID_NIVELLS,\n\t\tDESC_NIVELLS,\n\t\tDESC_ENTITAT_NIVELLS,\n\t\tFLAG_PLEGAT),\n\tcont = count(ID_NIVELLS)) ~> Distinct\nDistinct select(mapColumn(\n\t\tID_NIVELL = ID_NIVELLS,\n\t\tDESC_NIVELL = DESC_NIVELLS,\n\t\tDESC_ENTITAT_NIVELL = DESC_ENTITAT_NIVELLS,\n\t\tFLAG_PLEGAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ToUnion\nRenombraCampos, ToUnion union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_NIVELLS as decimal(4,0),\n\t\tDESC_NIVELLS as string,\n\t\tDESC_ENTITAT_NIVELLS as string,\n\t\tFLAG_PLEGAT as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimNivells"
+		}
+	}
+}

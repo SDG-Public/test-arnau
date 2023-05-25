@@ -1,0 +1,124 @@
+{
+	"name": "DM_XEAC_MCT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "TIPUS_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VALOR_MCT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "VALORACIO_MCT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MODE_REPORTABLE_NUM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LEGISLACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_TRUNC",
+				"type": "date"
+			},
+			{
+				"name": "ID_DIM_FOCUS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_VALORACIO_LEGISLACIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_VALORACIO_TRACTAMENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_VALORACIO_VLE_MCT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_COMPLIMENT_MCT_1D_V2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_IND_DIA_v2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_XEAC_ANOMALAS_v2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PK_AGR_ANOMAL_T30",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PK_AGR_ANOMAL_T60",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PK_AGR_ANOMAL_Ttot",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PK_AGR_ANOMAL_TOTAL_T30",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PK_AGR_ANOMAL_TOTAL_T60",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PK_AGR_ANOMAL_TOTAL_Ttot",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_XEAC_MCT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

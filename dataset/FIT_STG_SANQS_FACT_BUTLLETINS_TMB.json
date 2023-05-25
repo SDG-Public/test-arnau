@@ -1,0 +1,27 @@
+{
+	"name": "FIT_STG_SANQS_FACT_BUTLLETINS_TMB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageGAF",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/FITXERS"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "TMB_BULL.TXT",
+				"container": "contenedorsanqs"
+			},
+			"columnDelimiter": "\u0001",
+			"encodingName": "ISO-8859-1",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

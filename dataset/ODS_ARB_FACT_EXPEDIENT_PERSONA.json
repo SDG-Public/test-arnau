@@ -1,0 +1,37 @@
+{
+	"name": "ODS_ARB_FACT_EXPEDIENT_PERSONA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_PERSONA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_TIPUS_PERSONA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_QUALITAT_DE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_ODS",
+			"table": "ODS_ARB_FACT_EXPEDIENT_PERSONA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

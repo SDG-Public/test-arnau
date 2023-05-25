@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANFER_ODS_DIM_ESTAT_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANFER_DIM_ESTAT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimEstatPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_ESTAT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEstatPersona"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "AddDataInsercio"
+				}
+			],
+			"script": "source(output(\n\t\tPARTY_ID as decimal(10,0),\n\t\tCREATED_DATE as timestamp,\n\t\tPARTY_TYPE_ID as decimal(10,0),\n\t\tPARLA_CATALA as string,\n\t\tCODI_MOTIU_BAIXA as decimal(10,0),\n\t\tESTAT as string,\n\t\tID_CENTRE_SARCAT as string,\n\t\tIND_MIGRADO as decimal(1,0),\n\t\tNOTIFICACIO_ELECTRONICA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimEstatPersona\nSTGDimEstatPersona select(mapColumn(\n\t\tID_PERSONA = PARTY_ID,\n\t\tID_TIPUS_PERSONA = PARTY_TYPE_ID,\n\t\tID_ESTAT = ESTAT,\n\t\tDATA_CREACIO = CREATED_DATE,\n\t\tFLAG_CATALA = PARLA_CATALA,\n\t\tFLAG_MIGRAT = IND_MIGRADO,\n\t\tFLAG_NOTIFICACIO_ELECTRONICA = NOTIFICACIO_ELECTRONICA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(DATA_INSERCIO = currentDate()) ~> AddDataInsercio\nAddDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PERSONA as decimal(10,0),\n\t\tID_TIPUS_PERSONA as decimal(10,0),\n\t\tID_ESTAT as string,\n\t\tDATA_CREACIO as timestamp,\n\t\tFLAG_CATALA as string,\n\t\tFLAG_MIGRAT as decimal(1,0),\n\t\tFLAG_NOTIFICACIO_ELECTRONICA as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimEstatPersona"
+		}
+	}
+}

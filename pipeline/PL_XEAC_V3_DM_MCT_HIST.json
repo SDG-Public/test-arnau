@@ -1,0 +1,210 @@
+{
+	"name": "PL_XEAC_V3_DM_MCT_HIST",
+	"properties": {
+		"activities": [
+			{
+				"name": "DELETE_ROWS_1D",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "DM_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "DM_XEAC_MCT_v3",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DF_DM_XEAC_MCT_v3",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Set ID_MIN",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_ODS_XEAC_MCT_2_V3",
+						"type": "DataFlowReference",
+						"parameters": {
+							"ID_MIN": {
+								"value": "'@{variables('V_ID_MIN')}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Set ID_MIN",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ID_MIN",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "V_ID_MIN",
+					"value": {
+						"value": "@activity('ID_MIN').output.value[0].ID_MIN\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ID_MIN",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_1D",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select isNull(convert(varchar,ID_MIN, 112),'0') as ID_MIN\nfrom (\nSELECT MIN(ID_COMPLIMENT_MCT_1D_V3) as ID_MIN\n  FROM [DM_XEAC].[DM_XEAC_MCT_v3]\n) a;\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_v3",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "DF_DM_XEAC_MCT_PBI_v3",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "DF_DM_XEAC_MCT_v3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_DM_XEAC_MCT_PBI_v3",
+						"type": "DataFlowReference",
+						"parameters": {
+							"P_DATA_FI": {
+								"value": "'@{pipeline().parameters.P_DATA_FI}'",
+								"type": "Expression"
+							},
+							"P_DATA_INI": {
+								"value": "'@{pipeline().parameters.P_DATA_INI}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string",
+				"defaultValue": "20201231"
+			},
+			"P_DATA_FI": {
+				"type": "string",
+				"defaultValue": "20211231"
+			}
+		},
+		"variables": {
+			"V_ID_MIN": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v3/MCT_COMPLIMENT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:06:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

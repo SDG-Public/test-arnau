@@ -1,0 +1,71 @@
+{
+	"name": "GEU_ODS_FACT_TRAMITACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_EXPEDIENT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "COD_TRAMITACIO",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 0
+			},
+			{
+				"name": "NUM_TRAMIT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COD_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_RESOLUCIO_TRAMITACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_ORDRE_TRAMITACIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NUM_TRAMITACIO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_TRAMIT",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_COBRAMENT",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_ODS",
+			"table": "ODS_GEU_FACT_TRAMITACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

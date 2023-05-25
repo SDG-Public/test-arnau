@@ -1,0 +1,95 @@
+{
+	"name": "DM_ASJ_DIM_METADATA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ASJ/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_METADATA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_TRAMIT",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_OBJECTE_AGRUP",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ID_TIPUS_METADATA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_TIPUS_METADATA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_METADATA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "METADATA_LITERAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "METADATA_DATA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "METADATA_ENUMERAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "METADATA_DECIMAL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "METADATA_NUMERIC",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "METADATA_BOOL",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "POSICIO",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "ASJ_DM",
+			"table": "DM_ASJ_DIM_METADATA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

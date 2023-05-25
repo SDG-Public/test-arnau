@@ -1,0 +1,67 @@
+{
+	"name": "ODS_DIM_FOCUS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_X",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UTM_Y",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_FOCUS_BRUT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LLIBRE_REGISTRE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_GRUP_CAPCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_CODI_CAPCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_BAIXA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "CODI_EMIS",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ODS_XEAC",
+			"table": "ODS_DIM_FOCUS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

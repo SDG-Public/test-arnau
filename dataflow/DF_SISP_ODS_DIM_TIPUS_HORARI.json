@@ -1,0 +1,50 @@
+{
+	"name": "DF_SISP_ODS_DIM_TIPUS_HORARI",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_TAULES_MESTRES",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTaulesMestres"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_TIPUS_HORARI",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusHorari"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SeleccionarFileras"
+				},
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "AddNoInformat"
+				},
+				{
+					"name": "Distinct"
+				},
+				{
+					"name": "toUnion"
+				},
+				{
+					"name": "Union1"
+				}
+			],
+			"script": "source(output(\n\t\tID as decimal(4,0),\n\t\tDESCRIPCIO as string,\n\t\tENTITAT as string,\n\t\tPLEGAT as decimal(1,0),\n\t\tTORN as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTaulesMestres\nSTGDimTaulesMestres filter(ENTITAT == 'TIPUS HORARI') ~> SeleccionarFileras\nSeleccionarFileras select(mapColumn(\n\t\tID_TIPUS_HORARI = ID,\n\t\tDESC_TIPUS_HORARI = DESCRIPCIO,\n\t\tDESC_ENTITAT = ENTITAT,\n\t\tNUM_TORN = TORN,\n\t\tFLAG_PLEGAT = PLEGAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nRenombraCampos derive(ID_TIPUS_HORARI = -1,\n\t\tDESC_TIPUS_HORARI = 'No Informat',\n\t\tDESC_ENTITAT = 'No Informat',\n\t\tNUM_TORN = -1,\n\t\tFLAG_PLEGAT = 0) ~> AddNoInformat\nAddNoInformat aggregate(groupBy(DESC_TIPUS_HORARI,\n\t\tID_TIPUS_HORARI,\n\t\tDESC_ENTITAT,\n\t\tNUM_TORN,\n\t\tFLAG_PLEGAT),\n\tcont = count(ID_TIPUS_HORARI)) ~> Distinct\nDistinct select(mapColumn(\n\t\tDESC_TIPUS_HORARI,\n\t\tID_TIPUS_HORARI,\n\t\tDESC_ENTITAT,\n\t\tNUM_TORN,\n\t\tFLAG_PLEGAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> toUnion\nRenombraCampos, toUnion union(byName: true)~> Union1\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_HORARI as decimal(4,0),\n\t\tDESC_TIPUS_HORARI as string,\n\t\tDESC_ENTITAT as string,\n\t\tNUM_TORN as decimal(4,0),\n\t\tFLAG_PLEGAT as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTipusHorari"
+		}
+	}
+}

@@ -1,0 +1,270 @@
+{
+	"name": "PL_GEU_FACT_STG",
+	"properties": {
+		"activities": [
+			{
+				"name": "GEU_STG_FACT_EXPEDIENT",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DELETE_FACT_EXPEDIENT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "SELECT CODINT_EXP\n      ,NUMERO_EXP\n      ,ANY_EXP\n      ,AMBIT\n      ,NUM_COMPLERT\n      ,DATA_ALTA\n      ,CODI_TIPEX\n      ,CODI_CIRCUIT\n      ,CODI_ESTAT\n      ,DATA_ESTAT\n      ,UNITAT_GESTORA\n      ,UNITAT_AUTORITZADA\n      ,TEMA\n      ,OBSERVACIONS\n      ,CODI_ARXIU\n      ,CODI_SIGEDA_CLASSIF\n      ,CODI_SIGEDA_SUBDIV_ESP\n      ,CODI_SIGEDA_SUBDIV_UNIF\n      ,REFEXT\n      ,REFEXT_ACUM\n      ,REFINT\n      ,NUM_RECURS\n      ,DATA_INI_TERMINI\n      ,DATA_FI_TERMINI\n      ,UTM_X_CENTRE\n      ,UTM_Y_CENTRE\n      ,UTM_X1\n      ,UTM_Y1\n      ,UTM_X2\n      ,UTM_Y2\n      ,IND_PDT_CU\n      ,IND_PDT_CUC\n      ,CODI_BLOC_OD\n      ,NOM_EXP_ARXIU\n      ,NUM_EXP_TECNIC\n      ,IND_EXP_ARXIVAT\n      ,IND_EXP_COMPLET_ARX\n      ,TOTAL_DOCS\n      ,TOTAL_PLANOLS\n      ,OBSERVACIONS_ARXIU\n      ,FULL_ICC\n      ,NUMEXP_CMB\n      ,NUMEXP_RECURS\n      ,IND_DOC_SCAN\n      ,IND_PLANOL_SCAN\n      ,OBSERV_SCAN\n      ,SUPERF_SECTOR\n      ,AMBIT_ALTA\n      ,USU_MODIF\n      ,UORG_ALTA\n      ,FITXER_DGN\n      ,CODINT_EXP_RELACIONAT\n      ,DATA_ACORD\n      ,DATA_ASSAB\n      ,DATA_PUBLICACIO\n      ,TERMINI\n      ,TERMINI_MESOS_DIES\n      ,TIPUS_SILENCI\n      ,IND_VIGENT_REUC\n      ,INFO_ADDICIONAL\n      ,IND_PAUM\n      ,IND_COBERTURA_PAUM\n      ,UBICACIO_EXPEDIENT\n      ,DATA_PRESELECCIO_TRANSF\n      ,DATA_TRANSF_ARXIU_CENTRAL\n      ,USUARI_PRESELECCIO_TRANSF\n      ,USUARI_TRANSF_ARXIU_CENTRAL\n      ,ANY_INICIAL\n      ,ANY_FINAL\n      ,COMPETENCIA\n      ,ORIGEN_COMPETENCIA\n      ,NUM_TRANSF_ARXIU\n      ,CODI_CARACTER_ACORD\n      ,IND_NORMES_PUBLICADES\n      ,IND_INICIATIVA_PRIVADA\n      ,IND_INCLOU_PROJ_URBANITZACIO\n      ,IND_PEND_CONSELLER\n      ,IND_PEND_GOVERN\n      ,PUB_IND_PUBLICAR\n      ,PUB_DATA_PUBLICACIO\n      ,PUB_USUARI_PUBLICACIO\n      ,IND_GENERACIO_AUT_UG\n      ,IND_INST_COMPETENCIA\n      ,RPUC_IND_PUBLICAR\n      ,RPUC_DATA_PUBLICACIO\n      ,RPUC_USUARI_PUBLICACIO\n      ,RPUC_CODI_ORGAN\n      ,DESC_DOCS_AFECTATS\n      ,IMPORT_TOTAL_REDACCIO\n      ,IMPORT_SOLICITAT\n      ,IMPORT_ATORGAT\n      ,IMPORT_ATORGAT_ANUALITAT1\n      ,IMPORT_ATORGAT_ANUALITAT2\n      ,ANY_ANUALITAT1\n      ,ANY_ANUALITAT2\n      ,DATA_PRO_TERM_JUST\n      ,DATA_RENUN_SUBVEN_ATORG\n      ,DATA_RENUN_PETICIO_SUBVEN\n      ,RPUC_IND_ACT_DOCS\n      ,RPUC_COMENTARI_ACT_DOCS\n      ,ANY_ANUALITAT3\n      ,ANY_ANUALITAT4\n      ,IMPORT_ATORGAT_ANUALITAT3\n      ,IMPORT_ATORGAT_ANUALITAT4\n      ,DATA_ANUALITAT1\n      ,DATA_ANUALITAT2\n      ,DATA_ANUALITAT3\n      ,DATA_ANUALITAT4\n      ,DATA_AMPLIACIO_ANUALITAT1\n      ,DATA_AMPLIACIO_ANUALITAT2\n      ,DATA_AMPLIACIO_ANUALITAT3\n      ,DATA_AMPLIACIO_ANUALITAT4\n      ,MUC_AFECTA\n      ,MUC_CODIS_NORMALITZATS\n      ,MUC_ESTAT\n      ,MUC_TRAMIT\n  FROM GEU_ADM.GEU_EXPEDIENT\nWHERE to_number(to_char(DATA_ALTA, 'YYYYMMDD')) >= to_number('@{pipeline().parameters.P_DATA_INI}') \nand to_number(to_char(DATA_ALTA, 'YYYYMMDD')) < to_number('@{pipeline().parameters.P_DATA_FI}')+1;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "GEU_ORA_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "GEU_STG_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "GEU_STG_FACT_TRAMITACIO",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [GEU_STG].[STG_GEU_FACT_TRAMITACIO];",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "GEU_ORA_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "GEU_STG_FACT_TRAMITACIO",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "DELETE_FACT_EXPEDIENT",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA_ALTA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "GEU_STG",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "STG_GEU_FACT_EXPEDIENT",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "CD_RPUC_EXPEDIENT",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [GEU_STG].[STG_GEU_FACT_RPUC_EXPEDIENT]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "GEU_ORA_FACT_RPUC_EXPEDIENT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "STG_GEU_FACT_RPUC_EXPEDIENT",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "CD_MUC_EXPEDIENT",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"preCopyScript": "truncate table [GEU_STG].[STG_GEU_FACT_MUC_EXPEDIENT]",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "GEU_ORA_FACT_MUC_EXPEDIENT",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "GEU_FACT_MUC_EXPEDIENT",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string"
+			},
+			"P_DATA_FI": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "GEU"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:05:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

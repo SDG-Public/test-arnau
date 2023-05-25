@@ -1,0 +1,64 @@
+{
+	"name": "GEUCOS_ODS_FACT_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "GEUCOS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GEUCOS_FACT_EXP_GEU_COS",
+						"type": "DatasetReference"
+					},
+					"name": "STGExpedientGeuCos"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GEUCOS_FACT_EXP_COS_GEU",
+						"type": "DatasetReference"
+					},
+					"name": "STGExpedientCosGeu"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEUCOS_FACT_EXP_GEU_COS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSExpedientGeuCos"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GEUCOS_FACT_EXP_COS_GEU",
+						"type": "DatasetReference"
+					},
+					"name": "ODSExpedientCosGeu"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DesglosarNumExp"
+				},
+				{
+					"name": "CrearCampoCruce"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "SoloCamposCos"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "SoloCamposGeu"
+				}
+			],
+			"script": "source(output(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tCOD_TIPEX as string,\n\t\tCOD_AMBIT as string,\n\t\tCOD_MUC_ESTAT as string,\n\t\tCOD_MUC_TRAMIT as string,\n\t\tCOD_INE as string,\n\t\tCOD_LLOGARET as string,\n\t\tCOD_UNITAT_GESTORA as string,\n\t\tCOD_BLOC_OD as integer,\n\t\tCOD_ESTAT as string,\n\t\tID_VIGENT as string,\n\t\tNUM_EXPEDIENT as decimal(6,0),\n\t\tNUM_COMPLERT as string,\n\t\tDESC_TEMA as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_REFINT as string,\n\t\tDATA_ANY_EXPEDIENT as decimal(4,0),\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_ESTAT as timestamp,\n\t\tDATA_ANY_ANUALITAT1 as decimal(4,0),\n\t\tDATA_ANY_ANUALITAT2 as decimal(4,0),\n\t\tDATA_ANY_FINAL as integer,\n\t\tFLAG_ES_RPUC as integer,\n\t\tFLAG_RPUC_REGISTRAT as integer,\n\t\tFLAG_RPUC_VIGENT as integer,\n\t\tDESC_URL_RPUC as string,\n\t\tDATA_RPUC_APROVACIO as timestamp,\n\t\tDATA_RPUC_PUBLICACIO as timestamp,\n\t\tDATA_RPUC_ALTA as timestamp,\n\t\tFLAG_ES_MUC as integer,\n\t\tDATA_MUC_CARREGA as timestamp,\n\t\tNUM_MUC_VERSIO as string,\n\t\tDESC_URL_MUC as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGExpedientGeuCos\nsource(output(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tCOD_TIPEX as string,\n\t\tCOD_ESTAT as string,\n\t\tCOD_REFEXT as string,\n\t\tCOD_REFINT as string,\n\t\tCOD_MUNICIPI as string,\n\t\tCOD_LLOGARET as string,\n\t\tID_BAIXA as string,\n\t\tID_EXP_REL as decimal(7,0),\n\t\tID_CONTADOR as decimal(8,0),\n\t\tID_PRORROGABLE as decimal(1,0),\n\t\tID_TECNIC as decimal(4,0),\n\t\tDESC_TEMA as string,\n\t\tDESC_ADRECA as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_MOTIU_BAIXA as string,\n\t\tDESC_CAPSA_ARXIVAT as string,\n\t\tDESC_FORMAT as string,\n\t\tNUM_EXPEDIENT as string,\n\t\tNUM_ARXIVADOR_INI as string,\n\t\tNUM_ARXIVADOR_FI as string,\n\t\tUTM_X as string,\n\t\tUTM_Y as string,\n\t\tDATA_INI_TERMINI as string,\n\t\tDATA_FI_TERMINI as string,\n\t\tDATA_ALTA_SISTEMA as string,\n\t\tDATA_BAIXA as string,\n\t\tDATA_INI_AUTORITZACIO as string,\n\t\tDATA_FI_AUTORITZACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGExpedientCosGeu\nSTGExpedientCosGeu derive(LiteralAnyo = substring(NUM_EXPEDIENT, 1, 7),\n\t\tNumero = toInteger(substring(NUM_EXPEDIENT, 9, 5)),\n\t\tCodigo = substring(NUM_EXPEDIENT, 15, 1)) ~> DesglosarNumExp\nDesglosarNumExp derive(NUM_EXP_GEU = concat(concat(concat(concat(LiteralAnyo,'-'),toString(Numero)),'-'),Codigo)) ~> CrearCampoCruce\nCrearCampoCruce, STGExpedientGeuCos join(NUM_EXP_GEU == DESC_REFINT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join1\nJoin1 select(mapColumn(\n\t\tCOD_EXPEDIENT = STGExpedientCosGeu@COD_EXPEDIENT,\n\t\tCOD_TIPEX = STGExpedientCosGeu@COD_TIPEX,\n\t\tCOD_ESTAT = STGExpedientCosGeu@COD_ESTAT,\n\t\tCOD_REFEXT,\n\t\tCOD_REFINT,\n\t\tCOD_MUNICIPI,\n\t\tCOD_LLOGARET = STGExpedientCosGeu@COD_LLOGARET,\n\t\tID_BAIXA,\n\t\tID_EXP_REL,\n\t\tID_CONTADOR,\n\t\tID_PRORROGABLE,\n\t\tID_TECNIC,\n\t\tDESC_TEMA = STGExpedientCosGeu@DESC_TEMA,\n\t\tDESC_ADRECA,\n\t\tDESC_OBSERVACIONS = STGExpedientCosGeu@DESC_OBSERVACIONS,\n\t\tDESC_MOTIU_BAIXA,\n\t\tDESC_CAPSA_ARXIVAT,\n\t\tDESC_FORMAT,\n\t\tNUM_EXPEDIENT = STGExpedientCosGeu@NUM_EXPEDIENT,\n\t\tNUM_ARXIVADOR_INI,\n\t\tNUM_ARXIVADOR_FI,\n\t\tUTM_X,\n\t\tUTM_Y,\n\t\tDATA_INI_TERMINI,\n\t\tDATA_FI_TERMINI,\n\t\tDATA_ALTA_SISTEMA,\n\t\tDATA_BAIXA,\n\t\tDATA_INI_AUTORITZACIO,\n\t\tDATA_FI_AUTORITZACIO,\n\t\tCOD_EXPEDIENT_GEU = STGExpedientGeuCos@COD_EXPEDIENT,\n\t\tNUM_EXPEDIENT_GEU = STGExpedientGeuCos@NUM_EXPEDIENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SoloCamposCos\nSTGExpedientGeuCos, CrearCampoCruce join(DESC_REFINT == NUM_EXP_GEU,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join2\nJoin2 select(mapColumn(\n\t\tCOD_EXPEDIENT = STGExpedientGeuCos@COD_EXPEDIENT,\n\t\tCOD_TIPEX = STGExpedientGeuCos@COD_TIPEX,\n\t\tCOD_AMBIT,\n\t\tCOD_MUC_ESTAT,\n\t\tCOD_MUC_TRAMIT,\n\t\tCOD_INE,\n\t\tCOD_LLOGARET = STGExpedientGeuCos@COD_LLOGARET,\n\t\tCOD_UNITAT_GESTORA,\n\t\tCOD_BLOC_OD,\n\t\tCOD_ESTAT = STGExpedientGeuCos@COD_ESTAT,\n\t\tID_VIGENT,\n\t\tNUM_EXPEDIENT = STGExpedientGeuCos@NUM_EXPEDIENT,\n\t\tNUM_COMPLERT,\n\t\tDESC_TEMA = STGExpedientGeuCos@DESC_TEMA,\n\t\tDESC_OBSERVACIONS = STGExpedientGeuCos@DESC_OBSERVACIONS,\n\t\tDESC_REFINT,\n\t\tDATA_ANY_EXPEDIENT,\n\t\tDATA_ALTA,\n\t\tDATA_ESTAT,\n\t\tDATA_ANY_ANUALITAT1,\n\t\tDATA_ANY_ANUALITAT2,\n\t\tDATA_ANY_FINAL,\n\t\tFLAG_ES_RPUC,\n\t\tFLAG_RPUC_VIGENT,\n\t\tFLAG_RPUC_REGISTRAT,\n\t\tDESC_URL_RPUC,\n\t\tDATA_RPUC_APROVACIO,\n\t\tDATA_RPUC_PUBLICACIO,\n\t\tDATA_RPUC_ALTA,\n\t\tFLAG_ES_MUC,\n\t\tDATA_MUC_CARREGA,\n\t\tNUM_MUC_VERSIO,\n\t\tDESC_URL_MUC,\n\t\tCOD_EXPEDIENT_COS = STGExpedientCosGeu@COD_EXPEDIENT,\n\t\tNUM_EXPEDIENT_COS = STGExpedientCosGeu@NUM_EXPEDIENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SoloCamposGeu\nSoloCamposGeu sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSExpedientGeuCos\nSoloCamposCos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_EXPEDIENT as decimal(7,0),\n\t\tCOD_TIPEX as string,\n\t\tCOD_ESTAT as string,\n\t\tCOD_REFEXT as string,\n\t\tCOD_REFINT as string,\n\t\tCOD_MUNICIPI as string,\n\t\tCOD_LLOGARET as string,\n\t\tID_BAIXA as string,\n\t\tID_EXP_REL as decimal(7,0),\n\t\tID_CONTADOR as decimal(8,0),\n\t\tID_PRORROGABLE as decimal(1,0),\n\t\tID_TECNIC as decimal(4,0),\n\t\tDESC_TEMA as string,\n\t\tDESC_ADRECA as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tDESC_MOTIU_BAIXA as string,\n\t\tDESC_CAPSA_ARXIVAT as string,\n\t\tDESC_FORMAT as string,\n\t\tNUM_EXPEDIENT as string,\n\t\tNUM_ARXIVADOR_INI as string,\n\t\tNUM_ARXIVADOR_FI as string,\n\t\tUTM_X as string,\n\t\tUTM_Y as string,\n\t\tDATA_INI_TERMINI as string,\n\t\tDATA_FI_TERMINI as string,\n\t\tDATA_ALTA_SISTEMA as string,\n\t\tDATA_BAIXA as string,\n\t\tDATA_INI_AUTORITZACIO as string,\n\t\tDATA_FI_AUTORITZACIO as string,\n\t\tCOD_EXPEDIENT_GEU as decimal(7,0),\n\t\tNUM_EXPEDIENT_GEU as decimal(6,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSExpedientCosGeu"
+		}
+	}
+}

@@ -1,0 +1,124 @@
+{
+	"name": "BARRIS_ODS_DIM_DESGLOSFINANCER",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_SEGONNIVELL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOMACTUACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMP_TOTALACTAUCIO",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMP_APORTACIO_GENCAT_ANY1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_GENCAT_ANY2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_GENCAT_ANY3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_GENCAT_ANY4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_GENCAT_ANY5",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_AJUNTAMENT_ANY1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_AJUNTAMENT_ANY2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_AJUNTAMENT_ANY3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_AJUNTAMENT_ANY4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_AJUNTAMENT_ANY5",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_ALTRES_ANY1",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_ALTRES_ANY2",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_ALTRES_ANY3",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_ALTRES_ANY4",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_APORTACIO_ALTRES_ANY5",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DATA_CONVOCATORIA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_ODS",
+			"table": "ODS_BARRIS_DIM_DESGLOSFINANCER"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

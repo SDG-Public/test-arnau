@@ -1,0 +1,31 @@
+{
+	"name": "DF_TERRITORIAL_AGR_MUN",
+	"properties": {
+		"folder": {
+			"name": "MESTRES/TERRITORIAL"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MESTRES_ODS_TERRITORIAL",
+						"type": "DatasetReference"
+					},
+					"name": "MestresOdsTerritorial"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "MESTRES_DM_TERRITORIAL_MUN",
+						"type": "DatasetReference"
+					},
+					"name": "MestresDmTerritMun"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_INE as string,\n\t\tCOD_MUNICIPI as string,\n\t\tDESC_MUNICIPI as string,\n\t\tCODI_LLOGARET as string,\n\t\tDESC_POBLACIO as string,\n\t\tCODI_COMARCA as string,\n\t\tDESC_COMARCA as string,\n\t\tCODI_PROVINCIA as string,\n\t\tDESC_PROVINCIA as string,\n\t\tCODI_AMBIT as string,\n\t\tDESC_AMBIT as string,\n\t\tCODI_VEGUERIA as string,\n\t\tDESC_VEGUERIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: '  SELECT *\\n  FROM [MESTRES_ODS].[ODS_DIM_TERRITORIAL]\\n  where [CODI_LLOGARET] = \\'00\\'',\n\tformat: 'query') ~> MestresOdsTerritorial\nMestresOdsTerritorial sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_INE as string,\n\t\tCOD_MUNICIPI as string,\n\t\tDESC_MUNICIPI as string,\n\t\tCODI_LLOGARET as string,\n\t\tDESC_POBLACIO as string,\n\t\tCODI_COMARCA as string,\n\t\tDESC_COMARCA as string,\n\t\tCODI_PROVINCIA as string,\n\t\tDESC_PROVINCIA as string,\n\t\tCODI_AMBIT as string,\n\t\tDESC_AMBIT as string,\n\t\tCODI_VEGUERIA as string,\n\t\tDESC_VEGUERIA as string,\n\t\tPK_CONCAT_INE as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> MestresDmTerritMun"
+		}
+	}
+}

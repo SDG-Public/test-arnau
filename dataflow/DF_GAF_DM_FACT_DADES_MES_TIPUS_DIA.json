@@ -1,0 +1,57 @@
+{
+	"name": "DF_GAF_DM_FACT_DADES_MES_TIPUS_DIA",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_DIA_ANY",
+						"type": "DatasetReference"
+					},
+					"name": "DMDadesAnyDiaAny"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_ANY_DIA_MES",
+						"type": "DatasetReference"
+					},
+					"name": "DMDadesAnyDiaMes"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_MES_TIPUSDIA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDadesMesTipusDia"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddDataMes"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "RoundIMD"
+				},
+				{
+					"name": "RenombraCampos"
+				},
+				{
+					"name": "FiltroAnyo"
+				},
+				{
+					"name": "FiltroAnyo2"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_TIPUS_VEHICLE as integer,\n\t\tID_TIPUS_DIA as integer,\n\t\tIND_IMD_ANY_X_DIA as decimal(38,6),\n\t\tIND_VOLUM_ANY_X_DIA as decimal(38,0),\n\t\tIND_IMD_ANY_X_DIA_VEHICLE as decimal(38,6),\n\t\tIND_VOLUM_ANY_X_DIA_VEHICLE as decimal(38,0),\n\t\tDATA_ANYO as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDadesAnyDiaAny\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_TIPUS_VEHICLE as integer,\n\t\tID_TIPUS_DIA as integer,\n\t\tIND_IMD_MES_X_DIA as decimal(15,4),\n\t\tIND_VOLUM_MES_X_DIA as decimal(31,0),\n\t\tIND_IMD_MES_X_DIA_VEHICLE as decimal(15,4),\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE as decimal(28,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDadesAnyDiaMes\nFiltroAnyo derive(DATA_MES = 99) ~> AddDataMes\nRenombraCampos, FiltroAnyo2 union(byName: true)~> Union1\nUnion1 derive(IND_IMD_MES_X_DIA = round(IND_IMD_MES_X_DIA),\n\t\tIND_IMD_MES_X_DIA_VEHICLE = round(IND_IMD_MES_X_DIA_VEHICLE)) ~> RoundIMD\nAddDataMes select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_TIPUS_VEHICLE,\n\t\tID_TIPUS_DIA,\n\t\tIND_IMD_MES_X_DIA = IND_IMD_ANY_X_DIA,\n\t\tIND_VOLUM_MES_X_DIA = IND_VOLUM_ANY_X_DIA,\n\t\tIND_IMD_MES_X_DIA_VEHICLE = IND_IMD_ANY_X_DIA_VEHICLE,\n\t\tIND_VOLUM_MES_X_DIA_VEHICLE = IND_VOLUM_ANY_X_DIA_VEHICLE,\n\t\tDATA_ANYO,\n\t\tDATA_MES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombraCampos\nDMDadesAnyDiaAny filter(DATA_ANYO >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO  < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FiltroAnyo\nDMDadesAnyDiaMes filter(DATA_ANYO >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nDATA_ANYO  < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FiltroAnyo2\nRoundIMD sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDadesMesTipusDia"
+		}
+	}
+}

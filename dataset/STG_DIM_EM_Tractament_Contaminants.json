@@ -1,0 +1,64 @@
+{
+	"name": "STG_DIM_EM_Tractament_Contaminants",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_COMUN/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Codi_emis",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ID_focus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Codis",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Mode_operacio",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VLE_final",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IC_percentatge",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "O2sec_corregit",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Correccio_O2sec_percentatge",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Aplicar_O2sec_declarat",
+				"type": "nvarchar"
+			},
+			{
+				"name": "O2sec_declarat_percentatge",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "STG_XEAC",
+			"table": "STG_DIM_EM_Tractament_Contaminants"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

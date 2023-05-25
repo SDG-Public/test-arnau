@@ -1,0 +1,65 @@
+{
+	"name": "DF_DM_ANOM_01",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/ANOMALAS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_ANOMALAS_v2",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacANOMALASv2"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_FOCUS",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimFOCUS"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_DIM_VALORACIO_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "SKGdimVALORACIOlegislacio"
+				},
+				{
+					"dataset": {
+						"referenceName": "SKG_XEAC_ANOMALAS_v2",
+						"type": "DatasetReference"
+					},
+					"name": "SKGxeacANOMALASv2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_ANOMALAS_v2",
+						"type": "DatasetReference"
+					},
+					"name": "DMxeacANOMALASv2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SKGfocus"
+				},
+				{
+					"name": "SKGvaloracioLEGISLACIO"
+				},
+				{
+					"name": "DUMMY"
+				},
+				{
+					"name": "JoinSKG"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tTIPUS_MCT as string,\n\t\tDATA as timestamp,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX as double,\n\t\tANOMALAS_SEGUIDES as double,\n\t\tCOMPLIMENT as string,\n\t\tDATA_TRUNC as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacANOMALASv2\nsource(output(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimFOCUS\nsource(output(\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOlegislacio\nsource(output(\n\t\tID_XEAC_ANOMALAS_v2 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tDATA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGxeacANOMALASv2\nJoinSKG, SKGdimFOCUS join(ODSxeacANOMALASv2@ID_FOCUS == SKGdimFOCUS@ID_FOCUS,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> SKGfocus\nSKGfocus, SKGdimVALORACIOlegislacio join(ODSxeacANOMALASv2@ID_FOCUS == SKGdimVALORACIOlegislacio@ID_FOCUS\n\t&& LEGISLACIO == SKGdimVALORACIOlegislacio@ID_LEGISLACIO,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> SKGvaloracioLEGISLACIO\nSKGvaloracioLEGISLACIO derive(ID_DIM_FOCUS = iifNull(ID_DIM_FOCUS,0),\n\t\tID_VALORACIO_LEGISLACIO = iifNull(ID_VALORACIO_LEGISLACIO,0)) ~> DUMMY\nODSxeacANOMALASv2, SKGxeacANOMALASv2 join(ODSxeacANOMALASv2@ID_FOCUS == SKGxeacANOMALASv2@ID_FOCUS\n\t&& LEGISLACIO == ID_LEGISLACIO\n\t&& ODSxeacANOMALASv2@MODE_REPORTABLE_NUM == SKGxeacANOMALASv2@MODE_REPORTABLE_NUM\n\t&& ODSxeacANOMALASv2@DATA == SKGxeacANOMALASv2@DATA,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinSKG\nDUMMY sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tTIPUS_MCT as string,\n\t\tDATA as timestamp,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX as double,\n\t\tANOMALAS_SEGUIDES as double,\n\t\tCOMPLIMENT as string,\n\t\tDATA_TRUNC as date,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_XEAC_ANOMALAS_v2 as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS = ODSxeacANOMALASv2@ID_FOCUS,\n\t\tLEGISLACIO,\n\t\tMODE_REPORTABLE_NUM = ODSxeacANOMALASv2@MODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tDATA = ODSxeacANOMALASv2@DATA,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX,\n\t\tANOMALAS_SEGUIDES,\n\t\tCOMPLIMENT,\n\t\tDATA_TRUNC,\n\t\tID_DIM_FOCUS,\n\t\tID_VALORACIO_LEGISLACIO,\n\t\tID_XEAC_ANOMALAS_v2\n\t)) ~> DMxeacANOMALASv2"
+		}
+	}
+}

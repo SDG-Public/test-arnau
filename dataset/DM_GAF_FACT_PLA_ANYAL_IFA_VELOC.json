@@ -1,0 +1,64 @@
+{
+	"name": "DM_GAF_FACT_PLA_ANYAL_IFA_VELOC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PK_CONCAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ESTACIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "ID_SECCIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "DESC_SECCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANYO",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IND_IFA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "IND_VELOC_MITJA",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 2
+			},
+			{
+				"name": "IND_VELOCITAT_MITJA_SENTIT",
+				"type": "decimal",
+				"precision": 38,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_FACT_PLA_ANYAL_IFA_VELOC"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,100 @@
+{
+	"name": "ODS_SANQS_FACT_QUALIF_TSA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_PERCEPTESANCIONADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_TIPUSQUALIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DT_QUALIFICACIO",
+				"type": "date"
+			},
+			{
+				"name": "NM_IMPORTQUA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DT_PLECDESCARREC",
+				"type": "date"
+			},
+			{
+				"name": "ID_TIPUSNOTIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DT_REGISTRESORTIDA",
+				"type": "date"
+			},
+			{
+				"name": "DT_NOTIFICACIO",
+				"type": "date"
+			},
+			{
+				"name": "DT_ARRIBADANOTIFICACIO",
+				"type": "date"
+			},
+			{
+				"name": "DS_TANOT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_NOTIFICACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_TRAMNOT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_BAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NM_IMPMINBAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NM_IMPMAXBAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_PREBAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DS_GRAVBAREM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DS_TEXTBAREM",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_QUALIF_TSA"
+		}
+	}
+}

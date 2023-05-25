@@ -1,0 +1,31 @@
+{
+	"name": "DF_SISP_DM_DIM_UNITAT",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_UNITAT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimUnitat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_UNITAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimUnitat"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_UNITAT as decimal(4,0),\n\t\tID_AUDITORIA as decimal(4,0),\n\t\tID_ORG as decimal(4,0),\n\t\tID_PARE as decimal(4,0),\n\t\tID_EDIFICI as decimal(4,0),\n\t\tID_TIPUS as decimal(4,0),\n\t\tID_PARE_FUNCIONAL as decimal(4,0),\n\t\tCOD_UNITAT as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_USUARI_BAIXA as string,\n\t\tCOD_USUARI_MODIF as string,\n\t\tDESC_UNITAT as string,\n\t\tDESC_FUNCIONS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp,\n\t\tDATA_MODIF as timestamp,\n\t\tFLAG_PLEGAT as decimal(1,0),\n\t\tFLAG_VIGENT as decimal(1,0),\n\t\tFLAG_AREA_FUNCIONAL as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimUnitat\nODSDimUnitat sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_UNITAT as decimal(4,0),\n\t\tID_AUDITORIA as decimal(4,0),\n\t\tID_ORG as decimal(4,0),\n\t\tID_PARE as decimal(4,0),\n\t\tID_EDIFICI as decimal(4,0),\n\t\tID_TIPUS as decimal(4,0),\n\t\tID_PARE_FUNCIONAL as decimal(4,0),\n\t\tCOD_UNITAT as string,\n\t\tCOD_USUARI_ALTA as string,\n\t\tCOD_USUARI_BAIXA as string,\n\t\tCOD_USUARI_MODIF as string,\n\t\tDESC_UNITAT as string,\n\t\tDESC_FUNCIONS as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp,\n\t\tDATA_MODIF as timestamp,\n\t\tFLAG_PLEGAT as decimal(1,0),\n\t\tFLAG_VIGENT as decimal(1,0),\n\t\tFLAG_AREA_FUNCIONAL as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimUnitat"
+		}
+	}
+}

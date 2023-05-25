@@ -1,0 +1,37 @@
+{
+	"name": "PL_BARRIS_DIM_DM",
+	"properties": {
+		"activities": [
+			{
+				"name": "DF_BARRIS_DIM_DM",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "DF_BARRIS_DIM_DM",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "AutoResolveIntegrationRuntime2",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"folder": {
+			"name": "BARRIS"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:05:50Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

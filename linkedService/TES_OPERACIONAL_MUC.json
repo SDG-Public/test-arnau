@@ -1,0 +1,16 @@
+{
+	"name": "TES_OPERACIONAL_MUC",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Oracle",
+		"typeProperties": {
+			"connectionString": "host=libgdox1.cpd2.intranet.gencat.cat;port=1541;servicename=ibg_web;user id=BIIBGX01_CS",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3ZmRmOWMzNS0yMzk4LTQ3NmYtYjZhMC0wZDQ5OGI4MTczOTAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntime1",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

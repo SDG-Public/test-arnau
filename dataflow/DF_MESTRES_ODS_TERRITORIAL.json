@@ -1,0 +1,97 @@
+{
+	"name": "DF_MESTRES_ODS_TERRITORIAL",
+	"properties": {
+		"folder": {
+			"name": "MESTRES/TERRITORIAL"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MESTRES_STG_TERRITORIAL",
+						"type": "DatasetReference"
+					},
+					"name": "MestresStgGeuPoblacions"
+				},
+				{
+					"dataset": {
+						"referenceName": "MESTRES_STG_COMARQUES",
+						"type": "DatasetReference"
+					},
+					"name": "MestresStgComarques"
+				},
+				{
+					"dataset": {
+						"referenceName": "MESTRES_STG_PROVINCIES",
+						"type": "DatasetReference"
+					},
+					"name": "MestresStgProvincies"
+				},
+				{
+					"dataset": {
+						"referenceName": "MESTRES_STG_AMBIT",
+						"type": "DatasetReference"
+					},
+					"name": "MestresStgAmbit"
+				},
+				{
+					"dataset": {
+						"referenceName": "MESTRES_STG_POBLACIONS_BDT",
+						"type": "DatasetReference"
+					},
+					"name": "MestresStgPoblacionsBDT"
+				},
+				{
+					"dataset": {
+						"referenceName": "MESTRES_STG_VEGUERIA",
+						"type": "DatasetReference"
+					},
+					"name": "MestresStgVegueria"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "MESTRES_ODS_TERRITORIAL",
+						"type": "DatasetReference"
+					},
+					"name": "MestresOdsTerritorial"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "JoinComarques"
+				},
+				{
+					"name": "JoinProvincies"
+				},
+				{
+					"name": "FiltraCampos1"
+				},
+				{
+					"name": "JoinAmbit"
+				},
+				{
+					"name": "JoinVegueria1"
+				},
+				{
+					"name": "SelectFiltraCampsVeg"
+				},
+				{
+					"name": "JoinVegueria"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "PKConcat"
+				}
+			],
+			"script": "source(output(\n\t\tCODI_INE as string,\n\t\tCODI_LLOGARET as string,\n\t\tNOM_POBLACIO as string,\n\t\tNOM_MUNICIPI as string,\n\t\tCODI_PROVINCIA as string,\n\t\tCODI_COMARCA as string,\n\t\tCODI_POSTAL as string,\n\t\tCODI_CAT as string,\n\t\tCODI_AMBIT as string,\n\t\tCODI_UORG as string,\n\t\tUTM_X_CENTRE as decimal(8,2),\n\t\tUTM_Y_CENTRE as decimal(9,2),\n\t\tIND_CAPITAL_COMARCA as string,\n\t\tNOMBRE_HABITANTS as decimal(8,0),\n\t\tIND_COSTANER as string,\n\t\tIND_MUNTANYA as string,\n\t\tIND_MES_DEUMIL_HAB as string,\n\t\tIND_MES_CENTMIL_HAB as string,\n\t\tPUBLICAT_PG as string,\n\t\tPUBLICAT_PD as string,\n\t\tSUPERFICIE_DGAL as decimal(10,2),\n\t\tCODI_UORG_AA as decimal(8,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tquery: 'SELECT *\\n  FROM [MESTRES_STG].[STG_DIM_TERRITORIAL]\\n  where codi_cat = \\'S\\'',\n\tformat: 'query') ~> MestresStgGeuPoblacions\nsource(output(\n\t\tCODI_COMARCA as string,\n\t\tNOM_COMARCA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> MestresStgComarques\nsource(output(\n\t\tCODI_PROVINCIA as string,\n\t\tNOM_PROVINCIA as string,\n\t\tCODI_CAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> MestresStgProvincies\nsource(output(\n\t\tCODI_AMBIT as string,\n\t\tDESC_AMBIT as string,\n\t\tCODI_JERARQUIC_CLASSIFICACIO as string,\n\t\tMEMBRET_TARJA_CORREUS as string,\n\t\tIND_VEGUERIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> MestresStgAmbit\nsource(output(\n\t\tCODI_MUNICIPI as string,\n\t\tDESCRIPCIO as string,\n\t\tCODI_COMARCA as string,\n\t\tCODI_PROVINCIA as string,\n\t\tCODI_VEGUERIA as string,\n\t\tCODI_LLOGARET as string,\n\t\tCODI_INE as string,\n\t\tUTM_X_CENTRE as decimal(8,2),\n\t\tUTM_Y_CENTRE as decimal(9,2)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> MestresStgPoblacionsBDT\nsource(output(\n\t\tCODI_VEGUERIA as string,\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> MestresStgVegueria\nMestresStgGeuPoblacions select(mapColumn(\n\t\tCODI_INE,\n\t\tNOM_MUNICIPI,\n\t\tCODI_LLOGARET,\n\t\tNOM_POBLACIO,\n\t\tCODI_PROVINCIA,\n\t\tCODI_COMARCA,\n\t\tCODI_AMBIT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos, MestresStgComarques join(FiltraCampos@CODI_COMARCA == MestresStgComarques@CODI_COMARCA,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinComarques\nJoinComarques, MestresStgProvincies join(FiltraCampos@CODI_PROVINCIA == MestresStgProvincies@CODI_PROVINCIA,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinProvincies\nJoinAmbit select(mapColumn(\n\t\tCODI_INE,\n\t\tNOM_MUNICIPI,\n\t\tCODI_LLOGARET,\n\t\tNOM_POBLACIO,\n\t\tCODI_COMARCA = FiltraCampos@CODI_COMARCA,\n\t\tNOM_COMARCA,\n\t\tCODI_PROVINCIA = FiltraCampos@CODI_PROVINCIA,\n\t\tNOM_PROVINCIA,\n\t\tCODI_AMBIT = FiltraCampos@CODI_AMBIT,\n\t\tDESC_AMBIT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos1\nJoinProvincies, MestresStgAmbit join(FiltraCampos@CODI_AMBIT == MestresStgAmbit@CODI_AMBIT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinAmbit\nMestresStgPoblacionsBDT, MestresStgVegueria join(MestresStgPoblacionsBDT@CODI_VEGUERIA == MestresStgVegueria@CODI_VEGUERIA,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinVegueria1\nJoinVegueria1 select(mapColumn(\n\t\tCODI_MUNICIPI,\n\t\tCODI_VEGUERIA = MestresStgPoblacionsBDT@CODI_VEGUERIA,\n\t\tCODI_LLOGARET,\n\t\tDESCRIPCIO = MestresStgVegueria@DESCRIPCIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectFiltraCampsVeg\nFiltraCampos1, SelectFiltraCampsVeg join(CODI_INE == CODI_MUNICIPI\n\t&& FiltraCampos1@CODI_LLOGARET == SelectFiltraCampsVeg@CODI_LLOGARET,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinVegueria\nJoinVegueria select(mapColumn(\n\t\tCODI_INE,\n\t\tCOD_MUNICIPI = CODI_MUNICIPI,\n\t\tDESC_MUNICIPI = NOM_MUNICIPI,\n\t\tCODI_LLOGARET = FiltraCampos1@CODI_LLOGARET,\n\t\tDESC_POBLACIO = NOM_POBLACIO,\n\t\tCODI_COMARCA,\n\t\tDESC_COMARCA = NOM_COMARCA,\n\t\tCODI_PROVINCIA,\n\t\tDESC_PROVINCIA = NOM_PROVINCIA,\n\t\tCODI_AMBIT,\n\t\tDESC_AMBIT,\n\t\tCODI_VEGUERIA,\n\t\tDESC_VEGUERIA = DESCRIPCIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nFiltraCampos2 derive(PK_CONCAT_INE = concat(CODI_INE,CODI_LLOGARET)) ~> PKConcat\nPKConcat sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_INE as string,\n\t\tCOD_MUNICIPI as string,\n\t\tDESC_MUNICIPI as string,\n\t\tCODI_LLOGARET as string,\n\t\tDESC_POBLACIO as string,\n\t\tCODI_COMARCA as string,\n\t\tDESC_COMARCA as string,\n\t\tCODI_PROVINCIA as string,\n\t\tDESC_PROVINCIA as string,\n\t\tCODI_AMBIT as string,\n\t\tDESC_AMBIT as string,\n\t\tCODI_VEGUERIA as string,\n\t\tDESC_VEGUERIA as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> MestresOdsTerritorial"
+		}
+	}
+}

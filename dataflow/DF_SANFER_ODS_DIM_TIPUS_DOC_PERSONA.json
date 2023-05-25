@@ -1,0 +1,38 @@
+{
+	"name": "DF_SANFER_ODS_DIM_TIPUS_DOC_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "SANFER"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_SANFER_DIM_TIPUS_DOC_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTipusDocPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANFER_DIM_TIPUS_DOC_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTipusDocPersona"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "AddDataInsercio"
+				}
+			],
+			"script": "source(output(\n\t\tCODI_TIPUS_DOCUMENT as decimal(10,0),\n\t\tDESCRIPCIO as string,\n\t\tESTAT as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTipusDocPersona\nSTGDimTipusDocPersona select(mapColumn(\n\t\tID_TIPUS_DOCUMENT = CODI_TIPUS_DOCUMENT,\n\t\tID_ESTAT_ENTITAT = ESTAT,\n\t\tDESC_TIPUS_DOCUMENT = DESCRIPCIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive(DATA_INSERCIO = currentDate()) ~> AddDataInsercio\nAddDataInsercio sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_TIPUS_DOCUMENT as decimal(10,0),\n\t\tID_ESTAT_ENTITAT as string,\n\t\tDESC_TIPUS_DOCUMENT as string,\n\t\tDATA_INSERCIO as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTipusDocPersona"
+		}
+	}
+}

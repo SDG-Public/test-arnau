@@ -1,0 +1,75 @@
+{
+	"name": "BARRIS_ODS_DIM_INDICADORS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_GRUP",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 0
+			},
+			{
+				"name": "DESC_MUNICIPI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_COMARCA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_DELEGACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_GRUP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_INDICADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_COMENTARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMP_VALBOOLEA",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_VALREAL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_VALREFERENCIA",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_PUNTUACIO",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_ODS",
+			"table": "ODS_BARRIS_DIM_INDICADORS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

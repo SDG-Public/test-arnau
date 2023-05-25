@@ -1,0 +1,182 @@
+{
+	"name": "PL_XEAC_V2_STG_MINUTALS_HIST",
+	"properties": {
+		"activities": [
+			{
+				"name": "CD_AGE_MINUTALS",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "DELETE_ROWS_AGE_MINUTALS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "OracleSource",
+						"oracleReaderQuery": {
+							"value": "select IDCONTAMINANT, IDFOCUS, DATA, VALORS, VALIDACIO \nfrom XEAC_ADMIN.AGE_MINUTALS\nwhere to_number(to_char(DATA, 'YYYYMMDD')) >= to_number('@{pipeline().parameters.P_DATA_INI}') \nand to_number(to_char(DATA, 'YYYYMMDD')) < to_number('@{pipeline().parameters.P_DATA_FI}')+1\n;",
+							"type": "Expression"
+						},
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "IDCONTAMINANT",
+									"type": "String"
+								},
+								"sink": {
+									"name": "IDCONTAMINANT",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "IDFOCUS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "IDFOCUS",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "DATA",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "DATA",
+									"type": "DateTime",
+									"physicalType": "datetime2"
+								}
+							},
+							{
+								"source": {
+									"name": "VALORS",
+									"type": "String"
+								},
+								"sink": {
+									"name": "VALORS",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "VALIDACIO",
+									"type": "String"
+								},
+								"sink": {
+									"name": "VALIDACIO",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ORA_STG_AGE_MINUTALS",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "STG_AGE_MINUTALS",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "DELETE_ROWS_AGE_MINUTALS",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[DELETE_ROWS_FROM_TABLE]",
+					"storedProcedureParameters": {
+						"vColumnName": {
+							"value": "DATA",
+							"type": "String"
+						},
+						"vDataFi": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_FI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vDataIni": {
+							"value": {
+								"value": "@pipeline().parameters.P_DATA_INI",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"vSchemaName": {
+							"value": "STG_XEAC",
+							"type": "String"
+						},
+						"vTableName": {
+							"value": "STG_AGE_MINUTALS",
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "das_vm_test_pre_01",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"P_DATA_INI": {
+				"type": "string"
+			},
+			"P_DATA_FI": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "XEAC_v2/STG_AGE"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-01-27T09:05:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

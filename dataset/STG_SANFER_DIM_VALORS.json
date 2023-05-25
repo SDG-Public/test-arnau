@@ -1,0 +1,38 @@
+{
+	"name": "STG_SANFER_DIM_VALORS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "NOM_VALOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_VALOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_VALOR_LLARG",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_STG",
+			"table": "STG_SANFER_DIM_VALORS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

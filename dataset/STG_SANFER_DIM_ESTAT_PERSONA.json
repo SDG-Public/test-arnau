@@ -1,0 +1,66 @@
+{
+	"name": "STG_SANFER_DIM_ESTAT_PERSONA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SANFER/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "PARTY_ID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "CREATED_DATE",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "PARTY_TYPE_ID",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "PARLA_CATALA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_MOTIU_BAIXA",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_CENTRE_SARCAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_MIGRADO",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "NOTIFICACIO_ELECTRONICA",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANFER_STG",
+			"table": "STG_SANFER_DIM_ESTAT_PERSONA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

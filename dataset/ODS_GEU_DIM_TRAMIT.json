@@ -1,0 +1,83 @@
+{
+	"name": "ODS_GEU_DIM_TRAMIT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NUM_TRAMIT",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "COD_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_SUBTRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_RANG_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_ACORD",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DESC_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_EE_TRAMIT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_SIGNAR",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_NOTIF_ENS_LOCAL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_RETORN_EACAT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_RESPOSTA_ELECTRONICA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_TRAMIT_LLIURAMENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_AFECTA_MUC",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_ODS",
+			"table": "ODS_GEU_DIM_TRAMIT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

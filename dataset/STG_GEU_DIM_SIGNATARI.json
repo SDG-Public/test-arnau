@@ -1,0 +1,62 @@
+{
+	"name": "STG_GEU_DIM_SIGNATARI",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_REG_SIGNATARI",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "CODI_USUARI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_UORG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PRINCIPAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_CARREC",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "DATA_ALTA_CARREC",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_BAIXA_CARREC",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "CODI_SUPL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_SIGNATARI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_SIGNATARI"
+		}
+	}
+}

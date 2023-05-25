@@ -1,0 +1,582 @@
+{
+	"name": "DF_GEU_ODS_DIM_PERSONAS",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_UNITAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimUnitatSISP"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_FACT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactPersonaSISP"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_EDIFICI",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEdificiSISP"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_PLANTA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimPlantaSISP"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_SECTOR",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSectorSISP"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_TAULA",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTaulaSISP"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_TIPUS_PERSONAL",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimTipusPersonalSISP"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_SISP_DIM_TAULES_MESTRES",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTaulesMestresSISP"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_ESTAT",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPersona"
+				}
+			],
+			"transformations": [
+				{
+					"name": "joinUnitat"
+				},
+				{
+					"name": "UnitatPare"
+				},
+				{
+					"name": "UnitatPareFuncional"
+				},
+				{
+					"name": "joinUnitatPare"
+				},
+				{
+					"name": "joinUnitatFuncional"
+				},
+				{
+					"name": "joinUnitatFuncionalPare"
+				},
+				{
+					"name": "joinEdifici"
+				},
+				{
+					"name": "joinPlanta"
+				},
+				{
+					"name": "joinSector"
+				},
+				{
+					"name": "joinTaula"
+				},
+				{
+					"name": "joinRespPersona"
+				},
+				{
+					"name": "Torn"
+				},
+				{
+					"name": "TipusHorari"
+				},
+				{
+					"name": "joinTorn"
+				},
+				{
+					"name": "joinTipusHorari"
+				},
+				{
+					"name": "filterAltasYPendentBaixa"
+				},
+				{
+					"name": "AddCamps"
+				},
+				{
+					"name": "UnitatPareFuncionalPare"
+				},
+				{
+					"name": "Unitat"
+				},
+				{
+					"name": "selectEdifici"
+				},
+				{
+					"name": "selectPlanta"
+				},
+				{
+					"name": "selectSector"
+				},
+				{
+					"name": "selectTaula"
+				},
+				{
+					"name": "selectPersona"
+				},
+				{
+					"name": "selectRespPersona"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "TipusDocument"
+				},
+				{
+					"name": "joinTipusDocument"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "join2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID_UNITAT as decimal(4,0),",
+				"          ID_AUDITORIA as decimal(4,0),",
+				"          ID_ORG as decimal(4,0),",
+				"          ID_PARE as decimal(4,0),",
+				"          ID_EDIFICI as decimal(4,0),",
+				"          ID_TIPUS as decimal(4,0),",
+				"          ID_PARE_FUNCIONAL as decimal(4,0),",
+				"          COD_UNITAT as string,",
+				"          COD_USUARI_ALTA as string,",
+				"          COD_USUARI_BAIXA as string,",
+				"          COD_USUARI_MODIF as string,",
+				"          DESC_UNITAT as string,",
+				"          DESC_FUNCIONS as string,",
+				"          DATA_ALTA as timestamp,",
+				"          DATA_BAIXA as timestamp,",
+				"          DATA_MODIF as timestamp,",
+				"          FLAG_PLEGAT as decimal(1,0),",
+				"          FLAG_VIGENT as decimal(1,0),",
+				"          FLAG_AREA_FUNCIONAL as decimal(1,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimUnitatSISP",
+				"source(output(",
+				"          ID_PERSONA as decimal(12,0),",
+				"          ID_TIPUS_PERSONAL as integer,",
+				"          ID_ESTAT as integer,",
+				"          ID_ORG as decimal(4,0),",
+				"          ID_UNITAT as decimal(4,0),",
+				"          ID_SECTOR as decimal(4,0),",
+				"          ID_EDIFICI as decimal(4,0),",
+				"          ID_PLANTA as decimal(4,0),",
+				"          ID_TAULA as decimal(4,0),",
+				"          ID_NIVELL as integer,",
+				"          ID_TIPUS_HORARI as decimal(4,0),",
+				"          COD_IDENTIFICADOR as string,",
+				"          COD_DIRECTORI_CORPORATIU as string,",
+				"          COD_USUARI_MODIF as string,",
+				"          COD_USUARI_ALTA as string,",
+				"          COD_USUARI_BAIXA as string,",
+				"          NUM_TIPUS_IDENTIFICADOR as decimal(4,0),",
+				"          NUM_EXT_TELEFONICA_EXTERNA as string,",
+				"          NUM_COS_ESPECIALITAT as decimal(4,0),",
+				"          NUM_EXT_TELEFONICA as decimal(5,0),",
+				"          NUM_GRUP_CATEGORIA as decimal(4,0),",
+				"          NUM_RESP_PERSONA as decimal(12,0),",
+				"          NUM_TELEFON_MOBIL as decimal(12,0),",
+				"          NUM_TELEFON as decimal(12,0),",
+				"          NUM_FAX as decimal(12,0),",
+				"          DESC_NOM as string,",
+				"          DESC_COGNOM1 as string,",
+				"          DESC_COGNOM2 as string,",
+				"          DESC_ALIES as string,",
+				"          DESC_VINCULACIO as decimal(4,0),",
+				"          DESC_LLOC_SINGULAR as string,",
+				"          DESC_TITOL_FORM_ACADEMICA as string,",
+				"          DESC_ENTITAT_EXTERNA as string,",
+				"          DESC_MAIL as string,",
+				"          DESC_TORN as decimal(4,0),",
+				"          DESC_OBSERVACIONS as string,",
+				"          DESC_INF_PERSONA_INTRANET as string,",
+				"          DATA_ALTA_PERS as timestamp,",
+				"          DATA_BAIXA_PERS as timestamp,",
+				"          DATA_BAIXA_EFECT as timestamp,",
+				"          DATA_INI_HORARI as timestamp,",
+				"          DATA_FI_HORARI as timestamp,",
+				"          DATA_ALTA as timestamp,",
+				"          DATA_BAIXA as timestamp,",
+				"          DATA_MODIF as timestamp,",
+				"          FLAG_PREVENCIO as decimal(1,0),",
+				"          FLAG_MOBILITAT_REDUIDA as decimal(1,0),",
+				"          FLAG_SECRETARIA_UNITAT as decimal(1,0),",
+				"          FLAG_CAP_UNITAT as decimal(1,0),",
+				"          FLAG_VISIBLE_PERSONA_INTRANET as decimal(1,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMFactPersonaSISP",
+				"source(output(",
+				"          ID_EDIFICI as decimal(4,0),",
+				"          COD_EDIFICI as string,",
+				"          COD_LLIBRE as binary,",
+				"          NUM_CODI_POSTAL as string,",
+				"          NUM_TELEFON as decimal(9,0),",
+				"          NUM_FAX as decimal(9,0),",
+				"          DESC_EDIFICI as string,",
+				"          DESC_ADRECA as string,",
+				"          DESC_POBLACIO as string,",
+				"          FLAG_PLANOLS as decimal(1,0),",
+				"          FLAG_VIGENT as decimal(1,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimEdificiSISP",
+				"source(output(",
+				"          ID_PLANTA as decimal(4,0),",
+				"          ID_EDIFICI as decimal(4,0),",
+				"          COD_PLANTA as string,",
+				"          NUM_ORDENACIO as decimal(4,0),",
+				"          NUM_EXTENSIO as decimal(5,0),",
+				"          NUM_EXTENSIO_EXTERNA as string,",
+				"          NUM_TELEFON_SUBALTERN as decimal(9,0),",
+				"          DESC_PLANTA as string,",
+				"          FLAG_VIGENT as decimal(1,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimPlantaSISP",
+				"source(output(",
+				"          ID_SECTOR as decimal(4,0),",
+				"          ID_PLANTA as decimal(4,0),",
+				"          COD_SECTOR as string,",
+				"          DESC_SECTOR as string,",
+				"          FLAG_VIGENT as decimal(1,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimSectorSISP",
+				"source(output(",
+				"          ID_TAULA as decimal(4,0),",
+				"          ID_SECTOR as decimal(4,0),",
+				"          NUM_TAULA as string,",
+				"          FLAG_VIGENT as decimal(1,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimTaulaSISP",
+				"source(output(",
+				"          ID_TIPUS_PERSONAL as decimal(4,0),",
+				"          DESC_TIPUS_PERSONAL as string,",
+				"          CODI_TIPUS_PERSONAL as string,",
+				"          DATA_INSERCIO as date",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimTipusPersonalSISP",
+				"source(output(",
+				"          ID as decimal(4,0),",
+				"          DESCRIPCIO as string,",
+				"          ENTITAT as string,",
+				"          PLEGAT as decimal(1,0),",
+				"          TORN as decimal(4,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimTaulesMestresSISP",
+				"source(output(",
+				"          ID_ESTAT as long,",
+				"          DESC_ESTAT as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDimEstat",
+				"join1, Unitat join(selectPersona@ID_UNITAT == Unitat@ID_UNITAT,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinUnitat",
+				"DMDimUnitatSISP select(mapColumn(",
+				"          ID_UNITAT_PARE = ID_UNITAT,",
+				"          ID_AUDITORIA_PARE = ID_AUDITORIA,",
+				"          DESC_UNITAT_PARE = DESC_UNITAT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> UnitatPare",
+				"DMDimUnitatSISP select(mapColumn(",
+				"          ID_UNITAT_PARE_FUNCIONAL = ID_UNITAT,",
+				"          ID_AUDITORIA_PARE_FUNCIONAL = ID_AUDITORIA,",
+				"          ID_PARE_PARE_FUNCIONAL = ID_PARE,",
+				"          DESC_UNITAT_PARE_FUNCIONAL = DESC_UNITAT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> UnitatPareFuncional",
+				"joinUnitat, UnitatPare join(ID_PARE == ID_UNITAT_PARE,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinUnitatPare",
+				"joinUnitatPare, UnitatPareFuncional join(ID_PARE_FUNCIONAL == ID_UNITAT_PARE_FUNCIONAL,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinUnitatFuncional",
+				"joinUnitatFuncional, UnitatPareFuncionalPare join(ID_PARE_PARE_FUNCIONAL == ID_UNITAT_PARE_FUNCIONAL_PARE,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinUnitatFuncionalPare",
+				"joinUnitatFuncionalPare, selectEdifici join(selectPersona@ID_EDIFICI == selectEdifici@ID_EDIFICI,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinEdifici",
+				"joinEdifici, selectPlanta join(selectPersona@ID_PLANTA == selectPlanta@ID_PLANTA,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinPlanta",
+				"joinPlanta, selectSector join(selectPersona@ID_SECTOR == selectSector@ID_SECTOR,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinSector",
+				"joinSector, selectTaula join(selectPersona@ID_TAULA == selectTaula@ID_TAULA,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinTaula",
+				"joinTaula, selectRespPersona join(NUM_RESP_PERSONA == ID_PERSONA_RESP,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinRespPersona",
+				"STGDimTaulesMestresSISP select(mapColumn(",
+				"          ID_TORN = ID,",
+				"          DESC_TORN = DESCRIPCIO",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Torn",
+				"STGDimTaulesMestresSISP select(mapColumn(",
+				"          ID_TIPUS_HORARI = ID,",
+				"          DESC_TIPUS_HORARI = DESCRIPCIO",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> TipusHorari",
+				"joinRespPersona, Torn join(selectPersona@DESC_TORN == ID_TORN,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinTorn",
+				"joinTorn, TipusHorari join(selectPersona@ID_TIPUS_HORARI == TipusHorari@ID_TIPUS_HORARI,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinTipusHorari",
+				"selectPersona filter(ID_ESTAT == 2 || ID_ESTAT == 4) ~> filterAltasYPendentBaixa",
+				"join2 derive(DESC_NOM_COMPLERT = DESC_NOM+' '+DESC_COGNOM1+' '+DESC_COGNOM2,",
+				"          DESC_RESP_PERSONA = DESC_NOM_RESP+' '+DESC_COGNOM1_RESP+' '+DESC_COGNOM2_RESP,",
+				"          DESC_UNITAT_new = iif(FLAG_AREA_FUNCIONAL == 0, DESC_UNITAT, iif(FLAG_AREA_FUNCIONAL == 1, DESC_UNITAT_PARE_FUNCIONAL, 'No Informat')),",
+				"          ID_UNITAT_new = iif(FLAG_AREA_FUNCIONAL == 0, toInteger(ID_AUDITORIA), iif(FLAG_AREA_FUNCIONAL == 1, toInteger(ID_AUDITORIA_PARE_FUNCIONAL), toInteger(-1))),",
+				"          DESC_UNITAT_PARE_new = iif(FLAG_AREA_FUNCIONAL == 0, DESC_UNITAT_PARE, iif(FLAG_AREA_FUNCIONAL == 1, DESC_UNITAT_PARE_FUNCIONAL_PARE, 'No Informat')),",
+				"          ID_UNITAT_PARE_new = iif(FLAG_AREA_FUNCIONAL == 0, toInteger(ID_AUDITORIA_PARE), iif(FLAG_AREA_FUNCIONAL == 1, toInteger(ID_AUDITORIA_PARE_FUNCIONAL_PARE), toInteger(-1))),",
+				"          ID_AREA_FUNCIONAL = iif(FLAG_AREA_FUNCIONAL == 0, toInteger(null()), iif(FLAG_AREA_FUNCIONAL == 1, toInteger(ID_AUDITORIA), toInteger(-1))),",
+				"          DESC_AREA_FUNCIONAL = iif(FLAG_AREA_FUNCIONAL == 0, toString(null()), iif(FLAG_AREA_FUNCIONAL == 1, DESC_UNITAT, 'No Informat'))) ~> AddCamps",
+				"DMDimUnitatSISP select(mapColumn(",
+				"          ID_UNITAT_PARE_FUNCIONAL_PARE = ID_UNITAT,",
+				"          ID_AUDITORIA_PARE_FUNCIONAL_PARE = ID_AUDITORIA,",
+				"          DESC_UNITAT_PARE_FUNCIONAL_PARE = DESC_UNITAT",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> UnitatPareFuncionalPare",
+				"DMDimUnitatSISP select(mapColumn(",
+				"          ID_UNITAT,",
+				"          ID_AUDITORIA,",
+				"          ID_PARE,",
+				"          ID_PARE_FUNCIONAL,",
+				"          DESC_UNITAT,",
+				"          FLAG_AREA_FUNCIONAL",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Unitat",
+				"DMDimEdificiSISP select(mapColumn(",
+				"          ID_EDIFICI,",
+				"          COD_EDIFICI,",
+				"          DESC_EDIFICI",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectEdifici",
+				"DMDimPlantaSISP select(mapColumn(",
+				"          ID_PLANTA,",
+				"          COD_PLANTA,",
+				"          DESC_PLANTA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectPlanta",
+				"DMDimSectorSISP select(mapColumn(",
+				"          ID_SECTOR,",
+				"          COD_SECTOR,",
+				"          DESC_SECTOR",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectSector",
+				"DMDimTaulaSISP select(mapColumn(",
+				"          ID_TAULA,",
+				"          NUM_TAULA",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectTaula",
+				"DMFactPersonaSISP select(mapColumn(",
+				"          ID_PERSONA,",
+				"          ID_TIPUS_PERSONAL,",
+				"          COD_IDENTIFICADOR,",
+				"          DESC_NOM,",
+				"          DESC_COGNOM1,",
+				"          DESC_COGNOM2,",
+				"          NUM_TELEFON,",
+				"          NUM_EXT_TELEFONICA,",
+				"          NUM_EXT_TELEFONICA_EXTERNA,",
+				"          DESC_MAIL,",
+				"          FLAG_CAP_UNITAT,",
+				"          FLAG_SECRETARIA_UNITAT,",
+				"          DESC_LLOC_SINGULAR,",
+				"          NUM_TELEFON_MOBIL,",
+				"          NUM_FAX,",
+				"          COD_DIRECTORI_CORPORATIU,",
+				"          DESC_ENTITAT_EXTERNA,",
+				"          DESC_TITOL_FORM_ACADEMICA,",
+				"          DATA_INI_HORARI,",
+				"          DATA_FI_HORARI,",
+				"          FLAG_PREVENCIO,",
+				"          DESC_OBSERVACIONS,",
+				"          ID_ESTAT,",
+				"          DESC_INF_PERSONA_INTRANET,",
+				"          ID_UNITAT,",
+				"          ID_SECTOR,",
+				"          ID_EDIFICI,",
+				"          ID_PLANTA,",
+				"          ID_TAULA,",
+				"          DESC_TORN,",
+				"          ID_TIPUS_HORARI,",
+				"          NUM_RESP_PERSONA,",
+				"          NUM_TIPUS_IDENTIFICADOR",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectPersona",
+				"DMFactPersonaSISP select(mapColumn(",
+				"          ID_PERSONA_RESP = ID_PERSONA,",
+				"          DESC_NOM_RESP = DESC_NOM,",
+				"          DESC_COGNOM1_RESP = DESC_COGNOM1,",
+				"          DESC_COGNOM2_RESP = DESC_COGNOM2",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectRespPersona",
+				"filterAltasYPendentBaixa, DMDimEstat join(selectPersona@ID_ESTAT == DMDimEstat@ID_ESTAT,",
+				"     joinType:'inner',",
+				"     broadcast: 'auto')~> join1",
+				"STGDimTaulesMestresSISP select(mapColumn(",
+				"          ID_TIPUS_DOCUMENT = ID,",
+				"          DESC_TIPUS_DOCUMENT = DESCRIPCIO",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> TipusDocument",
+				"joinTipusHorari, TipusDocument join(NUM_TIPUS_IDENTIFICADOR == ID_TIPUS_DOCUMENT,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinTipusDocument",
+				"AddCamps select(mapColumn(",
+				"          ID_PERSONA,",
+				"          COD_IDENTIFICADOR,",
+				"          DESC_NOM,",
+				"          DESC_COGNOM1,",
+				"          DESC_COGNOM2,",
+				"          DESC_NOM_COMPLERT,",
+				"          NUM_TELEFON,",
+				"          NUM_EXT_TELEFONICA,",
+				"          NUM_EXT_TELEFONICA_EXTERNA,",
+				"          DESC_MAIL,",
+				"          FLAG_CAP_UNITAT,",
+				"          FLAG_SECRETARIA_UNITAT,",
+				"          DESC_LLOC_SINGULAR,",
+				"          ID_UNITAT = ID_UNITAT_new,",
+				"          DESC_UNITAT = DESC_UNITAT_new,",
+				"          ID_UNITAT_PARE = ID_UNITAT_PARE_new,",
+				"          DESC_UNITAT_PARE = DESC_UNITAT_PARE_new,",
+				"          ID_AREA_FUNCIONAL,",
+				"          DESC_AREA_FUNCIONAL,",
+				"          ID_EDIFICI = selectEdifici@ID_EDIFICI,",
+				"          ID_PLANTA = selectPlanta@ID_PLANTA,",
+				"          ID_SECTOR = selectSector@ID_SECTOR,",
+				"          COD_EDIFICI,",
+				"          COD_PLANTA,",
+				"          COD_SECTOR,",
+				"          DESC_EDIFICI,",
+				"          DESC_PLANTA,",
+				"          DESC_SECTOR,",
+				"          DESC_TIPUS_PERSONAL,",
+				"          NUM_TELEFON_MOBIL,",
+				"          NUM_FAX,",
+				"          DESC_TIPUS_DOCUMENT,",
+				"          COD_DIRECTORI_CORPORATIU,",
+				"          DESC_ENTITAT_EXTERNA,",
+				"          DESC_TITOL_FORM_ACADEMICA,",
+				"          DESC_RESP_PERSONA,",
+				"          DESC_TORN = selectPersona@DESC_TORN,",
+				"          DATA_INI_HORARI,",
+				"          DATA_FI_HORARI,",
+				"          FLAG_PREVENCIO,",
+				"          DESC_OBSERVACIONS,",
+				"          DESC_ESTAT,",
+				"          DESC_INF_PERSONA_INTRANET",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FiltraCampos",
+				"DMDimTipusPersonalSISP select(mapColumn(",
+				"          ID_TIPUS_PERSONAL,",
+				"          DESC_TIPUS_PERSONAL",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"joinTipusDocument, DMDimTipusPersonalSISP join(selectPersona@ID_TIPUS_PERSONAL == DMDimTipusPersonalSISP@ID_TIPUS_PERSONAL,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> join2",
+				"FiltraCampos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimPersona"
+			]
+		}
+	}
+}

@@ -1,0 +1,61 @@
+{
+	"name": "STG_ARB_DIM_VOCAL_LLEIDA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ARB_VOC_CODI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_DNI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_COGN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_NOM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_ADRE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_INE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_MUNI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_CP",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_CBEM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_NOT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_VOC_ADRE2",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_STG",
+			"table": "STG_ARB_DIM_VOCAL_LLEIDA"
+		}
+	}
+}

@@ -1,0 +1,173 @@
+{
+	"name": "DF_GAF_ODS_DIMs",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimSeccions"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimEstacioSubtrm5"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_DIM_PLA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimPla"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_DIM_ORGANISME",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimOrganisme"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_DIM_SUBTRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimSubtrams"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_DIM_PLA_HISTORICO",
+						"type": "DatasetReference"
+					},
+					"name": "STGPlaHist"
+				},
+				{
+					"dataset": {
+						"referenceName": "FIT_STG_GAF_DIM_TIPUS_MES",
+						"type": "DatasetReference"
+					},
+					"name": "STGTipusMes"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GAF_DIM_TRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimTrams"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSeccions"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS1_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEstacioSubtrm5"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_PLA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimPla"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_ORGANISME",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimOrganisme"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_SUBTRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimSubtrams"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_TIPUS_MES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSTipusMes"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_DIM_TRAMS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimTrams"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormalizarCampos"
+				},
+				{
+					"name": "NormalizarCampos2"
+				},
+				{
+					"name": "NormalizarCampos3"
+				},
+				{
+					"name": "AddColumns"
+				},
+				{
+					"name": "NormalizarCampos4"
+				},
+				{
+					"name": "NormalizarCampos5"
+				},
+				{
+					"name": "FiltrarPlaPositivo"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "NormalizarCampos6"
+				},
+				{
+					"name": "NormalizarCampos7"
+				},
+				{
+					"name": "ToTimestamp"
+				},
+				{
+					"name": "Join1"
+				}
+			],
+			"script": "source(output(\n\t\tIDSECCIO as decimal(8,0),\n\t\tIDESTACIO as decimal(8,0),\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimSeccions\nsource(output(\n\t\tIDCARRIL as decimal(8,0),\n\t\tIDSECCIO as decimal(8,0),\n\t\tCODICARRIL as decimal(2,0),\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimCarrils\nsource(output(\n\t\tIDESTACIO as decimal(8,0),\n\t\tIDPLA as decimal(8,0),\n\t\tIDORGANISME as string,\n\t\tCODIESTACIO as string,\n\t\tDESCRIPCIO as string,\n\t\tIDESTAT as decimal(1,0),\n\t\tIDESTACIOAFI as decimal(8,0),\n\t\tIDDETECTOR as decimal(3,0),\n\t\tIDEQUIP as decimal(3,0),\n\t\tIDALIMENTACIO as decimal(3,0),\n\t\tIDCTRA as string,\n\t\tIDMODCTRA as decimal(15,0),\n\t\tIDTRAM as string,\n\t\tIDSUBTRAM as string,\n\t\tIDTIPUSESTACIO as decimal(2,0),\n\t\tTELEFON as decimal(12,0),\n\t\tPK as decimal(9,0),\n\t\tMETRES as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tPKINICIAL as decimal(9,0),\n\t\tMETRESINICIALS as decimal(4,0),\n\t\tDESCRINICIAL as string,\n\t\tPKFINAL as decimal(9,0),\n\t\tMETRESFINALS as decimal(4,0),\n\t\tDESCRFINAL as string,\n\t\tINTERVALTEMPS as decimal(5,0),\n\t\tIMD as decimal(8,0),\n\t\tPESANTS as decimal(7,4),\n\t\tIFA as decimal(7,4),\n\t\tIDFACTOR as decimal(8,0),\n\t\tIDPLANOL as decimal(8,0),\n\t\tIDESTACIO1 as decimal(8,0),\n\t\tIDESTACIO2 as decimal(8,0),\n\t\tVELOCITATMITJA as decimal(7,4),\n\t\tOBSERVACIONS as string,\n\t\tIDPOBLACIO as string,\n\t\tIDMUNICIPI as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimEstacioSubtrm5\nsource(output(\n\t\tIDPLA as decimal(8,0),\n\t\tIDORGANISME as string,\n\t\tIDPLAGENERAL as decimal(8,0),\n\t\tNOMPLA as string,\n\t\tDATAINICI as timestamp,\n\t\tDATAFI as timestamp,\n\t\tIDESTATPLA as decimal(1,0),\n\t\tGENERAT as timestamp,\n\t\tPENDENT as decimal(1,0),\n\t\tDATA_INI_PROCES as timestamp,\n\t\tDATA_FI_PROCES as timestamp,\n\t\tFINALITZAT as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimPla\nsource(output(\n\t\tCODI as string,\n\t\tDEPENDENT as decimal(3,0),\n\t\tORDENACIO as decimal(3,0),\n\t\tESTAMENT as string,\n\t\tNOMRESUMIT as string,\n\t\tTRAMPA as string,\n\t\tDATABAIXA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimOrganisme\nsource(output(\n\t\tCARRETERA as string,\n\t\tTRAM as string,\n\t\tSUBTRAM as string,\n\t\tMODIFICACIO as decimal(15,0),\n\t\tDENOMINACIO as string,\n\t\tPKINICIAL as decimal(9,0),\n\t\tMETRESINICIAL as decimal(4,0),\n\t\tDESCRIPCIOINICIAL as string,\n\t\tPKFINAL as decimal(9,0),\n\t\tMETRESFINAL as decimal(4,0),\n\t\tDESCRIPCIOFINAL as string,\n\t\tCLASSIFICACIOFUNCIONAL as string,\n\t\tCLASSFUNCESTABLERTA as string,\n\t\tCLASSIFICACIOTECNICA as string,\n\t\tCLASSIFICACIOTECNICAESTABLERTA as string,\n\t\tORGANISME as string,\n\t\tREGIMDECIRCULACIO as string,\n\t\tENTORNURBANISTIC as string,\n\t\tLONGITUDREAL as decimal(9,3),\n\t\tNOMBREDECARRILS as string,\n\t\tIMD as decimal(2,0),\n\t\tANYCALCULIMD as string,\n\t\tDATAALTA as string,\n\t\tACCIDENTABILITAT as string,\n\t\tPROCEDENCIA as decimal(2,0),\n\t\tLONGITUDAPARENT as decimal(9,3),\n\t\tCOMARCA as decimal(2,0),\n\t\tCALCADES as string,\n\t\tDATABAIXA as string,\n\t\tDESTINACIO as decimal(2,0),\n\t\tDATAVALIDACIO as string,\n\t\tTIPUSMODIF as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimSubtrams\nsource(output(\n\t\tIDPLA as decimal(10,0),\n\t\tIDORGANISME as string,\n\t\tIDPLAGENERAL as decimal(10,0),\n\t\tNOMPLA as string,\n\t\tDATAINICI as timestamp,\n\t\tDATAFI as timestamp,\n\t\tIDESTATPLA as decimal(10,0),\n\t\tGENERAT as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGPlaHist\nsource(output(\n\t\tIP_TIPUS_MES as integer,\n\t\tDESC_TIPUS_MES as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> STGTipusMes\nsource(output(\n\t\tCODI as string,\n\t\tCARRETERA as string,\n\t\tMODIFICACIO as decimal(15,0),\n\t\tREGIMDEGESTIO as string,\n\t\tORGANISME as string,\n\t\tFUNCIONAL as string,\n\t\tFUNCIONALESTABLERTA as string,\n\t\tTECNIC as string,\n\t\tTECNICESTABLERTA as string,\n\t\tTIPUSMODIF as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimTrams\nSTGDimSeccions select(mapColumn(\n\t\tID_SECCIO = IDSECCIO,\n\t\tID_ESTACIO = IDESTACIO,\n\t\tDESC_SECCIO = DESCRIPCIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizarCampos\nSTGDimCarrils select(mapColumn(\n\t\tID_CARRIL = IDCARRIL,\n\t\tID_SECCIO = IDSECCIO,\n\t\tCOD_CARRIL = CODICARRIL,\n\t\tDESC_CARRIL = DESCRIPCIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizarCampos2\nAddColumns select(mapColumn(\n\t\tID_ESTACIO = IDESTACIO,\n\t\tID_PLA = STGDimEstacioSubtrm5@IDPLA,\n\t\tDATA_ANYO,\n\t\tID_ESTAT = IDESTAT,\n\t\tID_ESTACIO_AFIN = IDESTACIOAFI,\n\t\tID_DETECTOR = IDDETECTOR,\n\t\tID_EQUIP = IDEQUIP,\n\t\tID_ALIMENTACIO = IDALIMENTACIO,\n\t\tID_TIPUS_ESTACIO = IDTIPUSESTACIO,\n\t\tID_FACTOR = IDFACTOR,\n\t\tID_PLANOL = IDPLANOL,\n\t\tID_ESTACIO_REF_1 = IDESTACIO1,\n\t\tID_ESTACIO_REF_2 = IDESTACIO2,\n\t\tID_LLOGARET,\n\t\tCOD_INE = CODI_INE,\n\t\tCOD_ESTACIO = CODIESTACIO,\n\t\tCOD_ORGANISME = STGDimEstacioSubtrm5@IDORGANISME,\n\t\tCOD_CARRETERA = IDCTRA,\n\t\tCOD_MOD_CARRETERA = IDMODCTRA,\n\t\tCOD_TRAM = IDTRAM,\n\t\tCOD_SUBTRAM = IDSUBTRAM,\n\t\tNUM_TELEFON = TELEFON,\n\t\tDESC_ESTACIO = DESCRIPCIO,\n\t\tDESC_OBSERVACIONS = OBSERVACIONS,\n\t\tPK,\n\t\tMETRES_PK = METRES,\n\t\tUTMX,\n\t\tUTMY,\n\t\tPK_INI = PKINICIAL,\n\t\tMETRES_PK_INI = METRESINICIALS,\n\t\tDESC_PK_INI = DESCRINICIAL,\n\t\tPK_FI = PKFINAL,\n\t\tMETRES_PK_FI = METRESFINALS,\n\t\tDESC_PK_FI = DESCRFINAL,\n\t\tIND_IMD = IMD,\n\t\tIND_PESANTS = PESANTS,\n\t\tIND_IFA = IFA,\n\t\tIND_VELOC_MITJA = VELOCITATMITJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizarCampos3\nJoin1 derive(CODI_INE = substring(IDPOBLACIO,0,5),\n\t\tID_LLOGARET = substring(IDPOBLACIO,6,7),\n\t\tDATA_ANYO = year(DATAINICI)) ~> AddColumns\nUnion1 select(mapColumn(\n\t\tID_PLA = IDPLA,\n\t\tID_ORGANISME = IDORGANISME,\n\t\tID_PLA_GENERAL = IDPLAGENERAL,\n\t\tID_ESTAT_PLA = IDESTATPLA,\n\t\tDESC_PLA = NOMPLA,\n\t\tFLAG_PENDENT = PENDENT,\n\t\tFLAG_FINALITZAT = FINALITZAT,\n\t\tDATA_INI = DATAINICI,\n\t\tDATA_FI = DATAFI,\n\t\tDATA_INI_PROCES,\n\t\tDATA_FI_PROCES,\n\t\tDATA_GENERAT = GENERAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizarCampos4\nSTGDimOrganisme select(mapColumn(\n\t\tCOD_ORGANISME = CODI,\n\t\tDESC_ORGANISME = ESTAMENT,\n\t\tDESC_RESUM_ORG = NOMRESUMIT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizarCampos5\nSTGDimPla filter(IDPLA>0) ~> FiltrarPlaPositivo\nFiltrarPlaPositivo, STGPlaHist union(byName: true)~> Union1\nToTimestamp select(mapColumn(\n\t\tID_COMARCA = COMARCA,\n\t\tID_PROCEDENCIA = PROCEDENCIA,\n\t\tID_DESTINACIO = DESTINACIO,\n\t\tID_TIPUS_MODIF = TIPUSMODIF,\n\t\tCOD_CARRETERA = CARRETERA,\n\t\tCOD_TRAM = TRAM,\n\t\tCOD_SUBTRAM = SUBTRAM,\n\t\tCOD_MODIFICACIO = MODIFICACIO,\n\t\tCOD_ORGANISME = ORGANISME,\n\t\tCOD_REGIMEN_CIRCU = REGIMDECIRCULACIO,\n\t\tCOD_ENTORN_URBA = ENTORNURBANISTIC,\n\t\tPK_INI = PKINICIAL,\n\t\tMETRES_PK_INI = METRESINICIAL,\n\t\tDESC_PK_INI = DESCRIPCIOINICIAL,\n\t\tPK_FI = PKFINAL,\n\t\tMETRES_PK_FI = METRESFINAL,\n\t\tDESC_PK_FI = DESCRIPCIOFINAL,\n\t\tIND_IMD = IMD,\n\t\tNUM_LONG_REAL = LONGITUDREAL,\n\t\tNUM_LONG_APARENT = LONGITUDAPARENT,\n\t\tDESC_NOM_CARRILS = NOMBREDECARRILS,\n\t\tDATA_CALCUL_IMD = ANYCALCULIMD,\n\t\tDATA_ALTA = DATAALTA,\n\t\tDATA_BAIXA = DATABAIXA,\n\t\tDATA_VALIDACIO = DATAVALIDACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizarCampos6\nSTGDimTrams select(mapColumn(\n\t\tCOD_TRAM = CODI,\n\t\tCOD_CARRETERA = CARRETERA,\n\t\tCOD_MODIFICACIO = MODIFICACIO,\n\t\tCOD_REGIM_GESTIO = REGIMDEGESTIO,\n\t\tCOD_ORGANISME = ORGANISME,\n\t\tCOD_FUNCIONAL = FUNCIONAL,\n\t\tCOD_FUNCIONAL_ESTABLERTA = FUNCIONALESTABLERTA,\n\t\tCOD_TECNIC = TECNIC,\n\t\tCOD_TECNIC_ESTABLERTA = TECNICESTABLERTA,\n\t\tCOD_TIPUS_MODIF = TIPUSMODIF\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormalizarCampos7\nSTGDimSubtrams derive(DATAVALIDACIO = toTimestamp(DATAVALIDACIO, 'dd/MM/yyyy')) ~> ToTimestamp\nSTGDimEstacioSubtrm5, STGDimPla join(STGDimEstacioSubtrm5@IDPLA == STGDimPla@IDPLA,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> Join1\nNormalizarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_SECCIO,\n\t\tID_ESTACIO,\n\t\tDESC_SECCIO\n\t)) ~> ODSDimSeccions\nNormalizarCampos2 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCODI_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimCarrils\nNormalizarCampos3 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimEstacioSubtrm5\nNormalizarCampos4 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_PLA as decimal(8,0),\n\t\tID_ORGANISME as string,\n\t\tID_PLA_GENERAL as decimal(8,0),\n\t\tID_ESTAT_PLA as decimal(1,0),\n\t\tDESC_PLA as string,\n\t\tFLAG_PENDENT as decimal(1,0),\n\t\tFLAG_FINALITZAT as decimal(1,0),\n\t\tDATA_INI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tDATA_INI_PROCES as timestamp,\n\t\tDATA_FI_PROCES as timestamp,\n\t\tDATA_GENERAT as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimPla\nNormalizarCampos5 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_ORGANISME as string,\n\t\tDESC_ORGANISME as string,\n\t\tDESC_RESUM_ORG as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimOrganisme\nNormalizarCampos6 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_COMARCA as decimal(2,0),\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_MODIFICACIO as decimal(15,0),\n\t\tDESC_SUBTRAM as string,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_LONGITUD_REAL as decimal(9,3),\n\t\tDATA_MODIFICACIO as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimSubtrams\nSTGTipusMes sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tIP_TIPUS_MES as decimal(10,0),\n\t\tDESC_TIPUS_MES as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSTipusMes\nNormalizarCampos7 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCOD_TRAM as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MODIFICACIO as decimal(15,0),\n\t\tCOD_REGIM_GESTIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_FUNCIONAL as string,\n\t\tCOD_FUNCIONAL_ESTABLERTA as string,\n\t\tCOD_TECNIC as string,\n\t\tCOD_TECNIC_ESTABLERTA as string,\n\t\tCOD_TIPUS_MODIF as decimal(1,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimTrams"
+		}
+	}
+}

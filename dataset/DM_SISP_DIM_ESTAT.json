@@ -1,0 +1,30 @@
+{
+	"name": "DM_SISP_DIM_ESTAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SISP/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTAT",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "DESC_ESTAT",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SISP_DM",
+			"table": "DM_SISP_DIM_ESTAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

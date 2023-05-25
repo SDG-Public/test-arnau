@@ -1,0 +1,79 @@
+{
+	"name": "DM_GAF_FACT_RESUM_VEHICLE_RANK",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_TIPUS_ESTACIO",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 0
+			},
+			{
+				"name": "DESC_AMBIT_TERRITORIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_PROVINCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_LONGITUD",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "IND_IMD",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IND_PESANTS",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "DATA_ANY_PLA",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "COD_ORG_TRAM",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_IMD_LONGITUD",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IND_IMD_PESANTS",
+				"type": "decimal",
+				"precision": 21,
+				"scale": 4
+			},
+			{
+				"name": "NUM_RANK",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "DM_GAF_FACT_RESUM_VEHICLE_RANK"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

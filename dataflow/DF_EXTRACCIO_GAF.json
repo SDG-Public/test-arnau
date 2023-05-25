@@ -1,0 +1,229 @@
+{
+	"name": "DF_EXTRACCIO_GAF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMEstacioSubtrm"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMSeccions"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "DMCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_HORES",
+						"type": "DatasetReference"
+					},
+					"name": "DMDadesHores"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_EXTRACCIO",
+						"type": "DatasetReference"
+					},
+					"name": "FitxerExtraccio"
+				}
+			],
+			"transformations": [
+				{
+					"name": "JoinEstacioSubtram"
+				},
+				{
+					"name": "JoinCarrils"
+				},
+				{
+					"name": "JoinSeccio"
+				},
+				{
+					"name": "Select"
+				},
+				{
+					"name": "Datas"
+				},
+				{
+					"name": "FiltroFecha"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     DATA as string",
+				"}",
+				"source(output(",
+				"          ID_ESTACIO as decimal(8,0),",
+				"          ID_PLA as decimal(8,0),",
+				"          DATA_ANYO as integer,",
+				"          ID_ESTAT as decimal(1,0),",
+				"          ID_ESTACIO_AFIN as decimal(8,0),",
+				"          ID_DETECTOR as decimal(3,0),",
+				"          ID_EQUIP as decimal(3,0),",
+				"          ID_ALIMENTACIO as decimal(3,0),",
+				"          ID_TIPUS_ESTACIO as decimal(2,0),",
+				"          ID_FACTOR as decimal(8,0),",
+				"          ID_PLANOL as decimal(8,0),",
+				"          ID_ESTACIO_REF_1 as decimal(8,0),",
+				"          ID_ESTACIO_REF_2 as decimal(8,0),",
+				"          ID_LLOGARET as string,",
+				"          COD_INE as string,",
+				"          COD_ESTACIO as string,",
+				"          COD_ORGTRAM as string,",
+				"          COD_CARRETERA as string,",
+				"          COD_MOD_CARRETERA as decimal(15,0),",
+				"          COD_TRAM as string,",
+				"          COD_SUBTRAM as string,",
+				"          DESC_CARRILS as string,",
+				"          NUM_TELEFON as decimal(12,0),",
+				"          DESC_ESTACIO as string,",
+				"          DESC_OBSERVACIONS as string,",
+				"          PK as decimal(9,0),",
+				"          METRES_PK as decimal(4,0),",
+				"          UTMX as decimal(10,2),",
+				"          UTMY as decimal(10,2),",
+				"          NUM_LONGITUD as double,",
+				"          NUM_LATITUD as double,",
+				"          PK_INI as decimal(9,0),",
+				"          METRES_PK_INI as decimal(4,0),",
+				"          DESC_PK_INI as string,",
+				"          PK_FI as decimal(9,0),",
+				"          METRES_PK_FI as decimal(4,0),",
+				"          DESC_PK_FI as string,",
+				"          IND_IMD as decimal(8,0),",
+				"          IND_PESANTS as decimal(7,4),",
+				"          IND_IFA as decimal(7,4),",
+				"          IND_VELOC_MITJA as decimal(7,4)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMEstacioSubtrm",
+				"source(output(",
+				"          ID_SECCIO as decimal(8,0),",
+				"          ID_ESTACIO as decimal(8,0),",
+				"          DESC_SECCIO as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMSeccions",
+				"source(output(",
+				"          ID_CARRIL as decimal(8,0),",
+				"          ID_SECCIO as decimal(8,0),",
+				"          COD_CARRIL as decimal(2,0),",
+				"          DESC_CARRIL as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMCarrils",
+				"source(output(",
+				"          ID_ESTACIO as decimal(8,0),",
+				"          ID_CARRIL as decimal(8,0),",
+				"          ID_SECCIO as decimal(8,0),",
+				"          DATA as timestamp,",
+				"          IND_PESANTS as decimal(7,4),",
+				"          IND_IMD_DIARI as decimal(8,0),",
+				"          IND_VELOCITAT as decimal(7,4),",
+				"          VELOCITAT01 as decimal(6,0),",
+				"          VELOCITAT02 as decimal(6,0),",
+				"          VELOCITAT03 as decimal(6,0),",
+				"          VELOCITAT04 as decimal(6,0),",
+				"          VELOCITAT05 as decimal(6,0),",
+				"          VELOCITAT06 as decimal(6,0),",
+				"          VELOCITAT07 as decimal(6,0),",
+				"          VELOCITAT08 as decimal(6,0),",
+				"          VELOCITAT09 as decimal(6,0),",
+				"          VELOCITAT10 as decimal(6,0),",
+				"          LONGITUD01 as decimal(6,0),",
+				"          LONGITUD02 as decimal(6,0),",
+				"          LONGITUD03 as decimal(6,0),",
+				"          LONGITUD04 as decimal(6,0),",
+				"          ERRORSLONG01 as decimal(6,0),",
+				"          ERRORSLONG02 as decimal(6,0),",
+				"          ERRORSLONG03 as decimal(6,0),",
+				"          ERRORSLONG04 as decimal(6,0),",
+				"          FLAG_HORA_PUNTA as integer,",
+				"          FLAG_HORA_30 as integer,",
+				"          FLAG_HORA_50 as integer,",
+				"          FLAG_HORA_100 as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DMDadesHores",
+				"FiltroFecha, DMEstacioSubtrm join(DMDadesHores@ID_ESTACIO == DMEstacioSubtrm@ID_ESTACIO,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinEstacioSubtram",
+				"JoinEstacioSubtram, DMCarrils join(DMDadesHores@ID_CARRIL == DMCarrils@ID_CARRIL,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinCarrils",
+				"JoinCarrils, DMSeccions join(DMDadesHores@ID_SECCIO == DMSeccions@ID_SECCIO,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> JoinSeccio",
+				"Datas select(mapColumn(",
+				"          codiestacio = COD_ESTACIO,",
+				"          sentit = DESC_SECCIO,",
+				"          carril = COD_CARRIL,",
+				"          any,",
+				"          mes,",
+				"          dia,",
+				"          hora,",
+				"          VELOCITAT01,",
+				"          VELOCITAT02,",
+				"          VELOCITAT03,",
+				"          VELOCITAT04,",
+				"          VELOCITAT05,",
+				"          VELOCITAT06,",
+				"          VELOCITAT07,",
+				"          VELOCITAT08,",
+				"          VELOCITAT09,",
+				"          VELOCITAT10,",
+				"          LONGITUD01,",
+				"          LONGITUD02,",
+				"          LONGITUD03,",
+				"          LONGITUD04",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Select",
+				"JoinSeccio derive(any = year(DATA),",
+				"          mes = month(DATA),",
+				"          dia = dayOfMonth(DATA),",
+				"          hora = hour(DATA)) ~> Datas",
+				"DMDadesHores filter(toString(year(DATA)) == substring($DATA,1, 4) && toString(month(DATA)) == substring($DATA,6,2)) ~> FiltroFecha",
+				"Select sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> FitxerExtraccio"
+			]
+		}
+	}
+}

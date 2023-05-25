@@ -1,0 +1,31 @@
+{
+	"name": "DF_SISP_DM_DIM_NIVELLS",
+	"properties": {
+		"folder": {
+			"name": "SISP"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SISP_DIM_NIVELLS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimNivells"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SISP_DIM_NIVELLS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimNivells"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_NIVELLS as decimal(4,0),\n\t\tDESC_NIVELLS as string,\n\t\tDESC_ENTITAT_NIVELLS as string,\n\t\tFLAG_PLEGAT as decimal(1,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSDimNivells\nODSDimNivells sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMDimNivells"
+		}
+	}
+}

@@ -1,0 +1,127 @@
+{
+	"name": "DF_ARB_ODS_QUALITAT_DE",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_QUALITATDE_BCN",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimQualitatDeBCN"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_QUALITATDE_TGN",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimQualitatDeTGN"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_QUALITATDE_LLEIDA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimQualitatDeLLEIDA"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_QUALITATDE_GIR",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimQualitatDeGIR"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_QUALITATDE",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimQualitatDe"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AfegirCodiDemarcacioBCN"
+				},
+				{
+					"name": "AfegirCodiDemarcacioTGN"
+				},
+				{
+					"name": "AfegirCodiDemarcacioLLEIDA"
+				},
+				{
+					"name": "AfegirCodiDemarcacioGIR"
+				},
+				{
+					"name": "UnirIDQualitatDe"
+				},
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ARB_QDE_CODI as string,",
+				"          ARB_QDE_DESC as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimQualitatDeBCN",
+				"source(output(",
+				"          ARB_QDE_CODI as string,",
+				"          ARB_QDE_DESC as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimQualitatDeTGN",
+				"source(output(",
+				"          ARB_QDE_CODI as string,",
+				"          ARB_QDE_DESC as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimQualitatDeLLEIDA",
+				"source(output(",
+				"          ARB_QDE_CODI as string,",
+				"          ARB_QDE_DESC as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> STGDimQualitatDeGIR",
+				"STGDimQualitatDeBCN derive(ID_QUALITATDE = concat('08',ARB_QDE_CODI)) ~> AfegirCodiDemarcacioBCN",
+				"STGDimQualitatDeTGN derive(ID_QUALITATDE = concat('43',ARB_QDE_CODI)) ~> AfegirCodiDemarcacioTGN",
+				"STGDimQualitatDeLLEIDA derive(ID_QUALITATDE = concat('25',ARB_QDE_CODI)) ~> AfegirCodiDemarcacioLLEIDA",
+				"STGDimQualitatDeGIR derive(ID_QUALITATDE = concat('17',ARB_QDE_CODI)) ~> AfegirCodiDemarcacioGIR",
+				"AfegirCodiDemarcacioBCN, AfegirCodiDemarcacioTGN, AfegirCodiDemarcacioGIR, AfegirCodiDemarcacioLLEIDA union(byName: true)~> UnirIDQualitatDe",
+				"UnirIDQualitatDe select(mapColumn(",
+				"          ID_QUALITATDE,",
+				"          DESC_QUALITATDE = ARB_QDE_DESC",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenombrarCampos",
+				"RenombrarCampos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ID_QUALITATDE as string,",
+				"          DESC_QUALITATDE as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> ODSDimQualitatDe"
+			]
+		}
+	}
+}

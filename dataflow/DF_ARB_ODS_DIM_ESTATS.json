@@ -1,0 +1,35 @@
+{
+	"name": "DF_ARB_ODS_DIM_ESTATS",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_ESTATS",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimEstats"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_ESTATS",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimEstats"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				}
+			],
+			"script": "source(output(\n\t\tARB_EST_CODI as string,\n\t\tARB_EST_DESC as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimEstats\nSTGDimEstats select(mapColumn(\n\t\tID_ESTAT = ARB_EST_CODI,\n\t\tDESC_ESTAT = ARB_EST_DESC\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTAT as string,\n\t\tDESC_ESTAT as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimEstats"
+		}
+	}
+}

@@ -1,0 +1,1504 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name"
+		},
+		"das_vm_test_pre_01": {
+			"type": "string"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_XEAC_ODS_SKG_DIM')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DF_ODS_SKG_DIM_FOCUS",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_SKG_DIM_FOCUS",
+								"type": "DataFlowReference"
+							},
+							"integrationRuntime": {
+								"referenceName": "AutoResolveIntegrationRuntime2",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_ODS_SKG_DIM_VALORACIO_LEGISLACIO",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_SKG_DIM_VALORACIO_LEGISLACIO",
+								"type": "DataFlowReference"
+							},
+							"integrationRuntime": {
+								"referenceName": "AutoResolveIntegrationRuntime2",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_ODS_SKG_DIM_ESTABLIMENT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_SKG_DIM_ESTABLIMENT",
+								"type": "DataFlowReference"
+							},
+							"integrationRuntime": {
+								"referenceName": "AutoResolveIntegrationRuntime2",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_ODS_SKG_DIM_VALORACIO_TRACTAMENT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_SKG_DIM_VALORACIO_TRACTAMENT",
+								"type": "DataFlowReference"
+							},
+							"integrationRuntime": {
+								"referenceName": "AutoResolveIntegrationRuntime2",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_ODS_SKG_DIM_VALORACIO_VLE_MCT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_SKG_DIM_VALORACIO_VLE_MCT",
+								"type": "DataFlowReference"
+							},
+							"integrationRuntime": {
+								"referenceName": "AutoResolveIntegrationRuntime2",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_ODS_SKG_DIM_VALORACIO_VLE_MLT",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_SKG_DIM_VALORACIO_VLE_MLT",
+								"type": "DataFlowReference"
+							},
+							"integrationRuntime": {
+								"referenceName": "AutoResolveIntegrationRuntime2",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_ODS_SKG_DIM_LEGISLACIO",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_SKG_DIM_LEGISLACIO",
+								"type": "DataFlowReference"
+							},
+							"integrationRuntime": {
+								"referenceName": "AutoResolveIntegrationRuntime2",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "DF_ODS_SKG_DIM_VALORACIO_SUBMODE",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_ODS_SKG_DIM_VALORACIO_SUBMODE",
+								"type": "DataFlowReference"
+							},
+							"integrationRuntime": {
+								"referenceName": "AutoResolveIntegrationRuntime2",
+								"type": "IntegrationRuntimeReference"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-01-27T09:06:17Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/DF_ODS_SKG_DIM_FOCUS')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_ODS_SKG_DIM_VALORACIO_LEGISLACIO')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_ODS_SKG_DIM_ESTABLIMENT')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_ODS_SKG_DIM_VALORACIO_TRACTAMENT')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_ODS_SKG_DIM_VALORACIO_VLE_MCT')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_ODS_SKG_DIM_VALORACIO_VLE_MLT')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_ODS_SKG_DIM_LEGISLACIO')]",
+				"[concat(variables('factoryId'), '/dataflows/DF_ODS_SKG_DIM_VALORACIO_SUBMODE')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_SKG_DIM_FOCUS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_DIM_FOCUS",
+								"type": "DatasetReference"
+							},
+							"name": "ODSdimFOCUS"
+						},
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_FOCUS",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimFOCUS"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_FOCUS",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimFOCUSfinal"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectPK"
+						},
+						{
+							"name": "NotExists"
+						}
+					],
+					"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tNOM_FOCUS as string,\n\t\tUTM_X as string,\n\t\tUTM_Y as string,\n\t\tID_FOCUS_BRUT as string,\n\t\tLLIBRE_REGISTRE as string,\n\t\tID_GRUP_CAPCA as string,\n\t\tID_CODI_CAPCA as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp,\n\t\tCODI_EMIS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimFOCUS\nsource(output(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimFOCUS\nODSdimFOCUS select(mapColumn(\n\t\tID_FOCUS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nSelectPK, SKGdimFOCUS exists(SelectPK@ID_FOCUS == SKGdimFOCUS@ID_FOCUS,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_DIM_FOCUS as integer,\n\t\tID_FOCUS as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS\n\t)) ~> SKGdimFOCUSfinal"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS_DIM_FOCUS')]",
+				"[concat(variables('factoryId'), '/datasets/SKG_DIM_FOCUS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_SKG_DIM_VALORACIO_LEGISLACIO')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_DIM_VALORACIO_LEGISLACIO",
+								"type": "DatasetReference"
+							},
+							"name": "ODSdimVALORACIOlegislacio"
+						},
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_LEGISLACIO",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOlegislacio"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_LEGISLACIO",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOlegislaciofinal"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectPK"
+						},
+						{
+							"name": "NotExists"
+						}
+					],
+					"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOlegislacio\nsource(output(\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOlegislacio\nODSdimVALORACIOlegislacio select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nSelectPK, SKGdimVALORACIOlegislacio exists(SelectPK@ID_FOCUS == SKGdimVALORACIOlegislacio@ID_FOCUS\n\t&& SelectPK@ID_LEGISLACIO == SKGdimVALORACIOlegislacio@ID_LEGISLACIO,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO\n\t)) ~> SKGdimVALORACIOlegislaciofinal"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS_DIM_VALORACIO_LEGISLACIO')]",
+				"[concat(variables('factoryId'), '/datasets/SKG_DIM_VALORACIO_LEGISLACIO')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_SKG_DIM_ESTABLIMENT')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_DIM_ESTABLIMENT",
+								"type": "DatasetReference"
+							},
+							"name": "ODSdimESTABLIMENT"
+						},
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_ESTABLIMENT",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimESTABLIMENT"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_ESTABLIMENT",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimESTABLIMENTfinal"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectPK"
+						},
+						{
+							"name": "NotExists"
+						}
+					],
+					"script": "source(output(\n\t\tCODI_EMIS as string,\n\t\tCIF_EMPRESA as string,\n\t\tNOM_ESTABLIMENT as string,\n\t\tADRECA as string,\n\t\tPERSONA_CONTACTE as string,\n\t\tTELEFON_CONTACTE as string,\n\t\tEMAIL_CONTACTE as string,\n\t\tSFTP_IP as string,\n\t\tSFTP_USUARI as string,\n\t\tSFTP_PASS as string,\n\t\tSFTP_PATH as string,\n\t\tDATA_ALTA as timestamp,\n\t\tDATA_BAIXA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimESTABLIMENT\nsource(output(\n\t\tID_ESTABLIMENT as integer,\n\t\tCODI_EMIS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimESTABLIMENT\nODSdimESTABLIMENT select(mapColumn(\n\t\tCODI_EMIS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nSelectPK, SKGdimESTABLIMENT exists(SelectPK@CODI_EMIS == SKGdimESTABLIMENT@CODI_EMIS,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTABLIMENT as integer,\n\t\tCODI_EMIS as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCODI_EMIS\n\t)) ~> SKGdimESTABLIMENTfinal"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS_DIM_ESTABLIMENT')]",
+				"[concat(variables('factoryId'), '/datasets/SKG_DIM_ESTABLIMENT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_SKG_DIM_VALORACIO_TRACTAMENT')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_DIM_VALORACIO_TRACTAMENT",
+								"type": "DatasetReference"
+							},
+							"name": "ODSdimVALORACIOtractament"
+						},
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_TRACTAMENT",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOtractament"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_TRACTAMENT",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOtractamentFINAL"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectPK"
+						},
+						{
+							"name": "NotExists"
+						},
+						{
+							"name": "Aggregate1"
+						}
+					],
+					"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tANOMAL_LLINDAR as decimal(9,3)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOtractament\nsource(output(\n\t\tID_VALORACIO_TRACTAMENT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOtractament\nAggregate1 select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tDATA_INICI\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nSelectPK, SKGdimVALORACIOtractament exists(SelectPK@ID_FOCUS == SKGdimVALORACIOtractament@ID_FOCUS\n\t&& SelectPK@ID_LEGISLACIO == SKGdimVALORACIOtractament@ID_LEGISLACIO\n\t&& SelectPK@ID_SUBMODE == SKGdimVALORACIOtractament@ID_SUBMODE\n\t&& SelectPK@ID_ELEMENT == SKGdimVALORACIOtractament@ID_ELEMENT\n\t&& SelectPK@DATA_INICI == SKGdimVALORACIOtractament@DATA_INICI,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nODSdimVALORACIOtractament aggregate(groupBy(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tDATA_INICI),\n\tcon = count(ID_FOCUS)) ~> Aggregate1\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_VALORACIO_TRACTAMENT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT,\n\t\tDATA_INICI\n\t)) ~> SKGdimVALORACIOtractamentFINAL"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS_DIM_VALORACIO_TRACTAMENT')]",
+				"[concat(variables('factoryId'), '/datasets/SKG_DIM_VALORACIO_TRACTAMENT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_SKG_DIM_VALORACIO_VLE_MCT')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_DIM_VALORACIO_VLE_MCT",
+								"type": "DatasetReference"
+							},
+							"name": "ODSdimVALORACIOvleMCT"
+						},
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_VLE_MCT",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOvleMCT"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_VLE_MCT",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOvleMCTFINAL"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectPK"
+						},
+						{
+							"name": "NotExists"
+						},
+						{
+							"name": "DISTINCT"
+						}
+					],
+					"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT as integer,\n\t\tVLE_MCT_UNITATS as string,\n\t\tVLE_MCT_VAL_PERC_COMP as integer,\n\t\tMCT_VAL_PERIODE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOvleMCT\nsource(output(\n\t\tID_VALORACIO_VLE_MCT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOvleMCT\nODSdimVALORACIOvleMCT select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nDISTINCT, SKGdimVALORACIOvleMCT exists(DISTINCT@ID_FOCUS == SKGdimVALORACIOvleMCT@ID_FOCUS\n\t&& DISTINCT@ID_LEGISLACIO == SKGdimVALORACIOvleMCT@ID_LEGISLACIO\n\t&& DISTINCT@ID_SUBMODE == SKGdimVALORACIOvleMCT@ID_SUBMODE\n\t&& DISTINCT@ID_ELEMENT == SKGdimVALORACIOvleMCT@ID_ELEMENT,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nSelectPK aggregate(groupBy(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT),\n\tTEMP = count(ID_FOCUS)) ~> DISTINCT\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_VALORACIO_VLE_MCT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT\n\t)) ~> SKGdimVALORACIOvleMCTFINAL"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS_DIM_VALORACIO_VLE_MCT')]",
+				"[concat(variables('factoryId'), '/datasets/SKG_DIM_VALORACIO_VLE_MCT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_SKG_DIM_VALORACIO_VLE_MLT')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_DIM_VALORACIO_VLE_MLT",
+								"type": "DatasetReference"
+							},
+							"name": "ODSdimVALORACIOvleMLT"
+						},
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_VLE_MLT",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOvleMLT"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_VLE_MLT",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOvleMLTFINAL"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectPK"
+						},
+						{
+							"name": "NotExists"
+						},
+						{
+							"name": "DISTINCT"
+						}
+					],
+					"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MLT as string,\n\t\tVLE_MLT_UNITATS as string,\n\t\tVLE_MLT_MITJANA_TIPUS as string,\n\t\tVLE_MLT_MITJANA_TIPUS_NOMBRE as decimal(3,0),\n\t\tVLE_MLT_MCT_MLT_BASE_MLT as string,\n\t\tVLE_MLT_MCT_MLT_BASE_MLT_N_MIN as decimal(5,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIPN as decimal(3,0),\n\t\tVLE_MLT_PERIODE_VALORACIO_TIP as string,\n\t\tVLE_MLT_VAL_PERC_COMP as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOvleMLT\nsource(output(\n\t\tID_VALORACIO_VLE_MLT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOvleMLT\nODSdimVALORACIOvleMLT select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nDISTINCT, SKGdimVALORACIOvleMLT exists(DISTINCT@ID_FOCUS == SKGdimVALORACIOvleMLT@ID_FOCUS\n\t&& DISTINCT@ID_LEGISLACIO == SKGdimVALORACIOvleMLT@ID_LEGISLACIO\n\t&& DISTINCT@ID_SUBMODE == SKGdimVALORACIOvleMLT@ID_SUBMODE\n\t&& DISTINCT@ID_ELEMENT == SKGdimVALORACIOvleMLT@ID_ELEMENT,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nSelectPK aggregate(groupBy(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT),\n\tTMP = count(ID_FOCUS)) ~> DISTINCT\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_VALORACIO_VLE_MLT as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE,\n\t\tID_ELEMENT\n\t)) ~> SKGdimVALORACIOvleMLTFINAL"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS_DIM_VALORACIO_VLE_MLT')]",
+				"[concat(variables('factoryId'), '/datasets/SKG_DIM_VALORACIO_VLE_MLT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_SKG_DIM_LEGISLACIO')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_DIM_LEGISLACIO",
+								"type": "DatasetReference"
+							},
+							"name": "ODSdimLEGISLACIO"
+						},
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_LEGISLACIO",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimLEGISLACIO"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_LEGISLACIO",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimLEGISLACIOfinal"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectPK"
+						},
+						{
+							"name": "NotExists"
+						}
+					],
+					"script": "source(output(\n\t\tID_LEGISLACIO as string,\n\t\tDESCRIPCIO as string,\n\t\tDESCRIPCIO_ACRONIM as string,\n\t\tMCT_BASE as decimal(3,0),\n\t\tMAX_H_ANOMALES as decimal(4,0),\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tMAX_DIES_INDISPON as decimal(4,0),\n\t\tMAX_H_ANOMALES_SEGUIDES as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimLEGISLACIO\nsource(output(\n\t\tID_DIM_LEGISLACIO as integer,\n\t\tID_LEGISLACIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimLEGISLACIO\nODSdimLEGISLACIO select(mapColumn(\n\t\tID_LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nSelectPK, SKGdimLEGISLACIO exists(SelectPK@ID_LEGISLACIO == SKGdimLEGISLACIO@ID_LEGISLACIO,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_DIM_LEGISLACIO as integer,\n\t\tID_LEGISLACIO as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_LEGISLACIO\n\t)) ~> SKGdimLEGISLACIOfinal"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS_DIM_LEGISLACIO')]",
+				"[concat(variables('factoryId'), '/datasets/SKG_DIM_LEGISLACIO')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_ODS_SKG_DIM_VALORACIO_SUBMODE')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ODS_DIM_VALORACIO_SUBMODE",
+								"type": "DatasetReference"
+							},
+							"name": "ODSdimVALORACIOsubmode"
+						},
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_SUBMODE",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOsubmode"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "SKG_DIM_VALORACIO_SUBMODE",
+								"type": "DatasetReference"
+							},
+							"name": "SKGdimVALORACIOsubmodeFINAL"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SelectPK"
+						},
+						{
+							"name": "NotExists"
+						}
+					],
+					"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tDESCRIPCIO as string,\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOsubmode\nsource(output(\n\t\tID_DIM_VALORACIO_SUBMODE as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> SKGdimVALORACIOsubmode\nODSdimVALORACIOsubmode select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectPK\nSelectPK, SKGdimVALORACIOsubmode exists(SelectPK@ID_FOCUS == SKGdimVALORACIOsubmode@ID_FOCUS\n\t&& SelectPK@ID_LEGISLACIO == SKGdimVALORACIOsubmode@ID_LEGISLACIO\n\t&& SelectPK@ID_SUBMODE == SKGdimVALORACIOsubmode@ID_SUBMODE,\n\tnegate:true,\n\tbroadcast: 'auto')~> NotExists\nNotExists sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_DIM_VALORACIO_SUBMODE as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_SUBMODE\n\t)) ~> SKGdimVALORACIOsubmodeFINAL"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ODS_DIM_VALORACIO_SUBMODE')]",
+				"[concat(variables('factoryId'), '/datasets/SKG_DIM_VALORACIO_SUBMODE')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_DIM_FOCUS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NOM_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UTM_X",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UTM_Y",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_FOCUS_BRUT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LLIBRE_REGISTRE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_GRUP_CAPCA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_CODI_CAPCA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_ALTA",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DATA_BAIXA",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "CODI_EMIS",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "ODS_XEAC",
+					"table": "ODS_DIM_FOCUS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SKG_DIM_FOCUS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_DIM_FOCUS",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SKG_XEAC",
+					"table": "SKG_DIM_FOCUS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_DIM_VALORACIO_LEGISLACIO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_INICI",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DATA_FI",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "ODS_XEAC",
+					"table": "ODS_DIM_VALORACIO_LEGISLACIO"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SKG_DIM_VALORACIO_LEGISLACIO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_VALORACIO_LEGISLACIO",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SKG_XEAC",
+					"table": "SKG_DIM_VALORACIO_LEGISLACIO"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_DIM_ESTABLIMENT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CODI_EMIS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CIF_EMPRESA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NOM_ESTABLIMENT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ADRECA",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PERSONA_CONTACTE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TELEFON_CONTACTE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EMAIL_CONTACTE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SFTP_IP",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SFTP_USUARI",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SFTP_PASS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SFTP_PATH",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_ALTA",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DATA_BAIXA",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "ODS_XEAC",
+					"table": "ODS_DIM_ESTABLIMENT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SKG_DIM_ESTABLIMENT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_ESTABLIMENT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CODI_EMIS",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SKG_XEAC",
+					"table": "SKG_DIM_ESTABLIMENT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_DIM_VALORACIO_TRACTAMENT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_SUBMODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_ELEMENT",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 0
+					},
+					{
+						"name": "DATA_INICI",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DATA_FI",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ANOMAL_LLINDAR",
+						"type": "decimal",
+						"precision": 9,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "ODS_XEAC",
+					"table": "ODS_DIM_VALORACIO_TRACTAMENT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SKG_DIM_VALORACIO_TRACTAMENT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_VALORACIO_TRACTAMENT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_SUBMODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_ELEMENT",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 0
+					},
+					{
+						"name": "DATA_INICI",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "SKG_XEAC",
+					"table": "SKG_DIM_VALORACIO_TRACTAMENT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_DIM_VALORACIO_VLE_MCT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_SUBMODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_ELEMENT",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 0
+					},
+					{
+						"name": "COMPTADOR",
+						"type": "decimal",
+						"precision": 3,
+						"scale": 0
+					},
+					{
+						"name": "DATA_INICI",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DATA_FI",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "VLE_MCT_TIPUS_MCT",
+						"type": "decimal",
+						"precision": 3,
+						"scale": 0
+					},
+					{
+						"name": "VLE_MCT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "VLE_MCT_UNITATS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VLE_MCT_VAL_PERC_COMP",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "MCT_VAL_PERIODE",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "ODS_XEAC",
+					"table": "ODS_DIM_VALORACIO_VLE_MCT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SKG_DIM_VALORACIO_VLE_MCT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_VALORACIO_VLE_MCT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_SUBMODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_ELEMENT",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "SKG_XEAC",
+					"table": "SKG_DIM_VALORACIO_VLE_MCT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_DIM_VALORACIO_VLE_MLT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_SUBMODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_ELEMENT",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 0
+					},
+					{
+						"name": "COMPTADOR",
+						"type": "decimal",
+						"precision": 3,
+						"scale": 0
+					},
+					{
+						"name": "DATA_INICI",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DATA_FI",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "VLE_MLT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VLE_MLT_UNITATS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VLE_MLT_MITJANA_TIPUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VLE_MLT_MITJANA_TIPUS_NOMBRE",
+						"type": "decimal",
+						"precision": 3,
+						"scale": 0
+					},
+					{
+						"name": "VLE_MLT_MCT_MLT_BASE_MLT",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VLE_MLT_MCT_MLT_BASE_MLT_N_MIN",
+						"type": "decimal",
+						"precision": 5,
+						"scale": 0
+					},
+					{
+						"name": "VLE_MLT_PERIODE_VALORACIO_TIPN",
+						"type": "decimal",
+						"precision": 3,
+						"scale": 0
+					},
+					{
+						"name": "VLE_MLT_PERIODE_VALORACIO_TIP",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VLE_MLT_VAL_PERC_COMP",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "ODS_XEAC",
+					"table": "ODS_DIM_VALORACIO_VLE_MLT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SKG_DIM_VALORACIO_VLE_MLT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_VALORACIO_VLE_MLT",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_SUBMODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_ELEMENT",
+						"type": "decimal",
+						"precision": 6,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "SKG_XEAC",
+					"table": "SKG_DIM_VALORACIO_VLE_MLT"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_DIM_LEGISLACIO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESCRIPCIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESCRIPCIO_ACRONIM",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MCT_BASE",
+						"type": "decimal",
+						"precision": 3,
+						"scale": 0
+					},
+					{
+						"name": "MAX_H_ANOMALES",
+						"type": "decimal",
+						"precision": 4,
+						"scale": 0
+					},
+					{
+						"name": "IND_N_MCT_DIA_IND",
+						"type": "decimal",
+						"precision": 4,
+						"scale": 0
+					},
+					{
+						"name": "MAX_DIES_INDISPON",
+						"type": "decimal",
+						"precision": 4,
+						"scale": 0
+					},
+					{
+						"name": "MAX_H_ANOMALES_SEGUIDES",
+						"type": "decimal",
+						"precision": 4,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "ODS_XEAC",
+					"table": "ODS_DIM_LEGISLACIO"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SKG_DIM_LEGISLACIO')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_DIM_LEGISLACIO",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SKG_XEAC",
+					"table": "SKG_DIM_LEGISLACIO"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ODS_DIM_VALORACIO_SUBMODE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_SUBMODE",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DESCRIPCIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DATA_INICI",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DATA_FI",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "ODS_XEAC",
+					"table": "ODS_DIM_VALORACIO_SUBMODE"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SKG_DIM_VALORACIO_SUBMODE')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "[parameters('das_vm_test_pre_01')]",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "XEAC_COMUN/SKG"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID_DIM_VALORACIO_SUBMODE",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ID_FOCUS",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_LEGISLACIO",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ID_SUBMODE",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "SKG_XEAC",
+					"table": "SKG_DIM_VALORACIO_SUBMODE"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

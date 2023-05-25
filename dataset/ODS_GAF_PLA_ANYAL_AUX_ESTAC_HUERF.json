@@ -1,0 +1,32 @@
+{
+	"name": "ODS_GAF_PLA_ANYAL_AUX_ESTAC_HUERF",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_ESTACIO",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "count",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_ODS",
+			"table": "ODS_GAF_PLA_ANYAL_AUX_ESTAC_HUERF"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

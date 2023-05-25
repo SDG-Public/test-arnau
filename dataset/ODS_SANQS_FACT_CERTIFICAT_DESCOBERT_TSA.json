@@ -1,0 +1,69 @@
+{
+	"name": "ODS_SANQS_FACT_CERTIFICAT_DESCOBERT_TSA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_TRAMITADOR",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_RGA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_IMPORT_DESCOBERT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PAGAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_RETENCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_SOLLICITUD_ANULACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ANULACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ANULACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_SOLLICITUD_DOC_JURIDIC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_DEMARCACIO",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_CERTIFICAT_DESCOBERT_TSA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

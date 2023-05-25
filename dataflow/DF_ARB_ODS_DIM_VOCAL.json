@@ -1,0 +1,74 @@
+{
+	"name": "DF_ARB_ODS_DIM_VOCAL",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_VOCAL_BCN",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimVocalBCN"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_VOCAL_TGN",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimVocalTGN"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_VOCAL_LLEIDA",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimVocalLLeida"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_ARB_DIM_VOCAL_GIR",
+						"type": "DatasetReference"
+					},
+					"name": "STGDimVocalGir"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_DIM_VOCAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODSDimVocal"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenombrarCampos"
+				},
+				{
+					"name": "TratamientoFlag"
+				},
+				{
+					"name": "AfegirCodiDemarcacioBCN"
+				},
+				{
+					"name": "UnimTotesDemarcacions"
+				},
+				{
+					"name": "AfegirCodiDemarcacioTGN"
+				},
+				{
+					"name": "AfegirCodiDemarcacioLleida"
+				},
+				{
+					"name": "AfegirCodiDemarcacioGir"
+				}
+			],
+			"script": "source(output(\n\t\tARB_VOC_CODI as string,\n\t\tARB_VOC_DNI as string,\n\t\tARB_VOC_COGN as string,\n\t\tARB_VOC_NOM as string,\n\t\tARB_VOC_ADRE as string,\n\t\tARB_VOC_INE as string,\n\t\tARB_VOC_MUNI as string,\n\t\tARB_VOC_CP as string,\n\t\tARB_VOC_CBEM as string,\n\t\tARB_VOC_NOT as string,\n\t\tARB_VOC_ADRE2 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimVocalBCN\nsource(output(\n\t\tARB_VOC_CODI as string,\n\t\tARB_VOC_DNI as string,\n\t\tARB_VOC_COGN as string,\n\t\tARB_VOC_NOM as string,\n\t\tARB_VOC_ADRE as string,\n\t\tARB_VOC_INE as string,\n\t\tARB_VOC_MUNI as string,\n\t\tARB_VOC_CP as string,\n\t\tARB_VOC_CBEM as string,\n\t\tARB_VOC_NOT as string,\n\t\tARB_VOC_ADRE2 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimVocalTGN\nsource(output(\n\t\tARB_VOC_CODI as string,\n\t\tARB_VOC_DNI as string,\n\t\tARB_VOC_COGN as string,\n\t\tARB_VOC_NOM as string,\n\t\tARB_VOC_ADRE as string,\n\t\tARB_VOC_INE as string,\n\t\tARB_VOC_MUNI as string,\n\t\tARB_VOC_CP as string,\n\t\tARB_VOC_CBEM as string,\n\t\tARB_VOC_NOT as string,\n\t\tARB_VOC_ADRE2 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimVocalLLeida\nsource(output(\n\t\tARB_VOC_CODI as string,\n\t\tARB_VOC_DNI as string,\n\t\tARB_VOC_COGN as string,\n\t\tARB_VOC_NOM as string,\n\t\tARB_VOC_ADRE as string,\n\t\tARB_VOC_INE as string,\n\t\tARB_VOC_MUNI as string,\n\t\tARB_VOC_CP as string,\n\t\tARB_VOC_CBEM as string,\n\t\tARB_VOC_NOT as string,\n\t\tARB_VOC_ADRE2 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGDimVocalGir\nUnimTotesDemarcacions select(mapColumn(\n\t\tID_VOCAL,\n\t\tID_BRANCA_EMPRESA = ARB_VOC_CBEM,\n\t\tCOD_DNI_VOCAL = ARB_VOC_DNI,\n\t\tCOD_CP_VOCAL = ARB_VOC_CP,\n\t\tCOD_INE_VOCAL = ARB_VOC_INE,\n\t\tDESC_VOCAL_COGNOM = ARB_VOC_COGN,\n\t\tDESC_VOCAL_NOM = ARB_VOC_NOM,\n\t\t{DESC_VOCAL_ADREÇA} = ARB_VOC_ADRE,\n\t\tDESC_VOCAL_MUNICIPI = ARB_VOC_MUNI,\n\t\t{DESC_VOCAL_ADREÇA_2} = ARB_VOC_ADRE2,\n\t\t{FLAG_VOCAL_NOTIFICACIÓ} = ARB_VOC_NOT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenombrarCampos\nRenombrarCampos derive({FLAG_VOCAL_NOTIFICACIÓ} = iif({FLAG_VOCAL_NOTIFICACIÓ} =='N', 0, iif({FLAG_VOCAL_NOTIFICACIÓ} =='S', 1,toInteger(null())))) ~> TratamientoFlag\nSTGDimVocalBCN derive(ID_VOCAL = concat('08',ARB_VOC_CODI)) ~> AfegirCodiDemarcacioBCN\nAfegirCodiDemarcacioBCN, AfegirCodiDemarcacioTGN, AfegirCodiDemarcacioLleida, AfegirCodiDemarcacioGir union(byName: true)~> UnimTotesDemarcacions\nSTGDimVocalTGN derive(ID_VOCAL = concat('43',ARB_VOC_CODI)) ~> AfegirCodiDemarcacioTGN\nSTGDimVocalLLeida derive(ID_VOCAL = concat('25',ARB_VOC_CODI)) ~> AfegirCodiDemarcacioLleida\nSTGDimVocalGir derive(ID_VOCAL = concat('17',ARB_VOC_CODI)) ~> AfegirCodiDemarcacioGir\nTratamientoFlag sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSDimVocal"
+		}
+	}
+}

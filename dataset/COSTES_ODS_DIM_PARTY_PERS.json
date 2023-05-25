@@ -1,0 +1,63 @@
+{
+	"name": "COSTES_ODS_DIM_PARTY_PERS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_PARTY",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DESC_FIRST_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_MIDDLE_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_LAST_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_GROUP_NAME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_RAO_SOCIAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_PARTY_TYPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_DOCUMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_CIF",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_ODS",
+			"table": "ODS_COSTES_DIM_PARTY_PERS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

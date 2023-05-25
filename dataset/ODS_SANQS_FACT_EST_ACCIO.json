@@ -1,0 +1,20 @@
+{
+	"name": "ODS_SANQS_FACT_EST_ACCIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_EST_ACCIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

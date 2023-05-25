@@ -1,0 +1,16 @@
+{
+	"name": "ZZ_TEST",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "GAF_DM",
+			"table": "ZZ_TEST"
+		}
+	}
+}

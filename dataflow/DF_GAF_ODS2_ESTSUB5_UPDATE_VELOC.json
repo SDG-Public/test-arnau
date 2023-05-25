@@ -1,0 +1,62 @@
+{
+	"name": "DF_GAF_ODS2_ESTSUB5_UPDATE_VELOC",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS2_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "ODS1EstacioSubtram5"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS2_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "ODS2EstacioSubtram5"
+				}
+			],
+			"transformations": [
+				{
+					"name": "VELOCNull"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "FilterAnyo"
+				},
+				{
+					"name": "FilterAnyoAnt"
+				},
+				{
+					"name": "CodEstVELOCFix"
+				},
+				{
+					"name": "VELOCNotNull"
+				},
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "Update"
+				},
+				{
+					"name": "AnyoMax"
+				},
+				{
+					"name": "join3"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4),\n\t\tFLAG_IMD_INFORMAT_ORIGEN as integer,\n\t\tFLAG_IFA_INFORMAT_ORIGEN as integer,\n\t\tFLAG_PESANT_INFORMAT_ORIGEN as integer,\n\t\tFLAG_VELOC_INFORMAT_ORIGEN as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODS1EstacioSubtram5\nFilterAnyo filter(isNull(IND_VELOC_MITJA)) ~> VELOCNull\nVELOCNull, CodEstVELOCFix join(ODS1EstacioSubtram5@COD_ESTACIO == CodEstVELOCFix@COD_ESTACIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> join2\nODS1EstacioSubtram5 filter(DATA_ANYO == toInteger(substring($P_DATA_FI, 1, 4))) ~> FilterAnyo\nODS1EstacioSubtram5 filter(DATA_ANYO == toInteger(substring($P_DATA_FI, 1, 4))-1) ~> FilterAnyoAnt\njoin3 select(mapColumn(\n\t\tCOD_ESTACIO = AnyoMax@COD_ESTACIO,\n\t\tIND_VELOC_MITJA_FIX = IND_VELOC_MITJA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CodEstVELOCFix\nFilterAnyoAnt filter(!isNull(IND_VELOC_MITJA)) ~> VELOCNotNull\njoin2 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_PLA,\n\t\tDATA_ANYO,\n\t\tID_ESTAT,\n\t\tID_ESTACIO_AFIN,\n\t\tID_DETECTOR,\n\t\tID_EQUIP,\n\t\tID_ALIMENTACIO,\n\t\tID_TIPUS_ESTACIO,\n\t\tID_FACTOR,\n\t\tID_PLANOL,\n\t\tID_ESTACIO_REF_1,\n\t\tID_ESTACIO_REF_2,\n\t\tID_LLOGARET,\n\t\tCOD_INE,\n\t\tCOD_ESTACIO = ODS1EstacioSubtram5@COD_ESTACIO,\n\t\tCOD_ORGANISME,\n\t\tCOD_CARRETERA,\n\t\tCOD_MOD_CARRETERA,\n\t\tCOD_TRAM,\n\t\tCOD_SUBTRAM,\n\t\tNUM_TELEFON,\n\t\tDESC_ESTACIO,\n\t\tDESC_OBSERVACIONS,\n\t\tPK,\n\t\tMETRES_PK,\n\t\tUTMX,\n\t\tUTMY,\n\t\tNUM_LONGITUD,\n\t\tNUM_LATITUD,\n\t\tPK_INI,\n\t\tMETRES_PK_INI,\n\t\tDESC_PK_INI,\n\t\tPK_FI,\n\t\tMETRES_PK_FI,\n\t\tDESC_PK_FI,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_IFA,\n\t\tIND_VELOC_MITJA = IND_VELOC_MITJA_FIX,\n\t\tFLAG_IMD_INFORMAT_ORIGEN,\n\t\tFLAG_IFA_INFORMAT_ORIGEN,\n\t\tFLAG_PESANT_INFORMAT_ORIGEN,\n\t\tFLAG_VELOC_INFORMAT_ORIGEN\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos alterRow(updateIf(ID_ESTACIO==ID_ESTACIO)) ~> Update\nVELOCNotNull aggregate(groupBy(COD_ESTACIO),\n\tDATA_MAX_ANYO = max(DATA_ANYO)) ~> AnyoMax\nAnyoMax, VELOCNotNull join(AnyoMax@COD_ESTACIO == ODS1EstacioSubtram5@COD_ESTACIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> join3\nUpdate sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4),\n\t\tFLAG_IMD_INFORMAT_ORIGEN as integer,\n\t\tFLAG_IFA_INFORMAT_ORIGEN as integer,\n\t\tFLAG_PESANT_INFORMAT_ORIGEN as integer,\n\t\tFLAG_VELOC_INFORMAT_ORIGEN as integer\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['ID_ESTACIO'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODS2EstacioSubtram5"
+		}
+	}
+}

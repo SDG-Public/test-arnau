@@ -1,0 +1,33 @@
+{
+	"name": "ODS_ARB_POWERBI_DETALL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NOM_VOCALES",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_DNI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_ODS",
+			"table": "ODS_ARB_POWERBI_DETALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,74 @@
+{
+	"name": "BARRIS_ODS_DIM_RESUMFACT_ANYS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_TITOLPROJECTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMP_GENERALITAT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_AJUNTAMENT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_ALTRES",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_ACTUACIO",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_BARRIS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_FEDER",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_DESPBARRIS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMP_DESPTOTAL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "DATA_ANYDADES",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_ODS",
+			"table": "ODS_BARRIS_DIM_RESUMFACT_ANYS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

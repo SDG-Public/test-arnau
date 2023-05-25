@@ -1,0 +1,73 @@
+{
+	"name": "DF_ODS_01_TAULES_PARAMETRES",
+	"properties": {
+		"folder": {
+			"name": "XEAC_COMUN/PARAMETRES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_EM_Tractament_Cabal",
+						"type": "DatasetReference"
+					},
+					"name": "STGtractamentCABAL"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_EM_Tractament_Contaminants",
+						"type": "DatasetReference"
+					},
+					"name": "STGtractamentCONTAMINANT"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_LlistatCodisParametres",
+						"type": "DatasetReference"
+					},
+					"name": "STGllistatCODISparam"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_DIM_PARAM_VALORACIO_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "STGparamVALORACIOmct"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_EM_TRACTAMENT_CABAL",
+						"type": "DatasetReference"
+					},
+					"name": "ODStractamentCABAL"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_EM_TRACTAMENT_CONTAMINANT",
+						"type": "DatasetReference"
+					},
+					"name": "ODStractamentCONTAMINANTS"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_LLISTAT_CODIS_PARAMETRES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSllistatCODISparameteres"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_PARAM_VALORACIO_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSparamVALORACIOmct"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCodi_emis as integer,\n\t\tID_focus as string,\n\t\tID_Focus_BRUT as string,\n\t\tCodis as integer,\n\t\tP_normal as string,\n\t\tAplicar_P_declarada as string,\n\t\tP_declarada_hPa as string,\n\t\tT_normal as string,\n\t\tAplicar_T_declarada as string,\n\t\tT_declarada_centigrads as string,\n\t\tH_sec as string,\n\t\tAplicar_H_declarada as string,\n\t\tH_declarada_percentatge as string,\n\t\tAplicar_cabal_declarat as string,\n\t\tCabal_declarat_dam3 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGtractamentCABAL\nsource(output(\n\t\tCodi_emis as integer,\n\t\tID_focus as string,\n\t\tCodis as integer,\n\t\tMode_operacio as string,\n\t\tVLE_final as string,\n\t\tIC_percentatge as integer,\n\t\tO2sec_corregit as string,\n\t\tCorreccio_O2sec_percentatge as string,\n\t\tAplicar_O2sec_declarat as string,\n\t\tO2sec_declarat_percentatge as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGtractamentCONTAMINANT\nsource(output(\n\t\tIDCONTAMINANT as integer,\n\t\tNOMCONTAMINANT as string,\n\t\tUNITATS as string,\n\t\tDESCRIPCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGllistatCODISparam\nsource(output(\n\t\tVALORACIO_MCT as string,\n\t\tCOD_VALIDACIO as string,\n\t\tDESC as string,\n\t\tTIPUS_MCT as string,\n\t\tMINUTS_VALIDESA as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGparamVALORACIOmct\nSTGtractamentCABAL sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_EMISSIO as integer,\n\t\tID_FOCUS as string,\n\t\tID_FOCUS_BRUT as string,\n\t\tCODIS as integer,\n\t\tP_NORMAL as string,\n\t\tAPLICAR_P_DECLARADA as string,\n\t\tP_DECLARADA_HPA as string,\n\t\tT_NORMAL as string,\n\t\tAPLICAR_T_DECLARADA as string,\n\t\tT_DECLARADA_CENTIGRADS as string,\n\t\tH_SEC as string,\n\t\tAPLICAR_H_DECLARADA as string,\n\t\tH_DECLARADA_PRECENTATGE as string,\n\t\tAPLICAR_CABAL_DECLARAT as string,\n\t\tCABAL_DECLARAT_DAM3 as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCODI_EMISSIO = Codi_emis,\n\t\tID_FOCUS = ID_focus,\n\t\tID_FOCUS_BRUT = ID_Focus_BRUT,\n\t\tCODIS = Codis,\n\t\tP_NORMAL = P_normal,\n\t\tAPLICAR_P_DECLARADA = Aplicar_P_declarada,\n\t\tP_DECLARADA_HPA = P_declarada_hPa,\n\t\tT_NORMAL = T_normal,\n\t\tAPLICAR_T_DECLARADA = Aplicar_T_declarada,\n\t\tT_DECLARADA_CENTIGRADS = T_declarada_centigrads,\n\t\tH_SEC = H_sec,\n\t\tAPLICAR_H_DECLARADA = Aplicar_H_declarada,\n\t\tH_DECLARADA_PRECENTATGE = H_declarada_percentatge,\n\t\tAPLICAR_CABAL_DECLARAT = Aplicar_cabal_declarat,\n\t\tCABAL_DECLARAT_DAM3 = Cabal_declarat_dam3\n\t)) ~> ODStractamentCABAL\nSTGtractamentCONTAMINANT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tCODI_EMISSIO as integer,\n\t\tID_FOCUS as string,\n\t\tCODIS as integer,\n\t\tMODE_OPERACIO as string,\n\t\tVLE_FINAL as string,\n\t\tIC_PERCENTATGE as integer,\n\t\tO2SEC_CORREGIT as string,\n\t\tCORRECCIO_O2SEC_PERCENTATGE as string,\n\t\tAPLICAR_O2SEC_DECLARAT as string,\n\t\tO2SEC_DECLARAT_PERCENTATGE as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tCODI_EMISSIO = Codi_emis,\n\t\tID_FOCUS = ID_focus,\n\t\tCODIS = Codis,\n\t\tMODE_OPERACIO = Mode_operacio,\n\t\tVLE_FINAL = VLE_final,\n\t\tIC_PERCENTATGE = IC_percentatge,\n\t\tO2SEC_CORREGIT = O2sec_corregit,\n\t\tCORRECCIO_O2SEC_PERCENTATGE = Correccio_O2sec_percentatge,\n\t\tAPLICAR_O2SEC_DECLARAT = Aplicar_O2sec_declarat,\n\t\tO2SEC_DECLARAT_PERCENTATGE = O2sec_declarat_percentatge\n\t)) ~> ODStractamentCONTAMINANTS\nSTGllistatCODISparam sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_CONTAMINANT as integer,\n\t\tNOM_CONTAMINANT as string,\n\t\tUNITATS as string,\n\t\tDESC as string\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_CONTAMINANT = IDCONTAMINANT,\n\t\tNOM_CONTAMINANT = NOMCONTAMINANT,\n\t\tUNITATS,\n\t\tDESC = DESCRIPCIO\n\t)) ~> ODSllistatCODISparameteres\nSTGparamVALORACIOmct sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tVALORACIO_MCT as string,\n\t\tCOD_VALIDACIO as string,\n\t\tDESC as string,\n\t\tTIPUS_MCT as string,\n\t\tMINUTS_VALIDESA as integer\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSparamVALORACIOmct"
+		}
+	}
+}

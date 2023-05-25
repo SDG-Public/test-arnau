@@ -1,0 +1,25 @@
+{
+	"name": "STG_ARB_DIM_QUALITATDE_LLEIDA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ARB_QDE_CODI",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ARB_QDE_DESC",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_STG",
+			"table": "STG_ARB_DIM_QUALITATDE_LLEIDA"
+		}
+	}
+}

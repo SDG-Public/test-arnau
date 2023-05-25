@@ -1,0 +1,84 @@
+{
+	"name": "ODS_ARB_FACT_EXPEDIENTS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ARB/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_TRANSPORT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_DEMARCACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMP_EXPEDIENT_IMPORT",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 2
+			},
+			{
+				"name": "DATA_REGISTRO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_ENTRADA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_VISTA",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_LAUDE",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DATA_DECISIO",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ID_MOTIU_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_MOTIU_LAUDE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_TIPUS_LAUDE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_INSERCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "ARB_ODS",
+			"table": "ODS_ARB_FACT_EXPEDIENTS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

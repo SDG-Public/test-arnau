@@ -1,0 +1,70 @@
+{
+	"name": "DF_DM_XEAC_MCT_PBI",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/MCT"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "DmXeacMct"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_ELEMENT_MESURABLE",
+						"type": "DatasetReference"
+					},
+					"name": "DmDimElement"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_DIM_VALORACIO_VLE_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "DmDimValoracio"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_MCT_PBI",
+						"type": "DatasetReference"
+					},
+					"name": "DmXeacMctPbi"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddGrup"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Cond"
+				},
+				{
+					"name": "FiltroVD"
+				},
+				{
+					"name": "FiltreCamps"
+				},
+				{
+					"name": "FilterData"
+				},
+				{
+					"name": "AgregaNivelDia"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_FI as string,\n\tP_DATA_INI as string\n}\nsource(output(\n\t\tID_CONTAMINANT as string,\n\t\tID_FOCUS as string,\n\t\tDATA as timestamp,\n\t\tTIPUS_MCT as string,\n\t\tVALOR_MCT as double,\n\t\tVALORACIO_MCT as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tLEGISLACIO as string,\n\t\tDATA_TRUNC as date,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_VALORACIO_TRACTAMENT as integer,\n\t\tID_VALORACIO_VLE_MCT as integer,\n\t\tID_COMPLIMENT_MCT_1D_V2 as integer,\n\t\tID_IND_DIA_v2 as integer,\n\t\tID_XEAC_ANOMALAS_v2 as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DmXeacMct\nsource(output(\n\t\tID_ELEMENT as decimal(6,0),\n\t\tNOM_ELEMENT as string,\n\t\tID_TIPUS_ELEM as decimal(6,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DmDimElement\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tCOMPTADOR as decimal(3,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tVLE_MCT_TIPUS_MCT as decimal(3,0),\n\t\tVLE_MCT as integer,\n\t\tVLE_MCT_UNITATS as string,\n\t\tVLE_MCT_VAL_PERC_COMP as integer,\n\t\tMCT_VAL_PERIODE as string,\n\t\tID_VALORACIO_VLE_MCT as integer,\n\t\tID_DIM_FOCUS as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DmDimValoracio\nDmDimValoracio derive(grup = concat(toString(VLE_MCT_VAL_PERC_COMP), MCT_VAL_PERIODE)) ~> AddGrup\nFiltroVD, DmDimElement join(ID_CONTAMINANT == toString(ID_ELEMENT),\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join1\nJoin1, AddGrup join(DmXeacMct@ID_FOCUS == DmDimValoracio@ID_FOCUS\n\t&& ID_CONTAMINANT == toString(DmDimValoracio@ID_ELEMENT)\n\t&& TIPUS_MCT == toString(VLE_MCT_TIPUS_MCT)\n\t&& MODE_REPORTABLE_NUM == ID_SUBMODE\n\t&& LEGISLACIO == ID_LEGISLACIO\n\t&& DATA >= DATA_INICI\n\t&& DATA <= DATA_FI,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'right')~> Join2\nJoin2 derive(inferior_llindar = iif(VLE_MCT>VALOR_MCT, 1, 0),\n\t\tDATA = toDate(DATA)) ~> Cond\nFilterData filter(VALORACIO_MCT=='VD') ~> FiltroVD\nCond select(mapColumn(\n\t\tID_FOCUS = DmXeacMct@ID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tVALOR_MCT,\n\t\tVALORACIO_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tID_COMPLIMENT_MCT_1D_V2,\n\t\tNOM_ELEMENT,\n\t\tID_LEGISLACIO,\n\t\tLEGISLACIO,\n\t\tVLE_MCT,\n\t\tperc_esperat = VLE_MCT_VAL_PERC_COMP,\n\t\tgrup,\n\t\tinferior_llindar\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltreCamps\nDmXeacMct filter(toDate(DATA) >= toDate($P_DATA_INI,'yyyyMMdd')\n&&\ntoDate(DATA) < addDays(toDate($P_DATA_FI,'yyyyMMdd'),1)) ~> FilterData\nFiltreCamps aggregate(groupBy(ID_FOCUS,\n\t\tDATA,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tID_COMPLIMENT_MCT_1D_V2,\n\t\tNOM_ELEMENT,\n\t\tID_LEGISLACIO,\n\t\tVLE_MCT,\n\t\tperc_esperat,\n\t\tgrup),\n\tinferior_llindar = sum(inferior_llindar),\n\t\tcount_inferior_llindar = count(inferior_llindar)) ~> AgregaNivelDia\nAgregaNivelDia sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DmXeacMctPbi"
+		}
+	}
+}

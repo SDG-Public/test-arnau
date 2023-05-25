@@ -1,0 +1,68 @@
+{
+	"name": "DF_GAF_ODS_PLA_ANYAL_HORA_PUNTA",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_FACT_DADES_HORES",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactDadesHores"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_HORA_PUNTA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalHoraPunta"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "AddDataMes"
+				},
+				{
+					"name": "HoraPunta"
+				},
+				{
+					"name": "MaxVolum"
+				},
+				{
+					"name": "AddConcepte"
+				},
+				{
+					"name": "AddConcepteDia"
+				},
+				{
+					"name": "FiltraCampos1"
+				},
+				{
+					"name": "AddConcepteHora"
+				},
+				{
+					"name": "FiltraCampos2"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "FiltraCampos3"
+				},
+				{
+					"name": "FiltroAnyo"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tDATA as timestamp,\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tVELOCITAT01 as decimal(6,0),\n\t\tVELOCITAT02 as decimal(6,0),\n\t\tVELOCITAT03 as decimal(6,0),\n\t\tVELOCITAT04 as decimal(6,0),\n\t\tVELOCITAT05 as decimal(6,0),\n\t\tVELOCITAT06 as decimal(6,0),\n\t\tVELOCITAT07 as decimal(6,0),\n\t\tVELOCITAT08 as decimal(6,0),\n\t\tVELOCITAT09 as decimal(6,0),\n\t\tVELOCITAT10 as decimal(6,0),\n\t\tLONGITUD01 as decimal(6,0),\n\t\tLONGITUD02 as decimal(6,0),\n\t\tLONGITUD03 as decimal(6,0),\n\t\tLONGITUD04 as decimal(6,0),\n\t\tERRORSLONG01 as decimal(6,0),\n\t\tERRORSLONG02 as decimal(6,0),\n\t\tERRORSLONG03 as decimal(6,0),\n\t\tERRORSLONG04 as decimal(6,0),\n\t\tFLAG_HORA_PUNTA as integer,\n\t\tFLAG_HORA_30 as integer,\n\t\tFLAG_HORA_50 as integer,\n\t\tFLAG_HORA_100 as integer,\n\t\tIND_VOLUM_VEHICLE as decimal(9,0),\n\t\tIND_VOLUM_VEHICLE_ERR as decimal(13,0),\n\t\tFLAG_ALGUNA_HORA_NN as integer,\n\t\tDESC_FLAG_HORA_PUNTA as string,\n\t\tDESC_FLAGS_HORA_NN as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMFactDadesHores\nHoraPunta select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA,\n\t\tIND_VOLUM_VEHICLE,\n\t\tFLAG_HORA_PUNTA,\n\t\tDESC_FLAG_HORA_PUNTA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nMaxVolum derive(DATA_MES = month(DATA),\n\t\tDATA_ANYO = year(DATA)) ~> AddDataMes\nFiltroAnyo filter(FLAG_HORA_PUNTA == 1) ~> HoraPunta\nFiltraCampos aggregate(groupBy(ID_ESTACIO,\n\t\tDATA),\n\tIND_VOLUM_VEHICLE = sum(IND_VOLUM_VEHICLE)) ~> MaxVolum\nAddDataMes derive(CONCEPTE = 'Volum') ~> AddConcepte\nAddDataMes derive(CONCEPTE = 'Dia',\n\t\tIND = dayOfMonth(DATA)) ~> AddConcepteDia\nAddConcepteDia select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tCONCEPTE,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos1\nAddDataMes derive(CONCEPTE = 'Hora',\n\t\tIND = hour(DATA)) ~> AddConcepteHora\nAddConcepteHora select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tCONCEPTE,\n\t\tIND\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos2\nFiltraCampos3, FiltraCampos1, FiltraCampos2 union(byName: true)~> Union1\nAddConcepte select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_ANYO,\n\t\tDATA_MES,\n\t\tCONCEPTE,\n\t\tIND = IND_VOLUM_VEHICLE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos3\nDMFactDadesHores filter(year(DATA) >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nyear(DATA) < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FiltroAnyo\nUnion1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tIND as decimal(9,0)\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSPlaAnyalHoraPunta"
+		}
+	}
+}

@@ -1,0 +1,44 @@
+{
+	"name": "DF_SKG_IND_HORA_v3",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/INDISPONIBLES"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_IND_HORA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSindHORAv3"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SKG_IND_HORA_v3",
+						"type": "DatasetReference"
+					},
+					"name": "SKGindHORAv3FINAL"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DATA"
+				},
+				{
+					"name": "DISTINCT"
+				},
+				{
+					"name": "UPSERT"
+				},
+				{
+					"name": "CambioNombre"
+				}
+			],
+			"script": "source(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tMARCA_TEMPS_UTC as timestamp,\n\t\tNUMERO_CASOS as long,\n\t\tIND_N_MCT_DIA_IND as string,\n\t\tCOMPLIMENT as string,\n\t\tTIPUS_MCT as string,\n\t\tCOLOR as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSindHORAv3\nODSindHORAv3 derive(MARCA_TEMPS_UTC = toDate(MARCA_TEMPS_UTC)) ~> DATA\nDATA aggregate(groupBy(ID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tMARCA_TEMPS_UTC,\n\t\tTIPUS_MCT),\n\tTEMP = count(ID_FOCUS)) ~> DISTINCT\nCambioNombre alterRow(upsertIf(true())) ~> UPSERT\nDISTINCT select(mapColumn(\n\t\tID_FOCUS,\n\t\tID_LEGISLACIO,\n\t\tID_ELEMENT,\n\t\tDATE = MARCA_TEMPS_UTC,\n\t\tMINUTOS_MCT = TIPUS_MCT,\n\t\tTEMP\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CambioNombre\nUPSERT sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_IND_HORA_v3 as integer,\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tDATE as date\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ID_FOCUS','ID_ELEMENT','ID_LEGISLACIO','DATE','MINUTOS_MCT'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> SKGindHORAv3FINAL"
+		}
+	}
+}

@@ -1,0 +1,63 @@
+{
+	"name": "GEU_STG_DIM_EXP_INTERESSAT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GEU/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "CODI_PERSONA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IND_PRINCIPAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IND_LLISTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_TIPUS_INT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NUM_ADRECA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "FE_VIDA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ESTAT_CIVIL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "REGIM_ECONOMIC",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "GEU_STG",
+			"table": "STG_GEU_DIM_EXP_INTERESSAT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

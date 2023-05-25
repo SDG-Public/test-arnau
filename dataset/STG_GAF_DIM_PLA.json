@@ -1,0 +1,84 @@
+{
+	"name": "STG_GAF_DIM_PLA",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GAF/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "IDPLA",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "IDORGANISME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IDPLAGENERAL",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 0
+			},
+			{
+				"name": "NOMPLA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATAINICI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATAFI",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "IDESTATPLA",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "GENERAT",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "PENDENT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			},
+			{
+				"name": "DATA_INI_PROCES",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "DATA_FI_PROCES",
+				"type": "datetime2",
+				"scale": 0
+			},
+			{
+				"name": "FINALITZAT",
+				"type": "decimal",
+				"precision": 1,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "GAF_STG",
+			"table": "STG_GAF_DIM_PLA"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

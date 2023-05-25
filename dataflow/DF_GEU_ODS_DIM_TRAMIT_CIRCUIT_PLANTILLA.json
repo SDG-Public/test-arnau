@@ -1,0 +1,74 @@
+{
+	"name": "DF_GEU_ODS_DIM_TRAMIT_CIRCUIT_PLANTILLA",
+	"properties": {
+		"folder": {
+			"name": "GEU"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "GEU_STG_DIM_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGdimTRAMIT"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_CIRCUIT_TRAMIT",
+						"type": "DatasetReference"
+					},
+					"name": "STGCircuitTramit"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_CIRCUIT_TR_PLANTILLA",
+						"type": "DatasetReference"
+					},
+					"name": "STGCircuitTRPlantilla"
+				},
+				{
+					"dataset": {
+						"referenceName": "STG_GEU_DIM_LLISTA_USU",
+						"type": "DatasetReference"
+					},
+					"name": "STGLlistaUsu"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GEU_DIM_TRAMIT_CIRCUIT_PLANTILLA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimTRAMIT"
+				}
+			],
+			"transformations": [
+				{
+					"name": "NormaitzarCamps1"
+				},
+				{
+					"name": "TratamientoNulos"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "FiltraRenombraCampos"
+				},
+				{
+					"name": "FixFlag"
+				},
+				{
+					"name": "join3"
+				}
+			],
+			"script": "source(output(\n\t\tNUMINT_TRAMIT as decimal(4,0),\n\t\tCODI_TRAMIT as string,\n\t\tCODI_SUBTRAMIT as string,\n\t\tDESC_TRAMIT as string,\n\t\tIND_VIGENT as string,\n\t\tIND_PROTEGIT as string,\n\t\tIND_ACORD as string,\n\t\tTIPUS_COMISSIO as string,\n\t\tCARACTER_ACORD as string,\n\t\tCODI_RANG_TRAMIT as string,\n\t\tIND_EE_TRAMIT as string,\n\t\tIND_SIGNAR as string,\n\t\tIND_NOTIF_ENS_LOCAL as string,\n\t\tIND_RETORN_EACAT as string,\n\t\tCODI_UORG_DESTINATARI_RESPOSTA as string,\n\t\tIND_RESPOSTA_ELECTRONICA as string,\n\t\tIND_TEU_TRAMIT as string,\n\t\tIND_TRAMIT_LLIURAMENT as string,\n\t\tIND_AFECTA_MUC as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGdimTRAMIT\nsource(output(\n\t\tCODI_CIRCUIT as string,\n\t\tNUMINT_TRAMIT as decimal(4,0),\n\t\tNUM_ORDRE_TRA as decimal(4,0),\n\t\tCODI_ESTAT as string,\n\t\tIND_INI_TERMINI_CU as string,\n\t\tIND_FI_TERMINI_CU as string,\n\t\tCODI_LLISTA_USU as decimal(3,0),\n\t\tCOMENTARIS as string,\n\t\tIND_TAXA as string,\n\t\tIND_CD as string,\n\t\tCODI_INGRES as string,\n\t\tCODI_TARIFA as string,\n\t\tIND_SIGNIFICATIU as string,\n\t\tIND_RE as string,\n\t\tORDRE as decimal(4,0),\n\t\tIND_PROTEGIBLE as string,\n\t\tPRIV_PUBLICABLE as string,\n\t\tIND_VIGENT as string,\n\t\tCARACTER_ACORD as string,\n\t\tPUB_IND_PUBLICABLE as string,\n\t\tCODI_TIPUS_TRAMIT as string,\n\t\tRPUC_IND_PUBLICABLE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGCircuitTramit\nsource(output(\n\t\tCODI_CIRCUIT as string,\n\t\tNUMINT_TRAMIT as decimal(4,0),\n\t\tNUM_ORDRE_TRA as decimal(4,0),\n\t\tCODI_PLANTILLA as decimal(5,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGCircuitTRPlantilla\nsource(output(\n\t\tCODI_LLISTA_USU as decimal(3,0),\n\t\tDESC_LLISTA_USU as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> STGLlistaUsu\nSTGdimTRAMIT select(mapColumn(\n\t\tNUM_TRAMIT = NUMINT_TRAMIT,\n\t\tCOD_TRAMIT = CODI_TRAMIT,\n\t\tCOD_SUBTRAMIT = CODI_SUBTRAMIT,\n\t\tCOD_RANG_TRAMIT = CODI_RANG_TRAMIT,\n\t\tFLAG_ACORD = IND_ACORD,\n\t\tDESC_TRAMIT,\n\t\tFLAG_EE_TRAMIT = IND_EE_TRAMIT,\n\t\tFLAG_SIGNAR = IND_SIGNAR,\n\t\tFLAG_NOTIF_ENS_LOCAL = IND_NOTIF_ENS_LOCAL,\n\t\tFLAG_RETORN_EACAT = IND_RETORN_EACAT,\n\t\tFLAG_RESPOSTA_ELECTRONICA = IND_RESPOSTA_ELECTRONICA,\n\t\tFLAG_TRAMIT_LLIURAMENT = IND_TRAMIT_LLIURAMENT,\n\t\tFLAG_AFECTA_MUC = IND_AFECTA_MUC\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> NormaitzarCamps1\nFiltraRenombraCampos derive(ID_LLISTA_USU = iifNull(toInteger(ID_LLISTA_USU),toInteger(-1)),\n\t\tID_PLANTILLA = iifNull(toInteger(ID_PLANTILLA),toInteger(-1)),\n\t\tCODI_CIRCUIT = iifNull(CODI_CIRCUIT,toString(-1)),\n\t\tCOD_TRAMIT = iifNull(COD_TRAMIT,'NULL',COD_TRAMIT),\n\t\tCOD_SUBTRAMIT = iifNull(COD_SUBTRAMIT,'NULL',COD_SUBTRAMIT),\n\t\tCODI_TIPUS_TRAMIT = iifNull(CODI_TIPUS_TRAMIT,'No Informat'),\n\t\tCOD_RANG_TRAMIT = iifNull(COD_RANG_TRAMIT,'No Informat'),\n\t\tCODI_ESTAT = iifNull(CODI_ESTAT,'No Informat'),\n\t\tCODI_INGRES = iifNull(CODI_INGRES,'No Informat'),\n\t\tCODI_TARIFA = iifNull(CODI_TARIFA,'No Informat'),\n\t\tCODI_CARACTER_ACORD = iifNull(CODI_CARACTER_ACORD,'No Informat'),\n\t\tCODI_PUB_IND_PUBLICABLE = iifNull(CODI_PUB_IND_PUBLICABLE,'No Informat'),\n\t\tNUM_ORDRE_TRAMIT = iifNull(toInteger(NUM_ORDRE_TRAMIT),toInteger(-1)),\n\t\tNUM_ORDRE = iifNull(toInteger(NUM_ORDRE),toInteger(-1)),\n\t\tDESC_TRAMIT = iifNull(DESC_TRAMIT,'No Informat'),\n\t\tDESC_COMENTARIS = iifNull(DESC_COMENTARIS,'No Informat'),\n\t\tDESC_LLISTA_USU = iifNull(DESC_LLISTA_USU,'No Informat'),\n\t\tFLAG_ACORD = iifNull(FLAG_ACORD,toInteger(-1)),\n\t\tFLAG_TAXA = iifNull(FLAG_TAXA,toInteger(-1)),\n\t\tFLAG_CD = iifNull(FLAG_CD,toInteger(-1)),\n\t\tFLAG_SIGNIFICATIU = iifNull(FLAG_SIGNIFICATIU,toInteger(-1)),\n\t\tFLAG_RE = iifNull(FLAG_RE,toInteger(-1)),\n\t\tFLAG_PROTEGIBLE = iifNull(FLAG_PROTEGIBLE,toInteger(-1)),\n\t\tFLAG_PUBLICABLE = iifNull(FLAG_PUBLICABLE,toInteger(-1)),\n\t\tFLAG_VIGENT = iifNull(FLAG_VIGENT,toInteger(-1)),\n\t\tFLAG_RPUC_IND_PUBLICABLE = iifNull(FLAG_RPUC_IND_PUBLICABLE,toInteger(-1))) ~> TratamientoNulos\nNormaitzarCamps1, STGCircuitTramit join(NUM_TRAMIT == NUMINT_TRAMIT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> join1\njoin1, STGCircuitTRPlantilla join(NUM_TRAMIT == STGCircuitTRPlantilla@NUMINT_TRAMIT\n\t&& STGCircuitTramit@CODI_CIRCUIT == STGCircuitTRPlantilla@CODI_CIRCUIT,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> join2\nFixFlag select(mapColumn(\n\t\tNUM_TRAMIT,\n\t\tID_LLISTA_USU = STGCircuitTramit@CODI_LLISTA_USU,\n\t\tID_PLANTILLA = CODI_PLANTILLA,\n\t\tCODI_CIRCUIT = STGCircuitTramit@CODI_CIRCUIT,\n\t\tCOD_TRAMIT,\n\t\tCOD_SUBTRAMIT,\n\t\tCODI_TIPUS_TRAMIT,\n\t\tCOD_RANG_TRAMIT,\n\t\tCODI_ESTAT,\n\t\tCODI_INGRES,\n\t\tCODI_TARIFA,\n\t\tCODI_CARACTER_ACORD = CARACTER_ACORD,\n\t\tCODI_PUB_IND_PUBLICABLE = PUB_IND_PUBLICABLE,\n\t\tNUM_ORDRE_TRAMIT = STGCircuitTramit@NUM_ORDRE_TRA,\n\t\tNUM_ORDRE = ORDRE,\n\t\tDESC_TRAMIT,\n\t\tDESC_COMENTARIS = COMENTARIS,\n\t\tDESC_LLISTA_USU,\n\t\tFLAG_ACORD,\n\t\tFLAG_TAXA = IND_TAXA,\n\t\tFLAG_CD = IND_CD,\n\t\tFLAG_SIGNIFICATIU = IND_SIGNIFICATIU,\n\t\tFLAG_RE = IND_RE,\n\t\tFLAG_PROTEGIBLE = IND_PROTEGIBLE,\n\t\tFLAG_PUBLICABLE = PRIV_PUBLICABLE,\n\t\tFLAG_VIGENT = IND_VIGENT,\n\t\tFLAG_EE_TRAMIT,\n\t\tFLAG_SIGNAR,\n\t\tFLAG_NOTIF_ENS_LOCAL,\n\t\tFLAG_RETORN_EACAT,\n\t\tFLAG_RESPOSTA_ELECTRONICA,\n\t\tFLAG_TRAMIT_LLIURAMENT,\n\t\tFLAG_AFECTA_MUC,\n\t\tFLAG_RPUC_IND_PUBLICABLE = RPUC_IND_PUBLICABLE\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraRenombraCampos\njoin3 derive(IND_TAXA = iif(IND_TAXA == 'N', 0, iif(IND_TAXA == 'T', 1, -1)),\n\t\tIND_CD = iif(IND_CD == 'N', 0, iif(IND_CD == 'S', 1, -1)),\n\t\tIND_SIGNIFICATIU = iif(IND_SIGNIFICATIU == 'N', 0, iif(IND_SIGNIFICATIU== 'S', 1, -1)),\n\t\tIND_RE = iif(IND_RE == 'N', 0, iif(IND_RE == 'S', 1, -1)),\n\t\tIND_PROTEGIBLE = iif(IND_PROTEGIBLE== 'N', 0, iif(IND_PROTEGIBLE== 'S', 1, -1)),\n\t\tPRIV_PUBLICABLE = iif(PRIV_PUBLICABLE== 'N', 0, iif(PRIV_PUBLICABLE== 'S', 1, -1)),\n\t\tIND_VIGENT = iif(IND_VIGENT== 'N', 0, iif(IND_VIGENT== 'S', 1, -1)),\n\t\tRPUC_IND_PUBLICABLE = iif(RPUC_IND_PUBLICABLE== 'N', 0, iif(RPUC_IND_PUBLICABLE== 'S', 1, -1)),\n\t\tFLAG_ACORD = iif(FLAG_ACORD== 'N', 0, iif(FLAG_ACORD== 'S', 1, -1))) ~> FixFlag\njoin2, STGLlistaUsu join(STGCircuitTramit@CODI_LLISTA_USU == STGLlistaUsu@CODI_LLISTA_USU,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> join3\nTratamientoNulos sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSdimTRAMIT"
+		}
+	}
+}

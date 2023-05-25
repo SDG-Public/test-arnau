@@ -1,0 +1,162 @@
+{
+	"name": "DF_ODS_ANOM_01_v3",
+	"properties": {
+		"folder": {
+			"name": "XEAC_v2/ANOMALAS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_XEAC_MCT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacMCT"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_VALORACIO_TRACTAMENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimVALORACIOtractament"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_DIM_LEGISLACIO",
+						"type": "DatasetReference"
+					},
+					"name": "ODSdimLEGISLACIO"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_XEAC_ANOMALAS_v3",
+						"type": "DatasetReference"
+					},
+					"name": "DMxeacANOMALAS"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_XEAC_ANOMALAS_v3",
+						"type": "DatasetReference"
+					},
+					"name": "ODSxeacANOMALASv3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterVAVDdata"
+				},
+				{
+					"name": "SelectColumnas"
+				},
+				{
+					"name": "IJvaloracioTRACTAMENT"
+				},
+				{
+					"name": "FilterANOMALAS"
+				},
+				{
+					"name": "ANOMALASdia"
+				},
+				{
+					"name": "SUMAtotalHORAS"
+				},
+				{
+					"name": "ANOMALASdiaACUM"
+				},
+				{
+					"name": "WindowLAGdata"
+				},
+				{
+					"name": "ANTERIORverificacio"
+				},
+				{
+					"name": "AggFOCOdata"
+				},
+				{
+					"name": "SelectSEPARADOR"
+				},
+				{
+					"name": "WindowSEQ"
+				},
+				{
+					"name": "WindowMASTERseq"
+				},
+				{
+					"name": "SelectSEPARADOR2"
+				},
+				{
+					"name": "WindowFINALseq"
+				},
+				{
+					"name": "RESTAseq"
+				},
+				{
+					"name": "SelectANOMALASseguides"
+				},
+				{
+					"name": "SelectANOMALAStotals"
+				},
+				{
+					"name": "JoinANOMALASacumSEGUI"
+				},
+				{
+					"name": "SelectCOLUMNASanomalas"
+				},
+				{
+					"name": "JoinLEGISLACIO"
+				},
+				{
+					"name": "COMPLIMENT"
+				},
+				{
+					"name": "SelectCOLUMNASfinals"
+				},
+				{
+					"name": "Filter1"
+				},
+				{
+					"name": "AggregateULTIMAanomala"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "SelectULTIMAanomala"
+				},
+				{
+					"name": "JoinULTIMAanomala"
+				},
+				{
+					"name": "SUMAanterior"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "JoinULTIMAanomala2"
+				},
+				{
+					"name": "CORRECCIOanomalasSEGUIDES"
+				},
+				{
+					"name": "Window1"
+				},
+				{
+					"name": "IJlegislacio"
+				},
+				{
+					"name": "TIPUSmct"
+				},
+				{
+					"name": "FilterValoracioVigent",
+					"description": "Mira quina és la valoració vigent per cada una."
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tCODI_EMIS as string,\n\t\tID_FOCUS as string,\n\t\tMARCA_TEMPS_TZ as timestamp,\n\t\tMARCA_TEMPS_UTC as timestamp,\n\t\tMARCA_TEMPS_LOCAL as timestamp,\n\t\tMINUTOS_MCT as decimal(3,0),\n\t\tID_ELEMENT as decimal(6,0),\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tV_VLE as float,\n\t\tF_VLE as string,\n\t\tV_IMP as float,\n\t\tF_IMP as string,\n\t\tV_INV as float,\n\t\tF_INV as string,\n\t\tV_PRT as float,\n\t\tF_PRT as string,\n\t\tV_GEH as float,\n\t\tF_GEH as string,\n\t\tZONA_HORARIA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSxeacMCT\nsource(output(\n\t\tID_FOCUS as string,\n\t\tID_LEGISLACIO as string,\n\t\tID_SUBMODE as string,\n\t\tID_ELEMENT as decimal(6,0),\n\t\tDATA_INICI as timestamp,\n\t\tDATA_FI as timestamp,\n\t\tANOMAL_LLINDAR as decimal(9,3)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimVALORACIOtractament\nsource(output(\n\t\tID_LEGISLACIO as string,\n\t\tDESCRIPCIO as string,\n\t\tDESCRIPCIO_ACRONIM as string,\n\t\tMCT_BASE as decimal(3,0),\n\t\tMAX_H_ANOMALES as decimal(4,0),\n\t\tIND_N_MCT_DIA_IND as decimal(4,0),\n\t\tMAX_DIES_INDISPON as decimal(4,0),\n\t\tMAX_H_ANOMALES_SEGUIDES as decimal(4,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSdimLEGISLACIO\nsource(output(\n\t\tID_FOCUS as string,\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tTIPUS_MCT as decimal(3,0),\n\t\tDATA as timestamp,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX as float,\n\t\tANOMALAS_SEGUIDES as float,\n\t\tCOMPLIMENT as string,\n\t\tDATA_TRUNC as date,\n\t\tID_DIM_FOCUS as integer,\n\t\tID_VALORACIO_LEGISLACIO as integer,\n\t\tID_XEAC_ANOMALAS_v3 as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMxeacANOMALAS\nODSxeacMCT filter(F_VLE == \"VA\"\n&&\ntoDate(MARCA_TEMPS_UTC) >= toDate($P_DATA_INI,\"yyyyMMdd\")\n&& \ntoDate(MARCA_TEMPS_UTC) < addDays(toDate($P_DATA_FI,\"yyyyMMdd\"),1)) ~> FilterVAVDdata\nFilterVAVDdata select(mapColumn(\n\t\tID_CONTAMINANT = ID_ELEMENT,\n\t\tID_FOCUS,\n\t\tDATA = MARCA_TEMPS_UTC,\n\t\tTIPUS_MCT = MINUTOS_MCT,\n\t\tVALOR_MCT = V_VLE,\n\t\tVALORACIO_MCT = F_VLE,\n\t\tMODE_REPORTABLE_NUM = ID_SUBMODE,\n\t\tLEGISLACIO = ID_LEGISLACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectColumnas\nTIPUSmct, ODSdimVALORACIOtractament join(SelectColumnas@ID_FOCUS == ODSdimVALORACIOtractament@ID_FOCUS\n\t&& LEGISLACIO == ODSdimVALORACIOtractament@ID_LEGISLACIO\n\t&& ID_CONTAMINANT == ID_ELEMENT,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> IJvaloracioTRACTAMENT\nFilterValoracioVigent filter(VALOR_MCT > ANOMAL_LLINDAR) ~> FilterANOMALAS\nFilterANOMALAS aggregate(groupBy(SelectColumnas@ID_FOCUS,\n\t\tLEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tDATA),\n\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX = sum(toInteger(TIPUS_MCT)) / 60) ~> ANOMALASdia\nANOMALASdia derive(SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX = iif(SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX > 0, toFloat(TIPUS_MCT)/60, toFloat(0))) ~> SUMAtotalHORAS\nSUMAtotalHORAS window(over(ID_FOCUS,\n\t\tLEGISLACIO,\n\t\tMODE_REPORTABLE_NUM),\n\tasc(DATA, true),\n\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX = sum(SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX)) ~> ANOMALASdiaACUM\nAggFOCOdata window(over(ID_FOCUS,\n\t\tMODE_REPORTABLE_NUM,\n\t\tLEGISLACIO),\n\tasc(DATA, true),\n\tLAG_DATA = lag(DATA)) ~> WindowLAGdata\nWindowLAGdata derive(SEGUIDO = iif( minus( DATA, LAG_DATA) / (1000*60)  == toInteger(TIPUS_MCT), 1, 0 )) ~> ANTERIORverificacio\nFilterANOMALAS aggregate(groupBy(SelectColumnas@ID_FOCUS,\n\t\tLEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tDATA),\n\tTEMP = sum(1)) ~> AggFOCOdata\nANTERIORverificacio select(mapColumn(\n\t\tID_FOCUS,\n\t\tLEGISLACIO,\n\t\tTIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM,\n\t\tDATA,\n\t\tTEMP,\n\t\tLAG_DATA,\n\t\tSEGUIDO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectSEPARADOR\nSelectSEPARADOR window(over(ID_FOCUS,\n\t\tSEGUIDO),\n\tasc(DATA, true),\n\tSEQ = rowNumber()) ~> WindowSEQ\nWindowSEQ window(over(ID_FOCUS),\n\tasc(DATA, true),\n\tMASTER_SEQ = rowNumber()) ~> WindowMASTERseq\nWindowMASTERseq select(mapColumn(\n\t\tID_FOCUS,\n\t\tLEGISLACIO,\n\t\tTIPUS_MCT,\n\t\tDATA,\n\t\tTEMP,\n\t\tLAG_DATA,\n\t\tSEGUIDO,\n\t\tSEQ,\n\t\tMASTER_SEQ,\n\t\tMODE_REPORTABLE_NUM\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectSEPARADOR2\nRESTAseq window(over(ID_FOCUS,\n\t\tSEGUIDO,\n\t\tRESTA_SEQ),\n\tasc(DATA, true),\n\tANOMALAS_SEGUIDES = sum( SEGUIDO )) ~> WindowFINALseq\nSelectSEPARADOR2 derive(RESTA_SEQ = MASTER_SEQ - SEQ) ~> RESTAseq\nCORRECCIOanomalasSEGUIDES select(mapColumn(\n\t\tID_FOCUS = SelectSEPARADOR2@ID_FOCUS,\n\t\tLEGISLACIO = SelectSEPARADOR2@LEGISLACIO,\n\t\tTIPUS_MCT = SelectSEPARADOR2@TIPUS_MCT,\n\t\tMODE_REPORTABLE_NUM = SelectSEPARADOR2@MODE_REPORTABLE_NUM,\n\t\tDATA = SelectSEPARADOR2@DATA,\n\t\tTEMP,\n\t\tLAG_DATA,\n\t\tSEGUIDO,\n\t\tSEQ,\n\t\tMASTER_SEQ,\n\t\tRESTA_SEQ,\n\t\tANOMALAS_SEGUIDES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectANOMALASseguides\nSUMAanterior select(mapColumn(\n\t\tID_FOCUS = ANOMALASdia@ID_FOCUS,\n\t\tLEGISLACIO = ANOMALASdia@LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM = ANOMALASdia@MODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT = ANOMALASdia@TIPUS_MCT,\n\t\tDATA = ANOMALASdia@DATA,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectANOMALAStotals\nSelectANOMALAStotals, SelectANOMALASseguides join(SelectANOMALAStotals@ID_FOCUS == SelectANOMALASseguides@ID_FOCUS\n\t&& SelectANOMALAStotals@LEGISLACIO == SelectANOMALASseguides@LEGISLACIO\n\t&& SelectANOMALAStotals@TIPUS_MCT == SelectANOMALASseguides@TIPUS_MCT\n\t&& SelectANOMALAStotals@DATA == SelectANOMALASseguides@DATA,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinANOMALASacumSEGUI\nJoinANOMALASacumSEGUI select(mapColumn(\n\t\tID_FOCUS = SelectANOMALAStotals@ID_FOCUS,\n\t\tLEGISLACIO = SelectANOMALAStotals@LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM = SelectANOMALAStotals@MODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT = SelectANOMALAStotals@TIPUS_MCT,\n\t\tDATA = SelectANOMALAStotals@DATA,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX,\n\t\tID_FOCUS = SelectANOMALASseguides@ID_FOCUS,\n\t\tLEGISLACIO = SelectANOMALASseguides@LEGISLACIO,\n\t\tTIPUS_MCT = SelectANOMALASseguides@TIPUS_MCT,\n\t\tDATA = SelectANOMALASseguides@DATA,\n\t\tTEMP,\n\t\tLAG_DATA,\n\t\tSEGUIDO,\n\t\tSEQ,\n\t\tMASTER_SEQ,\n\t\tRESTA_SEQ,\n\t\tANOMALAS_SEGUIDES\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLUMNASanomalas\nSelectCOLUMNASanomalas, ODSdimLEGISLACIO join(LEGISLACIO == ID_LEGISLACIO\n\t&& TIPUS_MCT == MCT_BASE,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinLEGISLACIO\nJoinLEGISLACIO derive(COMPLIMENT = iif( SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX > MAX_H_ANOMALES, \"KO\", \r\n    iif(\r\n        ANOMALAS_SEGUIDES > MAX_H_ANOMALES_SEGUIDES, \"KO\", \r\n            \"OK\"\r\n    )\r\n),\n\t\tANOMALAS_SEGUIDES = iif( ANOMALAS_SEGUIDES == toFloat(0) , toFloat(0.5), ANOMALAS_SEGUIDES),\n\t\tDATA_TRUNC = toDate(DATA)) ~> COMPLIMENT\nCOMPLIMENT select(mapColumn(\n\t\tID_FOCUS,\n\t\tLEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tDATA,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX,\n\t\tANOMALAS_SEGUIDES,\n\t\tCOMPLIMENT,\n\t\tDATA_TRUNC\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCOLUMNASfinals\nDMxeacANOMALAS filter(year(DATA) == year(toDate($P_DATA_INI,'yyyyMMdd'))\n&&\ntoDate(DATA) < toDate($P_DATA_INI,'yyyyMMdd')) ~> Filter1\nFilter1 aggregate(groupBy(ID_FOCUS,\n\t\tLEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT),\n\tDATA = max(DATA)) ~> AggregateULTIMAanomala\nAggregateULTIMAanomala, Filter1 join(AggregateULTIMAanomala@ID_FOCUS == DMxeacANOMALAS@ID_FOCUS\n\t&& AggregateULTIMAanomala@LEGISLACIO == DMxeacANOMALAS@LEGISLACIO\n\t&& AggregateULTIMAanomala@TIPUS_MCT == DMxeacANOMALAS@TIPUS_MCT\n\t&& AggregateULTIMAanomala@DATA == DMxeacANOMALAS@DATA,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join1\nJoin1 select(mapColumn(\n\t\tID_FOCUS = DMxeacANOMALAS@ID_FOCUS,\n\t\tLEGISLACIO = DMxeacANOMALAS@LEGISLACIO,\n\t\tMODE_REPORTABLE_NUM = DMxeacANOMALAS@MODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT = DMxeacANOMALAS@TIPUS_MCT,\n\t\tDATA = DMxeacANOMALAS@DATA,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX,\n\t\tANOMALAS_SEGUIDES,\n\t\tCOMPLIMENT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectULTIMAanomala\nANOMALASdiaACUM, SelectULTIMAanomala join(ANOMALASdia@ID_FOCUS == SelectULTIMAanomala@ID_FOCUS\n\t&& ANOMALASdia@LEGISLACIO == SelectULTIMAanomala@LEGISLACIO\n\t&& ANOMALASdia@TIPUS_MCT == SelectULTIMAanomala@TIPUS_MCT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinULTIMAanomala\nJoinULTIMAanomala derive(SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX = toFloat(ANOMALASdiaACUM@SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX) + iifNull(toFloat(SelectULTIMAanomala@SUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX), toFloat(0))) ~> SUMAanterior\nWindowFINALseq derive(ANOMALAS_SEGUIDES = toFloat( ( ANOMALAS_SEGUIDES + 1 ) * toInteger(TIPUS_MCT) / 60 )) ~> DerivedColumn1\nDerivedColumn1, SelectULTIMAanomala join(SelectSEPARADOR2@ID_FOCUS == SelectULTIMAanomala@ID_FOCUS\n\t&& SelectSEPARADOR2@LEGISLACIO == SelectULTIMAanomala@LEGISLACIO\n\t&& SelectSEPARADOR2@TIPUS_MCT == SelectULTIMAanomala@TIPUS_MCT,\n\tjoinType:'left',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> JoinULTIMAanomala2\nWindow1 derive(ANOMALAS_SEGUIDES = iif( RESTA_SEQ == 0 || RESTA_SEQ == 1,\r\n    iif( minus( SelectSEPARADOR2@DATA, SelectULTIMAanomala@DATA) / (1000*60)  == toInteger(SelectSEPARADOR2@TIPUS_MCT), \r\n        toFloat(ANOMALAS_SEGUIDES_DIA_ANTERIOR), \r\n        DerivedColumn1@ANOMALAS_SEGUIDES \r\n        ),\r\n    DerivedColumn1@ANOMALAS_SEGUIDES\r\n)) ~> CORRECCIOanomalasSEGUIDES\nJoinULTIMAanomala2 window(over({SelectSEPARADOR2@ID_FOCUS} = SelectSEPARADOR2@ID_FOCUS,\n\t\t{SelectSEPARADOR2@SEGUIDO} = SEGUIDO,\n\t\t{SelectSEPARADOR2@RESTA_SEQ} = RESTA_SEQ),\n\tasc(SelectSEPARADOR2@DATA, true),\n\tANOMALAS_SEGUIDES_DIA_ANTERIOR = sum( SEGUIDO + SelectULTIMAanomala@ANOMALAS_SEGUIDES )) ~> Window1\nSelectColumnas, ODSdimLEGISLACIO join(LEGISLACIO == ID_LEGISLACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> IJlegislacio\nIJlegislacio filter(TIPUS_MCT == MCT_BASE) ~> TIPUSmct\nIJvaloracioTRACTAMENT filter(DATA<=DATA_FI&&DATA>=DATA_INICI) ~> FilterValoracioVigent\nSelectCOLUMNASfinals sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_FOCUS as string,\n\t\tLEGISLACIO as string,\n\t\tMODE_REPORTABLE_NUM as string,\n\t\tTIPUS_MCT as decimal(3,0),\n\t\tDATA as timestamp,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX as float,\n\t\tANOMALAS_SEGUIDES as float,\n\t\tCOMPLIMENT as string,\n\t\tDATA_TRUNC as date\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\ttruncate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError',\n\tmapColumn(\n\t\tID_FOCUS,\n\t\tLEGISLACIO,\n\t\tMODE_REPORTABLE_NUM,\n\t\tTIPUS_MCT,\n\t\tDATA,\n\t\tSUM_TOTAL_HORAS_ANOMALAS_ACUM_FLUX,\n\t\tANOMALAS_SEGUIDES,\n\t\tCOMPLIMENT,\n\t\tDATA_TRUNC\n\t)) ~> ODSxeacANOMALASv3"
+		}
+	}
+}

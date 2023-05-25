@@ -1,0 +1,110 @@
+{
+	"name": "DF_GAF_ODS_PLA_ANYAL_VOLUM_PER_SENTIT_PES",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRM5",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimEstacioSubtr5"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_SECCIONS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimSeccio"
+				},
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_CARRILS",
+						"type": "DatasetReference"
+					},
+					"name": "DMDimCarrils"
+				},
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_FACT_DADES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactDades"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_GAF_PLA_ANYAL_VOL_PER_SENTIT_PES",
+						"type": "DatasetReference"
+					},
+					"name": "ODSPlaAnyalVolumPerSentit"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FiltraCampos"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "FiltraCampos3"
+				},
+				{
+					"name": "Join4"
+				},
+				{
+					"name": "AddVolumPerSentit"
+				},
+				{
+					"name": "AddMonthYear"
+				},
+				{
+					"name": "Join5"
+				},
+				{
+					"name": "AddDenominador"
+				},
+				{
+					"name": "AddVolumPerSentit2"
+				},
+				{
+					"name": "FiltraOrdenaCampos"
+				},
+				{
+					"name": "AddDenominadorTotal"
+				},
+				{
+					"name": "Join6"
+				},
+				{
+					"name": "AddSuma"
+				},
+				{
+					"name": "AddVolumPerSentit3"
+				},
+				{
+					"name": "FiltraOrdena"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "Round"
+				},
+				{
+					"name": "FilterData"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_INI as string,\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_PLA as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tID_ESTAT as decimal(1,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tID_DETECTOR as decimal(3,0),\n\t\tID_EQUIP as decimal(3,0),\n\t\tID_ALIMENTACIO as decimal(3,0),\n\t\tID_TIPUS_ESTACIO as decimal(2,0),\n\t\tID_FACTOR as decimal(8,0),\n\t\tID_PLANOL as decimal(8,0),\n\t\tID_ESTACIO_REF_1 as decimal(8,0),\n\t\tID_ESTACIO_REF_2 as decimal(8,0),\n\t\tID_LLOGARET as string,\n\t\tCOD_INE as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_ORGTRAM as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_MOD_CARRETERA as decimal(15,0),\n\t\tCOD_TRAM as string,\n\t\tCOD_SUBTRAM as string,\n\t\tDESC_CARRILS as string,\n\t\tNUM_TELEFON as decimal(12,0),\n\t\tDESC_ESTACIO as string,\n\t\tDESC_OBSERVACIONS as string,\n\t\tPK as decimal(9,0),\n\t\tMETRES_PK as decimal(4,0),\n\t\tUTMX as decimal(10,2),\n\t\tUTMY as decimal(10,2),\n\t\tNUM_LONGITUD as double,\n\t\tNUM_LATITUD as double,\n\t\tPK_INI as decimal(9,0),\n\t\tMETRES_PK_INI as decimal(4,0),\n\t\tDESC_PK_INI as string,\n\t\tPK_FI as decimal(9,0),\n\t\tMETRES_PK_FI as decimal(4,0),\n\t\tDESC_PK_FI as string,\n\t\tIND_IMD as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_IFA as decimal(7,4),\n\t\tIND_VELOC_MITJA as decimal(7,4)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimEstacioSubtr5\nsource(output(\n\t\tID_SECCIO as decimal(8,0),\n\t\tID_ESTACIO as decimal(8,0),\n\t\tDESC_SECCIO as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimSeccio\nsource(output(\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_SECCIO as decimal(8,0),\n\t\tCOD_CARRIL as decimal(2,0),\n\t\tDESC_CARRIL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMDimCarrils\nsource(output(\n\t\tID_DADES as decimal(8,0),\n\t\tID_CARRIL as decimal(8,0),\n\t\tID_ESTAT_DADES as decimal(1,0),\n\t\tID_TASCA as decimal(8,0),\n\t\tCOD_USUARI as string,\n\t\tIND_IMD_DIARI as decimal(8,0),\n\t\tIND_PESANTS as decimal(7,4),\n\t\tIND_VELOCITAT as decimal(7,4),\n\t\tDATA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactDades\nDMDimEstacioSubtr5 select(mapColumn(\n\t\tID_ESTACIO\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nFiltraCampos, DMDimSeccio join(FiltraCampos@ID_ESTACIO == DMDimSeccio@ID_ESTACIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join2\nJoin2, DMDimCarrils join(DMDimSeccio@ID_SECCIO == DMDimCarrils@ID_SECCIO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join3\nJoin4 select(mapColumn(\n\t\tID_ESTACIO = FiltraCampos@ID_ESTACIO,\n\t\tID_SECCIO = DMDimSeccio@ID_SECCIO,\n\t\tCONCEPTE = DESC_SECCIO,\n\t\tIND_IMD_DIARI,\n\t\tIND_PESANTS,\n\t\tDATA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos3\nJoin3, FilterData join(DMDimCarrils@ID_CARRIL == ODSFactDades@ID_CARRIL,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join4\nAddMonthYear aggregate(groupBy(CONCEPTE,\n\t\tID_SECCIO,\n\t\tDATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO),\n\tVOLUM_PER_SENTIT = sum(IND_IMD_DIARI*IND_PESANTS)) ~> AddVolumPerSentit\nFiltraCampos3 derive(DATA_MES = month(DATA),\n\t\tDATA_ANYO = year(DATA)) ~> AddMonthYear\nAddVolumPerSentit, AddDenominador join(AddVolumPerSentit@ID_ESTACIO == AddDenominador@ID_ESTACIO\n\t&& AddVolumPerSentit@DATA_MES == AddDenominador@DATA_MES\n\t&& AddVolumPerSentit@DATA_ANYO == AddDenominador@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join5\nAddVolumPerSentit aggregate(groupBy(DATA_MES,\n\t\tDATA_ANYO,\n\t\tID_ESTACIO),\n\tDenominador = sum(VOLUM_PER_SENTIT)) ~> AddDenominador\nJoin6 derive(VOLUM_PER_SENTIT_PESANTS = (VOLUM_PER_SENTIT/Denominador)*100) ~> AddVolumPerSentit2\nAddVolumPerSentit2 select(mapColumn(\n\t\tID_ESTACIO = AddVolumPerSentit@ID_ESTACIO,\n\t\tDATA_ANYO = AddVolumPerSentit@DATA_ANYO,\n\t\tDATA_MES = AddVolumPerSentit@DATA_MES,\n\t\tCONCEPTE,\n\t\tVOLUM_PER_SENTIT_PESANTS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraOrdenaCampos\nAddVolumPerSentit aggregate(groupBy(DATA_ANYO,\n\t\tID_ESTACIO),\n\tDenominadorTotal = sum(VOLUM_PER_SENTIT)) ~> AddDenominadorTotal\nJoin5, AddDenominadorTotal join(AddVolumPerSentit@ID_ESTACIO == AddDenominadorTotal@ID_ESTACIO\n\t&& AddVolumPerSentit@DATA_ANYO == AddDenominadorTotal@DATA_ANYO,\n\tjoinType:'inner',\n\tmatchType:'exact',\n\tignoreSpaces: false,\n\tbroadcast: 'auto')~> Join6\nJoin6 aggregate(groupBy(CONCEPTE,\n\t\tID_SECCIO,\n\t\tAddVolumPerSentit@DATA_ANYO,\n\t\tAddVolumPerSentit@ID_ESTACIO,\n\t\tDenominadorTotal),\n\tVOLUM_PER_SENTIT = sum(VOLUM_PER_SENTIT)) ~> AddSuma\nAddSuma derive(VOLUM_PER_SENTIT_PESANTS = (VOLUM_PER_SENTIT/DenominadorTotal)*100,\n\t\tDATA_MES = 13) ~> AddVolumPerSentit3\nAddVolumPerSentit3 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tDATA_MES,\n\t\tDATA_ANYO,\n\t\tCONCEPTE,\n\t\tVOLUM_PER_SENTIT_PESANTS\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraOrdena\nFiltraOrdenaCampos, FiltraOrdena union(byName: true)~> Union1\nUnion1 derive(VOLUM_PER_SENTIT_PESANTS = round(VOLUM_PER_SENTIT_PESANTS,2)) ~> Round\nODSFactDades filter(year(DATA) >= year(toDate($P_DATA_INI, 'yyyyMMdd'))\n&&\nyear(DATA) < year(toDate($P_DATA_FI, 'yyyyMMdd'))+1) ~> FilterData\nRound sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as integer,\n\t\tDATA_ANYO as integer,\n\t\tDATA_MES as integer,\n\t\tCONCEPTE as string,\n\t\tVOLUM_PER_SENTIT_PESANTS as double\n\t),\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> ODSPlaAnyalVolumPerSentit"
+		}
+	}
+}

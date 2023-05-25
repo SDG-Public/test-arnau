@@ -1,0 +1,138 @@
+{
+	"name": "ODS_SANQS_FACT_EXPEDIENT",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "SAN QS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CODI_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_EXPEDIENT_OBERT",
+				"type": "date"
+			},
+			{
+				"name": "ID_TIPUS_EXPEDIENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_PROP_EXPE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ARXIU",
+				"type": "date"
+			},
+			{
+				"name": "COD_ARXIU",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_SANCIO_FERME",
+				"type": "date"
+			},
+			{
+				"name": "NUM_IMPORT_EUROS",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IND_IMPORT_SANCIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_P_SANCIO_FERME",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_LOCALIZACIO_JURIDICA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_DNI_DENUNCIANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOM_DENUNCIANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_DEMARCACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FLAG_RESOL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_NOTIF",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_PAGAMENT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_DESCOBERT",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_BULLETINS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_DEVOLUCIONS",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_DENUN_VOL",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FLAG_QUALIF",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RUTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODI_DENUNCIA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PRESCRIPCIO",
+				"type": "date"
+			}
+		],
+		"typeProperties": {
+			"schema": "SANQS_ODS",
+			"table": "ODS_SANQS_FACT_EXPEDIENT"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,124 @@
+{
+	"name": "COSTES_STG_FACT_TRAMITACIO",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "COSTES/STG"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "NUMINT_TRAMIT",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "DATA_TRAMIT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODINT_EXP",
+				"type": "decimal",
+				"precision": 7,
+				"scale": 0
+			},
+			{
+				"name": "DATA_TRAMITACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_FI_TRAMITACIO",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_CADUCITAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_PAGAMENT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COMENTARIS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CODREG_E",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ANYREG_E",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "NUMREG_E",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "DATA_RE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_ALTA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_ALTA_SISTEMA",
+				"type": "nvarchar"
+			},
+			{
+				"name": "USUARI_DARRERA_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA_DARRERA_MODIF",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VERSION",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "IMPORT_PAGAMENT",
+				"type": "decimal",
+				"precision": 8,
+				"scale": 2
+			},
+			{
+				"name": "PARTY_ID_SUBJECTE_PASSIU",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "PAGAMENT_GENERAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_RESPONSABLE",
+				"type": "decimal",
+				"precision": 4,
+				"scale": 0
+			},
+			{
+				"name": "CODI_CONCEPTE",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "COSTES_STG",
+			"table": "STG_COSTES_FACT_TRAMITACIO"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

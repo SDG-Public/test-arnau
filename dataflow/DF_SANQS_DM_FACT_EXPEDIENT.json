@@ -1,0 +1,31 @@
+{
+	"name": "DF_SANQS_DM_FACT_EXPEDIENT",
+	"properties": {
+		"folder": {
+			"name": "SAN QS"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_SANQS_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "ODSExpedient"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_SANQS_FACT_EXPEDIENT",
+						"type": "DatasetReference"
+					},
+					"name": "DMExpedient"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tCODI_EXPEDIENT as string,\n\t\tDATA_EXPEDIENT_OBERT as date,\n\t\tID_TIPUS_EXPEDIENT as string,\n\t\tCOD_PROP_EXPE as string,\n\t\tDATA_ARXIU as date,\n\t\tCOD_ARXIU as string,\n\t\tDATA_SANCIO_FERME as date,\n\t\tNUM_IMPORT_EUROS as double,\n\t\tIND_IMPORT_SANCIO as string,\n\t\tCOD_P_SANCIO_FERME as string,\n\t\tCOD_LOCALIZACIO_JURIDICA as string,\n\t\tCOD_ESTAT as string,\n\t\tDESC_ESTAT as string,\n\t\tCOD_DNI_DENUNCIANT as string,\n\t\tDESC_NOM_DENUNCIANT as string,\n\t\tCOD_DEMARCACIO as string,\n\t\tFLAG_RESOL as integer,\n\t\tFLAG_PAGAMENT as integer,\n\t\tFLAG_DESCOBERT as integer,\n\t\tRUTA as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSExpedient\nODSExpedient sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMExpedient"
+		}
+	}
+}

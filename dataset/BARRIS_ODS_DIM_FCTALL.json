@@ -1,0 +1,53 @@
+{
+	"name": "BARRIS_ODS_DIM_FCTALL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "BARRIS/ODS"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "COD_BAE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_NUMCONTRACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_TIPUSCONTRACTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "COD_ESTAT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DESC_NOMCTE",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IMP_ADJINCIVA",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			},
+			{
+				"name": "IMP_ACTUACIONS",
+				"type": "decimal",
+				"precision": 19,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "BARRIS_ODS",
+			"table": "ODS_BARRIS_DIM_FCTALL"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

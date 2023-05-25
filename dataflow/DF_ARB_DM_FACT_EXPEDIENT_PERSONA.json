@@ -1,0 +1,31 @@
+{
+	"name": "DF_ARB_DM_FACT_EXPEDIENT_PERSONA",
+	"properties": {
+		"folder": {
+			"name": "ARB"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ODS_ARB_FACT_EXPEDIENT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "ODSFactExpedientPersona"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_ARB_FACT_EXPEDIENT_PERSONA",
+						"type": "DatasetReference"
+					},
+					"name": "DMFactExpedientPersona"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tID_EXPEDIENT as string,\n\t\tID_PERSONA as string,\n\t\tID_TIPUS_PERSONA as string,\n\t\tID_QUALITAT_DE as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> ODSFactExpedientPersona\nODSFactExpedientPersona sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\trecreate:true,\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMFactExpedientPersona"
+		}
+	}
+}

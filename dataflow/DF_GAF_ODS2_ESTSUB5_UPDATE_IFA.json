@@ -1,0 +1,62 @@
+{
+	"name": "DF_GAF_ODS2_ESTSUB5_UPDATE_IFA",
+	"properties": {
+		"folder": {
+			"name": "GAF"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRAM5_COMPLERT",
+						"type": "DatasetReference"
+					},
+					"name": "DMEstacioSubtramComplertSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DM_GAF_DIM_ESTACIO_SUBTRAM5_COMPLERT",
+						"type": "DatasetReference"
+					},
+					"name": "DMEstacioSubtramComplertSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "IFANull"
+				},
+				{
+					"name": "join2"
+				},
+				{
+					"name": "FilterAnyo"
+				},
+				{
+					"name": "FilterAnyoAnt"
+				},
+				{
+					"name": "CodEstIFAFix"
+				},
+				{
+					"name": "IFANotNull"
+				},
+				{
+					"name": "Update"
+				},
+				{
+					"name": "AnyoMax"
+				},
+				{
+					"name": "join3"
+				},
+				{
+					"name": "FiltraCampos"
+				}
+			],
+			"script": "parameters{\n\tP_DATA_FI as string\n}\nsource(output(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_ULTIM_ANYO_INFORMAT as integer,\n\t\tDESC_ESTACIO as string,\n\t\tDESC_TIPUS_ESTACIO as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_INE as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_ORGTRAM as string,\n\t\tIND_IMD as decimal(38,4),\n\t\tIND_PESANTS as decimal(38,4),\n\t\tIND_VELOC_MITJA as decimal(7,2),\n\t\tIND_IFA as decimal(10,2),\n\t\tDESC_CARRILS as string,\n\t\tDESC_DEMARCACIO as string,\n\t\tNUM_PK as double,\n\t\tDESC_PK_INI as string,\n\t\tNUM_PK_INI as double,\n\t\tDESC_PK_FI as string,\n\t\tNUM_PK_FI as double,\n\t\tNUM_LONG_SUBTRAM as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_LONGITUD as double,\n\t\tPK_CONCAT_INE as string,\n\t\tDATA_INI_PLA as timestamp,\n\t\tDATA_FI_PLA as timestamp\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> DMEstacioSubtramComplertSource\nFilterAnyo filter(isNull(IND_IFA)) ~> IFANull\nIFANull, CodEstIFAFix join(DMEstacioSubtramComplertSource@COD_ESTACIO == CodEstIFAFix@COD_ESTACIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> join2\nDMEstacioSubtramComplertSource filter(DATA_ANYO == toInteger(substring($P_DATA_FI, 1, 4))) ~> FilterAnyo\nDMEstacioSubtramComplertSource filter(DATA_ANYO == toInteger(substring($P_DATA_FI, 1, 4))-1) ~> FilterAnyoAnt\njoin3 select(mapColumn(\n\t\tCOD_ESTACIO = AnyoMax@COD_ESTACIO,\n\t\tIND_IFA_FIX = IND_IFA,\n\t\tDATA_ULTIM_ANYO_INFORMAT\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CodEstIFAFix\nFilterAnyoAnt filter(!isNull(IND_IFA)) ~> IFANotNull\nFiltraCampos alterRow(updateIf(ID_ESTACIO==ID_ESTACIO)) ~> Update\nIFANotNull aggregate(groupBy(COD_ESTACIO),\n\tMAX_DATA_ANYO = max(DATA_ANYO)) ~> AnyoMax\nAnyoMax, IFANotNull join(AnyoMax@COD_ESTACIO == DMEstacioSubtramComplertSource@COD_ESTACIO,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> join3\njoin2 select(mapColumn(\n\t\tID_ESTACIO,\n\t\tID_ESTACIO_AFIN,\n\t\tDATA_ANYO,\n\t\tDATA_ULTIM_ANYO_INFORMAT = DMEstacioSubtramComplertSource@DATA_ULTIM_ANYO_INFORMAT,\n\t\tDESC_ESTACIO,\n\t\tDESC_TIPUS_ESTACIO,\n\t\tCOD_ESTACIO = DMEstacioSubtramComplertSource@COD_ESTACIO,\n\t\tCOD_CARRETERA,\n\t\tCOD_INE,\n\t\tCOD_ORGANISME,\n\t\tCOD_ORGTRAM,\n\t\tIND_IMD,\n\t\tIND_PESANTS,\n\t\tIND_VELOC_MITJA,\n\t\tIND_IFA = IND_IFA_FIX,\n\t\tDESC_CARRILS,\n\t\tDESC_DEMARCACIO,\n\t\tNUM_PK,\n\t\tDESC_PK_INI,\n\t\tNUM_PK_INI,\n\t\tDESC_PK_FI,\n\t\tNUM_PK_FI,\n\t\tNUM_LONG_SUBTRAM,\n\t\tNUM_LATITUD,\n\t\tNUM_LONGITUD,\n\t\tPK_CONCAT_INE,\n\t\tDATA_INI_PLA,\n\t\tDATA_FI_PLA\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> FiltraCampos\nUpdate sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinput(\n\t\tID_ESTACIO as decimal(8,0),\n\t\tID_ESTACIO_AFIN as decimal(8,0),\n\t\tDATA_ANYO as integer,\n\t\tDATA_ULTIM_ANYO_INFORMAT as integer,\n\t\tDESC_ESTACIO as string,\n\t\tDESC_TIPUS_ESTACIO as string,\n\t\tCOD_ESTACIO as string,\n\t\tCOD_CARRETERA as string,\n\t\tCOD_INE as string,\n\t\tCOD_ORGANISME as string,\n\t\tCOD_ORGTRAM as string,\n\t\tIND_IMD as decimal(38,4),\n\t\tIND_PESANTS as decimal(38,4),\n\t\tIND_VELOC_MITJA as decimal(7,2),\n\t\tIND_IFA as decimal(10,2),\n\t\tDESC_CARRILS as string,\n\t\tDESC_DEMARCACIO as string,\n\t\tNUM_PK as double,\n\t\tDESC_PK_INI as string,\n\t\tNUM_PK_INI as double,\n\t\tDESC_PK_FI as string,\n\t\tNUM_PK_FI as double,\n\t\tNUM_LONG_SUBTRAM as double,\n\t\tNUM_LATITUD as double,\n\t\tNUM_LONGITUD as double,\n\t\tPK_CONCAT_INE as string,\n\t\tDATA_INI_PLA as timestamp,\n\t\tDATA_FI_PLA as timestamp\n\t),\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:false,\n\tkeys:['ID_ESTACIO'],\n\tformat: 'table',\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> DMEstacioSubtramComplertSink"
+		}
+	}
+}

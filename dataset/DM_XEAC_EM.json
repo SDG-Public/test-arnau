@@ -1,0 +1,83 @@
+{
+	"name": "DM_XEAC_EM",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "das_vm_test_pre_01",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "XEAC_v2/DM"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ID_FOCUS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ID_CONTAMINANT",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DATA",
+				"type": "date"
+			},
+			{
+				"name": "SUMA_TEMPS",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "COUNT_TEMPS",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "MITJA_TEMPS_DIARI",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "SUMA_CONTAMINANT",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COUNT_CONTAMINANT",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "MITJA_CONTAMINANT_DIARI",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "SUMA_CABAL",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "COUNT_CABAL",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "MITJA_CABAL_DIARI",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "IND_EM_DIARI",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "DM_XEAC",
+			"table": "DM_XEAC_EM"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
