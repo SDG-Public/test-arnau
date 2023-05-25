@@ -1,0 +1,9 @@
+{
+	"name": "Arnautest1",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0cd8f5d0-6d77-4b2e-90dc-0ab5315cff0a",
+		"tenantId": "8635f36c-c46a-41d8-8ab7-8888e5e2499c"
+	}
+}
